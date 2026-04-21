@@ -1,0 +1,61 @@
+[project]
+name = "typologist"
+version = "0.0.1"
+description = "Extract categorical schema from a corpus of documents. Built on Toponymy and EVoC."
+readme = "README.md"
+authors = [{name = "Steven Fazzio", email = "fazzios@gmail.com"}]
+license = "BSD-3-Clause"
+license-files = ["LICENSE"]
+requires-python = ">=3.11"
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Science/Research",
+    "Intended Audience :: Developers",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Topic :: Scientific/Engineering :: Information Analysis",
+    "Topic :: Text Processing :: Linguistic",
+]
+keywords = [
+    "nlp",
+    "text-analysis",
+    "topic-modeling",
+    "clustering",
+    "concept-erasure",
+    "taxonomy",
+    "schema-extraction",
+]
+dependencies = []
+
+[project.urls]
+Homepage = "https://github.com/stevenfazzio/typologist"
+Repository = "https://github.com/stevenfazzio/typologist"
+Issues = "https://github.com/stevenfazzio/typologist/issues"
+Changelog = "https://github.com/stevenfazzio/typologist/blob/main/CHANGELOG.md"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[dependency-groups]
+dev = [
+    "pytest",
+    "ruff",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/typologist"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "N", "W", "UP"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
