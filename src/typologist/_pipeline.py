@@ -11,6 +11,7 @@ from toponymy import Toponymy
 from toponymy.clustering import EVoCClusterer
 
 from typologist._llm import _LLM, _wrap_for_toponymy
+from typologist._prompts import render_labeling_template, render_synthesis_prompt
 
 
 @dataclass(frozen=True)
@@ -152,3 +153,79 @@ def _run_toponymy(
         cluster_count=max(len(layer) for layer in topo.topic_names_),
         hierarchy_depth=len(topo.topic_names_),
     )
+
+
+_SCHEMA_FIELD_RESPONSE_SCHEMA = {
+    "type": "object",
+    "properties": {
+        "name": {"type": "string"},
+        "type": {"type": "string", "enum": ["categorical", "ordinal"]},
+        "values": {
+            "type": "array",
+            "items": {"type": "string"},
+            "minItems": 2,
+        },
+        "definition": {"type": "string"},
+    },
+    "required": ["name", "type", "values", "definition"],
+}
+
+
+def _synthesize_field(
+    cluster_hierarchy: list[list[str]],
+    schema_llm: _LLM,
+    labeling_llm_model_name: str | None,
+    object_description: str,
+    corpus_description: str,
+    prior_facet_names: list[str],
+) -> tuple[dict, str]:
+    """Call ``schema_llm`` to propose a new facet from Toponymy cluster names.
+
+    Returns a (facet_dict, synthesis_prompt) tuple. The synthesis prompt is
+    returned so the caller can record it in ``facet_diagnostics_``. The
+    facet_dict is the entry that goes into ``schema_``; it records
+    ``labeling_llm_model_name`` as the ``labeling_model`` field (the
+    classification-step model, not the synthesis-step one).
+    """
+    prompt = render_synthesis_prompt(
+        cluster_hierarchy=cluster_hierarchy,
+        object_description=object_description,
+        corpus_description=corpus_description,
+        prior_facet_names=prior_facet_names,
+    )
+
+    response = schema_llm.call_structured(prompt, _SCHEMA_FIELD_RESPONSE_SCHEMA)
+
+    for key in ("name", "type", "values", "definition"):
+        if key not in response:
+            raise RuntimeError(f"schema_llm response missing required field '{key}': {response!r}")
+
+    name = response["name"]
+    if name in prior_facet_names:
+        raise RuntimeError(
+            f"schema_llm proposed facet name '{name}' which collides with an "
+            f"already-discovered facet. Prior facets: {prior_facet_names}"
+        )
+
+    values = list(response["values"])
+    if len(values) < 2:
+        raise RuntimeError(f"schema_llm proposed facet '{name}' with fewer than 2 values: {values}")
+    if len(set(values)) != len(values):
+        raise RuntimeError(f"schema_llm proposed duplicate values in facet '{name}': {values}")
+
+    labeling_template = render_labeling_template(
+        field_name=name,
+        field_definition=response["definition"],
+        values=values,
+        object_description=object_description,
+    )
+
+    facet = {
+        "name": name,
+        "type": response["type"],
+        "values": values,
+        "definition": response["definition"],
+        "labeling_prompt_template": labeling_template,
+        "labeling_model": labeling_llm_model_name,
+    }
+    return facet, prompt

@@ -3,8 +3,10 @@ from __future__ import annotations
 import pytest
 
 from typologist._llm import (
+    LLMOutputError,
     _AnthropicLLM,
     _CallableLLM,
+    _parse_json_response,
     _resolve_llm,
     _wrap_for_toponymy,
 )
@@ -133,3 +135,97 @@ def test_wrap_for_toponymy_returns_llm_wrapper_subclass():
 
     wrapper = _wrap_for_toponymy(_CallableLLM(lambda p: "x"))
     assert isinstance(wrapper, LLMWrapper)
+
+
+def test_parse_json_response_plain_object():
+    out = _parse_json_response('{"a": 1, "b": "x"}')
+    assert out == {"a": 1, "b": "x"}
+
+
+def test_parse_json_response_strips_whitespace():
+    out = _parse_json_response('  \n{"a": 1}\n  ')
+    assert out == {"a": 1}
+
+
+def test_parse_json_response_extracts_from_code_fence():
+    raw = 'Here is my response:\n```json\n{"a": 1}\n```\n'
+    out = _parse_json_response(raw)
+    assert out == {"a": 1}
+
+
+def test_parse_json_response_rejects_non_object():
+    with pytest.raises(LLMOutputError, match="not an object"):
+        _parse_json_response("[1, 2, 3]")
+
+
+def test_parse_json_response_rejects_unparseable():
+    with pytest.raises(LLMOutputError, match="no parseable JSON"):
+        _parse_json_response("I cannot help with that.")
+
+
+def test_callable_llm_call_structured_roundtrips_json():
+    def fn(prompt: str) -> str:
+        return '{"name": "f", "values": ["a", "b"]}'
+
+    llm = _CallableLLM(fn)
+    out = llm.call_structured("propose a facet", {"type": "object"})
+    assert out == {"name": "f", "values": ["a", "b"]}
+
+
+def test_callable_llm_call_structured_raises_on_malformed():
+    llm = _CallableLLM(lambda p: "not json at all")
+    with pytest.raises(LLMOutputError):
+        llm.call_structured("propose a facet", {"type": "object"})
+
+
+class _FakeToolUseBlock:
+    def __init__(self, input_dict):
+        self.type = "tool_use"
+        self.input = input_dict
+
+
+class _FakeTextOnlyResponse:
+    def __init__(self, text):
+        self.content = [_FakeTextBlock(text)]
+
+
+class _FakeToolUseResponse:
+    def __init__(self, input_dict):
+        self.content = [_FakeToolUseBlock(input_dict)]
+
+
+class _FakeAnthropicClientWithTools:
+    def __init__(self, response):
+        self._response = response
+        self.last_call: dict | None = None
+        self.messages = self._Messages(self)
+
+    class _Messages:
+        def __init__(self, parent):
+            self._parent = parent
+
+        def create(self, **kwargs):
+            self._parent.last_call = kwargs
+            return self._parent._response
+
+
+def test_anthropic_llm_call_structured_uses_tool_use():
+    resp = _FakeToolUseResponse({"name": "f", "values": ["a", "b"]})
+    client = _FakeAnthropicClientWithTools(resp)
+    llm = _AnthropicLLM("claude-opus-4-7", client=client)
+
+    schema = {"type": "object", "properties": {"name": {"type": "string"}}}
+    out = llm.call_structured("propose a facet", schema)
+
+    assert out == {"name": "f", "values": ["a", "b"]}
+    assert client.last_call["tools"][0]["input_schema"] == schema
+    assert client.last_call["tool_choice"] == {"type": "tool", "name": "record_response"}
+
+
+def test_anthropic_llm_call_structured_raises_when_tool_use_absent():
+    resp = _FakeTextOnlyResponse("I refuse.")
+    client = _FakeAnthropicClientWithTools(resp)
+    llm = _AnthropicLLM("claude-opus-4-7", client=client)
+
+    with pytest.raises(LLMOutputError, match="no tool_use block"):
+        llm.call_structured("propose a facet", {"type": "object"})
