@@ -8,8 +8,6 @@ Typologist is a Python FOSS tool that takes a corpus of documents (plus embeddin
 
 Audience: data scientists, ML engineers, taxonomists/ontologists/archivists/librarians, social scientists, marketing/product analysts, and users of McInnes/Tutte tools.
 
-Public framing: always "a tool built on Toponymy and EVoC." Never claim membership in "the McInnes/Tutte ecosystem" — the relationship is unofficial and unaffiliated.
-
 ## Project state (2026-04-21)
 
 Pre-alpha. Scaffolding only, no working code yet. Successor to an earlier research harness (see memory for design rationale and empirical findings that inform current defaults).
