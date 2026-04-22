@@ -165,7 +165,7 @@ _SCHEMA_FIELD_RESPONSE_SCHEMA = {
     "type": "object",
     "properties": {
         "name": {"type": "string"},
-        "type": {"type": "string", "enum": ["categorical", "ordinal"]},
+        "type": {"type": "string", "enum": ["categorical"]},
         "values": {
             "type": "array",
             "items": {"type": "string"},

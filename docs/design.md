@@ -73,8 +73,8 @@ One entry per discovered facet, in discovery order:
 ```python
 {
     "name": str,                      # column name in labels_df_; must be unique across facets
-    "type": "categorical" | "ordinal",
-    "values": list[str],              # value vocabulary for this facet
+    "type": "categorical",            # 0.1 only emits categorical; ordinal is parked
+    "values": list[str],              # value vocabulary for this facet, "Other" appended
     "definition": str,                # human-readable semantic definition
     "labeling_prompt_template": str,  # f-string template containing "{document}"
     "labeling_model": str | None,     # None if labeling_llm was a callable
@@ -149,6 +149,7 @@ Across 0.x minor versions, the following three attributes keep read-compatibilit
 Each item has a one-line "why deferred" note.
 
 - **Async support (0.2+).** Labeling concurrency landed early via a threadpool (see `max_concurrency` above), which delivers most of the practical throughput win without touching the `_LLM` interface. Toponymy naming and schema synthesis are still serial; full async rework with `AsyncLLMWrapper` integration is the 0.2 story.
+- **Ordinal fields (0.2+).** Predecessor evidence showed ordinal discovery works when the data has a spectrum, but the behavior was only barely observed at n=5. 0.1 emits `"categorical"` only; properly adding `"ordinal"` means prompt guidance on when to pick it, a value-ordering invariant, and `pd.Categorical(..., ordered=True)` in the labels DataFrame. Deferred until we have prompt tuning and tests that verify the ordered semantics round-trip.
 - **Stability helper `stability_check(docs, embeddings, n_seeds=5)` (0.2).** Predecessor evidence shows this is cheap and produces robust signal; deferred only to minimize 0.1 surface.
 - **`anthropic_llm(model)` convenience factory (0.1.x).** Collapses the 9-line `make_tracked_llm` pattern into one line; easy addition once we see real usage.
 - **Functional `discover()` (needs separate design pass).** Thin wrapper over the class didn't feel worth it given our multi-artifact output. If added later, the open design question is what a rich result object looks like so users don't miss `schema_` / `labels_df_` / `embeddings_residualized_` / `facet_diagnostics_`.
