@@ -2472,6 +2472,7 @@ dependencies = [
     { name = "pandas" },
     { name = "tokenizers" },
     { name = "toponymy" },
+    { name = "torch" },
     { name = "transformers" },
 ]
 
@@ -2490,6 +2491,7 @@ requires-dist = [
     { name = "pandas", specifier = ">=2.0" },
     { name = "tokenizers" },
     { name = "toponymy", git = "https://github.com/TutteInstitute/toponymy.git" },
+    { name = "torch" },
     { name = "transformers" },
 ]
 

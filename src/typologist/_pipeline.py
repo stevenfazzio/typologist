@@ -4,6 +4,8 @@ from dataclasses import dataclass
 
 import numpy as np
 import pandas as pd
+import torch
+from concept_erasure import LeaceEraser
 
 
 @dataclass(frozen=True)
@@ -13,6 +15,7 @@ class _Inputs:
     documents: pd.Series
     embeddings: np.ndarray
     metadata: pd.DataFrame | None
+    was_normalized: bool
 
 
 def _normalize_inputs(
@@ -61,4 +64,44 @@ def _normalize_inputs(
         documents=docs_series,
         embeddings=embeddings.copy(),
         metadata=metadata,
+        was_normalized=_is_l2_normalized(embeddings),
     )
+
+
+def _is_l2_normalized(x: np.ndarray, atol: float = 1e-3) -> bool:
+    """Return True iff every row of x has unit L2 norm within `atol`."""
+    norms = np.linalg.norm(x, axis=1)
+    return bool(np.allclose(norms, 1.0, atol=atol))
+
+
+def _l2_normalize(x: np.ndarray) -> np.ndarray:
+    """Return a copy of x with each row rescaled to unit L2 norm (zero rows left as-is)."""
+    norms = np.linalg.norm(x, axis=1, keepdims=True)
+    norms = np.where(norms == 0.0, 1.0, norms)
+    return x / norms
+
+
+def _erase_metadata(
+    embeddings: np.ndarray,
+    metadata: pd.DataFrame,
+    was_normalized: bool,
+) -> np.ndarray:
+    """Erase all metadata columns from embeddings via LEACE.
+
+    Every column is treated as categorical and one-hot encoded before LEACE fit
+    (the LEACE-with-int-labels gotcha: integer class labels get treated as one
+    continuous axis otherwise). Bucket continuous metadata yourself before
+    passing it in.
+    """
+    one_hot = pd.get_dummies(metadata.astype(str), dtype=float).to_numpy()
+
+    x = torch.from_numpy(embeddings.astype(np.float32))
+    z = torch.from_numpy(one_hot.astype(np.float32))
+
+    eraser = LeaceEraser.fit(x, z)
+    erased = eraser(x).numpy().astype(embeddings.dtype, copy=False)
+
+    if was_normalized:
+        erased = _l2_normalize(erased)
+
+    return erased

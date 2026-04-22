@@ -38,6 +38,7 @@ dependencies = [
     "anthropic",
     "tokenizers",
     "transformers",
+    "torch",
 ]
 
 [project.urls]
