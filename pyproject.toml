@@ -32,7 +32,7 @@ keywords = [
 dependencies = [
     "numpy>=1.24",
     "pandas>=2.0",
-    "toponymy",
+    "toponymy>=0.5.0,<0.6.0",
     "evoc==0.1.3",
     "concept-erasure",
     "anthropic",
@@ -50,9 +50,6 @@ Changelog = "https://github.com/stevenfazzio/typologist/blob/main/CHANGELOG.md"
 [build-system]
 requires = ["hatchling"]
 build-backend = "hatchling.build"
-
-[tool.uv.sources]
-toponymy = { git = "https://github.com/TutteInstitute/toponymy.git" }
 
 [dependency-groups]
 dev = [

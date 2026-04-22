@@ -31,7 +31,7 @@ These apply to any code built on Toponymy + EVoC + LEACE, carried over from prio
 
 **Re-normalization after LEACE.** Many embedders (including Cohere) return L2-normalized unit vectors. LEACE's affine projection pushes points slightly off the unit sphere, which matters for cosine-similarity clustering downstream. Renormalize after LEACE unless there's a specific reason not to.
 
-**Toponymy from git main, not PyPI.** PyPI 0.4.0 has API drifts against current `evoc` and `fast-hdbscan`. Pin from git main via `[tool.uv.sources]` until Toponymy publishes a fixed PyPI release.
+**Toponymy pinned to `>=0.5.0,<0.6.0`.** PyPI 0.5.0 works with `evoc==0.1.3`; earlier PyPI versions (0.4.0) had API drifts. Don't bump to 0.6.x without re-verifying evoc compatibility, since Toponymy's `EVoCClusterer` adapter ties the two together tightly.
 
 **EVoC pinned to `==0.1.3`.** Toponymy's `EVoCClusterer` adapter passes `min_num_clusters` and `next_cluster_size_quantile` kwargs that newer evoc (0.3.x) removed. If either pin changes, expect breakage.
 

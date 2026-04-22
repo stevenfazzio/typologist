@@ -2309,7 +2309,7 @@ wheels = [
 [[package]]
 name = "toponymy"
 version = "0.5.0"
-source = { git = "https://github.com/TutteInstitute/toponymy.git#ba0315f1919c05b1f1cad5ca9de05f830aa6db62" }
+source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "apricot-select" },
     { name = "dataclasses" },
@@ -2324,6 +2324,10 @@ dependencies = [
     { name = "tenacity" },
     { name = "tqdm" },
     { name = "vectorizers" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/7e/f4/d0400ee1e92b1887d6af70c5cbef1cd064915583cb6959aa56c53f7a237b/toponymy-0.5.0.tar.gz", hash = "sha256:f4e0f9d0816ea46c21dbd2e87faaf001998be9915065ea706017eb40c183d1bc", size = 206911 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/bd/c7/ebc96b52e59b00ff7eb79694c82028a1606dabf41805ed1928db9defe4fe/toponymy-0.5.0-py3-none-any.whl", hash = "sha256:b63682518e9bf146e945ee649888e0b04212294d792a297ff1b251cc20291fe2", size = 207637 },
 ]
 
 [[package]]
@@ -2490,7 +2494,7 @@ requires-dist = [
     { name = "numpy", specifier = ">=1.24" },
     { name = "pandas", specifier = ">=2.0" },
     { name = "tokenizers" },
-    { name = "toponymy", git = "https://github.com/TutteInstitute/toponymy.git" },
+    { name = "toponymy", specifier = ">=0.5.0,<0.6.0" },
     { name = "torch" },
     { name = "transformers" },
 ]
