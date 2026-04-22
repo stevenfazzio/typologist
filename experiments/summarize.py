@@ -63,6 +63,7 @@ def main() -> None:
             "corpus": config["corpus"],
             "mode": config["mode"],
             "seed": config["seed"],
+            "timestamp": config["timestamp_utc"],
             "facets": ", ".join(facet_names),
         }
         for curator_col in curator.columns:
@@ -74,7 +75,11 @@ def main() -> None:
             row[f"best_facet_for_{curator_col}"] = best_facet
         rows.append(row)
 
-    df = pd.DataFrame(rows).sort_values(["corpus", "mode", "seed"]).reset_index(drop=True)
+    df = (
+        pd.DataFrame(rows)
+        .sort_values(["corpus", "mode", "seed", "timestamp"])
+        .reset_index(drop=True)
+    )
     pd.set_option("display.max_colwidth", None)
     pd.set_option("display.width", 200)
     print(df.to_string(index=False))
