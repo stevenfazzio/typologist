@@ -125,10 +125,13 @@ def render_map(
     output_path: Path,
     seed: int,
 ) -> None:
-    """Run UMAP on the embeddings and render a multi-layer DataMapPlot.
+    """Run UMAP on the embeddings and render an interactive DataMapPlot.
 
-    Each facet in ``labels_df`` becomes a separate label layer in the
-    interactive plot, so the viewer can switch between colorings.
+    Each Typologist-discovered facet becomes one selectable colormap in the
+    ``colormaps=`` dict; a dropdown in the plot lets the viewer switch point
+    coloring between facets. Region text annotations (``*label_layers``) are
+    deliberately left off: the correct source for those is Toponymy fit on
+    the 2D coords, which is outside the scope of this example.
     """
     import datamapplot
     import umap
@@ -141,16 +144,14 @@ def render_map(
         random_state=seed,
     ).fit_transform(embeddings)
 
-    # Each column of labels_df (one per discovered facet) becomes one
-    # positional *label_layers argument to create_interactive_plot.
-    label_layers = [labels_df[col].astype(str).to_numpy() for col in labels_df.columns]
+    colormaps = {col: labels_df[col].astype(str).to_numpy() for col in labels_df.columns}
 
     fig = datamapplot.create_interactive_plot(
         coords,
-        *label_layers,
+        colormaps=colormaps,
         hover_text=hover_text,
-        title="Amazon reviews, colored by Typologist-discovered facets",
-        sub_title="Toggle layers to switch between facets.",
+        title="Amazon reviews",
+        sub_title="Point colors switchable between Typologist-discovered facets.",
         inline_data=True,
     )
     fig.save(str(output_path))
@@ -215,49 +216,48 @@ if __name__ == "__main__":
     main()
 
 
-# Sample output from a run on 2026-04-22 with seed=0 (exact wording varies
-# seed-to-seed because EVoC clustering is non-deterministic):
+# Sample output from a run on 2026-04-22 with seed=0. Facets 0 and 1
+# (product_category and review_sentiment) are stable across seeds; Facet 2
+# varies more (EVoC clustering is non-deterministic and the third facet is
+# the farthest from the embedding's dominant axes, so it picks up whichever
+# orthogonal structure the LLM finds most discriminating on a given run).
 #
 # === Discovered schema ===
 #
 # Facet 0: product_category (categorical)
-#   The category of product being reviewed, based on the item's primary use
-#   and market segment.
+#   The broad Amazon product category that the review pertains to.
+#   - electronics_and_tech
+#   - books
 #   - apparel_and_footwear
-#   - books_and_cookbooks
-#   - bags_and_luggage
-#   - electronics_and_accessories
-#   - kitchen_tools
 #   - beauty_and_personal_care
-#   - toys_and_plush
+#   - toys_and_games
+#   - kitchen_and_home
+#   - bags_and_accessories
 #   - Other
 #
 # Facet 1: review_sentiment (categorical)
-#   The overall sentiment the reviewer expresses toward the product, ranging
-#   from enthusiastic praise to strong dissatisfaction.
-#   - strongly_positive
-#   - mildly_positive
-#   - mixed
-#   - mildly_negative
-#   - strongly_negative
+#   The overall sentiment and evaluative tone the reviewer expresses about
+#   the product.
+#   - highly_positive
+#   - mixed_with_caveats
+#   - disappointed_negative
+#   - neutral_informational
 #   - Other
 #
-# Facet 2: review_focus_aspect (categorical)
-#   The primary product attribute the reviewer emphasizes when evaluating
-#   the item.
-#   - fit_and_sizing
-#   - durability_and_longevity
-#   - ease_of_use
-#   - value_for_money
-#   - aesthetic_appearance
-#   - performance_effectiveness
-#   - comfort_and_feel
-#   - instructions_and_setup
+# Facet 2: intended_user (categorical)
+#   Who the reviewer indicates the product was purchased for or used by.
+#   - self
+#   - child
+#   - spouse_or_partner
+#   - parent_or_elderly_relative
+#   - friend_as_gift
+#   - household_shared
 #   - Other
 #
 # Facet 0's crosstab against Amazon's own product_category shows heavy
 # diagonal concentration: Typologist rediscovers the curators' categorization
-# from the text alone, sometimes refining it further (Amazon's
-# Clothing_Shoes_and_Jewelry splits into apparel_and_footwear and
-# bags_and_luggage in the discovered schema). Facets 1 and 2 add orthogonal
-# axes that product_category alone doesn't capture.
+# from the text alone, and sometimes refines it (Amazon's
+# Clothing_Shoes_and_Jewelry splits into apparel_and_footwear + bags_and_
+# accessories; Electronics spills a bit into bags_and_accessories for tech
+# accessories/cases). Facets 1 and 2 add orthogonal axes that
+# product_category alone doesn't capture.
