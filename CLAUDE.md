@@ -8,9 +8,9 @@ Typologist is a Python FOSS tool that takes a corpus of documents (plus embeddin
 
 Audience: data scientists, ML engineers, taxonomists/ontologists/archivists/librarians, social scientists, marketing/product analysts, and users of McInnes/Tutte tools.
 
-## Project state (2026-04-21)
+## Project state (2026-04-22)
 
-Pre-alpha. Scaffolding only, no working code yet. Successor to an earlier research harness (see memory for design rationale and empirical findings that inform current defaults).
+Alpha. 0.0.1 is live on PyPI; the public API is still subject to change as we iterate (see `docs/design.md` for the current contract). Successor to an earlier research harness (see memory for design rationale and empirical findings that inform current defaults).
 
 ## Key decisions locked
 
@@ -19,7 +19,6 @@ Pre-alpha. Scaffolding only, no working code yet. Successor to an earlier resear
 - Alpha / 0.x branding for 6-12 months. "API may change."
 - Name casing: `typologist` in code, imports, CLI, PyPI; `Typologist` in prose, class names, README titles.
 - Support commitments: respond to issues within a week, tagged PyPI releases, semver discipline, maintained CHANGELOG.
-- Reach out to McInnes / Tutte Institute folks before any promotion, not before then.
 
 ## Inherited gotchas from the dependency ecosystem
 
