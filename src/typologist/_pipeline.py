@@ -1,11 +1,16 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+from typing import Any
 
 import numpy as np
 import pandas as pd
 import torch
 from concept_erasure import LeaceEraser
+from toponymy import Toponymy
+from toponymy.clustering import EVoCClusterer
+
+from typologist._llm import _LLM, _wrap_for_toponymy
 
 
 @dataclass(frozen=True)
@@ -105,3 +110,45 @@ def _erase_metadata(
         erased = _l2_normalize(erased)
 
     return erased
+
+
+@dataclass(frozen=True)
+class _ToponymyResult:
+    """Topic-naming output from one Toponymy run."""
+
+    topic_names: list[list[str]]
+    topic_name_vectors: list[np.ndarray]
+    cluster_count: int
+    hierarchy_depth: int
+
+
+def _run_toponymy(
+    documents: pd.Series,
+    embeddings: np.ndarray,
+    topic_embedder: Any,
+    naming_llm: _LLM,
+    object_description: str,
+    corpus_description: str,
+    verbose: bool,
+) -> _ToponymyResult:
+    """Construct a Toponymy instance with EVoCClusterer and run it on embeddings.
+
+    Toponymy's ``fit`` expects a third ``clusterable_vectors`` argument, which
+    EVoCClusterer ignores (EVoC does its own dim reduction internally). We pass
+    ``embeddings`` for both slots.
+    """
+    topo = Toponymy(
+        llm_wrapper=_wrap_for_toponymy(naming_llm),
+        text_embedding_model=topic_embedder,
+        clusterer=EVoCClusterer(verbose=verbose),
+        object_description=object_description,
+        corpus_description=corpus_description,
+        verbose=verbose,
+    )
+    topo.fit(documents.tolist(), embeddings, embeddings)
+    return _ToponymyResult(
+        topic_names=topo.topic_names_,
+        topic_name_vectors=topo.topic_name_vectors_,
+        cluster_count=max(len(layer) for layer in topo.topic_names_),
+        hierarchy_depth=len(topo.topic_names_),
+    )
