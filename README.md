@@ -4,13 +4,13 @@ Extract a categorical schema from a corpus of documents. Built on [Toponymy](htt
 
 ## Status
 
-**Pre-alpha.** The public API is subject to change without notice. See [`docs/design.md`](docs/design.md) for the current contract.
+**Pre-alpha.** The public API will change as we figure things out. See [`docs/design.md`](docs/design.md) for the current contract.
 
 ## What it does
 
-Given a corpus of text documents and their embeddings, Typologist discovers a set of orthogonal categorical facets (e.g., `contribution_type`, `data_modality`, `application_domain`) and labels each document along each facet. Optionally, it concept-erases user-supplied metadata via [LEACE](https://github.com/EleutherAI/concept-erasure), so the discovered schema is orthogonal to structure the user already knows about.
+You give it documents and their embeddings. It gives you back a handful of categorical facets and a per-document label for each. For example, run it on ~1000 arxiv ML papers and you'll typically get three facets (say `contribution_type`, `primary_data_modality`, and `application_domain`), each with 6-10 values, plus a DataFrame of per-doc labels you can join straight back onto the original corpus.
 
-A typical run on ~1000 arxiv ML papers produces three facets with 6-10 values each, plus a DataFrame of per-doc labels that joins back to the original corpus on index.
+If you already have known metadata that you don't want rediscovered (existing category tags, publication year, source, whatever), you pass that in too and Typologist concept-erases it first via [LEACE](https://github.com/EleutherAI/concept-erasure), so the facets it finds are orthogonal to what you already had.
 
 ## Install
 
@@ -21,10 +21,10 @@ uv add git+https://github.com/stevenfazzio/typologist.git
 # or: pip install git+https://github.com/stevenfazzio/typologist.git
 ```
 
-Also needed:
+You'll also want:
 
-- `ANTHROPIC_API_KEY` in the environment (or supply your own LLM callable for each of the three roles).
-- A sentence-embedding model that Toponymy can use to embed keyphrases and topic names. `sentence-transformers` with MiniLM is a common and cheap pick:
+- `ANTHROPIC_API_KEY` in the environment (or your own LLM callable for each of the three roles; see below).
+- A sentence-embedding model that Toponymy can use internally for keyphrases and topic names. `sentence-transformers` with MiniLM is cheap and good enough for most use cases:
 
   ```bash
   uv pip install sentence-transformers
@@ -51,7 +51,7 @@ print(t.labels_df_)            # (n_docs, n_facets) DataFrame of categorical lab
 
 ## Discovery with metadata erasure
 
-If your documents come with known structured metadata (source, category, year), you probably don't want Typologist to "discover" those axes — you want the facets it finds to be **orthogonal** to what you already know. Pass a `metadata` DataFrame and Typologist will concept-erase those axes before running discovery.
+If your documents come with known metadata (source, category, year), you usually don't want Typologist to rediscover those axes. You want the facets it finds to be *orthogonal* to what you already have. Pass a `metadata` DataFrame and Typologist concept-erases those axes before running discovery.
 
 ```python
 import pandas as pd
@@ -88,11 +88,11 @@ for facet in t.schema_:
 pd.crosstab(df_labeled[t.schema_[0]["name"]], df_labeled["primary_category"])
 ```
 
-Per-facet diagnostics — cluster counts, label entropy, exemplar documents — are available via `t.facet_diagnostics_`.
+Per-facet diagnostics (cluster counts, label entropy, exemplar documents) live on `t.facet_diagnostics_`.
 
 ## Reusing a discovered schema
 
-Each facet entry includes a stored `labeling_prompt_template` and `labeling_model`, so a schema can be applied to new documents without re-running discovery:
+Every facet entry stores its own `labeling_prompt_template` and `labeling_model`, so you can apply a schema to new documents without re-running discovery:
 
 ```python
 from typologist import apply_schema
@@ -104,17 +104,17 @@ See [`docs/design.md`](docs/design.md) for the full schema entry shape and `appl
 
 ## Performance
 
-Per-document labeling dispatches through a threadpool (`max_concurrency=10` by default). On a 1000-doc, n_facets=3 corpus this typically completes in ~6-8 minutes. Toponymy's cluster naming and the schema-synthesis LLM calls are still serial; fuller async is a 0.2 item.
+Per-document labeling runs through a threadpool (`max_concurrency=10` by default). On 1000 docs with `n_facets=3` you should see roughly 6-8 minutes end to end. Toponymy's cluster naming and the schema-synthesis LLM calls are still serial; full async is a 0.2 item.
 
 ## Related
 
 Typologist is an independent project with no affiliation to the authors of the libraries it builds on:
 
-- [Toponymy](https://github.com/TutteInstitute/toponymy) — cluster naming and hierarchy
-- [EVoC](https://github.com/TutteInstitute/evoc) — hierarchical clustering
-- [concept-erasure](https://github.com/EleutherAI/concept-erasure) — LEACE implementation
+- [Toponymy](https://github.com/TutteInstitute/toponymy): cluster naming and hierarchy
+- [EVoC](https://github.com/TutteInstitute/evoc): hierarchical clustering
+- [concept-erasure](https://github.com/EleutherAI/concept-erasure): LEACE implementation
 
-If you want to visualize Typologist labels over a 2D embedding projection, [DataMapPlot](https://github.com/TutteInstitute/datamapplot) pairs naturally.
+If you want a 2D embedding projection with your Typologist labels on top, [DataMapPlot](https://github.com/TutteInstitute/datamapplot) is a natural match.
 
 ## License
 
