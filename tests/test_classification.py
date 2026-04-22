@@ -84,3 +84,58 @@ def _extract_doc_and_respond(prompt: str, responses: dict[str, str]) -> str:
         if doc in prompt:
             return response
     raise AssertionError(f"no matching doc in prompt: {prompt[:200]}")
+
+
+def test_classify_docs_uses_threadpool_when_max_concurrency_above_one():
+    """Verify that concurrent calls actually overlap on multiple threads."""
+    import threading
+    import time
+
+    observed_threads: set[int] = set()
+    lock = threading.Lock()
+
+    def slow_llm(prompt: str, **kwargs) -> str:
+        with lock:
+            observed_threads.add(threading.get_ident())
+        time.sleep(0.05)
+        return "positive"
+
+    llm = _CallableLLM(slow_llm)
+    docs = pd.Series([f"d{i}" for i in range(20)])
+
+    out = _classify_docs(_facet(), docs, llm, noise_label="Unlabelled", max_concurrency=5)
+
+    assert len(out) == 20
+    # With max_concurrency=5 and 20 docs, we expect more than one thread to
+    # have handled calls.
+    assert len(observed_threads) > 1
+
+
+def test_classify_docs_preserves_order_under_concurrency():
+    """Even with concurrent dispatch, labels must align with input order."""
+    import threading
+    import time
+
+    def ordered_llm(prompt: str, **kwargs) -> str:
+        # Longer docs sleep longer to invert the natural call order
+        for idx in range(10):
+            if f"doc_{idx:02d}" in prompt:
+                time.sleep((10 - idx) * 0.01)
+                return f"value_{idx:02d}"
+        return "nope"
+
+    facet = {
+        "name": "ordered",
+        "type": "categorical",
+        "values": [f"value_{i:02d}" for i in range(10)],
+        "definition": "",
+        "labeling_prompt_template": "{document}",
+        "labeling_model": "m",
+    }
+    llm = _CallableLLM(ordered_llm)
+    docs = pd.Series([f"doc_{i:02d}" for i in range(10)])
+
+    _ = threading  # keep import used
+
+    out = _classify_docs(facet, docs, llm, noise_label="Unlabelled", max_concurrency=5)
+    assert list(out) == [f"value_{i:02d}" for i in range(10)]

@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from concurrent.futures import ThreadPoolExecutor
 from dataclasses import dataclass
 from typing import Any
 
@@ -9,6 +10,7 @@ import torch
 from concept_erasure import LeaceEraser
 from toponymy import Toponymy
 from toponymy.clustering import EVoCClusterer
+from tqdm.auto import tqdm
 
 from typologist._llm import _LLM, _wrap_for_toponymy
 from typologist._prompts import (
@@ -245,22 +247,41 @@ def _classify_docs(
     documents: pd.Series,
     labeling_llm: _LLM,
     noise_label: str,
+    max_concurrency: int = 1,
+    verbose: bool = False,
 ) -> pd.Series:
     """Apply a facet's labeling template to every document.
 
     Matches each LLM response against ``facet["values"]`` case-insensitively;
-    unmatched responses become ``noise_label``. Returns a Categorical Series
-    whose index matches ``documents``.
+    unmatched responses become ``noise_label``. When ``max_concurrency > 1``
+    the per-doc LLM calls are dispatched through a ``ThreadPoolExecutor``;
+    order is preserved. Returns a Categorical Series whose index matches
+    ``documents``.
     """
     template = facet["labeling_prompt_template"]
     values = list(facet["values"])
     canonical_by_lower = {v.lower(): v for v in values}
 
-    labels: list[str] = []
-    for doc in documents:
+    def classify_one(doc: str) -> str:
         raw = labeling_llm(render_labeling_prompt(template, doc))
-        canonical = canonical_by_lower.get(raw.strip().lower(), noise_label)
-        labels.append(canonical)
+        return canonical_by_lower.get(raw.strip().lower(), noise_label)
+
+    if max_concurrency > 1:
+        with ThreadPoolExecutor(max_workers=max_concurrency) as executor:
+            results_iter = executor.map(classify_one, documents)
+            if verbose:
+                results_iter = tqdm(
+                    results_iter,
+                    total=len(documents),
+                    desc=f"labeling {facet['name']}",
+                    unit="doc",
+                )
+            labels = list(results_iter)
+    else:
+        iterator = (
+            tqdm(documents, desc=f"labeling {facet['name']}", unit="doc") if verbose else documents
+        )
+        labels = [classify_one(d) for d in iterator]
 
     categories = list(values)
     if noise_label not in categories:

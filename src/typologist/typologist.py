@@ -36,6 +36,7 @@ class Typologist:
         random_state: int | None = None,
         noise_label: str = "Unlabelled",
         verbose: bool = False,
+        max_concurrency: int = 10,
     ) -> None:
         self.n_facets = n_facets
         self.topic_embedder = topic_embedder
@@ -47,6 +48,7 @@ class Typologist:
         self.random_state = random_state
         self.noise_label = noise_label
         self.verbose = verbose
+        self.max_concurrency = max_concurrency
 
     def fit(
         self,
@@ -95,6 +97,8 @@ class Typologist:
                 documents=inputs.documents,
                 labeling_llm=labeling_llm,
                 noise_label=self.noise_label,
+                max_concurrency=self.max_concurrency,
+                verbose=self.verbose,
             )
 
             diagnostics.append(

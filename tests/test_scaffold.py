@@ -19,6 +19,7 @@ def test_typologist_defaults():
     assert t.random_state is None
     assert t.noise_label == "Unlabelled"
     assert t.verbose is False
+    assert t.max_concurrency == 10
 
 
 def test_public_surface_exports():
