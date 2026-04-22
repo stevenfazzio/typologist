@@ -7,7 +7,7 @@ Clustered topics discovered in this corpus at multiple levels of granularity:
 
 {hierarchy_block}
 
-Identify a single categorical axis along which these {object_description} vary.{prior_facets_block}
+Identify a single categorical axis along which these {object_description} vary.{accounted_for_block}
 
 Respond with only valid JSON of the form:
 {{
@@ -41,16 +41,43 @@ Respond with the chosen value name only, no explanation.\
 """
 
 
+def _format_accounted_for_entry(entry: dict) -> str:
+    """Format one bullet of the accounted-for-axes block.
+
+    ``entry`` is one of:
+    - ``{"kind": "prior_facet", "name": str}``
+    - ``{"kind": "erased_metadata", "name": str, "type": "categorical" | "ordinal",
+         "values_shown": list[str], "truncated": bool, "total_unique": int}``
+    """
+    name = entry["name"]
+    if entry["kind"] == "prior_facet":
+        return f'- "{name}"'
+
+    values_joined = ", ".join(entry["values_shown"])
+    remaining = entry["total_unique"] - len(entry["values_shown"])
+    trailing = f", ... and {remaining} more" if entry["truncated"] else ""
+    if entry["type"] == "ordinal":
+        return f'- "{name}" (ordinal; ordered values: {values_joined}{trailing})'
+    return f'- "{name}" (categorical; values include: {values_joined}{trailing})'
+
+
 def render_synthesis_prompt(
     cluster_hierarchy: list[list[str]],
     object_description: str,
     corpus_description: str,
     prior_facet_names: list[str],
+    erased_metadata_descriptions: list[dict] | None = None,
 ) -> str:
     """Build the one-shot prompt that ``schema_llm`` sees when proposing a new facet.
 
     ``cluster_hierarchy`` is Toponymy's ``topic_names_``: layers from finest
     (layer 0) to coarsest.
+
+    ``erased_metadata_descriptions`` is an optional list of dicts produced by
+    ``_describe_erased_metadata`` describing columns the caller passed to
+    ``fit(metadata=...)``. They appear alongside prior facets in a unified
+    "do not re-propose" block so the LLM is steered off axes that have already
+    been accounted for, whether by Typologist itself or by the user.
     """
     hierarchy_lines: list[str] = []
     for i, layer in enumerate(cluster_hierarchy):
@@ -59,20 +86,27 @@ def render_synthesis_prompt(
             hierarchy_lines.append(f"  - {name}")
     hierarchy_block = "\n".join(hierarchy_lines)
 
-    if prior_facet_names:
-        joined = ", ".join(f'"{n}"' for n in prior_facet_names)
-        prior_facets_block = (
-            f"\n\nThe following axes have already been extracted from this corpus,"
-            f" so the one you propose should be orthogonal to all of them: {joined}."
+    entries: list[dict] = []
+    for name in prior_facet_names:
+        entries.append({"kind": "prior_facet", "name": name})
+    for desc in erased_metadata_descriptions or []:
+        entries.append({"kind": "erased_metadata", **desc})
+
+    if entries:
+        bullets = "\n".join(_format_accounted_for_entry(e) for e in entries)
+        accounted_for_block = (
+            "\n\nThe following axes have already been accounted for in this "
+            "corpus and should NOT be re-proposed. Propose an axis that is "
+            "orthogonal to all of them:\n" + bullets
         )
     else:
-        prior_facets_block = ""
+        accounted_for_block = ""
 
     return _SYNTHESIS_PROMPT.format(
         object_description=object_description,
         corpus_description=corpus_description,
         hierarchy_block=hierarchy_block,
-        prior_facets_block=prior_facets_block,
+        accounted_for_block=accounted_for_block,
     )
 
 
