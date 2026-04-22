@@ -49,6 +49,8 @@ print(t.schema_)               # list[dict]: discovered facet definitions
 print(t.labels_df_)            # (n_docs, n_facets) DataFrame of categorical labels
 ```
 
+For a runnable end-to-end example against real data (500 Amazon reviews, Cohere embeddings, an interactive DataMapPlot of the result), see [`examples/amazon_reviews.py`](examples/amazon_reviews.py).
+
 ## Discovery with metadata erasure
 
 Pass a `metadata` DataFrame to erase known axes before discovery starts, so the facets Typologist finds are orthogonal to what you already had. A fuller example:
