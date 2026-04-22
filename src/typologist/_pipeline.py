@@ -268,6 +268,62 @@ def _classify_docs(
     )
 
 
+def _build_facet_diagnostics(
+    synthesis_prompt: str,
+    toponymy_result: _ToponymyResult,
+    labels: pd.Series,
+    embeddings_pre_erasure: np.ndarray,
+    values: list[str],
+    exemplars_k: int = 5,
+) -> dict:
+    """Assemble the per-facet diagnostics dict that lands in facet_diagnostics_.
+
+    Entropy is computed from the observed label distribution (in bits); uniform
+    is the max-entropy ceiling over the value vocabulary (``log2(n_values)``);
+    delta is ``observed - uniform`` (<=0). Exemplars per value are the
+    ``exemplars_k`` documents nearest to that value's centroid in
+    ``embeddings_pre_erasure``, identified by their index in the original
+    ``labels`` Series.
+    """
+    counts = labels.value_counts(normalize=True)
+    probs = counts.values
+    probs = probs[probs > 0.0]  # exclude zero-count Categorical members
+    if probs.size > 0:
+        observed = -float((probs * np.log2(probs)).sum())
+    else:
+        observed = 0.0
+    n_vals = len(values)
+    uniform = float(np.log2(n_vals)) if n_vals > 1 else 0.0
+
+    exemplars_per_value: dict[str, list] = {}
+    for value in values:
+        mask = (labels == value).to_numpy()
+        count = int(mask.sum())
+        if count == 0:
+            exemplars_per_value[value] = []
+            continue
+        value_positions = np.where(mask)[0]
+        value_embeddings = embeddings_pre_erasure[value_positions]
+        centroid = value_embeddings.mean(axis=0)
+        dists = np.linalg.norm(value_embeddings - centroid, axis=1)
+        k = min(exemplars_k, count)
+        top_within = np.argsort(dists)[:k]
+        top_positions = value_positions[top_within]
+        exemplars_per_value[value] = labels.index[top_positions].tolist()
+
+    return {
+        "synthesis_prompt": synthesis_prompt,
+        "cluster_count": toponymy_result.cluster_count,
+        "hierarchy_depth": toponymy_result.hierarchy_depth,
+        "entropy_bits": {
+            "observed": observed,
+            "uniform": uniform,
+            "delta": observed - uniform,
+        },
+        "exemplars_per_value": exemplars_per_value,
+    }
+
+
 def _residualize_facet(
     embeddings: np.ndarray,
     facet_labels: pd.Series,
