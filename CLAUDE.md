@@ -59,5 +59,6 @@ Apply format: `uv run ruff format src tests`
 1. This file
 2. `README.md` for user-facing framing
 3. The memory directory for locked decisions, API design heuristics, empirical findings, and collaboration preferences
-4. `pyproject.toml` for build/deps config
-5. Once there's code: `src/typologist/__init__.py` to see the public surface
+4. `docs/design.md` for the 0.1 public-API contract (the implementation target)
+5. `pyproject.toml` for build/deps config
+6. Once there's code: `src/typologist/__init__.py` to see the public surface
