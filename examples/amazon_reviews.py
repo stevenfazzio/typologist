@@ -167,8 +167,12 @@ def render_map(
         text_embedding_model=topic_embedder,
         # KMeans here rather than ToponymyClusterer because the version pair
         # (toponymy 0.5.x + current fast_hdbscan) has a boruvka signature
-        # drift that ToponymyClusterer hits; KMeans is simpler and adequate
-        # for spatial region labels on a 2D map.
+        # drift that ToponymyClusterer hits. Tracked upstream at
+        # TutteInstitute/toponymy#135 and in our own #4. KMeans is the demo
+        # clusterer (not Toponymy's recommended choice) and its layers are
+        # independent KMeans runs stitched into a tree post-hoc rather than
+        # a true density hierarchy, but it's adequate for 2D region labels
+        # here.
         clusterer=KMeansClusterer(min_clusters=5, base_n_clusters=20),
         object_description="product reviews",
         corpus_description="Amazon product reviews",
