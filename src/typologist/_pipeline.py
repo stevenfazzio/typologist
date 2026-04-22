@@ -266,3 +266,18 @@ def _classify_docs(
         index=documents.index,
         name=facet["name"],
     )
+
+
+def _residualize_facet(
+    embeddings: np.ndarray,
+    facet_labels: pd.Series,
+    was_normalized: bool,
+) -> np.ndarray:
+    """Erase a facet's per-doc labels from embeddings via LEACE.
+
+    Noise-labeled rows are treated as their own category for erasure purposes
+    (the one-hot vector has a column for ``noise_label``), so the LEACE
+    projection removes any variance aligned with "couldn't classify" as well.
+    """
+    metadata = pd.DataFrame({"facet": facet_labels.astype(str).to_numpy()})
+    return _erase_metadata(embeddings, metadata, was_normalized)
