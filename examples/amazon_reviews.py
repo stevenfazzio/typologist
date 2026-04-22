@@ -245,7 +245,7 @@ def main() -> None:
     print(crosstab.to_string())
 
     print("\nRendering interactive map...")
-    hover = [doc[:200] for doc in df["text"].tolist()]
+    hover = [doc if len(doc) <= 500 else doc[:500] + "..." for doc in df["text"].tolist()]
     render_map(
         documents=df["text"].tolist(),
         embeddings=embeddings,
