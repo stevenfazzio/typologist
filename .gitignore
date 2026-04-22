@@ -61,3 +61,7 @@ traces/
 
 # Local-only smoke-test script (depends on author-machine data paths)
 scripts/smoke_fit.py
+
+# The experiments/ tree lives on experiments/* branches only; main otherwise
+# sees leftover artifacts + pycache from running those branches as untracked.
+experiments/
