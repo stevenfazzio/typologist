@@ -11,7 +11,11 @@ from toponymy import Toponymy
 from toponymy.clustering import EVoCClusterer
 
 from typologist._llm import _LLM, _wrap_for_toponymy
-from typologist._prompts import render_labeling_template, render_synthesis_prompt
+from typologist._prompts import (
+    render_labeling_prompt,
+    render_labeling_template,
+    render_synthesis_prompt,
+)
 
 
 @dataclass(frozen=True)
@@ -229,3 +233,36 @@ def _synthesize_field(
         "labeling_model": labeling_llm_model_name,
     }
     return facet, prompt
+
+
+def _classify_docs(
+    facet: dict,
+    documents: pd.Series,
+    labeling_llm: _LLM,
+    noise_label: str,
+) -> pd.Series:
+    """Apply a facet's labeling template to every document.
+
+    Matches each LLM response against ``facet["values"]`` case-insensitively;
+    unmatched responses become ``noise_label``. Returns a Categorical Series
+    whose index matches ``documents``.
+    """
+    template = facet["labeling_prompt_template"]
+    values = list(facet["values"])
+    canonical_by_lower = {v.lower(): v for v in values}
+
+    labels: list[str] = []
+    for doc in documents:
+        raw = labeling_llm(render_labeling_prompt(template, doc))
+        canonical = canonical_by_lower.get(raw.strip().lower(), noise_label)
+        labels.append(canonical)
+
+    categories = list(values)
+    if noise_label not in categories:
+        categories.append(noise_label)
+
+    return pd.Series(
+        pd.Categorical(labels, categories=categories),
+        index=documents.index,
+        name=facet["name"],
+    )
