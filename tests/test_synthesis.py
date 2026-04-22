@@ -43,7 +43,7 @@ def test_synthesize_field_assembles_schema_entry():
 
     assert facet["name"] == "contribution_type"
     assert facet["type"] == "categorical"
-    assert facet["values"] == ["empirical_study", "method_paper", "theory"]
+    assert facet["values"] == ["empirical_study", "method_paper", "theory", "Other"]
     assert facet["definition"] == "What the paper primarily contributes."
     assert facet["labeling_model"] == "claude-haiku-4-5"
     assert "{document}" in facet["labeling_prompt_template"]
@@ -148,6 +148,68 @@ def test_synthesize_field_rejects_missing_required_field():
             corpus_description="corpus",
             prior_facet_names=[],
         )
+
+
+def test_synthesize_field_appends_other_when_absent():
+    schema_llm = _StubSchemaLLM(
+        {
+            "name": "f",
+            "type": "categorical",
+            "values": ["a", "b", "c"],
+            "definition": "d",
+        }
+    )
+    facet, _ = _synthesize_field(
+        cluster_hierarchy=[["t"]],
+        schema_llm=schema_llm,
+        labeling_llm_model_name="m",
+        object_description="doc",
+        corpus_description="corpus",
+        prior_facet_names=[],
+    )
+    assert facet["values"] == ["a", "b", "c", "Other"]
+
+
+def test_synthesize_field_dedupes_other_case_insensitively():
+    # If the LLM ignores instructions and includes "other", we don't double-append.
+    schema_llm = _StubSchemaLLM(
+        {
+            "name": "f",
+            "type": "categorical",
+            "values": ["a", "b", "other"],
+            "definition": "d",
+        }
+    )
+    facet, _ = _synthesize_field(
+        cluster_hierarchy=[["t"]],
+        schema_llm=schema_llm,
+        labeling_llm_model_name="m",
+        object_description="doc",
+        corpus_description="corpus",
+        prior_facet_names=[],
+    )
+    assert facet["values"] == ["a", "b", "other"]
+
+
+def test_synthesize_field_other_appears_in_labeling_template():
+    schema_llm = _StubSchemaLLM(
+        {
+            "name": "f",
+            "type": "categorical",
+            "values": ["a", "b"],
+            "definition": "d",
+        }
+    )
+    facet, _ = _synthesize_field(
+        cluster_hierarchy=[["t"]],
+        schema_llm=schema_llm,
+        labeling_llm_model_name="m",
+        object_description="doc",
+        corpus_description="corpus",
+        prior_facet_names=[],
+    )
+    # Template should enumerate all values including the appended "Other".
+    assert "a, b, Other" in facet["labeling_prompt_template"]
 
 
 def test_synthesize_field_passes_prior_names_to_prompt():

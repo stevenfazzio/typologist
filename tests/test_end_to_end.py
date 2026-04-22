@@ -97,7 +97,7 @@ def test_fit_populates_all_fitted_attributes(monkeypatch):
 
     assert len(t.schema_) == 2
     assert [f["name"] for f in t.schema_] == ["facet_one", "facet_two"]
-    assert t.schema_[0]["values"] == ["a", "b"]
+    assert t.schema_[0]["values"] == ["a", "b", "Other"]
     assert "{document}" in t.schema_[0]["labeling_prompt_template"]
 
     assert t.labels_df_.shape == (3, 2)

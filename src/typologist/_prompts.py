@@ -18,11 +18,11 @@ Respond with only valid JSON of the form:
 }}
 
 Rules:
-- If the taxonomy might miss {object_description} that don't fit any category,
-  include "Other" as a value. Omit "Other" when you are confident the list
-  is exhaustive.
+- Do not include "Other" or any similar catch-all value. A catch-all will
+  be appended automatically after your response.
 - Choose value names that are specific and discriminating; avoid vague
-  umbrella terms like "General" or "Miscellaneous".
+  umbrella terms like "General", "Miscellaneous", "Novel method", or
+  anything broad enough to absorb the majority of {object_description}.
 - Use lowercase snake_case for value names unless proper nouns are required.
 - The "name" field should describe the axis itself, not a specific value on it.
 """

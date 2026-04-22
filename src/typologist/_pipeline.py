@@ -217,6 +217,11 @@ def _synthesize_field(
     if len(set(values)) != len(values):
         raise RuntimeError(f"schema_llm proposed duplicate values in facet '{name}': {values}")
 
+    # Always include "Other" as a catch-all. The synthesis prompt asks the LLM
+    # not to include one itself, but we dedup case-insensitively just in case.
+    if "other" not in {v.lower() for v in values}:
+        values.append("Other")
+
     labeling_template = render_labeling_template(
         field_name=name,
         field_definition=response["definition"],

@@ -52,14 +52,28 @@ def test_synthesis_prompt_includes_prior_facet_names():
     assert "data_modality" in out
 
 
-def test_synthesis_prompt_mentions_other_guidance():
+def test_synthesis_prompt_instructs_llm_not_to_include_other():
     out = render_synthesis_prompt(
         cluster_hierarchy=[["t"]],
         object_description="doc",
         corpus_description="corpus",
         prior_facet_names=[],
     )
-    assert '"Other"' in out
+    # "Other" is appended programmatically after synthesis; the LLM should not
+    # add its own catch-all value.
+    assert 'Do not include "Other"' in out
+
+
+def test_synthesis_prompt_warns_against_broad_umbrella_values():
+    out = render_synthesis_prompt(
+        cluster_hierarchy=[["t"]],
+        object_description="paper",
+        corpus_description="corpus",
+        prior_facet_names=[],
+    )
+    # predecessor smoke test showed "novel_method_or_architecture" absorbed
+    # the majority of docs; the prompt should explicitly counter that pattern.
+    assert "Novel method" in out
 
 
 def test_labeling_template_bakes_descriptions():
