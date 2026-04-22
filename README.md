@@ -1,6 +1,6 @@
 # Typologist
 
-Extract a categorical schema from a corpus of documents. Built on [Toponymy](https://github.com/TutteInstitute/toponymy) and [EVoC](https://github.com/TutteInstitute/evoc).
+Extract a categorical schema from a corpus of documents.
 
 ## Status
 
@@ -10,15 +10,15 @@ Extract a categorical schema from a corpus of documents. Built on [Toponymy](htt
 
 You give it documents and their embeddings. It gives you back a handful of categorical facets and a per-document label for each. For example, run it on ~1000 arxiv ML papers and you'll typically get three facets (say `contribution_type`, `primary_data_modality`, and `application_domain`), each with 6-10 values, plus a DataFrame of per-doc labels you can join straight back onto the original corpus.
 
-If you already have known metadata that you don't want rediscovered (existing category tags, publication year, source, whatever), you pass that in too and Typologist concept-erases it first via [LEACE](https://github.com/EleutherAI/concept-erasure), so the facets it finds are orthogonal to what you already had.
+What makes Typologist's facets mutually orthogonal rather than redundant is concept erasure. After each facet is discovered, its per-document labels are erased from the embeddings via [LEACE](https://github.com/EleutherAI/concept-erasure), and the next facet is discovered against the residual. If you pass in known metadata (existing category tags, publication year, source) it's erased the same way up front, so discovery starts from embeddings orthogonal to what you already have.
 
 ## Install
 
 Requires Python 3.11+.
 
 ```bash
-uv add git+https://github.com/stevenfazzio/typologist.git
-# or: pip install git+https://github.com/stevenfazzio/typologist.git
+uv add typologist
+# or: pip install typologist
 ```
 
 You'll also want:
@@ -51,7 +51,7 @@ print(t.labels_df_)            # (n_docs, n_facets) DataFrame of categorical lab
 
 ## Discovery with metadata erasure
 
-If your documents come with known metadata (source, category, year), you usually don't want Typologist to rediscover those axes. You want the facets it finds to be *orthogonal* to what you already have. Pass a `metadata` DataFrame and Typologist concept-erases those axes before running discovery.
+Pass a `metadata` DataFrame to erase known axes before discovery starts, so the facets Typologist finds are orthogonal to what you already had. A fuller example:
 
 ```python
 import pandas as pd
