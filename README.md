@@ -108,7 +108,7 @@ Per-document labeling dispatches through a threadpool (`max_concurrency=10` by d
 
 ## Related
 
-Typologist is an unofficial, independent project. It stands on:
+Typologist is an independent project with no affiliation to the authors of the libraries it builds on:
 
 - [Toponymy](https://github.com/TutteInstitute/toponymy) — cluster naming and hierarchy
 - [EVoC](https://github.com/TutteInstitute/evoc) — hierarchical clustering
