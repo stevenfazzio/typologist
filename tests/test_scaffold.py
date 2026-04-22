@@ -1,6 +1,4 @@
 import numpy as np
-import pandas as pd
-import pytest
 
 from typologist import Typologist, apply_schema
 
@@ -23,19 +21,6 @@ def test_typologist_defaults():
     assert t.verbose is False
 
 
-def test_typologist_fit_not_implemented():
-    t = Typologist(n_facets=3, topic_embedder=_DummyEmbedder())
-    with pytest.raises(NotImplementedError):
-        t.fit(["doc a", "doc b"], np.zeros((2, 8)))
-
-
-def test_apply_schema_not_implemented():
-    with pytest.raises(NotImplementedError):
-        apply_schema([], [])
-
-
-def test_documents_series_typing_accepted_at_signature_level():
-    t = Typologist(n_facets=1, topic_embedder=_DummyEmbedder())
-    docs = pd.Series(["a", "b"], index=[10, 20])
-    with pytest.raises(NotImplementedError):
-        t.fit(docs, np.zeros((2, 8)))
+def test_public_surface_exports():
+    assert callable(Typologist)
+    assert callable(apply_schema)
