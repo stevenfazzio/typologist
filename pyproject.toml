@@ -58,6 +58,7 @@ toponymy = { git = "https://github.com/TutteInstitute/toponymy.git" }
 dev = [
     "pytest",
     "ruff",
+    "sentence-transformers",
 ]
 
 [tool.hatch.build.targets.wheel]
