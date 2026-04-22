@@ -1,10 +1,16 @@
 """Discover categorical facets in a sample of Amazon product reviews.
 
+**Step 3 is where Typologist actually runs.** Steps 1, 2, 4, and 5 are
+plumbing around this particular example (sampling Amazon reviews, embedding
+them, printing and visualizing the output). If you're skimming to see what
+Typologist does, start with Step 3's ~10-line block.
+
 What this does:
 1. Streams a stratified sample of ~500 Amazon reviews across 6 product
    categories from HuggingFace.
-2. Embeds the reviews with Cohere embed-v4.0.
-3. Runs Typologist to discover 3 categorical facets (the main event).
+2. Embeds the reviews with Cohere embed-v4.0. Swappable, see the
+   ``embed_documents`` docstring.
+3. **Runs Typologist to discover 3 categorical facets.**
 4. Prints the discovered schema and a crosstab of facet 0 against the
    curator-assigned product category (to show the rediscovery effect).
 5. Renders an interactive DataMapPlot HTML: point colors switch between
@@ -16,8 +22,8 @@ Expected cost: ~$3 (Cohere embedding + Anthropic LLM calls for schema
 synthesis and per-doc labeling).
 
 Required environment variables:
-    CO_API_KEY         Cohere API key, for embeddings
-    ANTHROPIC_API_KEY  Anthropic API key, for the three LLM roles
+    CO_API_KEY         Cohere API key (swap if you use a different embedder)
+    ANTHROPIC_API_KEY  Anthropic API key (Typologist's default LLM provider)
 
 Required extra installs (on top of `typologist` itself):
     uv pip install datasets sentence-transformers cohere umap-learn datamapplot
@@ -34,31 +40,9 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
-# --- configuration ----------------------------------------------------------
-
-CATEGORIES = [
-    "Books",
-    "Electronics",
-    "All_Beauty",
-    "Clothing_Shoes_and_Jewelry",
-    "Home_and_Kitchen",
-    "Toys_and_Games",
-]
-N_PER_CATEGORY = 83  # 6 x 83 = 498 reviews total
-STREAM_WINDOW = 3000
-MIN_TEXT_CHARS = 200
-RANDOM_SEED = 0
-
-COHERE_MODEL = "embed-v4.0"
-COHERE_BATCH = 96
-
 OUTPUT_DIR = Path(__file__).parent
 HTML_OUTPUT = OUTPUT_DIR / "amazon_reviews_map.html"
-
-_AMAZON_JSONL_URL = (
-    "https://huggingface.co/datasets/McAuley-Lab/Amazon-Reviews-2023"
-    "/resolve/main/raw/review_categories/{category}.jsonl"
-)
+RANDOM_SEED = 0
 
 
 # --- helpers ----------------------------------------------------------------
@@ -67,34 +51,54 @@ _AMAZON_JSONL_URL = (
 def load_reviews(seed: int) -> pd.DataFrame:
     """Stream a stratified sample of Amazon reviews from HuggingFace.
 
-    For each category, streams the first STREAM_WINDOW rows from the public
-    JSONL dump, filters to verified purchases with text >= MIN_TEXT_CHARS,
-    and samples N_PER_CATEGORY rows. Returns a DataFrame with columns:
-    text, rating, product_category.
+    The ``SOURCE_PRODUCT_CATEGORIES`` list below is *input to sampling*, not
+    configuration for Typologist. We pick six Amazon-curator-assigned
+    product categories and draw a balanced number of reviews from each so
+    the corpus isn't dominated by one type. Typologist will then discover
+    its own categorization from the review text alone (see Step 3 in main).
     """
     from datasets import load_dataset
 
+    source_product_categories = [
+        "Books",
+        "Electronics",
+        "All_Beauty",
+        "Clothing_Shoes_and_Jewelry",
+        "Home_and_Kitchen",
+        "Toys_and_Games",
+    ]
+    n_per_category = 83  # 6 x 83 = ~498 reviews total
+    stream_window = 3000  # Stream this many per category before sampling
+    min_text_chars = 200  # Drop one-liner reviews; they embed poorly
+
+    jsonl_url = (
+        "https://huggingface.co/datasets/McAuley-Lab/Amazon-Reviews-2023"
+        "/resolve/main/raw/review_categories/{category}.jsonl"
+    )
+
     rng = np.random.default_rng(seed)
     parts: list[pd.DataFrame] = []
-
-    for category in CATEGORIES:
+    for category in source_product_categories:
         print(f"  streaming {category}...", flush=True)
-        url = _AMAZON_JSONL_URL.format(category=category)
-        ds = load_dataset("json", data_files=url, split="train", streaming=True)
-
+        ds = load_dataset(
+            "json",
+            data_files=jsonl_url.format(category=category),
+            split="train",
+            streaming=True,
+        )
         rows: list[dict] = []
         for row in ds:
             text = row.get("text") or ""
             if (
                 row.get("verified_purchase")
-                and len(text) >= MIN_TEXT_CHARS
+                and len(text) >= min_text_chars
                 and row.get("rating") is not None
             ):
                 rows.append({"text": text, "rating": float(row["rating"])})
-            if len(rows) >= STREAM_WINDOW:
+            if len(rows) >= stream_window:
                 break
 
-        picked = rng.choice(len(rows), size=N_PER_CATEGORY, replace=False)
+        picked = rng.choice(len(rows), size=n_per_category, replace=False)
         cat_df = pd.DataFrame([rows[i] for i in picked])
         cat_df["product_category"] = category
         parts.append(cat_df)
@@ -103,16 +107,39 @@ def load_reviews(seed: int) -> pd.DataFrame:
 
 
 def embed_documents(texts: list[str]) -> np.ndarray:
-    """Embed documents via Cohere embed-v4.0, batched."""
+    """Embed documents. **Swap this function if you don't use Cohere.**
+
+    Typologist doesn't care which embedder produced its inputs. The only
+    contract is: take ``list[str]`` of length n, return ``np.ndarray`` of
+    shape ``(n, d)`` with floating-point dtype. The default below uses
+    Cohere embed-v4.0 (1536-dim) and reads ``CO_API_KEY`` from the env.
+
+    Two common alternatives you can paste in to replace this function:
+
+        # Sentence-Transformers (local, free, 768-dim):
+        from sentence_transformers import SentenceTransformer
+        def embed_documents(texts):
+            model = SentenceTransformer("all-mpnet-base-v2")
+            return model.encode(texts, convert_to_numpy=True, show_progress_bar=True)
+
+        # OpenAI (remote, paid, 1536-dim):
+        import openai
+        def embed_documents(texts):
+            client = openai.OpenAI()
+            resp = client.embeddings.create(model="text-embedding-3-small", input=texts)
+            return np.array([d.embedding for d in resp.data], dtype=np.float32)
+    """
     import cohere
+
+    cohere_model = "embed-v4.0"
+    cohere_batch = 96
 
     client = cohere.ClientV2(api_key=os.environ["CO_API_KEY"])
     parts: list[np.ndarray] = []
-    for i in range(0, len(texts), COHERE_BATCH):
-        batch = texts[i : i + COHERE_BATCH]
+    for i in range(0, len(texts), cohere_batch):
         resp = client.embed(
-            texts=batch,
-            model=COHERE_MODEL,
+            texts=texts[i : i + cohere_batch],
+            model=cohere_model,
             input_type="search_document",
             embedding_types=["float"],
         )
@@ -188,15 +215,27 @@ def main() -> None:
 
     from typologist import Typologist
 
-    print("Loading Amazon reviews from HuggingFace...")
+    # === Step 1: load a sample corpus ===
+    print("Step 1: loading Amazon reviews from HuggingFace...")
     df = load_reviews(seed=RANDOM_SEED)
     print(f"  loaded {len(df)} reviews across {df['product_category'].nunique()} categories\n")
 
-    print("Embedding with Cohere embed-v4.0...")
+    # === Step 2: embed ===
+    print("Step 2: embedding with Cohere embed-v4.0...")
     embeddings = embed_documents(df["text"].tolist())
     print(f"  embeddings shape: {embeddings.shape}\n")
 
-    print("Fitting Typologist (n_facets=3)...")
+    # === Step 3: run Typologist ==============================================
+    # This is the part the example is actually demonstrating. Everything else
+    # in this file is plumbing. Typologist takes the documents and their
+    # embeddings, discovers n_facets categorical axes, and assigns each
+    # document a value on each axis.
+    #
+    # naming_llm, schema_llm, and labeling_llm default to Anthropic model
+    # strings (so ANTHROPIC_API_KEY is read from the env). If you use a
+    # different provider, pass a callable(prompt: str) -> str to any of those
+    # three kwargs; see docs/design.md for the full contract.
+    print("Step 3: fitting Typologist (n_facets=3)...")
     t = Typologist(
         n_facets=3,
         topic_embedder=SentenceTransformer("all-MiniLM-L6-v2"),
@@ -205,7 +244,9 @@ def main() -> None:
         random_state=RANDOM_SEED,
         verbose=True,
     ).fit(df["text"], embeddings)
+    # =========================================================================
 
+    # === Step 4: print the output ===
     print("\n=== Discovered schema ===")
     for i, facet in enumerate(t.schema_):
         print(f"\nFacet {i}: {facet['name']} ({facet['type']})")
@@ -222,7 +263,8 @@ def main() -> None:
     crosstab = pd.crosstab(labels["curator_category"], labels[primary_facet])
     print(crosstab.to_string())
 
-    print("\nRendering interactive map...")
+    # === Step 5: render the map ===
+    print("\nStep 5: rendering interactive map...")
     labels_for_map = t.labels_df_.reset_index(drop=True)
     hover = _build_hover_text(df["text"].tolist(), labels_for_map)
     render_map(
