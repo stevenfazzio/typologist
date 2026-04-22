@@ -4,14 +4,17 @@ What this does:
 1. Streams a stratified sample of ~500 Amazon reviews across 6 product
    categories from HuggingFace.
 2. Embeds the reviews with Cohere embed-v4.0.
-3. Runs Typologist to discover 3 categorical facets.
+3. Runs Typologist to discover 3 categorical facets (the main event).
 4. Prints the discovered schema and a crosstab of facet 0 against the
    curator-assigned product category (to show the rediscovery effect).
-5. Renders an interactive DataMapPlot HTML you can open in a browser,
-   colored by each discovered facet (toggle between layers).
+5. Renders an interactive DataMapPlot HTML that combines:
+   - region text labels from a separate Toponymy fit on the 2D UMAP coords
+     (spatial cluster names at fine-to-coarse granularity), and
+   - point colors switchable between Typologist's facets via a dropdown.
 
-Expected runtime: ~5 minutes on a laptop.
-Expected cost: ~$3 (Cohere embedding + Anthropic Haiku labeling + Opus synthesis).
+Expected runtime: ~6 minutes on a laptop.
+Expected cost: ~$3 (Cohere embedding + Anthropic LLM calls for schema
+synthesis, per-doc labeling, and topic naming).
 
 Required environment variables:
     CO_API_KEY         Cohere API key, for embeddings
@@ -119,22 +122,32 @@ def embed_documents(texts: list[str]) -> np.ndarray:
 
 
 def render_map(
+    documents: list[str],
     embeddings: np.ndarray,
     labels_df: pd.DataFrame,
+    topic_embedder,
     hover_text: list[str],
     output_path: Path,
     seed: int,
+    verbose: bool = True,
 ) -> None:
-    """Run UMAP on the embeddings and render an interactive DataMapPlot.
+    """Render an interactive DataMapPlot that pairs two separately-produced
+    structures over the same corpus:
 
-    Each Typologist-discovered facet becomes one selectable colormap in the
-    ``colormaps=`` dict; a dropdown in the plot lets the viewer switch point
-    coloring between facets. Region text annotations (``*label_layers``) are
-    deliberately left off: the correct source for those is Toponymy fit on
-    the 2D coords, which is outside the scope of this example.
+    - Point colors come from Typologist's facets (one selectable colormap per
+      facet; a dropdown in the UI switches between them).
+    - Region text annotations come from a separate Toponymy fit on the 2D
+      UMAP coords (fine-to-coarse cluster-name hierarchy). This is the right
+      division of labor: Typologist's facets are categorical metadata about
+      each point, whereas the plot's region labels are spatial cluster names
+      that depend on the 2D layout, so they need to be computed from the 2D
+      coords directly.
     """
     import datamapplot
     import umap
+    from toponymy import Toponymy
+    from toponymy.clustering import KMeansClusterer
+    from toponymy.llm_wrappers import AnthropicNamer
 
     print("  projecting to 2D with UMAP...", flush=True)
     coords = umap.UMAP(
@@ -144,14 +157,37 @@ def render_map(
         random_state=seed,
     ).fit_transform(embeddings)
 
+    print("  naming 2D clusters via Toponymy...", flush=True)
+    namer = AnthropicNamer(
+        api_key=os.environ["ANTHROPIC_API_KEY"],
+        model="claude-haiku-4-5-20251001",
+    )
+    topo = Toponymy(
+        llm_wrapper=namer,
+        text_embedding_model=topic_embedder,
+        # KMeans here rather than ToponymyClusterer because the version pair
+        # (toponymy 0.5.x + current fast_hdbscan) has a boruvka signature
+        # drift that ToponymyClusterer hits; KMeans is simpler and adequate
+        # for spatial region labels on a 2D map.
+        clusterer=KMeansClusterer(min_clusters=5, base_n_clusters=20),
+        object_description="product reviews",
+        corpus_description="Amazon product reviews",
+        verbose=verbose,
+    )
+    # fit(objects, embedding_vectors, clusterable_vectors): high-dim used for
+    # keyphrase generation, 2D used for the clustering that drives plot labels.
+    topo.fit(documents, embeddings, coords)
+    label_layers = [layer.make_topic_name_vector() for layer in topo.cluster_layers_]
+
     colormaps = {col: labels_df[col].astype(str).to_numpy() for col in labels_df.columns}
 
     fig = datamapplot.create_interactive_plot(
         coords,
+        *label_layers,
         colormaps=colormaps,
         hover_text=hover_text,
         title="Amazon reviews",
-        sub_title="Point colors switchable between Typologist-discovered facets.",
+        sub_title="Region labels from Toponymy; point colors switchable between Typologist facets.",
         inline_data=True,
     )
     fig.save(str(output_path))
@@ -173,10 +209,15 @@ def main() -> None:
     embeddings = embed_documents(df["text"].tolist())
     print(f"  embeddings shape: {embeddings.shape}\n")
 
+    # One SentenceTransformer instance shared between Typologist (for its
+    # internal keyphrase/topic-name embedding) and the Toponymy-on-2D run
+    # inside render_map.
+    topic_embedder = SentenceTransformer("all-MiniLM-L6-v2")
+
     print("Fitting Typologist (n_facets=3)...")
     t = Typologist(
         n_facets=3,
-        topic_embedder=SentenceTransformer("all-MiniLM-L6-v2"),
+        topic_embedder=topic_embedder,
         object_description="product reviews",
         corpus_description="Amazon product reviews",
         random_state=RANDOM_SEED,
@@ -200,10 +241,12 @@ def main() -> None:
     print(crosstab.to_string())
 
     print("\nRendering interactive map...")
-    hover = [t[:200] for t in df["text"].tolist()]
+    hover = [doc[:200] for doc in df["text"].tolist()]
     render_map(
+        documents=df["text"].tolist(),
         embeddings=embeddings,
         labels_df=t.labels_df_.reset_index(drop=True),
+        topic_embedder=topic_embedder,
         hover_text=hover,
         output_path=HTML_OUTPUT,
         seed=RANDOM_SEED,
@@ -225,39 +268,43 @@ if __name__ == "__main__":
 # === Discovered schema ===
 #
 # Facet 0: product_category (categorical)
-#   The broad Amazon product category that the review pertains to.
-#   - electronics_and_tech
+#   The broad product category that the Amazon review is describing.
 #   - books
-#   - apparel_and_footwear
-#   - beauty_and_personal_care
-#   - toys_and_games
-#   - kitchen_and_home
-#   - bags_and_accessories
+#   - toys
+#   - electronics
+#   - kitchen
+#   - apparel
+#   - footwear
+#   - personal_care
+#   - hair_accessories
 #   - Other
 #
 # Facet 1: review_sentiment (categorical)
-#   The overall sentiment and evaluative tone the reviewer expresses about
-#   the product.
+#   The overall sentiment and satisfaction level the reviewer expresses
+#   toward the product.
 #   - highly_positive
-#   - mixed_with_caveats
-#   - disappointed_negative
-#   - neutral_informational
+#   - mostly_positive
+#   - mixed
+#   - mostly_negative
+#   - highly_negative
 #   - Other
 #
-# Facet 2: intended_user (categorical)
-#   Who the reviewer indicates the product was purchased for or used by.
-#   - self
-#   - child
-#   - spouse_or_partner
-#   - parent_or_elderly_relative
-#   - friend_as_gift
-#   - household_shared
+# Facet 2: review_focus_aspect (categorical)
+#   The primary product attribute or dimension the reviewer focuses their
+#   evaluation on.
+#   - physical_quality_and_durability
+#   - fit_and_sizing
+#   - appearance_and_aesthetics
+#   - functional_performance
+#   - value_for_price
+#   - customer_service_experience
+#   - ease_of_use_and_instructions
 #   - Other
 #
 # Facet 0's crosstab against Amazon's own product_category shows heavy
-# diagonal concentration: Typologist rediscovers the curators' categorization
-# from the text alone, and sometimes refines it (Amazon's
-# Clothing_Shoes_and_Jewelry splits into apparel_and_footwear + bags_and_
-# accessories; Electronics spills a bit into bags_and_accessories for tech
-# accessories/cases). Facets 1 and 2 add orthogonal axes that
-# product_category alone doesn't capture.
+# diagonal concentration and meaningful refinement: Typologist splits
+# Clothing_Shoes_and_Jewelry into apparel + footwear + hair_accessories, and
+# All_Beauty into personal_care + hair_accessories. That's arguably a
+# cleaner taxonomy than the original six-way split. Facets 1 and 2 add
+# sentiment and evaluation-focus axes that product_category alone doesn't
+# capture.
