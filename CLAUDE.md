@@ -35,7 +35,7 @@ These apply to any code built on Toponymy + EVoC + LEACE, carried over from prio
 
 **EVoC pinned to `==0.1.3`.** Toponymy's `EVoCClusterer` adapter passes `min_num_clusters` and `next_cluster_size_quantile` kwargs that newer evoc (0.3.x) removed. If either pin changes, expect breakage.
 
-**Matplotlib and transformers are likely direct deps.** Evoc and Toponymy hard-import them at module load, not at first use.
+**Toponymy hard-imports `tokenizers` and `transformers` at module load** via `toponymy/llm_wrappers.py`; neither is in Toponymy's declared deps, so `uv sync` won't pull them in transitively. Both are listed as direct deps in our `pyproject.toml`. Matplotlib and `anywidget` are only needed if you import `toponymy.plotting`, which we don't.
 
 **EVoC has no `random_state`.** Clustering is non-deterministic within a session. Wire a `random_state` at the Typologist level where we can (LEACE fit, any sampling, NumPy RNG) and document EVoC as the residual source of non-determinism.
 
