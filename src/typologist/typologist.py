@@ -10,6 +10,7 @@ from typologist._llm import _resolve_llm
 from typologist._pipeline import (
     _build_facet_diagnostics,
     _classify_docs,
+    _describe_erased_metadata,
     _erase_metadata,
     _normalize_inputs,
     _residualize_facet,
@@ -65,8 +66,10 @@ class Typologist:
 
         inputs = _normalize_inputs(documents, embeddings, metadata)
         working = inputs.embeddings
+        erased_metadata_descriptions: list[dict] | None = None
         if inputs.metadata is not None:
             working = _erase_metadata(working, inputs.metadata, inputs.was_normalized)
+            erased_metadata_descriptions = _describe_erased_metadata(inputs.metadata)
 
         schema: list[dict] = []
         label_series: list[pd.Series] = []
@@ -90,6 +93,7 @@ class Typologist:
                 object_description=self.object_description,
                 corpus_description=self.corpus_description,
                 prior_facet_names=[f["name"] for f in schema],
+                erased_metadata_descriptions=erased_metadata_descriptions,
             )
 
             labels = _classify_docs(

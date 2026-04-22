@@ -3,6 +3,7 @@ import pandas as pd
 import pytest
 
 from typologist._pipeline import (
+    _describe_erased_metadata,
     _erase_metadata,
     _is_l2_normalized,
     _l2_normalize,
@@ -183,3 +184,59 @@ def test_erase_metadata_preserves_dtype():
 
     assert _erase_metadata(x32, metadata, was_normalized=False).dtype == np.float32
     assert _erase_metadata(x64, metadata, was_normalized=False).dtype == np.float64
+
+
+def test_describe_erased_metadata_infers_string_column_as_categorical():
+    meta = pd.DataFrame({"color": ["red", "blue", "red", "green"]})
+    descs = _describe_erased_metadata(meta)
+    assert len(descs) == 1
+    assert descs[0]["name"] == "color"
+    assert descs[0]["type"] == "categorical"
+    assert set(descs[0]["values_shown"]) == {"red", "blue", "green"}
+    assert descs[0]["total_unique"] == 3
+    assert descs[0]["truncated"] is False
+
+
+def test_describe_erased_metadata_infers_numeric_column_as_ordinal():
+    meta = pd.DataFrame({"rating": [3.0, 1.0, 5.0, 2.0, 4.0, 3.0]})
+    descs = _describe_erased_metadata(meta)
+    assert descs[0]["type"] == "ordinal"
+    # sorted, deduplicated
+    assert descs[0]["values_shown"] == ["1.0", "2.0", "3.0", "4.0", "5.0"]
+
+
+def test_describe_erased_metadata_infers_ordered_categorical_as_ordinal():
+    meta = pd.DataFrame(
+        {
+            "size": pd.Categorical(
+                ["M", "S", "L", "M"],
+                categories=["S", "M", "L", "XL"],
+                ordered=True,
+            )
+        }
+    )
+    descs = _describe_erased_metadata(meta)
+    assert descs[0]["type"] == "ordinal"
+    assert descs[0]["values_shown"] == ["S", "M", "L", "XL"]
+
+
+def test_describe_erased_metadata_treats_unordered_categorical_as_categorical():
+    meta = pd.DataFrame(
+        {
+            "tag": pd.Categorical(
+                ["a", "b", "a"],
+                categories=["a", "b"],
+                ordered=False,
+            )
+        }
+    )
+    descs = _describe_erased_metadata(meta)
+    assert descs[0]["type"] == "categorical"
+
+
+def test_describe_erased_metadata_truncates_high_cardinality():
+    meta = pd.DataFrame({"country": [f"C{i:03d}" for i in range(50)]})
+    descs = _describe_erased_metadata(meta)
+    assert descs[0]["truncated"] is True
+    assert len(descs[0]["values_shown"]) == 8
+    assert descs[0]["total_unique"] == 50
