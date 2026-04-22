@@ -7,14 +7,13 @@ What this does:
 3. Runs Typologist to discover 3 categorical facets (the main event).
 4. Prints the discovered schema and a crosstab of facet 0 against the
    curator-assigned product category (to show the rediscovery effect).
-5. Renders an interactive DataMapPlot HTML that combines:
-   - region text labels from a separate Toponymy fit on the 2D UMAP coords
-     (spatial cluster names at fine-to-coarse granularity), and
-   - point colors switchable between Typologist's facets via a dropdown.
+5. Renders an interactive DataMapPlot HTML: point colors switch between
+   Typologist facets via a dropdown; hovering on a point shows the
+   assigned facet values followed by the review text itself.
 
-Expected runtime: ~6 minutes on a laptop.
+Expected runtime: ~5 minutes on a laptop.
 Expected cost: ~$3 (Cohere embedding + Anthropic LLM calls for schema
-synthesis, per-doc labeling, and topic naming).
+synthesis and per-doc labeling).
 
 Required environment variables:
     CO_API_KEY         Cohere API key, for embeddings
@@ -121,33 +120,44 @@ def embed_documents(texts: list[str]) -> np.ndarray:
     return np.vstack(parts)
 
 
+def _build_hover_text(
+    texts: list[str],
+    labels_df: pd.DataFrame,
+    max_text_chars: int = 500,
+) -> list[str]:
+    """Per-point tooltip: Typologist facet values, then the (truncated) text.
+
+    Labels go first so readers see Typologist's output on hover at a glance;
+    the review text follows in case they want to check the labels against
+    the source.
+    """
+    hovers: list[str] = []
+    for i, raw in enumerate(texts):
+        parts = [f"{col}: {labels_df[col].iloc[i]}" for col in labels_df.columns]
+        text = raw if len(raw) <= max_text_chars else raw[:max_text_chars] + "..."
+        hovers.append("\n".join(parts) + "\n\n" + text)
+    return hovers
+
+
 def render_map(
-    documents: list[str],
     embeddings: np.ndarray,
     labels_df: pd.DataFrame,
-    topic_embedder,
     hover_text: list[str],
     output_path: Path,
     seed: int,
-    verbose: bool = True,
 ) -> None:
-    """Render an interactive DataMapPlot that pairs two separately-produced
-    structures over the same corpus:
+    """Render an interactive DataMapPlot of the corpus.
 
-    - Point colors come from Typologist's facets (one selectable colormap per
-      facet; a dropdown in the UI switches between them).
-    - Region text annotations come from a separate Toponymy fit on the 2D
-      UMAP coords (fine-to-coarse cluster-name hierarchy). This is the right
-      division of labor: Typologist's facets are categorical metadata about
-      each point, whereas the plot's region labels are spatial cluster names
-      that depend on the 2D layout, so they need to be computed from the 2D
-      coords directly.
+    Each Typologist-discovered facet becomes one selectable colormap in the
+    ``colormaps=`` dict; a dropdown in the plot lets the viewer switch point
+    coloring between facets. Region text annotations (``*label_layers``) are
+    deliberately left off: the right source for those is Toponymy fit on the
+    2D coords, which is its own can of worms (picks a clusterer, manages
+    upstream compat, another ~$0.25 and a minute of runtime) and risks
+    implying the region labels are Typologist output when they are not.
     """
     import datamapplot
     import umap
-    from toponymy import Toponymy
-    from toponymy.clustering import KMeansClusterer
-    from toponymy.llm_wrappers import AnthropicNamer
 
     print("  projecting to 2D with UMAP...", flush=True)
     coords = umap.UMAP(
@@ -157,41 +167,14 @@ def render_map(
         random_state=seed,
     ).fit_transform(embeddings)
 
-    print("  naming 2D clusters via Toponymy...", flush=True)
-    namer = AnthropicNamer(
-        api_key=os.environ["ANTHROPIC_API_KEY"],
-        model="claude-haiku-4-5-20251001",
-    )
-    topo = Toponymy(
-        llm_wrapper=namer,
-        text_embedding_model=topic_embedder,
-        # KMeans here rather than ToponymyClusterer because the version pair
-        # (toponymy 0.5.x + current fast_hdbscan) has a boruvka signature
-        # drift that ToponymyClusterer hits. Tracked upstream at
-        # TutteInstitute/toponymy#135 and in our own #4. KMeans is the demo
-        # clusterer (not Toponymy's recommended choice) and its layers are
-        # independent KMeans runs stitched into a tree post-hoc rather than
-        # a true density hierarchy, but it's adequate for 2D region labels
-        # here.
-        clusterer=KMeansClusterer(min_clusters=5, base_n_clusters=20),
-        object_description="product reviews",
-        corpus_description="Amazon product reviews",
-        verbose=verbose,
-    )
-    # fit(objects, embedding_vectors, clusterable_vectors): high-dim used for
-    # keyphrase generation, 2D used for the clustering that drives plot labels.
-    topo.fit(documents, embeddings, coords)
-    label_layers = [layer.make_topic_name_vector() for layer in topo.cluster_layers_]
-
     colormaps = {col: labels_df[col].astype(str).to_numpy() for col in labels_df.columns}
 
     fig = datamapplot.create_interactive_plot(
         coords,
-        *label_layers,
         colormaps=colormaps,
         hover_text=hover_text,
         title="Amazon reviews",
-        sub_title="Region labels from Toponymy; point colors switchable between Typologist facets.",
+        sub_title="Point colors switchable between Typologist-discovered facets.",
         inline_data=True,
     )
     fig.save(str(output_path))
@@ -213,15 +196,10 @@ def main() -> None:
     embeddings = embed_documents(df["text"].tolist())
     print(f"  embeddings shape: {embeddings.shape}\n")
 
-    # One SentenceTransformer instance shared between Typologist (for its
-    # internal keyphrase/topic-name embedding) and the Toponymy-on-2D run
-    # inside render_map.
-    topic_embedder = SentenceTransformer("all-MiniLM-L6-v2")
-
     print("Fitting Typologist (n_facets=3)...")
     t = Typologist(
         n_facets=3,
-        topic_embedder=topic_embedder,
+        topic_embedder=SentenceTransformer("all-MiniLM-L6-v2"),
         object_description="product reviews",
         corpus_description="Amazon product reviews",
         random_state=RANDOM_SEED,
@@ -245,12 +223,11 @@ def main() -> None:
     print(crosstab.to_string())
 
     print("\nRendering interactive map...")
-    hover = [doc if len(doc) <= 500 else doc[:500] + "..." for doc in df["text"].tolist()]
+    labels_for_map = t.labels_df_.reset_index(drop=True)
+    hover = _build_hover_text(df["text"].tolist(), labels_for_map)
     render_map(
-        documents=df["text"].tolist(),
         embeddings=embeddings,
-        labels_df=t.labels_df_.reset_index(drop=True),
-        topic_embedder=topic_embedder,
+        labels_df=labels_for_map,
         hover_text=hover,
         output_path=HTML_OUTPUT,
         seed=RANDOM_SEED,
