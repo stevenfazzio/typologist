@@ -56,6 +56,12 @@ dev = [
     "pytest",
     "ruff",
 ]
+experiments = [
+    "datasets",
+    "sentence-transformers",
+    "cohere",
+    "scikit-learn",
+]
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/typologist"]
