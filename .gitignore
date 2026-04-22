@@ -58,3 +58,6 @@ ENV/
 data/
 traces/
 *.parquet
+
+# Local-only smoke-test script (depends on author-machine data paths)
+scripts/smoke_fit.py
