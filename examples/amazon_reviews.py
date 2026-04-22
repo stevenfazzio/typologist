@@ -8,8 +8,8 @@ Typologist does, start with Step 3's ~10-line block.
 What this does:
 1. Streams a stratified sample of ~500 Amazon reviews across 6 product
    categories from HuggingFace.
-2. Embeds the reviews with Cohere embed-v4.0. Swappable, see the
-   ``embed_documents`` docstring.
+2. Embeds the reviews locally with sentence-transformers all-MiniLM-L6-v2.
+   Swappable, see the ``embed_documents`` docstring.
 3. **Runs Typologist to discover 3 categorical facets.**
 4. Prints the discovered schema and a crosstab of facet 0 against the
    curator-assigned product category (to show the rediscovery effect).
@@ -18,15 +18,14 @@ What this does:
    assigned facet values followed by the review text itself.
 
 Expected runtime: ~5 minutes on a laptop.
-Expected cost: ~$3 (Cohere embedding + Anthropic LLM calls for schema
-synthesis and per-doc labeling).
+Expected cost: ~$3 (Anthropic LLM calls for schema synthesis and per-doc
+labeling; embedding runs locally and is free).
 
 Required environment variables:
-    CO_API_KEY         Cohere API key (swap if you use a different embedder)
     ANTHROPIC_API_KEY  Anthropic API key (Typologist's default LLM provider)
 
 Required extra installs (on top of `typologist` itself):
-    uv pip install datasets sentence-transformers cohere umap-learn datamapplot
+    uv pip install datasets sentence-transformers umap-learn datamapplot
 
 Run from the repo root:
     uv run python examples/amazon_reviews.py
@@ -34,7 +33,6 @@ Run from the repo root:
 
 from __future__ import annotations
 
-import os
 from pathlib import Path
 
 import numpy as np
@@ -107,20 +105,30 @@ def load_reviews(seed: int) -> pd.DataFrame:
 
 
 def embed_documents(texts: list[str]) -> np.ndarray:
-    """Embed documents. **Swap this function if you don't use Cohere.**
+    """Embed documents. **Swap this function if you prefer a different embedder.**
 
     Typologist doesn't care which embedder produced its inputs. The only
     contract is: take ``list[str]`` of length n, return ``np.ndarray`` of
     shape ``(n, d)`` with floating-point dtype. The default below uses
-    Cohere embed-v4.0 (1536-dim) and reads ``CO_API_KEY`` from the env.
+    sentence-transformers' ``all-MiniLM-L6-v2`` (384-dim, local, free, CPU-
+    fine) because it keeps the example key-free beyond Anthropic.
 
     Two common alternatives you can paste in to replace this function:
 
-        # Sentence-Transformers (local, free, 768-dim):
-        from sentence_transformers import SentenceTransformer
+        # Cohere (remote, paid, 1536-dim; reads CO_API_KEY):
+        import cohere
         def embed_documents(texts):
-            model = SentenceTransformer("all-mpnet-base-v2")
-            return model.encode(texts, convert_to_numpy=True, show_progress_bar=True)
+            client = cohere.ClientV2()
+            parts = []
+            for i in range(0, len(texts), 96):
+                resp = client.embed(
+                    texts=texts[i:i+96],
+                    model="embed-v4.0",
+                    input_type="search_document",
+                    embedding_types=["float"],
+                )
+                parts.append(np.array(resp.embeddings.float_, dtype=np.float32))
+            return np.vstack(parts)
 
         # OpenAI (remote, paid, 1536-dim):
         import openai
@@ -129,22 +137,15 @@ def embed_documents(texts: list[str]) -> np.ndarray:
             resp = client.embeddings.create(model="text-embedding-3-small", input=texts)
             return np.array([d.embedding for d in resp.data], dtype=np.float32)
     """
-    import cohere
+    from sentence_transformers import SentenceTransformer
 
-    cohere_model = "embed-v4.0"
-    cohere_batch = 96
-
-    client = cohere.ClientV2(api_key=os.environ["CO_API_KEY"])
-    parts: list[np.ndarray] = []
-    for i in range(0, len(texts), cohere_batch):
-        resp = client.embed(
-            texts=texts[i : i + cohere_batch],
-            model=cohere_model,
-            input_type="search_document",
-            embedding_types=["float"],
-        )
-        parts.append(np.array(resp.embeddings.float_, dtype=np.float32))
-    return np.vstack(parts)
+    model = SentenceTransformer("all-MiniLM-L6-v2")
+    return model.encode(
+        texts,
+        convert_to_numpy=True,
+        normalize_embeddings=True,
+        show_progress_bar=True,
+    ).astype(np.float32)
 
 
 def _build_hover_text(
@@ -221,7 +222,7 @@ def main() -> None:
     print(f"  loaded {len(df)} reviews across {df['product_category'].nunique()} categories\n")
 
     # === Step 2: embed ===
-    print("Step 2: embedding with Cohere embed-v4.0...")
+    print("Step 2: embedding with sentence-transformers all-MiniLM-L6-v2...")
     embeddings = embed_documents(df["text"].tolist())
     print(f"  embeddings shape: {embeddings.shape}\n")
 
@@ -282,52 +283,51 @@ if __name__ == "__main__":
     main()
 
 
-# Sample output from a run on 2026-04-22 with seed=0. Facets 0 and 1
-# (product_category and review_sentiment) are stable across seeds; Facet 2
-# varies more (EVoC clustering is non-deterministic and the third facet is
-# the farthest from the embedding's dominant axes, so it picks up whichever
-# orthogonal structure the LLM finds most discriminating on a given run).
+# Sample output from a run on 2026-04-22 with seed=0 and MiniLM embeddings.
+# Facets 0 and 1 (product_category and review_sentiment) are stable across
+# seeds; Facet 2 varies more (EVoC clustering is non-deterministic and the
+# third facet is the farthest from the embedding's dominant axes, so it
+# picks up whichever orthogonal structure the LLM finds most discriminating
+# on a given run).
 #
 # === Discovered schema ===
 #
 # Facet 0: product_category (categorical)
-#   The broad product category that the Amazon review is describing.
-#   - books
-#   - toys
-#   - electronics
-#   - kitchen
-#   - apparel
-#   - footwear
-#   - personal_care
+#   The general product category that the Amazon review is about.
+#   - books_and_cookbooks
+#   - apparel_and_footwear
+#   - kitchen_and_cookware
+#   - toys_and_games
+#   - personal_care_and_beauty
 #   - hair_accessories
+#   - electronics_and_tech_accessories
 #   - Other
 #
 # Facet 1: review_sentiment (categorical)
-#   The overall sentiment and satisfaction level the reviewer expresses
-#   toward the product.
+#   The overall evaluative tone the reviewer expresses toward the product,
+#   independent of what the product is.
 #   - highly_positive
-#   - mostly_positive
-#   - mixed
-#   - mostly_negative
-#   - highly_negative
+#   - mixed_with_reservations
+#   - disappointed_negative
+#   - neutral_descriptive
 #   - Other
 #
 # Facet 2: review_focus_aspect (categorical)
-#   The primary product attribute or dimension the reviewer focuses their
-#   evaluation on.
-#   - physical_quality_and_durability
+#   The primary evaluative dimension the reviewer emphasizes when assessing
+#   the product.
 #   - fit_and_sizing
-#   - appearance_and_aesthetics
+#   - durability_and_build_quality
+#   - ease_of_use_and_assembly
+#   - value_for_money
+#   - sensory_experience
+#   - content_and_storytelling
 #   - functional_performance
-#   - value_for_price
-#   - customer_service_experience
-#   - ease_of_use_and_instructions
+#   - aesthetic_and_design
 #   - Other
 #
 # Facet 0's crosstab against Amazon's own product_category shows heavy
 # diagonal concentration and meaningful refinement: Typologist splits
-# Clothing_Shoes_and_Jewelry into apparel + footwear + hair_accessories, and
-# All_Beauty into personal_care + hair_accessories. That's arguably a
-# cleaner taxonomy than the original six-way split. Facets 1 and 2 add
-# sentiment and evaluation-focus axes that product_category alone doesn't
-# capture.
+# All_Beauty into personal_care + hair_accessories, and lumps
+# Clothing_Shoes_and_Jewelry's apparel/footwear into a single bucket with
+# hair_accessories pulled out. Facets 1 and 2 add sentiment and
+# evaluation-focus axes that product_category alone doesn't capture.
