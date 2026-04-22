@@ -30,14 +30,14 @@ def test_synthesis_prompt_renders_hierarchy_layers():
     assert "coarse_a" in out
 
 
-def test_synthesis_prompt_omits_prior_block_for_first_facet():
+def test_synthesis_prompt_omits_accounted_for_block_when_empty():
     out = render_synthesis_prompt(
         cluster_hierarchy=[["t"]],
         object_description="doc",
         corpus_description="corpus",
         prior_facet_names=[],
     )
-    assert "already been extracted" not in out
+    assert "already been accounted for" not in out
 
 
 def test_synthesis_prompt_includes_prior_facet_names():
@@ -47,9 +47,92 @@ def test_synthesis_prompt_includes_prior_facet_names():
         corpus_description="corpus",
         prior_facet_names=["contribution_type", "data_modality"],
     )
-    assert "already been extracted" in out
+    assert "already been accounted for" in out
     assert "contribution_type" in out
     assert "data_modality" in out
+
+
+def test_synthesis_prompt_describes_erased_categorical_metadata():
+    out = render_synthesis_prompt(
+        cluster_hierarchy=[["t"]],
+        object_description="doc",
+        corpus_description="corpus",
+        prior_facet_names=[],
+        erased_metadata_descriptions=[
+            {
+                "name": "product_category",
+                "type": "categorical",
+                "values_shown": ["Books", "Electronics", "All_Beauty"],
+                "truncated": False,
+                "total_unique": 3,
+            }
+        ],
+    )
+    assert "already been accounted for" in out
+    assert "product_category" in out
+    assert "categorical" in out
+    assert "Books, Electronics, All_Beauty" in out
+
+
+def test_synthesis_prompt_describes_erased_ordinal_metadata():
+    out = render_synthesis_prompt(
+        cluster_hierarchy=[["t"]],
+        object_description="doc",
+        corpus_description="corpus",
+        prior_facet_names=[],
+        erased_metadata_descriptions=[
+            {
+                "name": "rating",
+                "type": "ordinal",
+                "values_shown": ["1.0", "2.0", "3.0", "4.0", "5.0"],
+                "truncated": False,
+                "total_unique": 5,
+            }
+        ],
+    )
+    assert '"rating"' in out
+    assert "ordinal" in out
+    assert "ordered values: 1.0, 2.0, 3.0, 4.0, 5.0" in out
+
+
+def test_synthesis_prompt_shows_truncation_tail_for_high_cardinality_metadata():
+    out = render_synthesis_prompt(
+        cluster_hierarchy=[["t"]],
+        object_description="doc",
+        corpus_description="corpus",
+        prior_facet_names=[],
+        erased_metadata_descriptions=[
+            {
+                "name": "country",
+                "type": "categorical",
+                "values_shown": ["AR", "AT", "AU", "BE", "BR", "CA", "CH", "CN"],
+                "truncated": True,
+                "total_unique": 200,
+            }
+        ],
+    )
+    assert "... and 192 more" in out
+
+
+def test_synthesis_prompt_combines_prior_facets_and_erased_metadata():
+    out = render_synthesis_prompt(
+        cluster_hierarchy=[["t"]],
+        object_description="doc",
+        corpus_description="corpus",
+        prior_facet_names=["tone"],
+        erased_metadata_descriptions=[
+            {
+                "name": "product_category",
+                "type": "categorical",
+                "values_shown": ["Books"],
+                "truncated": False,
+                "total_unique": 1,
+            }
+        ],
+    )
+    assert "already been accounted for" in out
+    assert "tone" in out
+    assert "product_category" in out
 
 
 def test_synthesis_prompt_instructs_llm_not_to_include_other():

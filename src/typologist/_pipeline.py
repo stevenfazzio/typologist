@@ -93,6 +93,48 @@ def _l2_normalize(x: np.ndarray) -> np.ndarray:
     return x / norms
 
 
+_MAX_VALUES_SHOWN_IN_PROMPT = 8
+
+
+def _describe_erased_metadata(metadata: pd.DataFrame) -> list[dict]:
+    """Describe each metadata column for the synthesis prompt.
+
+    Type inference:
+    - ``pd.CategoricalDtype(ordered=True)`` -> ordinal (use declared category order)
+    - numeric dtypes -> ordinal (sorted unique values have a natural order)
+    - everything else -> categorical
+
+    Returns one dict per column with the fields consumed by
+    ``_format_accounted_for_entry`` in ``_prompts.py``.
+    """
+    out: list[dict] = []
+    for col in metadata.columns:
+        series = metadata[col]
+        if isinstance(series.dtype, pd.CategoricalDtype) and series.dtype.ordered:
+            col_type = "ordinal"
+            unique_all = [v for v in series.cat.categories if pd.notna(v)]
+        elif pd.api.types.is_numeric_dtype(series):
+            col_type = "ordinal"
+            unique_all = sorted(series.dropna().unique().tolist())
+        else:
+            col_type = "categorical"
+            unique_all = list(pd.unique(series.dropna()))
+
+        total_unique = len(unique_all)
+        truncated = total_unique > _MAX_VALUES_SHOWN_IN_PROMPT
+        shown = unique_all[:_MAX_VALUES_SHOWN_IN_PROMPT]
+        out.append(
+            {
+                "name": str(col),
+                "type": col_type,
+                "values_shown": [str(v) for v in shown],
+                "truncated": truncated,
+                "total_unique": total_unique,
+            }
+        )
+    return out
+
+
 def _erase_metadata(
     embeddings: np.ndarray,
     metadata: pd.DataFrame,
@@ -184,6 +226,7 @@ def _synthesize_field(
     object_description: str,
     corpus_description: str,
     prior_facet_names: list[str],
+    erased_metadata_descriptions: list[dict] | None = None,
 ) -> tuple[dict, str]:
     """Call ``schema_llm`` to propose a new facet from Toponymy cluster names.
 
@@ -198,6 +241,7 @@ def _synthesize_field(
         object_description=object_description,
         corpus_description=corpus_description,
         prior_facet_names=prior_facet_names,
+        erased_metadata_descriptions=erased_metadata_descriptions,
     )
 
     response = schema_llm.call_structured(prompt, _SCHEMA_FIELD_RESPONSE_SCHEMA)
