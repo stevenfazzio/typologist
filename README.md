@@ -90,6 +90,10 @@ pd.crosstab(df_labeled[t.schema_[0]["name"]], df_labeled["primary_category"])
 
 Per-facet diagnostics (cluster counts, label entropy, exemplar documents) live on `t.facet_diagnostics_`.
 
+### How much does erasure actually erase?
+
+Erasure is partial, not absolute. Passing `metadata=` activates two independent effects: LEACE removes the linearly-predictable structure from the embeddings (so Toponymy's clustering is less aligned with the erased axis), and the synthesis prompt tells the LLM "these axes are accounted for, find something else." Both help, but neither reaches the per-document labeling LLM, which reads the original text. So erasure is most effective on discrete, text-reflected metadata (product category, subject area) and least effective on broad semantic axes the LLM can find in the text regardless of the metadata signal (sentiment correlated with a 1-5 rating). See [`docs/design.md`](docs/design.md#erasure-scope-and-limits) for the full two-lever model and measured reductions.
+
 ## Reusing a discovered schema
 
 Every facet entry stores its own `labeling_prompt_template` and `labeling_model`, so you can apply a schema to new documents without re-running discovery:

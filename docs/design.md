@@ -144,6 +144,31 @@ Across 0.x minor versions, the following three attributes keep read-compatibilit
 - **Embedding alignment.** `embeddings` is always positionally row-aligned with `documents`. Even when `documents` is a `Series` with a non-default index, we do not index-join against `embeddings`.
 - **Dependency ecosystem gotchas.** See `CLAUDE.md` for the inherited pins (Toponymy from git main, `evoc==0.1.3`, LEACE-with-one-hot requirements, re-normalization after LEACE for cosine-clustering downstream).
 
+## Erasure: scope and limits
+
+The `metadata=` parameter on `fit()` is documented as "concept erasure," but in practice it has two independent effects and users should know about both because they fail in different ways.
+
+**Lever 1: embedding-side LEACE.** Each metadata column is one-hot encoded and LEACE projects out the linear subspace of the embeddings that predicts those one-hots. Toponymy then clusters the erased embeddings, so clusters are less cleanly organized along the erased axis. Two caveats:
+- LEACE is linear only. If the erased axis has structure that is nonlinear in the embedding (common for semantic dimensions like sentiment), that structure survives.
+- Even if erasure were perfect at the embedding level, it wouldn't touch the text. Every LLM step downstream of clustering (cluster naming, schema synthesis, per-document labeling) reads the original documents.
+
+**Lever 2: synthesis-prompt steering.** When metadata is passed, the synthesis prompt lists each erased column with its inferred type (ordinal if numeric or `pd.CategoricalDtype(ordered=True)`, categorical otherwise) and up to 8 example values, and instructs the LLM to propose an axis orthogonal to them. Caveats:
+- Only steers the synthesis step. The per-document labeling LLM still reads the text and can still classify docs into sentiment-like or subject-like values if the cluster the LLM named really is organized that way.
+- Success depends on whether the LLM can infer *what to avoid* from name + dtype + sample values. Discrete and text-reflected categoricals (e.g., product category) steer well; broad semantic dimensions (e.g., sentiment correlated with a 1-5 rating) steer weakly because the LLM reasonably interprets "rating accounted for" as "don't re-propose a 1-5 scale" rather than "avoid all sentiment/valence axes."
+
+**Practical consequences.**
+- Erasure works best on metadata that is both linearly predictable in the embedding and describable at the LLM level via name + type + values. Discrete categorical metadata that shows up in the text is the sweet spot.
+- Erasure works least well on semantically loud axes the LLM can find in the text regardless. If you need to steer away from such an axis, user-provided column descriptions would help and are tracked as a future enhancement.
+- Both levers are additive. There is no toggle; passing `metadata=` turns both on.
+
+Measured reductions (baseline vs with both levers, n=500 per run, 2 seeds averaged):
+
+| erased column | type | max-NMI before | max-NMI after | reduction |
+|---|---|---|---|---|
+| arxiv `primary_category` | categorical | 0.39 | 0.24 | -39% |
+| amazon `product_category` | categorical | 0.58 | 0.15 | -74% |
+| amazon `rating` | ordinal (1-5) | 0.42 | 0.38 | -8% |
+
 ## Parking lot (post-0.1)
 
 Each item has a one-line "why deferred" note.

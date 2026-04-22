@@ -57,6 +57,15 @@ class Typologist:
         embeddings: np.ndarray,
         metadata: pd.DataFrame | None = None,
     ) -> Typologist:
+        """Discover ``n_facets`` facets and per-doc labels from the corpus.
+
+        When ``metadata`` is provided, each column is both (a) erased from the
+        embeddings via LEACE and (b) described to the synthesis LLM in the
+        prompt so it steers off those axes. Both effects are partial by
+        construction; see ``docs/design.md`` ("Erasure: scope and limits") for
+        the two-lever model and when erasure does and does not do what users
+        expect.
+        """
         if self.random_state is not None:
             np.random.seed(self.random_state)
 
