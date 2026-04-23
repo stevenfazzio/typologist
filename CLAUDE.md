@@ -20,6 +20,10 @@ Alpha. 0.0.1 is live on PyPI; the public API is still subject to change as we it
 - Name casing: `typologist` in code, imports, CLI, PyPI; `Typologist` in prose, class names, README titles.
 - Support commitments: respond to issues within a week, tagged PyPI releases, semver discipline, maintained CHANGELOG.
 
+## Terminology
+
+@docs/glossary.md
+
 ## Inherited gotchas from the dependency ecosystem
 
 These apply to any code built on Toponymy + EVoC + LEACE, carried over from prior work on the predecessor harness:
