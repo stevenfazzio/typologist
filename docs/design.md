@@ -14,6 +14,18 @@ This document is the public-API contract the 0.1 implementation works against. I
 
 **Out of scope for 0.1.** See "Parking lot" at the end.
 
+## Architecture
+
+Typologist's architectural shape is a deliberate commitment that shows up in nearly every API decision: the LLM is used only at the leaves of the pipeline as a stateless function, while all integration across the corpus happens in a geometric substrate.
+
+**LLM calls are small, local, and stateless.** There are exactly three LLM roles (`naming_llm`, `schema_llm`, `labeling_llm`), and each call operates on a narrow input: one cluster to name, one set of cluster names to synthesize a facet from, one document to label on one facet. No call sees the full corpus. No call holds memory of other calls. Each is a parallelizable, cacheable, retryable function invocation.
+
+**Integration happens in the geometric substrate.** The embedding space (via similarity, clustering, and LEACE projections), the topic hierarchy (via Toponymy), and the structural operations on them (nearest-neighbor graphs, facility-location sampling, concept erasure) are where documents are woven into a coherent typology. This layer does not reason; it operates on shape.
+
+This split produces corpus-level exchangeability: the pipeline is approximately order-invariant across documents, so every document gets equal weight on the emergent typology rather than being read through the lens of whatever came before it in an LLM's context. The inductive bias is the same one that justifies bag-of-words models, de Finetti exchangeability, and hierarchical Bayes: given a population of cases, treat them as order-invariant when you're trying to recover latent structure.
+
+The commitment is intentional. Agentic architectures are useful for path-dependent problems (planning, search, long-form summarization); typology extraction is not that kind of problem. The cost is correctly priced: Typologist cannot exploit long-range correlations between documents, which is the right trade-off for building orthogonal category systems but a fatal one for, say, summarizing a novel.
+
 ## Public surface
 
 ```python
