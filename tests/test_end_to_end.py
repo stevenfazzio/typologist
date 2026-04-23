@@ -76,13 +76,13 @@ def test_fit_populates_all_fitted_attributes(monkeypatch):
             [
                 {
                     "name": "facet_one",
-                    "type": "categorical",
+                    "kind": "categorical",
                     "values": ["a", "b"],
                     "definition": "first axis",
                 },
                 {
                     "name": "facet_two",
-                    "type": "categorical",
+                    "kind": "categorical",
                     "values": ["x", "y"],
                     "definition": "second axis",
                 },
@@ -119,7 +119,7 @@ def test_fit_preserves_series_index_onto_labels_df(monkeypatch):
         topic_embedder=_FakeTopicEmbedder(),
         naming_llm=lambda p: "x",
         schema_llm=_make_schema_llm(
-            [{"name": "f", "type": "categorical", "values": ["a", "b"], "definition": "d"}]
+            [{"name": "f", "kind": "categorical", "values": ["a", "b"], "definition": "d"}]
         ),
         labeling_llm=lambda p: "a",
     )
@@ -139,7 +139,7 @@ def test_fit_records_callable_labeling_model_as_none(monkeypatch):
         topic_embedder=_FakeTopicEmbedder(),
         naming_llm=lambda p: "x",
         schema_llm=_make_schema_llm(
-            [{"name": "f", "type": "categorical", "values": ["a", "b"], "definition": "d"}]
+            [{"name": "f", "kind": "categorical", "values": ["a", "b"], "definition": "d"}]
         ),
         labeling_llm=lambda p: "a",  # callable => model unknown
     )
@@ -155,7 +155,7 @@ def test_fit_with_metadata_runs_pre_erasure(monkeypatch):
         topic_embedder=_FakeTopicEmbedder(),
         naming_llm=lambda p: "x",
         schema_llm=_make_schema_llm(
-            [{"name": "f", "type": "categorical", "values": ["a", "b"], "definition": "d"}]
+            [{"name": "f", "kind": "categorical", "values": ["a", "b"], "definition": "d"}]
         ),
         labeling_llm=lambda p: "a",
     )
@@ -175,7 +175,7 @@ def test_apply_schema_applies_stored_template():
     schema = [
         {
             "name": "sentiment",
-            "type": "categorical",
+            "kind": "categorical",
             "values": ["positive", "negative"],
             "definition": "tone",
             "labeling_prompt_template": "Classify:\n{document}\nPick one.",
@@ -196,7 +196,7 @@ def test_apply_schema_applies_stored_template():
 def test_apply_schema_accepts_single_facet_dict():
     facet = {
         "name": "f",
-        "type": "categorical",
+        "kind": "categorical",
         "values": ["a", "b"],
         "definition": "d",
         "labeling_prompt_template": "{document}",
@@ -213,7 +213,7 @@ def test_apply_schema_requires_llm_when_facet_has_no_labeling_model():
     schema = [
         {
             "name": "f",
-            "type": "categorical",
+            "kind": "categorical",
             "values": ["a", "b"],
             "definition": "d",
             "labeling_prompt_template": "{document}",
@@ -228,7 +228,7 @@ def test_apply_schema_preserves_series_index():
     schema = [
         {
             "name": "f",
-            "type": "categorical",
+            "kind": "categorical",
             "values": ["a", "b"],
             "definition": "d",
             "labeling_prompt_template": "{document}",

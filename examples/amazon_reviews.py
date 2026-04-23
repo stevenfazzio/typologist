@@ -250,7 +250,7 @@ def main() -> None:
     # === Step 4: print the output ===
     print("\n=== Discovered schema ===")
     for i, facet in enumerate(t.schema_):
-        print(f"\nFacet {i}: {facet['name']} ({facet['type']})")
+        print(f"\nFacet {i}: {facet['name']} ({facet['kind']})")
         print(f"  {facet['definition']}")
         for value in facet["values"]:
             print(f"  - {value}")

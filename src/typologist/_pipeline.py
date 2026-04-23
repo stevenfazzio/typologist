@@ -207,7 +207,7 @@ _FACET_RESPONSE_SCHEMA = {
     "type": "object",
     "properties": {
         "name": {"type": "string"},
-        "type": {"type": "string", "enum": ["categorical"]},
+        "kind": {"type": "string", "enum": ["categorical"]},
         "values": {
             "type": "array",
             "items": {"type": "string"},
@@ -215,7 +215,7 @@ _FACET_RESPONSE_SCHEMA = {
         },
         "definition": {"type": "string"},
     },
-    "required": ["name", "type", "values", "definition"],
+    "required": ["name", "kind", "values", "definition"],
 }
 
 
@@ -246,7 +246,7 @@ def _synthesize_facet(
 
     response = schema_llm.call_structured(prompt, _FACET_RESPONSE_SCHEMA)
 
-    for key in ("name", "type", "values", "definition"):
+    for key in ("name", "kind", "values", "definition"):
         if key not in response:
             raise RuntimeError(f"schema_llm response missing required field '{key}': {response!r}")
 
@@ -277,7 +277,7 @@ def _synthesize_facet(
 
     facet = {
         "name": name,
-        "type": response["type"],
+        "kind": response["kind"],
         "values": values,
         "definition": response["definition"],
         "labeling_prompt_template": labeling_template,
