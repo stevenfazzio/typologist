@@ -9,7 +9,7 @@ from typologist._pipeline import _classify_docs
 def _facet(name="sentiment", values=None):
     return {
         "name": name,
-        "type": "categorical",
+        "kind": "categorical",
         "values": values or ["positive", "neutral", "negative"],
         "definition": "Overall tone.",
         "labeling_prompt_template": "Classify:\n{document}\nRespond with one value.",
@@ -126,7 +126,7 @@ def test_classify_docs_preserves_order_under_concurrency():
 
     facet = {
         "name": "ordered",
-        "type": "categorical",
+        "kind": "categorical",
         "values": [f"value_{i:02d}" for i in range(10)],
         "definition": "",
         "labeling_prompt_template": "{document}",

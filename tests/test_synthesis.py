@@ -26,7 +26,7 @@ def test_synthesize_facet_assembles_schema_entry():
     schema_llm = _StubSchemaLLM(
         {
             "name": "contribution_type",
-            "type": "categorical",
+            "kind": "categorical",
             "values": ["empirical_study", "method_paper", "theory"],
             "definition": "What the paper primarily contributes.",
         }
@@ -42,7 +42,7 @@ def test_synthesize_facet_assembles_schema_entry():
     )
 
     assert facet["name"] == "contribution_type"
-    assert facet["type"] == "categorical"
+    assert facet["kind"] == "categorical"
     assert facet["values"] == ["empirical_study", "method_paper", "theory", "Other"]
     assert facet["definition"] == "What the paper primarily contributes."
     assert facet["labeling_model"] == "claude-haiku-4-5"
@@ -55,7 +55,7 @@ def test_synthesize_facet_records_callable_llm_as_none_labeling_model():
     schema_llm = _StubSchemaLLM(
         {
             "name": "f",
-            "type": "categorical",
+            "kind": "categorical",
             "values": ["a", "b"],
             "definition": "d",
         }
@@ -75,7 +75,7 @@ def test_synthesize_facet_rejects_name_collision():
     schema_llm = _StubSchemaLLM(
         {
             "name": "contribution_type",
-            "type": "categorical",
+            "kind": "categorical",
             "values": ["a", "b"],
             "definition": "d",
         }
@@ -95,7 +95,7 @@ def test_synthesize_facet_rejects_duplicate_values():
     schema_llm = _StubSchemaLLM(
         {
             "name": "f",
-            "type": "categorical",
+            "kind": "categorical",
             "values": ["a", "a", "b"],
             "definition": "d",
         }
@@ -115,7 +115,7 @@ def test_synthesize_facet_rejects_too_few_values():
     schema_llm = _StubSchemaLLM(
         {
             "name": "f",
-            "type": "categorical",
+            "kind": "categorical",
             "values": ["only_one"],
             "definition": "d",
         }
@@ -135,7 +135,7 @@ def test_synthesize_facet_rejects_missing_required_field():
     schema_llm = _StubSchemaLLM(
         {
             "name": "f",
-            "type": "categorical",
+            "kind": "categorical",
             # missing "values" and "definition"
         }
     )
@@ -154,7 +154,7 @@ def test_synthesize_facet_appends_other_when_absent():
     schema_llm = _StubSchemaLLM(
         {
             "name": "f",
-            "type": "categorical",
+            "kind": "categorical",
             "values": ["a", "b", "c"],
             "definition": "d",
         }
@@ -175,7 +175,7 @@ def test_synthesize_facet_dedupes_other_case_insensitively():
     schema_llm = _StubSchemaLLM(
         {
             "name": "f",
-            "type": "categorical",
+            "kind": "categorical",
             "values": ["a", "b", "other"],
             "definition": "d",
         }
@@ -195,7 +195,7 @@ def test_synthesize_facet_other_appears_in_labeling_template():
     schema_llm = _StubSchemaLLM(
         {
             "name": "f",
-            "type": "categorical",
+            "kind": "categorical",
             "values": ["a", "b"],
             "definition": "d",
         }
@@ -224,7 +224,7 @@ def test_synthesize_facet_passes_prior_names_to_prompt():
     stub = _CaptureStub(
         {
             "name": "f",
-            "type": "categorical",
+            "kind": "categorical",
             "values": ["a", "b"],
             "definition": "d",
         }

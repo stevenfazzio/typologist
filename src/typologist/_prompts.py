@@ -12,7 +12,7 @@ Identify a single categorical axis along which these {object_description} vary.{
 Respond with only valid JSON of the form:
 {{
   "name": "<lowercase snake_case identifier>",
-  "type": "categorical",
+  "kind": "categorical",
   "values": ["<value1>", "<value2>", ...],
   "definition": "<one short sentence explaining what this facet captures>"
 }}

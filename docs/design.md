@@ -85,7 +85,7 @@ One entry per discovered facet, in discovery order:
 ```python
 {
     "name": str,                      # column name in labels_df_; must be unique across facets
-    "type": "categorical",            # 0.1 only emits categorical; ordinal is parked
+    "kind": "categorical",            # 0.1 only emits categorical; ordinal is parked
     "values": list[str],              # value vocabulary for this facet, "Other" appended
     "definition": str,                # human-readable semantic definition
     "labeling_prompt_template": str,  # f-string template containing "{document}"
