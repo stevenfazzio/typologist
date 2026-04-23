@@ -3,7 +3,7 @@ from __future__ import annotations
 import pytest
 
 from typologist._llm import _LLM
-from typologist._pipeline import _synthesize_field
+from typologist._pipeline import _synthesize_facet
 
 
 class _StubSchemaLLM(_LLM):
@@ -22,7 +22,7 @@ class _StubSchemaLLM(_LLM):
         return dict(self._response)
 
 
-def test_synthesize_field_assembles_schema_entry():
+def test_synthesize_facet_assembles_schema_entry():
     schema_llm = _StubSchemaLLM(
         {
             "name": "contribution_type",
@@ -32,7 +32,7 @@ def test_synthesize_field_assembles_schema_entry():
         }
     )
 
-    facet, synthesis_prompt = _synthesize_field(
+    facet, synthesis_prompt = _synthesize_facet(
         cluster_hierarchy=[["topic_a", "topic_b"]],
         schema_llm=schema_llm,
         labeling_llm_model_name="claude-haiku-4-5",
@@ -51,7 +51,7 @@ def test_synthesize_field_assembles_schema_entry():
     assert "scientific paper" in synthesis_prompt
 
 
-def test_synthesize_field_records_callable_llm_as_none_labeling_model():
+def test_synthesize_facet_records_callable_llm_as_none_labeling_model():
     schema_llm = _StubSchemaLLM(
         {
             "name": "f",
@@ -60,7 +60,7 @@ def test_synthesize_field_records_callable_llm_as_none_labeling_model():
             "definition": "d",
         }
     )
-    facet, _ = _synthesize_field(
+    facet, _ = _synthesize_facet(
         cluster_hierarchy=[["t"]],
         schema_llm=schema_llm,
         labeling_llm_model_name=None,  # simulates callable labeling_llm
@@ -71,7 +71,7 @@ def test_synthesize_field_records_callable_llm_as_none_labeling_model():
     assert facet["labeling_model"] is None
 
 
-def test_synthesize_field_rejects_name_collision():
+def test_synthesize_facet_rejects_name_collision():
     schema_llm = _StubSchemaLLM(
         {
             "name": "contribution_type",
@@ -81,7 +81,7 @@ def test_synthesize_field_rejects_name_collision():
         }
     )
     with pytest.raises(RuntimeError, match="collides"):
-        _synthesize_field(
+        _synthesize_facet(
             cluster_hierarchy=[["t"]],
             schema_llm=schema_llm,
             labeling_llm_model_name="m",
@@ -91,7 +91,7 @@ def test_synthesize_field_rejects_name_collision():
         )
 
 
-def test_synthesize_field_rejects_duplicate_values():
+def test_synthesize_facet_rejects_duplicate_values():
     schema_llm = _StubSchemaLLM(
         {
             "name": "f",
@@ -101,7 +101,7 @@ def test_synthesize_field_rejects_duplicate_values():
         }
     )
     with pytest.raises(RuntimeError, match="duplicate values"):
-        _synthesize_field(
+        _synthesize_facet(
             cluster_hierarchy=[["t"]],
             schema_llm=schema_llm,
             labeling_llm_model_name="m",
@@ -111,7 +111,7 @@ def test_synthesize_field_rejects_duplicate_values():
         )
 
 
-def test_synthesize_field_rejects_too_few_values():
+def test_synthesize_facet_rejects_too_few_values():
     schema_llm = _StubSchemaLLM(
         {
             "name": "f",
@@ -121,7 +121,7 @@ def test_synthesize_field_rejects_too_few_values():
         }
     )
     with pytest.raises(RuntimeError, match="fewer than 2 values"):
-        _synthesize_field(
+        _synthesize_facet(
             cluster_hierarchy=[["t"]],
             schema_llm=schema_llm,
             labeling_llm_model_name="m",
@@ -131,7 +131,7 @@ def test_synthesize_field_rejects_too_few_values():
         )
 
 
-def test_synthesize_field_rejects_missing_required_field():
+def test_synthesize_facet_rejects_missing_required_field():
     schema_llm = _StubSchemaLLM(
         {
             "name": "f",
@@ -140,7 +140,7 @@ def test_synthesize_field_rejects_missing_required_field():
         }
     )
     with pytest.raises(RuntimeError, match="missing required field"):
-        _synthesize_field(
+        _synthesize_facet(
             cluster_hierarchy=[["t"]],
             schema_llm=schema_llm,
             labeling_llm_model_name="m",
@@ -150,7 +150,7 @@ def test_synthesize_field_rejects_missing_required_field():
         )
 
 
-def test_synthesize_field_appends_other_when_absent():
+def test_synthesize_facet_appends_other_when_absent():
     schema_llm = _StubSchemaLLM(
         {
             "name": "f",
@@ -159,7 +159,7 @@ def test_synthesize_field_appends_other_when_absent():
             "definition": "d",
         }
     )
-    facet, _ = _synthesize_field(
+    facet, _ = _synthesize_facet(
         cluster_hierarchy=[["t"]],
         schema_llm=schema_llm,
         labeling_llm_model_name="m",
@@ -170,7 +170,7 @@ def test_synthesize_field_appends_other_when_absent():
     assert facet["values"] == ["a", "b", "c", "Other"]
 
 
-def test_synthesize_field_dedupes_other_case_insensitively():
+def test_synthesize_facet_dedupes_other_case_insensitively():
     # If the LLM ignores instructions and includes "other", we don't double-append.
     schema_llm = _StubSchemaLLM(
         {
@@ -180,7 +180,7 @@ def test_synthesize_field_dedupes_other_case_insensitively():
             "definition": "d",
         }
     )
-    facet, _ = _synthesize_field(
+    facet, _ = _synthesize_facet(
         cluster_hierarchy=[["t"]],
         schema_llm=schema_llm,
         labeling_llm_model_name="m",
@@ -191,7 +191,7 @@ def test_synthesize_field_dedupes_other_case_insensitively():
     assert facet["values"] == ["a", "b", "other"]
 
 
-def test_synthesize_field_other_appears_in_labeling_template():
+def test_synthesize_facet_other_appears_in_labeling_template():
     schema_llm = _StubSchemaLLM(
         {
             "name": "f",
@@ -200,7 +200,7 @@ def test_synthesize_field_other_appears_in_labeling_template():
             "definition": "d",
         }
     )
-    facet, _ = _synthesize_field(
+    facet, _ = _synthesize_facet(
         cluster_hierarchy=[["t"]],
         schema_llm=schema_llm,
         labeling_llm_model_name="m",
@@ -212,7 +212,7 @@ def test_synthesize_field_other_appears_in_labeling_template():
     assert "a, b, Other" in facet["labeling_prompt_template"]
 
 
-def test_synthesize_field_passes_prior_names_to_prompt():
+def test_synthesize_facet_passes_prior_names_to_prompt():
     """Verify that prior facet names show up in the synthesis prompt the LLM sees."""
     captured_prompts: list[str] = []
 
@@ -229,7 +229,7 @@ def test_synthesize_field_passes_prior_names_to_prompt():
             "definition": "d",
         }
     )
-    _synthesize_field(
+    _synthesize_facet(
         cluster_hierarchy=[["t"]],
         schema_llm=stub,
         labeling_llm_model_name="m",

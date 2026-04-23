@@ -161,8 +161,8 @@ def test_synthesis_prompt_warns_against_broad_umbrella_values():
 
 def test_labeling_template_bakes_descriptions():
     template = render_labeling_template(
-        field_name="contribution_type",
-        field_definition="What the paper primarily contributes to the literature.",
+        facet_name="contribution_type",
+        facet_definition="What the paper primarily contributes to the literature.",
         values=["empirical_study", "method_paper", "theory"],
         object_description="scientific paper",
     )
@@ -174,8 +174,8 @@ def test_labeling_template_bakes_descriptions():
 
 def test_labeling_template_preserves_document_placeholder():
     template = render_labeling_template(
-        field_name="f",
-        field_definition="d",
+        facet_name="f",
+        facet_definition="d",
         values=["a", "b"],
         object_description="doc",
     )
@@ -197,8 +197,8 @@ def test_labeling_prompt_tolerates_braces_in_document():
 
 def test_labeling_template_is_self_contained_end_to_end():
     template = render_labeling_template(
-        field_name="sentiment",
-        field_definition="Overall tone.",
+        facet_name="sentiment",
+        facet_definition="Overall tone.",
         values=["positive", "negative"],
         object_description="review",
     )

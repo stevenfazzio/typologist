@@ -15,7 +15,7 @@ from typologist._pipeline import (
     _normalize_inputs,
     _residualize_facet,
     _run_toponymy,
-    _synthesize_field,
+    _synthesize_facet,
 )
 
 
@@ -95,7 +95,7 @@ class Typologist:
                 verbose=self.verbose,
             )
 
-            facet, synthesis_prompt = _synthesize_field(
+            facet, synthesis_prompt = _synthesize_facet(
                 cluster_hierarchy=topo.topic_names,
                 schema_llm=schema_llm,
                 labeling_llm_model_name=labeling_llm.model_name,

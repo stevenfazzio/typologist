@@ -203,7 +203,7 @@ def _run_toponymy(
     )
 
 
-_SCHEMA_FIELD_RESPONSE_SCHEMA = {
+_FACET_RESPONSE_SCHEMA = {
     "type": "object",
     "properties": {
         "name": {"type": "string"},
@@ -219,7 +219,7 @@ _SCHEMA_FIELD_RESPONSE_SCHEMA = {
 }
 
 
-def _synthesize_field(
+def _synthesize_facet(
     cluster_hierarchy: list[list[str]],
     schema_llm: _LLM,
     labeling_llm_model_name: str | None,
@@ -244,7 +244,7 @@ def _synthesize_field(
         erased_metadata_descriptions=erased_metadata_descriptions,
     )
 
-    response = schema_llm.call_structured(prompt, _SCHEMA_FIELD_RESPONSE_SCHEMA)
+    response = schema_llm.call_structured(prompt, _FACET_RESPONSE_SCHEMA)
 
     for key in ("name", "type", "values", "definition"):
         if key not in response:
@@ -269,8 +269,8 @@ def _synthesize_field(
         values.append("Other")
 
     labeling_template = render_labeling_template(
-        field_name=name,
-        field_definition=response["definition"],
+        facet_name=name,
+        facet_definition=response["definition"],
         values=values,
         object_description=object_description,
     )
