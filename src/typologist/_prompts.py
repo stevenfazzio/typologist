@@ -14,7 +14,7 @@ Respond with only valid JSON of the form:
   "name": "<lowercase snake_case identifier>",
   "type": "categorical",
   "values": ["<value1>", "<value2>", ...],
-  "definition": "<one short sentence explaining what this field captures>"
+  "definition": "<one short sentence explaining what this facet captures>"
 }}
 
 Rules:
@@ -28,9 +28,9 @@ Rules:
 """
 
 _LABELING_TEMPLATE = """\
-Classify the following {object_description} along the "{field_name}" dimension.
+Classify the following {object_description} along the "{facet_name}" dimension.
 
-{field_definition}
+{facet_definition}
 
 Choose exactly one of: {values_joined}
 
@@ -111,8 +111,8 @@ def render_synthesis_prompt(
 
 
 def render_labeling_template(
-    field_name: str,
-    field_definition: str,
+    facet_name: str,
+    facet_definition: str,
     values: list[str],
     object_description: str,
 ) -> str:
@@ -125,8 +125,8 @@ def render_labeling_template(
     values_joined = ", ".join(values)
     return _LABELING_TEMPLATE.format(
         object_description=object_description,
-        field_name=field_name,
-        field_definition=field_definition,
+        facet_name=facet_name,
+        facet_definition=facet_definition,
         values_joined=values_joined,
     )
 
