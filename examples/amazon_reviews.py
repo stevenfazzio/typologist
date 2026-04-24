@@ -35,6 +35,12 @@ Required extra installs (on top of `typologist` itself):
 
 Run from the repo root:
     uv run python examples/amazon_reviews.py
+
+The two ``*_map.html`` outputs land in ``examples/`` (gitignored) so
+dev runs don't touch the published versions. To refresh the README's
+linked interactive map after a run you're happy with, copy them into
+``docs/`` by hand:
+    cp examples/amazon_reviews_{vanilla,erased}_map.html docs/
 """
 
 from __future__ import annotations
