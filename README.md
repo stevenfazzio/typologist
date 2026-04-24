@@ -8,9 +8,17 @@ Extract a categorical schema from a corpus of documents.
 
 ## What it does
 
-You give it documents and their embeddings. It gives you back a handful of categorical facets and a per-document label for each. For example, run it on ~1000 arxiv ML papers and you'll typically get three facets (say `contribution_type`, `primary_data_modality`, and `application_domain`), each with 6-10 values, plus a DataFrame of per-doc labels you can join straight back onto the original corpus.
+You give it documents and their embeddings. It gives you back a handful of categorical facets and a per-document label for each. Run it on a stratified sample of 500 Amazon product reviews and you get three facets (`product_category`, `reviewer_sentiment`, and `review_focus_aspect`), each with a definition and 5-10 values, plus a 500-row DataFrame of per-doc labels you can join straight back onto the original corpus. Worked example with real output below.
 
-What makes Typologist's facets mutually orthogonal rather than redundant is concept erasure. After each facet is discovered, its per-document labels are erased from the embeddings via [LEACE](https://github.com/EleutherAI/concept-erasure), and the next facet is discovered against the residual. If you pass in known metadata (existing category tags, publication year, source) it's erased the same way up front, so discovery starts from embeddings orthogonal to what you already have.
+What makes Typologist's facets mutually orthogonal rather than redundant is concept erasure. After each facet is discovered, its per-document labels are erased from the embeddings via [LEACE](https://github.com/EleutherAI/concept-erasure), and the next facet is discovered against the residual. If you pass in known metadata (existing category tags, ratings, source) it's erased the same way up front, so discovery starts from embeddings orthogonal to what you already have.
+
+## Why not just topic modeling?
+
+If you've used BERTopic or similar, the question worth asking up front is how this is different:
+
+- **Multiple orthogonal axes, not one partition.** A topic model gives you one bucket per document. Typologist gives you `n_facets` simultaneous values per document (sentiment AND focus-aspect AND product-category), each defined and labeled separately, so cross-cutting analysis is a one-line `groupby` rather than a second clustering pass.
+- **Concept-labeled values, not keyword bags.** Each facet's values are short phrases (`fit_and_sizing`, `value_for_money`) backed by an LLM-written labeling prompt that can be reapplied to new documents. There's no c-TF-IDF keyword list to interpret.
+- **Erasable priors.** If your corpus comes pre-tagged with structure you already know (product category, year, source), pass it as `metadata=` and Typologist will discover axes orthogonal to it, instead of rediscovering it as Facet 0.
 
 ## Install
 
@@ -44,51 +52,98 @@ t = Typologist(
     n_facets=3,
     topic_embedder=SentenceTransformer("all-MiniLM-L6-v2"),
 ).fit(documents, embeddings)
-
-print(t.schema_)               # list[dict]: discovered facet definitions
-print(t.labels_df_)            # (n_docs, n_facets) DataFrame of categorical labels
 ```
 
-For a runnable end-to-end example against real data (500 Amazon reviews, Cohere embeddings, an interactive DataMapPlot of the result), see [`examples/amazon_reviews.py`](examples/amazon_reviews.py).
+Run on a stratified sample of 500 Amazon product reviews ([`examples/amazon_reviews.py`](examples/amazon_reviews.py) is the runnable script), `t.schema_` looks like:
+
+```
+Facet 0: product_category (categorical)
+  The broad product domain that the review is about, distinguishing
+  reviews by the type of item being evaluated.
+  - books
+  - apparel_and_footwear
+  - kitchen_and_cookware
+  - toys
+  - personal_care_and_beauty
+  - consumer_electronics
+  - Other
+
+Facet 1: reviewer_sentiment (categorical)
+  The overall sentiment polarity and intensity expressed by the reviewer
+  toward the product.
+  - strongly_positive
+  - mildly_positive
+  - mixed
+  - mildly_negative
+  - strongly_negative
+  - Other
+
+Facet 2: review_focus_aspect (categorical)
+  The primary product attribute or dimension the reviewer focuses their
+  evaluation on.
+  - fit_and_sizing
+  - durability_and_build_quality
+  - ease_of_use_and_instructions
+  - sensory_experience
+  - functional_performance
+  - value_for_money
+  - aesthetic_appearance
+  - content_and_informational_value
+  - Other
+```
+
+Each facet entry is a JSON-serializable dict (`name`, `kind`, `values`, `definition`, plus a stored `labeling_prompt_template` and `labeling_model` for reuse — see [Reusing a discovered schema](#reusing-a-discovered-schema)). Per-document labels live on `t.labels_df_` as a `(498, 3)` DataFrame of pandas Categoricals, positionally aligned with the input documents and ready to join back onto the source corpus.
+
+Notice that Facet 0 above (`product_category`) rediscovers the curator-assigned product category that already came tagged onto these reviews. Concept erasure is what gets you past that.
 
 ## Discovery with metadata erasure
 
-Pass a `metadata` DataFrame to erase known axes before discovery starts, so the facets Typologist finds are orthogonal to what you already had. A fuller example:
+Pass a `metadata` DataFrame to erase known axes before discovery starts, so the facets Typologist finds are orthogonal to what you already had. Same Amazon corpus as above:
 
 ```python
 import pandas as pd
 from sentence_transformers import SentenceTransformer
 from typologist import Typologist
 
-df = pd.read_parquet("arxiv_sample.parquet")   # title, abstract, primary_category, ...
-embeddings = np.load("arxiv_cohere_v4.npy")    # shape (len(df), 1536)
-docs = (df["title"] + "\n\n" + df["abstract"]).rename("document")
+# df has columns "text" (review body) and curator-assigned "product_category"
+documents = df["text"]
+embeddings = ...               # shape (len(df), d)
 
 t = Typologist(
     n_facets=3,
     topic_embedder=SentenceTransformer("all-MiniLM-L6-v2"),
-    object_description="scientific paper",
-    corpus_description="machine-learning arxiv papers",
+    object_description="product reviews",
+    corpus_description="Amazon product reviews",
     random_state=0,
-    verbose=True,
 ).fit(
-    docs,
+    documents,
     embeddings,
-    metadata=df[["primary_category"]],
+    metadata=df[["product_category"]],
 )
 
-# Join labels back onto the original DataFrame
-df_labeled = df.join(t.labels_df_)
-
-# Inspect the schema
-for facet in t.schema_:
-    print(f"{facet['name']} ({len(facet['values'])} values): {facet['definition']}")
-    for value in facet["values"]:
-        print(f"  - {value}")
-
-# Cross-tab a discovered facet against held-out metadata
-pd.crosstab(df_labeled[t.schema_[0]["name"]], df_labeled["primary_category"])
+df_labeled = df.join(t.labels_df_)   # join labels back onto the source corpus
 ```
+
+With `product_category` erased up front, Facet 0 is no longer a rediscovery of it, and Facet 2 is an axis the vanilla pass never surfaced:
+
+```
+Facet 0: review_sentiment
+  highly_positive, mildly_positive, mixed, mildly_negative, highly_negative
+
+Facet 1: review_focus_aspect
+  fit_and_sizing, durability_and_build_quality, ease_of_use_and_setup,
+  value_for_money, aesthetics_and_design, comfort_and_feel,
+  performance_and_effectiveness, content_and_storytelling
+
+Facet 2: reviewer_purchase_motivation
+  gift_for_others, personal_use, replacement_or_upgrade,
+  professional_or_work_use, hobby_or_leisure, child_or_family_use,
+  travel_or_outdoor_use
+```
+
+[![Amazon reviews colored by reviewer_purchase_motivation, the facet Typologist surfaced only after erasing product_category](docs/images/amazon_reviews_erased_purchase_motivation.png)](https://stevenfazzio.github.io/typologist/amazon_reviews_erased_map.html)
+
+Click for the [interactive version](https://stevenfazzio.github.io/typologist/amazon_reviews_erased_map.html): hover for facet labels and review text, dropdown to switch point coloring between the three discovered facets.
 
 Per-facet diagnostics (cluster counts, label entropy, exemplar documents) live on `t.facet_diagnostics_`.
 
