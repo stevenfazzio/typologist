@@ -3,23 +3,29 @@
 **Step 3 is where Typologist actually runs.** Steps 1, 2, 4, and 5 are
 plumbing around this particular example (sampling Amazon reviews, embedding
 them, printing and visualizing the output). If you're skimming to see what
-Typologist does, start with Step 3's ~10-line block.
+Typologist does, start with the ``Typologist(...).fit(...)`` call inside
+``_run_pass``.
 
 What this does:
 1. Streams a stratified sample of ~500 Amazon reviews across 6 product
    categories from HuggingFace.
 2. Embeds the reviews locally with sentence-transformers all-MiniLM-L6-v2.
    Swappable, see the ``embed_documents`` docstring.
-3. **Runs Typologist to discover 3 categorical facets.**
-4. Prints the discovered schema and a crosstab of facet 0 against the
-   curator-assigned product category (to show the rediscovery effect).
-5. Renders an interactive DataMapPlot HTML: point colors switch between
-   Typologist facets via a dropdown; hovering on a point shows the
-   assigned facet values followed by the review text itself.
+3. **Runs Typologist twice to discover 3 categorical facets per run:**
+   - Vanilla pass: discovers facets from the review text alone.
+   - Erasure pass: discovers facets after concept-erasing the curator-
+     assigned ``product_category`` column, so the result is orthogonal
+     to what the corpus already came tagged with.
+4. Prints each discovered schema and a crosstab of facet 0 against the
+   curator-assigned product category (to show the rediscovery effect in
+   the vanilla pass and its absence in the erasure pass).
+5. Renders one interactive DataMapPlot HTML per pass: point colors switch
+   between Typologist facets via a dropdown; hovering on a point shows
+   the assigned facet values followed by the review text itself.
 
-Expected runtime: ~5 minutes on a laptop.
-Expected cost: ~$3 (Anthropic LLM calls for schema synthesis and per-doc
-labeling; embedding runs locally and is free).
+Expected runtime: ~10 minutes on a laptop.
+Expected cost: ~$6 (Anthropic LLM calls for schema synthesis and per-doc
+labeling, two passes; embedding runs locally and is free).
 
 Required environment variables:
     ANTHROPIC_API_KEY  Anthropic API key (Typologist's default LLM provider)
@@ -39,7 +45,8 @@ import numpy as np
 import pandas as pd
 
 OUTPUT_DIR = Path(__file__).parent
-HTML_OUTPUT = OUTPUT_DIR / "amazon_reviews_map.html"
+HTML_OUTPUT_VANILLA = OUTPUT_DIR / "amazon_reviews_vanilla_map.html"
+HTML_OUTPUT_ERASED = OUTPUT_DIR / "amazon_reviews_erased_map.html"
 RANDOM_SEED = 0
 
 
@@ -173,6 +180,7 @@ def render_map(
     hover_text: list[str],
     output_path: Path,
     seed: int,
+    sub_title: str,
 ) -> None:
     """Render an interactive DataMapPlot of the corpus.
 
@@ -202,7 +210,7 @@ def render_map(
         colormaps=colormaps,
         hover_text=hover_text,
         title="Amazon reviews",
-        sub_title="Point colors switchable between Typologist-discovered facets.",
+        sub_title=sub_title,
         inline_data=True,
     )
     fig.save(str(output_path))
@@ -211,10 +219,67 @@ def render_map(
 # --- main -------------------------------------------------------------------
 
 
+def _run_pass(
+    label: str,
+    topic_embedder,
+    documents: pd.Series,
+    embeddings: np.ndarray,
+    curator_category: np.ndarray,
+    output_html: Path,
+    sub_title: str,
+    metadata: pd.DataFrame | None,
+) -> None:
+    """Fit Typologist once, print the schema and crosstab, render the map.
+
+    Called twice from ``main``: once with ``metadata=None`` (vanilla) and once
+    with ``metadata=df[["product_category"]]`` (erasure). The only difference
+    between the two calls is the ``metadata=`` keyword.
+    """
+    from typologist import Typologist
+
+    print(f"Fitting Typologist ({label}, n_facets=3)...")
+    t = Typologist(
+        n_facets=3,
+        topic_embedder=topic_embedder,
+        object_description="product reviews",
+        corpus_description="Amazon product reviews",
+        random_state=RANDOM_SEED,
+        verbose=True,
+    ).fit(documents, embeddings, metadata=metadata)
+
+    print(f"\n=== Discovered schema ({label}) ===")
+    for i, facet in enumerate(t.schema_):
+        print(f"\nFacet {i}: {facet['name']} ({facet['kind']})")
+        print(f"  {facet['definition']}")
+        for value in facet["values"]:
+            print(f"  - {value}")
+
+    primary_facet = t.schema_[0]["name"]
+    print(f"\n=== {label}: Facet 0 ({primary_facet}) vs curator-assigned product category ===\n")
+    # Use a distinct column name so a facet named "product_category" doesn't
+    # collide with the curator column when we join them.
+    labels = t.labels_df_.reset_index(drop=True)
+    labels["curator_category"] = curator_category
+    crosstab = pd.crosstab(labels["curator_category"], labels[primary_facet])
+    print(crosstab.to_string())
+
+    print(f"\nRendering interactive map ({label})...")
+    labels_for_map = t.labels_df_.reset_index(drop=True)
+    hover = _build_hover_text(documents.tolist(), labels_for_map)
+    render_map(
+        embeddings=embeddings,
+        labels_df=labels_for_map,
+        hover_text=hover,
+        output_path=output_html,
+        seed=RANDOM_SEED,
+        sub_title=sub_title,
+    )
+    print(f"  saved {output_html.relative_to(Path.cwd())}")
+    print(f"  open in a browser: file://{output_html}")
+
+
 def main() -> None:
     from sentence_transformers import SentenceTransformer
-
-    from typologist import Typologist
 
     # === Step 1: load a sample corpus ===
     print("Step 1: loading Amazon reviews from HuggingFace...")
@@ -226,108 +291,157 @@ def main() -> None:
     embeddings = embed_documents(df["text"].tolist())
     print(f"  embeddings shape: {embeddings.shape}\n")
 
-    # === Step 3: run Typologist ==============================================
+    # === Step 3: run Typologist (vanilla + erasure) ==========================
     # This is the part the example is actually demonstrating. Everything else
     # in this file is plumbing. Typologist takes the documents and their
     # embeddings, discovers n_facets categorical axes, and assigns each
     # document a value on each axis.
     #
+    # We run it twice on the same corpus to illustrate the effect of
+    # metadata erasure:
+    #   - Vanilla pass: no metadata, discovery is driven by the embeddings
+    #     alone. Facet 0 tends to rediscover product_category.
+    #   - Erasure pass: pass product_category to ``metadata=``. LEACE
+    #     projects its linear signal out of the embeddings and the synthesis
+    #     prompt is told to avoid it, so discovery finds something else.
+    #
     # naming_llm, schema_llm, and labeling_llm default to Anthropic model
     # strings (so ANTHROPIC_API_KEY is read from the env). If you use a
     # different provider, pass a callable(prompt: str) -> str to any of those
     # three kwargs; see docs/design.md for the full contract.
-    print("Step 3: fitting Typologist (n_facets=3)...")
-    t = Typologist(
-        n_facets=3,
-        topic_embedder=SentenceTransformer("all-MiniLM-L6-v2"),
-        object_description="product reviews",
-        corpus_description="Amazon product reviews",
-        random_state=RANDOM_SEED,
-        verbose=True,
-    ).fit(df["text"], embeddings)
-    # =========================================================================
+    topic_embedder = SentenceTransformer("all-MiniLM-L6-v2")
 
-    # === Step 4: print the output ===
-    print("\n=== Discovered schema ===")
-    for i, facet in enumerate(t.schema_):
-        print(f"\nFacet {i}: {facet['name']} ({facet['kind']})")
-        print(f"  {facet['definition']}")
-        for value in facet["values"]:
-            print(f"  - {value}")
-
-    primary_facet = t.schema_[0]["name"]
-    print(f"\n=== Facet 0 ({primary_facet}) vs curator-assigned product category ===\n")
-    # Use a distinct column name so a facet named "product_category" doesn't
-    # collide with the curator column when we join them.
-    labels = t.labels_df_.reset_index(drop=True)
-    labels["curator_category"] = df["product_category"].values
-    crosstab = pd.crosstab(labels["curator_category"], labels[primary_facet])
-    print(crosstab.to_string())
-
-    # === Step 5: render the map ===
-    print("\nStep 5: rendering interactive map...")
-    labels_for_map = t.labels_df_.reset_index(drop=True)
-    hover = _build_hover_text(df["text"].tolist(), labels_for_map)
-    render_map(
+    _run_pass(
+        label="vanilla",
+        topic_embedder=topic_embedder,
+        documents=df["text"],
         embeddings=embeddings,
-        labels_df=labels_for_map,
-        hover_text=hover,
-        output_path=HTML_OUTPUT,
-        seed=RANDOM_SEED,
+        curator_category=df["product_category"].values,
+        output_html=HTML_OUTPUT_VANILLA,
+        sub_title="Typologist facets, discovered from review text alone.",
+        metadata=None,
     )
-    print(f"  saved {HTML_OUTPUT.relative_to(Path.cwd())}")
-    print(f"  open in a browser: file://{HTML_OUTPUT}")
+
+    _run_pass(
+        label="erasure",
+        topic_embedder=topic_embedder,
+        documents=df["text"],
+        embeddings=embeddings,
+        curator_category=df["product_category"].values,
+        output_html=HTML_OUTPUT_ERASED,
+        sub_title="Typologist facets, discovered after erasing product_category.",
+        metadata=df[["product_category"]],
+    )
+    # =========================================================================
 
 
 if __name__ == "__main__":
     main()
 
 
-# Sample output from a run on 2026-04-22 with seed=0 and MiniLM embeddings.
-# Facets 0 and 1 (product_category and review_sentiment) are stable across
-# seeds; Facet 2 varies more (EVoC clustering is non-deterministic and the
-# third facet is the farthest from the embedding's dominant axes, so it
-# picks up whichever orthogonal structure the LLM finds most discriminating
-# on a given run).
+# Sample output from a run on 2026-04-24 with seed=0 and MiniLM embeddings.
+# The first two facets in each pass are broadly stable across seeds (a
+# product/category axis in the vanilla pass, sentiment in both); the third
+# facet varies more because EVoC clustering is non-deterministic and the
+# third facet is the farthest from the embedding's dominant axes.
 #
-# === Discovered schema ===
+# === Discovered schema (vanilla) ===
 #
 # Facet 0: product_category (categorical)
-#   The general product category that the Amazon review is about.
-#   - books_and_cookbooks
+#   The broad product domain that the review is about, distinguishing
+#   reviews by the type of item being evaluated.
+#   - books
 #   - apparel_and_footwear
 #   - kitchen_and_cookware
-#   - toys_and_games
+#   - toys
 #   - personal_care_and_beauty
-#   - hair_accessories
-#   - electronics_and_tech_accessories
+#   - consumer_electronics
 #   - Other
 #
-# Facet 1: review_sentiment (categorical)
-#   The overall evaluative tone the reviewer expresses toward the product,
-#   independent of what the product is.
-#   - highly_positive
-#   - mixed_with_reservations
-#   - disappointed_negative
-#   - neutral_descriptive
+# Facet 1: reviewer_sentiment (categorical)
+#   Captures the overall sentiment polarity and intensity expressed by the
+#   reviewer toward the product.
+#   - strongly_positive
+#   - mildly_positive
+#   - mixed
+#   - mildly_negative
+#   - strongly_negative
 #   - Other
 #
 # Facet 2: review_focus_aspect (categorical)
-#   The primary evaluative dimension the reviewer emphasizes when assessing
-#   the product.
+#   The primary product attribute or dimension the reviewer focuses their
+#   evaluation on.
 #   - fit_and_sizing
 #   - durability_and_build_quality
-#   - ease_of_use_and_assembly
-#   - value_for_money
+#   - ease_of_use_and_instructions
 #   - sensory_experience
-#   - content_and_storytelling
 #   - functional_performance
-#   - aesthetic_and_design
+#   - value_for_money
+#   - aesthetic_appearance
+#   - content_and_informational_value
 #   - Other
 #
-# Facet 0's crosstab against Amazon's own product_category shows heavy
-# diagonal concentration and meaningful refinement: Typologist splits
-# All_Beauty into personal_care + hair_accessories, and lumps
-# Clothing_Shoes_and_Jewelry's apparel/footwear into a single bucket with
-# hair_accessories pulled out. Facets 1 and 2 add sentiment and
-# evaluation-focus axes that product_category alone doesn't capture.
+# Vanilla Facet 0's crosstab against the curator-assigned product_category
+# shows heavy diagonal concentration: Typologist rediscovers ~80% of the
+# curator's buckets from the review text alone. This is the "you got back
+# what you already had" failure mode that the erasure pass below addresses.
+#
+#                             books  apparel  kitchen  toys  personal_care  electronics  Other
+# All_Beauty                      0        8        2     2             70            1      0
+# Books                          76        0        1     1              0            0      5
+# Clothing_Shoes_and_Jewelry      0       75        0     0              2            1      5
+# Electronics                     0        6        0     0              0           75      2
+# Home_and_Kitchen                0        9       53     2              0            7     12
+# Toys_and_Games                  0        2        0    78              0            1      2
+#
+# === Discovered schema (erasure, metadata=df[["product_category"]]) ===
+#
+# Facet 0: review_sentiment (categorical)
+#   The overall sentiment polarity and intensity expressed by the reviewer
+#   toward the product.
+#   - highly_positive
+#   - mildly_positive
+#   - mixed
+#   - mildly_negative
+#   - highly_negative
+#   - Other
+#
+# Facet 1: review_focus_aspect (categorical)
+#   The primary product attribute the reviewer evaluates or focuses on in
+#   their review.
+#   - fit_and_sizing
+#   - durability_and_build_quality
+#   - ease_of_use_and_setup
+#   - value_for_money
+#   - aesthetics_and_design
+#   - comfort_and_feel
+#   - performance_and_effectiveness
+#   - content_and_storytelling
+#   - Other
+#
+# Facet 2: reviewer_purchase_motivation (categorical)
+#   Captures the reviewer's stated reason or context for purchasing the
+#   product, reflecting who the item is for and the situation of use.
+#   - gift_for_others
+#   - personal_use
+#   - replacement_or_upgrade
+#   - professional_or_work_use
+#   - hobby_or_leisure
+#   - child_or_family_use
+#   - travel_or_outdoor_use
+#   - Other
+#
+# With product_category erased, Facet 0 is no longer product-aligned:
+#
+# review_sentiment            highly_pos  mildly_pos  mixed  mildly_neg  highly_neg
+# All_Beauty                          40          12      9           9          13
+# Books                               43          16      9           8           7
+# Clothing_Shoes_and_Jewelry          38          20      8           7          10
+# Electronics                         41          15     12           7           8
+# Home_and_Kitchen                    37          16     12          12           6
+# Toys_and_Games                      45          13     15           1           9
+#
+# Facets 1 and 2 are the erasure pass's payoff: review_focus_aspect (what
+# the reviewer is evaluating) and reviewer_purchase_motivation (why they
+# bought it) are axes of variation the vanilla pass never surfaced, because
+# the embedding geometry was dominated by product-category structure.
