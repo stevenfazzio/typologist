@@ -1,0 +1,1114 @@
+{
+  "corpus": "amazon_reviews_1500",
+  "n_docs": 1500,
+  "embedding_dim": 384,
+  "metadata_column": "product_category",
+  "random_state": 0,
+  "n_facets": 3,
+  "arms": [
+    {
+      "label": "toponymy_vanilla",
+      "use_toponymy": true,
+      "erasure": false,
+      "schema": [
+        {
+          "name": "product_category",
+          "kind": "categorical",
+          "values": [
+            "electronics_and_gadgets",
+            "apparel_and_footwear",
+            "beauty_and_personal_care",
+            "home_and_kitchen",
+            "books_and_print_media",
+            "toys_and_games",
+            "jewelry_and_accessories",
+            "crafts_and_hobbies",
+            "Other"
+          ],
+          "definition": "Captures the broad product category that the Amazon review is discussing.",
+          "labeling_prompt_template": "Classify the following product reviews along the \"product_category\" dimension.\n\nCaptures the broad product category that the Amazon review is discussing.\n\nChoose exactly one of: electronics_and_gadgets, apparel_and_footwear, beauty_and_personal_care, home_and_kitchen, books_and_print_media, toys_and_games, jewelry_and_accessories, crafts_and_hobbies, Other\n\nproduct reviews:\n{document}\n\nRespond with the chosen value name only, no explanation.",
+          "labeling_model": "claude-haiku-4-5"
+        },
+        {
+          "name": "review_sentiment",
+          "kind": "categorical",
+          "values": [
+            "highly_positive",
+            "mixed_with_caveats",
+            "disappointed_negative",
+            "neutral_descriptive",
+            "Other"
+          ],
+          "definition": "Captures the overall emotional tone and evaluative stance the reviewer expresses toward the product.",
+          "labeling_prompt_template": "Classify the following product reviews along the \"review_sentiment\" dimension.\n\nCaptures the overall emotional tone and evaluative stance the reviewer expresses toward the product.\n\nChoose exactly one of: highly_positive, mixed_with_caveats, disappointed_negative, neutral_descriptive, Other\n\nproduct reviews:\n{document}\n\nRespond with the chosen value name only, no explanation.",
+          "labeling_model": "claude-haiku-4-5"
+        },
+        {
+          "name": "review_focus_aspect",
+          "kind": "categorical",
+          "values": [
+            "fit_and_sizing",
+            "durability_and_build_quality",
+            "ease_of_use_and_setup",
+            "value_for_price",
+            "aesthetics_and_design",
+            "performance_and_functionality",
+            "comfort_and_feel",
+            "instructions_and_documentation",
+            "Other"
+          ],
+          "definition": "The primary product attribute or dimension the reviewer focuses their evaluation on, independent of the product type or sentiment.",
+          "labeling_prompt_template": "Classify the following product reviews along the \"review_focus_aspect\" dimension.\n\nThe primary product attribute or dimension the reviewer focuses their evaluation on, independent of the product type or sentiment.\n\nChoose exactly one of: fit_and_sizing, durability_and_build_quality, ease_of_use_and_setup, value_for_price, aesthetics_and_design, performance_and_functionality, comfort_and_feel, instructions_and_documentation, Other\n\nproduct reviews:\n{document}\n\nRespond with the chosen value name only, no explanation.",
+          "labeling_model": "claude-haiku-4-5"
+        }
+      ],
+      "diagnostics_summary": [
+        {
+          "cluster_count": 33,
+          "hierarchy_depth": 3,
+          "entropy_bits": {
+            "observed": 2.87462181314823,
+            "uniform": 3.169925001442312,
+            "delta": -0.2953031882940822
+          }
+        },
+        {
+          "cluster_count": 32,
+          "hierarchy_depth": 2,
+          "entropy_bits": {
+            "observed": 1.4975154153622101,
+            "uniform": 2.321928094887362,
+            "delta": -0.8244126795251521
+          }
+        },
+        {
+          "cluster_count": 33,
+          "hierarchy_depth": 2,
+          "entropy_bits": {
+            "observed": 2.8607733654799357,
+            "uniform": 3.169925001442312,
+            "delta": -0.3091516359623765
+          }
+        }
+      ],
+      "crosstab_facet0_vs_category": {
+        "rows": [
+          "All_Beauty",
+          "Books",
+          "Clothing_Shoes_and_Jewelry",
+          "Electronics",
+          "Home_and_Kitchen",
+          "Toys_and_Games"
+        ],
+        "columns": [
+          "electronics_and_gadgets",
+          "apparel_and_footwear",
+          "beauty_and_personal_care",
+          "home_and_kitchen",
+          "books_and_print_media",
+          "toys_and_games",
+          "jewelry_and_accessories",
+          "crafts_and_hobbies",
+          "Other",
+          "Unlabelled"
+        ],
+        "values": [
+          [
+            11,
+            16,
+            176,
+            21,
+            0,
+            3,
+            17,
+            6,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            2,
+            232,
+            5,
+            0,
+            9,
+            1,
+            1
+          ],
+          [
+            1,
+            201,
+            0,
+            4,
+            0,
+            0,
+            43,
+            1,
+            0,
+            0
+          ],
+          [
+            225,
+            0,
+            0,
+            10,
+            1,
+            1,
+            10,
+            1,
+            2,
+            0
+          ],
+          [
+            7,
+            8,
+            3,
+            212,
+            0,
+            4,
+            9,
+            5,
+            2,
+            0
+          ],
+          [
+            7,
+            5,
+            1,
+            10,
+            1,
+            206,
+            9,
+            8,
+            3,
+            0
+          ]
+        ]
+      },
+      "exemplars": [
+        {
+          "facet_name": "product_category",
+          "values": {
+            "electronics_and_gadgets": [
+              "Except for untangling all of the cords under my desk, this was a BREEZE to set up and get things running. Very happy with it. I don't use the camera feature so I can't rate that, but everything else is top notch.",
+              "i just got it but im impressed \"so far\"  sounds good  looks good  easy to pair with my Google Mini home ... !<br /><br />i was impressed until last night when the yellow light turned on the blue light wont come back  i dont have 2  to pair ...",
+              "The display is bright and beautiful. It's way faster than my android tablet and there are a lot of things I really like about it. However there are things I really don't like and had I known about these things, and maybe I should have, I wo..."
+            ],
+            "apparel_and_footwear": [
+              "*UPDATE*  I've washed these twice and they have gone crappy. Pilled up like crazy, fabric isn't opaque at all. Like bad enough that you can't wear these in public. And this isn't a matter of being delusional about my size and trying to stuf...",
+              "I purchased this set to wear with a robe and slippers for Christmas morning... it is a lovely rich burgundy color.  The lace is soft.  Machine washed and dried nicely.  I am 5'7\"... 38DDD.. usually wear a 14/16 or 0x/1x - but I sized up jus...",
+              "These pants are super small and I ordered an XL sizing, they are definitely not for lounging but rather feel very thick and yet at the same time the fabric is light in that it doesn't cover from cold weather, they look super uncomfortable b..."
+            ],
+            "beauty_and_personal_care": [
+              "WOW! I don't understand the negative reviews. This product is AMAZING!!! Just one use and I see a difference. It really tingles and feels refreshing. My skin has had large pores and blackheads (especially on the nose) and I've been fighting...",
+              "I like the product. My stylist used it my hair before. It went off the market and one day I just took a chance that maybe it might be back. Well it was back alight. I paid triple the price for it on Amazon!!!!!!",
+              "I decided to take the plunge and get this based on all the rave reviews. I did notice an improvement with my hair quality but no more than with any other mask or treatment. The price is ridiculous and the bottle is small."
+            ],
+            "home_and_kitchen": [
+              "This is a nice set of pyrex glass dishes with lids.  I don't love plastic lids -but on occasion - you need a lid.  A great mix of shapes and sizes, if not a little small.  They wash in the dishwasher nicely.  Having said all of this, I neve...",
+              "I had actually bought one like these ones before because both my husband and I don't like the normal ones and it didn't work for us and I had pretty much given up and decided to give it a second try but actually reading the reviews and chec...",
+              "I really like it, although,the bottom of the vase has a good size crack in the glass. I was going to give it as a gift, returning it isn't worth my time or the fact I could cut myself. Seller offered a replacement for the return of the crac..."
+            ],
+            "books_and_print_media": [
+              "I just loved this book.  I read it for book club and everyone of us really liked it and talked about it non-stop for two hours.  It\u2019s one I will re-read as there are so many twists and turns and I know I\u2019ll enjoy it the second time.  Highly...",
+              "Good challenging book. The only thing that bugs me is that the book doesn't fold all the way flat without the pages being bent and there are many sections and I wish they were tabbed or notched so you could easily find the various sections.",
+              "I have a hard time finding a really good book but bought this based on the recommendations. What a disappointment. I did finish it, just for the sake of finishing, but wasn\u2019t worth reading. It was an easy read, but not a compelling read.  W..."
+            ],
+            "toys_and_games": [
+              "Beautiful artwork and fun gameplay. Was able to play it easily with adults and my 9 year old (who loved it!). Fantastic storage box too with individual slots for each of the components - very well thought out design for the box. Rules are e...",
+              "I love when I find games that the young kids enjoy playing with the older kids.<br />This game was definitely worth it. It is made well, and I'm a sucker for wooden games anyways plus the pieces are just the right size for small hands!",
+              "My 1 year old son has had a lot of fun with these so far.  He even tries to \"build\" with them.... by pushing them together and pulling them apart.  My 1 year old niece on the other hand simply loves loading them and unloading them into cont..."
+            ],
+            "jewelry_and_accessories": [
+              "As usual another tasteful and delicate piece of jewelry!  Not overtly complicated, nice Olof combination. Classy.  I love their peces, must have bought the lot!  Almost.  Works well with a tee shirt to a nice simple black dress!  Love it.",
+              "I first found this artist on Maui and I love all the matching pieces!  Some of the pieces are dark in color I chose this one for the brighter colors and the sentiment.  The great part of this bag is the functionality.  It's REALLY handy to ...",
+              "I love this purse! I ordered the blue/gray. It is exactly like the picture, very well made and a quality product. It is the perfect size. Fairly small which is exactly what I was looking for. I am pleasantly surprised. Great product at a gr..."
+            ],
+            "crafts_and_hobbies": [
+              "I live this coloring book! They give you so many cool, different styles & animals to color, use markers (non-bleed ones), some are so cool coloring them may ruin it lol. The paper is decently thick. Just gave this as a xmas gift & they love...",
+              "I really wanted to love this coloring book because I love shopping, clothes, shoes, etc. So this felt like it would be fun. I was really disappointed in the quality of this coloring book. The book and pages are very thin and flimsy. If you ...",
+              "My daughter loves to crochet for her 4yr old daughter. She was delighted to open this holiday gift & can\u2019t wait to get started. She loved the pictures & once she makes the bunny doll, she is letting her daughter choose  the order in which s..."
+            ],
+            "Other": [
+              "I got this for my neighbor's daughter on her birthday. They were so excited to try it out and it broke on the first use. What a waste of money on this and I can't even \"return/exchange\" it as it's a gift.",
+              "this is the best most useful thing in the world - we love this!!!  Hoping this old workhorse will last forever, as i'm spoiled now & can't live without it, we use it constantly - this is the one to buy, forget the cheap ones, they're just a...",
+              "Purchased as one of my wife's Christmas gifts, and she absolutely loves it.  As a matter of fact, it's one of her favorites.  And if my better half (by far) is happy, then so am I!  Thank you very much."
+            ]
+          }
+        },
+        {
+          "facet_name": "review_sentiment",
+          "values": {
+            "highly_positive": [
+              "Beautiful artwork and fun gameplay. Was able to play it easily with adults and my 9 year old (who loved it!). Fantastic storage box too with individual slots for each of the components - very well thought out design for the box. Rules are e...",
+              "I purchased this book after looking at several of the reviews and they posted some of the pictures.  I am fairly new the adult coloring book ideas.  This book great.  I am so glad I decided to purchase this.  The pictures are beautiful and ...",
+              "I love this. Also gave  one to each daughter as a stocking stuffer and they love them too. It\u2019s so long that you can wash your whole back. Love the perfect level of friction. Great exfoliation. The ones we got were from Japan, not China."
+            ],
+            "mixed_with_caveats": [
+              "Good challenging book. The only thing that bugs me is that the book doesn't fold all the way flat without the pages being bent and there are many sections and I wish they were tabbed or notched so you could easily find the various sections.",
+              "I think it is wonderful.  My husband (82 years old) is having some difficulty getting familiar with the kindle book with audio.  He will get it, I think.  It is a bit different than his older Kindle Fire.",
+              "The display is bright and beautiful. It's way faster than my android tablet and there are a lot of things I really like about it. However there are things I really don't like and had I known about these things, and maybe I should have, I wo..."
+            ],
+            "disappointed_negative": [
+              "There are only sticky notes in the bottom of the portfolio. The top prints, are just printed on the back of the cover. Bought them assuming that the lined ones with the gents on them, were also included. Also, they're hardly sticky at all.",
+              "I thought the price on this tshirt was pretty good, so I purchased for my 8 year old grandson.  I was so disappointed in the quality when it arrived- the material is SUPER thin... wrinkly - even after washing... but the worst is the little ...",
+              "I got this for my neighbor's daughter on her birthday. They were so excited to try it out and it broke on the first use. What a waste of money on this and I can't even \"return/exchange\" it as it's a gift."
+            ],
+            "neutral_descriptive": [
+              "This is a collection of cedar and cedar scented items.  Circles for hangers... small cubes to put in bottoms of storage bags or possible drawers...planks that you could hang on hangers... along with some cloth stuffed cedar &#34;scented&#34...",
+              "exactly as expected...a nylon scarf.  It is soft... it washed up nicely.  It's longer... so it will wrap a couple times around your neck... or have a longer dangle with one.  You could wrap it up on your head with a small bow or knot.",
+              "The third edition of the guide (previous editions were published in 1976 and 1982).<br /><br />It's neat that the title page was retained from the first edition - 'Being a Treatise on the use of machines in the Indolent Indulgence of Erotic..."
+            ],
+            "Other": [
+              "Why didn\u2019t he ask to purchase vials from crooks house? MC went to blank area of witches but thought he would go finish off hydra, lost opportunity. Great addition to series, why didn\u2019t level go up after defeating and getting loot from tower..."
+            ]
+          }
+        },
+        {
+          "facet_name": "review_focus_aspect",
+          "values": {
+            "fit_and_sizing": [
+              "These pants are super small and I ordered an XL sizing, they are definitely not for lounging but rather feel very thick and yet at the same time the fabric is light in that it doesn't cover from cold weather, they look super uncomfortable b...",
+              "I like it, but I was hoping for something a little bigger. So this is a perfect size for the makeup you want to use when you're out and already have your makeup on but want to do touch ups. I can easily fit this in my purse. I would have li...",
+              "I just love the print, and the material feels good, but as usual the fit wasn\u2019t right. It never fails, I get a 2x one time and it\u2019s too snug/small. I get an extra large another time and it\u2019s too big ( nothing is to big for me because I can ..."
+            ],
+            "durability_and_build_quality": [
+              "I thought the price on this tshirt was pretty good, so I purchased for my 8 year old grandson.  I was so disappointed in the quality when it arrived- the material is SUPER thin... wrinkly - even after washing... but the worst is the little ...",
+              "The design is very pretty. The colors are as I expected but I wish it didn\u2019t start wearing so soon. Both ends are cracking. It\u2019s been dropped a couple times, but on the first drop there was immediate damage to the case. I think this would b...",
+              "DO NOT BELIEVE THE OTHER REVIEWS THE HAIR IS HORRIBLE AND SHEDS LIKE CRAZY! IT IS NOT 100% HUMAN HAIR. WHEN I FIRST RECEIVED THE HAIR, THE PACKAGING WAS NICE  AND THE HAIR WAS SILKY SMOOTH BUT AFTER ONE MONTH THE HAIR GOT MATTED AND DRY. TH..."
+            ],
+            "ease_of_use_and_setup": [
+              "Good challenging book. The only thing that bugs me is that the book doesn't fold all the way flat without the pages being bent and there are many sections and I wish they were tabbed or notched so you could easily find the various sections.",
+              "I purchased as a gift for a friend and her 4 year old granddaughter.  HUGE hit.  Granddaughter has 'moved in'  and working on painting the inside (not printed). I was told it was easy to put together.  It is a grand coloring project - does ...",
+              "I think it is wonderful.  My husband (82 years old) is having some difficulty getting familiar with the kindle book with audio.  He will get it, I think.  It is a bit different than his older Kindle Fire."
+            ],
+            "value_for_price": [
+              "wow cant believe this is a creative haven book....So childish the price was not bad since I will give this to may grand daughter...but if your looking for any amount of detail this books done not have it,,,",
+              "I really like these, they seem to work well, and I like that they come in different styles. Way cheaper than the original beauty blender and other brands I've seen, and they seem to work the same. Very soft and they blend nicely. Definitely...",
+              "I like the product. My stylist used it my hair before. It went off the market and one day I just took a chance that maybe it might be back. Well it was back alight. I paid triple the price for it on Amazon!!!!!!"
+            ],
+            "aesthetics_and_design": [
+              "I purchased this book after looking at several of the reviews and they posted some of the pictures.  I am fairly new the adult coloring book ideas.  This book great.  I am so glad I decided to purchase this.  The pictures are beautiful and ...",
+              "Beautiful artwork and fun gameplay. Was able to play it easily with adults and my 9 year old (who loved it!). Fantastic storage box too with individual slots for each of the components - very well thought out design for the box. Rules are e...",
+              "I have already written a review on this item, but am glad to repeat my pleasure at finding such great quality.The appearance is so lifelike. My Tween granddaughter is thrilled with it, she collects lobster items...thank you."
+            ],
+            "performance_and_functionality": [
+              "There are only sticky notes in the bottom of the portfolio. The top prints, are just printed on the back of the cover. Bought them assuming that the lined ones with the gents on them, were also included. Also, they're hardly sticky at all.",
+              "I had actually bought one like these ones before because both my husband and I don't like the normal ones and it didn't work for us and I had pretty much given up and decided to give it a second try but actually reading the reviews and chec...",
+              "This is great. I love the fire. Lots of functionality & great for reading. I got the 8&#34; because of reading. There are many terrific features for reading: auto turn, auto page save. It's so easy to use. I've got it chock full of books fo..."
+            ],
+            "comfort_and_feel": [
+              "These are great, and they feel comfortable and soft and look very clean just what I needed and for the price they are okay, may not be the best quality out there but they look ok so far I just hope they don't lose shape too fast.",
+              "Great, comfy top! I have three of these now & love them. They are comfortable, wash up well & look good. I highly recommend this & other Amazon Essential products...I've never been disappointed with any Amazon Basics or Essential products. ...",
+              "This is the most comfortable and best ear muff I have ever found. Soft and warm and doesn't press uncomfortably on your ears. The coverage is excellent and wind doesn't get into your ears. I highly recommend these. \ud83d\ude0a"
+            ],
+            "instructions_and_documentation": [
+              "My daughter loves to crochet for her 4yr old daughter. She was delighted to open this holiday gift & can\u2019t wait to get started. She loved the pictures & once she makes the bunny doll, she is letting her daughter choose  the order in which s...",
+              "\"Recycled\" is the best way to describe HEIRLOOM KNITTING SKILLS.  The knitting history is superficial, and most, if not all, of the photos have been published elsewhere.  The stitch treasuries are poorly printed (the textured and lace stitc...",
+              "VINTAGE DESIGN WORKSHOP is really a design reference book.  It's a book that explains in detail how to replicate an old 20th-century knitting pattern (especially one published between 1920 and 1960) to fit a woman of today, using today's ya..."
+            ],
+            "Other": [
+              "Why didn\u2019t he ask to purchase vials from crooks house? MC went to blank area of witches but thought he would go finish off hydra, lost opportunity. Great addition to series, why didn\u2019t level go up after defeating and getting loot from tower...",
+              "I purchased the for part of my sister's Christmas bag.  She runs a private preschool/daycare.  She has raised dozens of children.  I just felt like she would really appreciate the positive thoughts and devotions in this book.",
+              "item arrived a head of time. Package easy to open.  I harbored some fear for Miss Clark- one of her suitors was man who couldn't hear no.  All in all it was a grand novel. Don't be put off by its Christian fiction tag line.  The characters ..."
+            ]
+          }
+        }
+      ],
+      "elapsed_seconds": 435.61052799224854
+    },
+    {
+      "label": "toponymy_erasure",
+      "use_toponymy": true,
+      "erasure": true,
+      "schema": [
+        {
+          "name": "review_sentiment",
+          "kind": "categorical",
+          "values": [
+            "highly_positive",
+            "mixed",
+            "highly_negative",
+            "neutral_descriptive",
+            "Other"
+          ],
+          "definition": "Captures the overall sentiment polarity expressed by the reviewer toward the product, ranging from enthusiastic praise to clear dissatisfaction or purely descriptive commentary.",
+          "labeling_prompt_template": "Classify the following product reviews along the \"review_sentiment\" dimension.\n\nCaptures the overall sentiment polarity expressed by the reviewer toward the product, ranging from enthusiastic praise to clear dissatisfaction or purely descriptive commentary.\n\nChoose exactly one of: highly_positive, mixed, highly_negative, neutral_descriptive, Other\n\nproduct reviews:\n{document}\n\nRespond with the chosen value name only, no explanation.",
+          "labeling_model": "claude-haiku-4-5"
+        },
+        {
+          "name": "reviewer_focus",
+          "kind": "categorical",
+          "values": [
+            "value_for_money",
+            "ease_of_use",
+            "build_quality_and_durability",
+            "aesthetics_and_design",
+            "fit_and_sizing",
+            "performance_and_functionality",
+            "comparison_to_alternatives",
+            "instructions_and_setup",
+            "Other"
+          ],
+          "definition": "Captures the primary evaluative dimension the reviewer emphasizes when judging the product.",
+          "labeling_prompt_template": "Classify the following product reviews along the \"reviewer_focus\" dimension.\n\nCaptures the primary evaluative dimension the reviewer emphasizes when judging the product.\n\nChoose exactly one of: value_for_money, ease_of_use, build_quality_and_durability, aesthetics_and_design, fit_and_sizing, performance_and_functionality, comparison_to_alternatives, instructions_and_setup, Other\n\nproduct reviews:\n{document}\n\nRespond with the chosen value name only, no explanation.",
+          "labeling_model": "claude-haiku-4-5"
+        },
+        {
+          "name": "review_length_and_detail",
+          "kind": "categorical",
+          "values": [
+            "one_line_reaction",
+            "short_summary",
+            "detailed_paragraph",
+            "in_depth_multi_section_review",
+            "Other"
+          ],
+          "definition": "Captures how long and detailed the review is, from a brief one-line reaction to an in-depth multi-section analysis.",
+          "labeling_prompt_template": "Classify the following product reviews along the \"review_length_and_detail\" dimension.\n\nCaptures how long and detailed the review is, from a brief one-line reaction to an in-depth multi-section analysis.\n\nChoose exactly one of: one_line_reaction, short_summary, detailed_paragraph, in_depth_multi_section_review, Other\n\nproduct reviews:\n{document}\n\nRespond with the chosen value name only, no explanation.",
+          "labeling_model": "claude-haiku-4-5"
+        }
+      ],
+      "diagnostics_summary": [
+        {
+          "cluster_count": 31,
+          "hierarchy_depth": 3,
+          "entropy_bits": {
+            "observed": 1.578583506586812,
+            "uniform": 2.321928094887362,
+            "delta": -0.7433445883005503
+          }
+        },
+        {
+          "cluster_count": 36,
+          "hierarchy_depth": 2,
+          "entropy_bits": {
+            "observed": 2.763229739434129,
+            "uniform": 3.169925001442312,
+            "delta": -0.4066952620081832
+          }
+        },
+        {
+          "cluster_count": 35,
+          "hierarchy_depth": 3,
+          "entropy_bits": {
+            "observed": 0.9470129274698402,
+            "uniform": 2.321928094887362,
+            "delta": -1.374915167417522
+          }
+        }
+      ],
+      "crosstab_facet0_vs_category": {
+        "rows": [
+          "All_Beauty",
+          "Books",
+          "Clothing_Shoes_and_Jewelry",
+          "Electronics",
+          "Home_and_Kitchen",
+          "Toys_and_Games"
+        ],
+        "columns": [
+          "highly_positive",
+          "mixed",
+          "highly_negative",
+          "neutral_descriptive"
+        ],
+        "values": [
+          [
+            124,
+            87,
+            37,
+            2
+          ],
+          [
+            160,
+            60,
+            18,
+            12
+          ],
+          [
+            108,
+            93,
+            36,
+            13
+          ],
+          [
+            130,
+            81,
+            27,
+            12
+          ],
+          [
+            114,
+            94,
+            25,
+            17
+          ],
+          [
+            137,
+            69,
+            37,
+            7
+          ]
+        ]
+      },
+      "exemplars": [
+        {
+          "facet_name": "review_sentiment",
+          "values": {
+            "highly_positive": [
+              "Beautiful artwork and fun gameplay. Was able to play it easily with adults and my 9 year old (who loved it!). Fantastic storage box too with individual slots for each of the components - very well thought out design for the box. Rules are e...",
+              "I purchased this book after looking at several of the reviews and they posted some of the pictures.  I am fairly new the adult coloring book ideas.  This book great.  I am so glad I decided to purchase this.  The pictures are beautiful and ...",
+              "I love this. Also gave  one to each daughter as a stocking stuffer and they love them too. It\u2019s so long that you can wash your whole back. Love the perfect level of friction. Great exfoliation. The ones we got were from Japan, not China."
+            ],
+            "mixed": [
+              "Good challenging book. The only thing that bugs me is that the book doesn't fold all the way flat without the pages being bent and there are many sections and I wish they were tabbed or notched so you could easily find the various sections.",
+              "I think it is wonderful.  My husband (82 years old) is having some difficulty getting familiar with the kindle book with audio.  He will get it, I think.  It is a bit different than his older Kindle Fire.",
+              "The design is very pretty. The colors are as I expected but I wish it didn\u2019t start wearing so soon. Both ends are cracking. It\u2019s been dropped a couple times, but on the first drop there was immediate damage to the case. I think this would b..."
+            ],
+            "highly_negative": [
+              "I thought the price on this tshirt was pretty good, so I purchased for my 8 year old grandson.  I was so disappointed in the quality when it arrived- the material is SUPER thin... wrinkly - even after washing... but the worst is the little ...",
+              "I got this for my neighbor's daughter on her birthday. They were so excited to try it out and it broke on the first use. What a waste of money on this and I can't even \"return/exchange\" it as it's a gift.",
+              "I have ordered two other books that were good this one is complete garbage...Im debating about returning it...poor quality artwork and should be more of a day of the dead book than vampires..complete disappointment"
+            ],
+            "neutral_descriptive": [
+              "I purchased the for part of my sister's Christmas bag.  She runs a private preschool/daycare.  She has raised dozens of children.  I just felt like she would really appreciate the positive thoughts and devotions in this book.",
+              "I am 5'7\".. 38DDD and usually wear a 14/16 or 0x/1x.  I purchased the xl and fits nicely.  It is a really long, stretchy knit shirt that you pull up or gather at your waist.  The sleeves are short, but flutter and hit me nearly down to my e...",
+              "These are just as advertised and shown... navy blue with silver oven/heat protecting side.  They are about 5x5.&#34;  They have machine washed and dried nicely.  I purchased them out of convenience - was looking for some finger size mitts. ..."
+            ],
+            "Other": []
+          }
+        },
+        {
+          "facet_name": "reviewer_focus",
+          "values": {
+            "value_for_money": [
+              "wow cant believe this is a creative haven book....So childish the price was not bad since I will give this to may grand daughter...but if your looking for any amount of detail this books done not have it,,,",
+              "I like the product. My stylist used it my hair before. It went off the market and one day I just took a chance that maybe it might be back. Well it was back alight. I paid triple the price for it on Amazon!!!!!!",
+              "Inexpensive, yet very functional. I got the bright color so I can keep track of it always, especially if I'm out and leave it on a table to get a refill drink or something. Easy to spot. If you are looking to tuck things in the flap it is l..."
+            ],
+            "ease_of_use": [
+              "Good challenging book. The only thing that bugs me is that the book doesn't fold all the way flat without the pages being bent and there are many sections and I wish they were tabbed or notched so you could easily find the various sections.",
+              "I purchased as a gift for a friend and her 4 year old granddaughter.  HUGE hit.  Granddaughter has 'moved in'  and working on painting the inside (not printed). I was told it was easy to put together.  It is a grand coloring project - does ...",
+              "I think it is wonderful.  My husband (82 years old) is having some difficulty getting familiar with the kindle book with audio.  He will get it, I think.  It is a bit different than his older Kindle Fire."
+            ],
+            "build_quality_and_durability": [
+              "I thought the price on this tshirt was pretty good, so I purchased for my 8 year old grandson.  I was so disappointed in the quality when it arrived- the material is SUPER thin... wrinkly - even after washing... but the worst is the little ...",
+              "The design is very pretty. The colors are as I expected but I wish it didn\u2019t start wearing so soon. Both ends are cracking. It\u2019s been dropped a couple times, but on the first drop there was immediate damage to the case. I think this would b...",
+              "The items feel very cheap. Many of the items came loose in the packaging and were just floating around. The little medallions with pictures of Elsa and Anna came apart on the first day. But my daughters love to play dress up with them. And ..."
+            ],
+            "aesthetics_and_design": [
+              "I purchased this book after looking at several of the reviews and they posted some of the pictures.  I am fairly new the adult coloring book ideas.  This book great.  I am so glad I decided to purchase this.  The pictures are beautiful and ...",
+              "Great colours, good quality and fast arrival. Although I did notice a few small flowers dropping when I got them out of the package but you can easily reattach them back on. They look amazing as decoration and are exactly what I was looking...",
+              "As usual another tasteful and delicate piece of jewelry!  Not overtly complicated, nice Olof combination. Classy.  I love their peces, must have bought the lot!  Almost.  Works well with a tee shirt to a nice simple black dress!  Love it."
+            ],
+            "fit_and_sizing": [
+              "I bought it as a Christmas gift for my fiance' and he loves it.  He likes how cozy it is and how it will match his black wool peacoat.  He complained that it was too big for his head but once he rolled it down more it fit better.  Obviously...",
+              "These plushies are if great quality. Very soft and surprisingly highly detailed. I returned them, however, as they were slightly larger than anticipated. Since I was looking for something that would fit in a specific space, I did note the s...",
+              "I liked them, they are a little long for my fingers but they aren\u2019t really a natural look obviously. The bed are light pink and not sheer so glue bubbles are not visible. The paint started to chip a couple days ago but these have lasted a f..."
+            ],
+            "performance_and_functionality": [
+              "I have a hard time finding a really good book but bought this based on the recommendations. What a disappointment. I did finish it, just for the sake of finishing, but wasn\u2019t worth reading. It was an easy read, but not a compelling read.  W...",
+              "This is great. I love the fire. Lots of functionality & great for reading. I got the 8&#34; because of reading. There are many terrific features for reading: auto turn, auto page save. It's so easy to use. I've got it chock full of books fo...",
+              "i just got it but im impressed \"so far\"  sounds good  looks good  easy to pair with my Google Mini home ... !<br /><br />i was impressed until last night when the yellow light turned on the blue light wont come back  i dont have 2  to pair ..."
+            ],
+            "comparison_to_alternatives": [
+              "The display is bright and beautiful. It's way faster than my android tablet and there are a lot of things I really like about it. However there are things I really don't like and had I known about these things, and maybe I should have, I wo...",
+              "I have ordered two other books that were good this one is complete garbage...Im debating about returning it...poor quality artwork and should be more of a day of the dead book than vampires..complete disappointment",
+              "The bear-shaped board book \"edition\" is NOT the Corduroy story. It shouldn't even be listed as the same book. The original story is cute and poignant, and I highly recommend it. But the board book has no real narrative; it is just a list of..."
+            ],
+            "instructions_and_setup": [
+              "My daughter loves to crochet for her 4yr old daughter. She was delighted to open this holiday gift & can\u2019t wait to get started. She loved the pictures & once she makes the bunny doll, she is letting her daughter choose  the order in which s...",
+              "I ordered this from one company, and after weeks of waiting for it to arrive, they told me they had cancelled my order due to it being discontinued. The website still showed it as available by multiple sellers, including the one who said th...",
+              "this is an amazing set  with lots of parts and accessories .... but no instructions  :(  i mean i can sorta figure it out  but i wrote to the seller in hopes that a PDF or something exists somewhere on all these parts  !!!!  for the price t..."
+            ],
+            "Other": [
+              "I purchased the for part of my sister's Christmas bag.  She runs a private preschool/daycare.  She has raised dozens of children.  I just felt like she would really appreciate the positive thoughts and devotions in this book.",
+              "item arrived a head of time. Package easy to open.  I harbored some fear for Miss Clark- one of her suitors was man who couldn't hear no.  All in all it was a grand novel. Don't be put off by its Christian fiction tag line.  The characters ...",
+              "Bought this for my father-in-law as a joke to hold his real Christmas present.  It was a huge hit with him and the entire family.  He loved it so much that he took it to work to show all of his co-workers!"
+            ]
+          }
+        },
+        {
+          "facet_name": "review_length_and_detail",
+          "values": {
+            "one_line_reaction": [],
+            "short_summary": [
+              "Bought this for my father-in-law as a joke to hold his real Christmas present.  It was a huge hit with him and the entire family.  He loved it so much that he took it to work to show all of his co-workers!",
+              "I think it is wonderful.  My husband (82 years old) is having some difficulty getting familiar with the kindle book with audio.  He will get it, I think.  It is a bit different than his older Kindle Fire.",
+              "I ordered this for our family Christmas celebration & everyone LOVED it! It super easy & fun! We got lots of laughs! I just ordered \"The Office: Expansion Pack\" as all our kids are big Office fans! Can't wait to try that too & add to the fu..."
+            ],
+            "detailed_paragraph": [
+              "Good challenging book. The only thing that bugs me is that the book doesn't fold all the way flat without the pages being bent and there are many sections and I wish they were tabbed or notched so you could easily find the various sections.",
+              "I purchased the for part of my sister's Christmas bag.  She runs a private preschool/daycare.  She has raised dozens of children.  I just felt like she would really appreciate the positive thoughts and devotions in this book.",
+              "I purchased this book after looking at several of the reviews and they posted some of the pictures.  I am fairly new the adult coloring book ideas.  This book great.  I am so glad I decided to purchase this.  The pictures are beautiful and ..."
+            ],
+            "in_depth_multi_section_review": [
+              "This a lovely, faux garland.  It is very natural looking, but is faux.  It bends nicely to fit.  The colors are lovely with sprinkling of red berries.  There are 20 LED lights with a timer box.  Takes 3 AA batteries.  The timer is 6 hours o...",
+              "Ramen Obession cook book - if you like to make ramen - this is a great cook book.  Ramen is so much more than a plastic wrapped package.  It's about the broth - the type of noodles... etc.  This cookbook is a great one to have.  I purchased...",
+              "I purchased 2 of these and gave them with a set of reusable silicone bags.  They work nicely and were well received.  You can put them in the dishwasher too.  \u00a0Having said all of this, I never hesitate to update my reviews should new info s..."
+            ],
+            "Other": [
+              "Essays, fiction and poetry grouped in sections -<br /><br />The Nature of the Erotic Impulse<br /><br />Erotic Initiation and Passage<br /><br />The Erotic Imagination<br /><br />Erotic Differences Between Men and Women<br /><br />The Suppr..."
+            ]
+          }
+        }
+      ],
+      "elapsed_seconds": 480.16834473609924
+    },
+    {
+      "label": "homemade_vanilla",
+      "use_toponymy": false,
+      "erasure": false,
+      "schema": [
+        {
+          "name": "product_category",
+          "kind": "categorical",
+          "values": [
+            "books_and_media",
+            "apparel_and_footwear",
+            "beauty_and_personal_care",
+            "electronics_and_tech",
+            "home_and_kitchen",
+            "toys_and_games",
+            "furniture",
+            "jewelry_and_accessories",
+            "Other"
+          ],
+          "definition": "Captures the broad type of product being reviewed, grouping the corpus into high-level retail categories.",
+          "labeling_prompt_template": "Classify the following product reviews along the \"product_category\" dimension.\n\nCaptures the broad type of product being reviewed, grouping the corpus into high-level retail categories.\n\nChoose exactly one of: books_and_media, apparel_and_footwear, beauty_and_personal_care, electronics_and_tech, home_and_kitchen, toys_and_games, furniture, jewelry_and_accessories, Other\n\nproduct reviews:\n{document}\n\nRespond with the chosen value name only, no explanation.",
+          "labeling_model": "claude-haiku-4-5"
+        },
+        {
+          "name": "review_sentiment",
+          "kind": "categorical",
+          "values": [
+            "positive",
+            "negative",
+            "mixed",
+            "neutral",
+            "Other"
+          ],
+          "definition": "Captures the overall sentiment expressed by the reviewer toward the product.",
+          "labeling_prompt_template": "Classify the following product reviews along the \"review_sentiment\" dimension.\n\nCaptures the overall sentiment expressed by the reviewer toward the product.\n\nChoose exactly one of: positive, negative, mixed, neutral, Other\n\nproduct reviews:\n{document}\n\nRespond with the chosen value name only, no explanation.",
+          "labeling_model": "claude-haiku-4-5"
+        },
+        {
+          "name": "review_focus_aspect",
+          "kind": "categorical",
+          "values": [
+            "durability_and_longevity",
+            "fit_and_sizing",
+            "value_for_price",
+            "ease_of_use",
+            "aesthetics_and_appearance",
+            "functional_performance",
+            "comfort_and_feel",
+            "packaging_and_delivery",
+            "Other"
+          ],
+          "definition": "The primary product attribute the reviewer emphasizes when evaluating their purchase.",
+          "labeling_prompt_template": "Classify the following product reviews along the \"review_focus_aspect\" dimension.\n\nThe primary product attribute the reviewer emphasizes when evaluating their purchase.\n\nChoose exactly one of: durability_and_longevity, fit_and_sizing, value_for_price, ease_of_use, aesthetics_and_appearance, functional_performance, comfort_and_feel, packaging_and_delivery, Other\n\nproduct reviews:\n{document}\n\nRespond with the chosen value name only, no explanation.",
+          "labeling_model": "claude-haiku-4-5"
+        }
+      ],
+      "diagnostics_summary": [
+        {
+          "cluster_count": 49,
+          "hierarchy_depth": 1,
+          "entropy_bits": {
+            "observed": 2.849880937137654,
+            "uniform": 3.169925001442312,
+            "delta": -0.32004406430465826
+          }
+        },
+        {
+          "cluster_count": 45,
+          "hierarchy_depth": 1,
+          "entropy_bits": {
+            "observed": 1.3895980111365371,
+            "uniform": 2.321928094887362,
+            "delta": -0.932330083750825
+          }
+        },
+        {
+          "cluster_count": 51,
+          "hierarchy_depth": 1,
+          "entropy_bits": {
+            "observed": 2.8279998663220445,
+            "uniform": 3.169925001442312,
+            "delta": -0.3419251351202677
+          }
+        }
+      ],
+      "crosstab_facet0_vs_category": {
+        "rows": [
+          "All_Beauty",
+          "Books",
+          "Clothing_Shoes_and_Jewelry",
+          "Electronics",
+          "Home_and_Kitchen",
+          "Toys_and_Games"
+        ],
+        "columns": [
+          "books_and_media",
+          "apparel_and_footwear",
+          "beauty_and_personal_care",
+          "electronics_and_tech",
+          "home_and_kitchen",
+          "toys_and_games",
+          "furniture",
+          "jewelry_and_accessories",
+          "Other"
+        ],
+        "values": [
+          [
+            0,
+            11,
+            194,
+            8,
+            16,
+            2,
+            0,
+            19,
+            0
+          ],
+          [
+            245,
+            0,
+            0,
+            0,
+            1,
+            2,
+            0,
+            0,
+            2
+          ],
+          [
+            0,
+            200,
+            1,
+            1,
+            3,
+            1,
+            1,
+            43,
+            0
+          ],
+          [
+            2,
+            2,
+            1,
+            213,
+            12,
+            2,
+            3,
+            13,
+            2
+          ],
+          [
+            2,
+            6,
+            3,
+            6,
+            203,
+            3,
+            16,
+            10,
+            1
+          ],
+          [
+            4,
+            6,
+            1,
+            9,
+            7,
+            214,
+            2,
+            7,
+            0
+          ]
+        ]
+      },
+      "exemplars": [
+        {
+          "facet_name": "product_category",
+          "values": {
+            "books_and_media": [
+              "I just loved this book.  I read it for book club and everyone of us really liked it and talked about it non-stop for two hours.  It\u2019s one I will re-read as there are so many twists and turns and I know I\u2019ll enjoy it the second time.  Highly...",
+              "Good challenging book. The only thing that bugs me is that the book doesn't fold all the way flat without the pages being bent and there are many sections and I wish they were tabbed or notched so you could easily find the various sections.",
+              "I have a hard time finding a really good book but bought this based on the recommendations. What a disappointment. I did finish it, just for the sake of finishing, but wasn\u2019t worth reading. It was an easy read, but not a compelling read.  W..."
+            ],
+            "apparel_and_footwear": [
+              "I purchased this set to wear with a robe and slippers for Christmas morning... it is a lovely rich burgundy color.  The lace is soft.  Machine washed and dried nicely.  I am 5'7\"... 38DDD.. usually wear a 14/16 or 0x/1x - but I sized up jus...",
+              "*UPDATE*  I've washed these twice and they have gone crappy. Pilled up like crazy, fabric isn't opaque at all. Like bad enough that you can't wear these in public. And this isn't a matter of being delusional about my size and trying to stuf...",
+              "These pants are super small and I ordered an XL sizing, they are definitely not for lounging but rather feel very thick and yet at the same time the fabric is light in that it doesn't cover from cold weather, they look super uncomfortable b..."
+            ],
+            "beauty_and_personal_care": [
+              "WOW! I don't understand the negative reviews. This product is AMAZING!!! Just one use and I see a difference. It really tingles and feels refreshing. My skin has had large pores and blackheads (especially on the nose) and I've been fighting...",
+              "I like the product. My stylist used it my hair before. It went off the market and one day I just took a chance that maybe it might be back. Well it was back alight. I paid triple the price for it on Amazon!!!!!!",
+              "I decided to take the plunge and get this based on all the rave reviews. I did notice an improvement with my hair quality but no more than with any other mask or treatment. The price is ridiculous and the bottle is small."
+            ],
+            "electronics_and_tech": [
+              "Except for untangling all of the cords under my desk, this was a BREEZE to set up and get things running. Very happy with it. I don't use the camera feature so I can't rate that, but everything else is top notch.",
+              "i just got it but im impressed \"so far\"  sounds good  looks good  easy to pair with my Google Mini home ... !<br /><br />i was impressed until last night when the yellow light turned on the blue light wont come back  i dont have 2  to pair ...",
+              "The display is bright and beautiful. It's way faster than my android tablet and there are a lot of things I really like about it. However there are things I really don't like and had I known about these things, and maybe I should have, I wo..."
+            ],
+            "home_and_kitchen": [
+              "This is a nice set of pyrex glass dishes with lids.  I don't love plastic lids -but on occasion - you need a lid.  A great mix of shapes and sizes, if not a little small.  They wash in the dishwasher nicely.  Having said all of this, I neve...",
+              "I had actually bought one like these ones before because both my husband and I don't like the normal ones and it didn't work for us and I had pretty much given up and decided to give it a second try but actually reading the reviews and chec...",
+              "These are just adorable egg coddlers.  They could be used for condiment servers or pudding/custards or ? the bodies are a shiny ceramic.. the lids are a matte ceramic.  The lids do not fit perfectly on the bodies.. but they come with the si..."
+            ],
+            "toys_and_games": [
+              "Beautiful artwork and fun gameplay. Was able to play it easily with adults and my 9 year old (who loved it!). Fantastic storage box too with individual slots for each of the components - very well thought out design for the box. Rules are e...",
+              "I love when I find games that the young kids enjoy playing with the older kids.<br />This game was definitely worth it. It is made well, and I'm a sucker for wooden games anyways plus the pieces are just the right size for small hands!",
+              "My boys are oppressed with minecraft,so this was another piece to add to there collection! It is very durable and gets played with often! We have 3 little boys,ages 9,7,6 and this toy has held up great! I love to see them use there imaginat..."
+            ],
+            "furniture": [
+              "This is a beautiful piece of furniture.  It took my husband about an hour to assemble.  Nice sturdy pieces.  Looks fantastic. We have a 50inch tv with plenty of room on each side to dress it up. Very inexpensive for such a nice piece.",
+              "This piece is beautiful and sturdy! The storage is roomy enough to fit blankets and various other items. The assembly was easy and I had no issues. I fell in love with this piece so much that I bought the matching TV stand and couch end tab...",
+              "I bought this unit for several reasons:<br />Storage space, ease of set up,<br />durability, price.<br /><br />Hubby is the critic when I buy anything needing assembly or touting 'heavy duty'.<br /><br />I intended to set it up by myself......"
+            ],
+            "jewelry_and_accessories": [
+              "I first found this artist on Maui and I love all the matching pieces!  Some of the pieces are dark in color I chose this one for the brighter colors and the sentiment.  The great part of this bag is the functionality.  It's REALLY handy to ...",
+              "As usual another tasteful and delicate piece of jewelry!  Not overtly complicated, nice Olof combination. Classy.  I love their peces, must have bought the lot!  Almost.  Works well with a tee shirt to a nice simple black dress!  Love it.",
+              "Love this purse in every way. Leather is very soft, quality workmanship, great color for year round, European looking design which sets it apart from other bags, and is just the right size. Stylish yet very functional. Highly recommend."
+            ],
+            "Other": [
+              "I buy these through my subscibe and save subscription and by far these are the cheapest I can buy these.  My dogs love them and I love the price.  I have a bulldog and a lab and the bulldog is picky about her treats and she loves these.",
+              "This is an all time best for me. I prefer this cherry flavour over the cherry mash candy bar. I remember when they were only single bars.<br />Mine were very fresh, not stale at all. They were a tad soft, but it's July so I expected no less...",
+              "Purchased as one of my wife's Christmas gifts, and she absolutely loves it.  As a matter of fact, it's one of her favorites.  And if my better half (by far) is happy, then so am I!  Thank you very much."
+            ]
+          }
+        },
+        {
+          "facet_name": "review_sentiment",
+          "values": {
+            "positive": [
+              "Beautiful artwork and fun gameplay. Was able to play it easily with adults and my 9 year old (who loved it!). Fantastic storage box too with individual slots for each of the components - very well thought out design for the box. Rules are e...",
+              "I purchased this book after looking at several of the reviews and they posted some of the pictures.  I am fairly new the adult coloring book ideas.  This book great.  I am so glad I decided to purchase this.  The pictures are beautiful and ...",
+              "I love this. Also gave  one to each daughter as a stocking stuffer and they love them too. It\u2019s so long that you can wash your whole back. Love the perfect level of friction. Great exfoliation. The ones we got were from Japan, not China."
+            ],
+            "negative": [
+              "I thought the price on this tshirt was pretty good, so I purchased for my 8 year old grandson.  I was so disappointed in the quality when it arrived- the material is SUPER thin... wrinkly - even after washing... but the worst is the little ...",
+              "I got this for my neighbor's daughter on her birthday. They were so excited to try it out and it broke on the first use. What a waste of money on this and I can't even \"return/exchange\" it as it's a gift.",
+              "I have ordered two other books that were good this one is complete garbage...Im debating about returning it...poor quality artwork and should be more of a day of the dead book than vampires..complete disappointment"
+            ],
+            "mixed": [
+              "Good challenging book. The only thing that bugs me is that the book doesn't fold all the way flat without the pages being bent and there are many sections and I wish they were tabbed or notched so you could easily find the various sections.",
+              "I think it is wonderful.  My husband (82 years old) is having some difficulty getting familiar with the kindle book with audio.  He will get it, I think.  It is a bit different than his older Kindle Fire.",
+              "I like the product. My stylist used it my hair before. It went off the market and one day I just took a chance that maybe it might be back. Well it was back alight. I paid triple the price for it on Amazon!!!!!!"
+            ],
+            "neutral": [
+              "Essays, fiction and poetry grouped in sections -<br /><br />The Nature of the Erotic Impulse<br /><br />Erotic Initiation and Passage<br /><br />The Erotic Imagination<br /><br />Erotic Differences Between Men and Women<br /><br />The Suppr...",
+              "I have only started using this, so the verdict is still out. With that being said, I do see how this could be effective. I use the massager in the shower, it's a little more cooperative there due to the slip I get from my soap/shower gel. I...",
+              "it looks like it would work, but maybe not the right thing for my headphones, (earphones) normally use with an iphone or something... but they have a mic and 2 prong output so i thought it might work... i might be doing something wrong, any..."
+            ],
+            "Other": []
+          }
+        },
+        {
+          "facet_name": "review_focus_aspect",
+          "values": {
+            "durability_and_longevity": [
+              "DO NOT BELIEVE THE OTHER REVIEWS THE HAIR IS HORRIBLE AND SHEDS LIKE CRAZY! IT IS NOT 100% HUMAN HAIR. WHEN I FIRST RECEIVED THE HAIR, THE PACKAGING WAS NICE  AND THE HAIR WAS SILKY SMOOTH BUT AFTER ONE MONTH THE HAIR GOT MATTED AND DRY. TH...",
+              "These are great, and they feel comfortable and soft and look very clean just what I needed and for the price they are okay, may not be the best quality out there but they look ok so far I just hope they don't lose shape too fast.",
+              "Really like the concept of these and purchased several for children ovee the holidays.  Great variety.  I like that the multi-packs come in book form.  What turns me off is .... the stickers are so thin that they are difficult to remove, es..."
+            ],
+            "fit_and_sizing": [
+              "These pants are super small and I ordered an XL sizing, they are definitely not for lounging but rather feel very thick and yet at the same time the fabric is light in that it doesn't cover from cold weather, they look super uncomfortable b...",
+              "I like it, but I was hoping for something a little bigger. So this is a perfect size for the makeup you want to use when you're out and already have your makeup on but want to do touch ups. I can easily fit this in my purse. I would have li...",
+              "I just love the print, and the material feels good, but as usual the fit wasn\u2019t right. It never fails, I get a 2x one time and it\u2019s too snug/small. I get an extra large another time and it\u2019s too big ( nothing is to big for me because I can ..."
+            ],
+            "value_for_price": [
+              "I thought the price on this tshirt was pretty good, so I purchased for my 8 year old grandson.  I was so disappointed in the quality when it arrived- the material is SUPER thin... wrinkly - even after washing... but the worst is the little ...",
+              "I have a hard time finding a really good book but bought this based on the recommendations. What a disappointment. I did finish it, just for the sake of finishing, but wasn\u2019t worth reading. It was an easy read, but not a compelling read.  W...",
+              "I really like these, they seem to work well, and I like that they come in different styles. Way cheaper than the original beauty blender and other brands I've seen, and they seem to work the same. Very soft and they blend nicely. Definitely..."
+            ],
+            "ease_of_use": [
+              "Good challenging book. The only thing that bugs me is that the book doesn't fold all the way flat without the pages being bent and there are many sections and I wish they were tabbed or notched so you could easily find the various sections.",
+              "I purchased as a gift for a friend and her 4 year old granddaughter.  HUGE hit.  Granddaughter has 'moved in'  and working on painting the inside (not printed). I was told it was easy to put together.  It is a grand coloring project - does ...",
+              "I think it is wonderful.  My husband (82 years old) is having some difficulty getting familiar with the kindle book with audio.  He will get it, I think.  It is a bit different than his older Kindle Fire."
+            ],
+            "aesthetics_and_appearance": [
+              "I purchased this book after looking at several of the reviews and they posted some of the pictures.  I am fairly new the adult coloring book ideas.  This book great.  I am so glad I decided to purchase this.  The pictures are beautiful and ...",
+              "I have already written a review on this item, but am glad to repeat my pleasure at finding such great quality.The appearance is so lifelike. My Tween granddaughter is thrilled with it, she collects lobster items...thank you.",
+              "These are just as much fun as they were 50 years ago! Great quality and the shiny finish looks fab. I bought them for my granddaughters (11 and 4) for outdoor fun and exercise but I confess to a little bouncing myself when they weren't look..."
+            ],
+            "functional_performance": [
+              "I had actually bought one like these ones before because both my husband and I don't like the normal ones and it didn't work for us and I had pretty much given up and decided to give it a second try but actually reading the reviews and chec...",
+              "This is great. I love the fire. Lots of functionality & great for reading. I got the 8&#34; because of reading. There are many terrific features for reading: auto turn, auto page save. It's so easy to use. I've got it chock full of books fo...",
+              "WOW! I don't understand the negative reviews. This product is AMAZING!!! Just one use and I see a difference. It really tingles and feels refreshing. My skin has had large pores and blackheads (especially on the nose) and I've been fighting..."
+            ],
+            "comfort_and_feel": [
+              "Great, comfy top! I have three of these now & love them. They are comfortable, wash up well & look good. I highly recommend this & other Amazon Essential products...I've never been disappointed with any Amazon Basics or Essential products. ...",
+              "This is the most comfortable and best ear muff I have ever found. Soft and warm and doesn't press uncomfortably on your ears. The coverage is excellent and wind doesn't get into your ears. I highly recommend these. \ud83d\ude0a",
+              "I bought this blanket because it sounded like everything I wanted in a blanket. Well I was so happy. It is so soft and lightweight but warm. I absolutely love it. I highly recommend it and you won\u2019t be sorry."
+            ],
+            "packaging_and_delivery": [
+              "Oh man, I have been trying to get this statue for about 4 months! Wish I would have found this seller first. Ordered from them and had it at my house within a week (and that includes holiday times which makes shipments wonky). The box was a...",
+              "The dolls are cute! They\u2019re perfect for my niece. I love seeing more options, for everybody to feel included. However my packing was a little tore up, in one corner. I was still able to gift it, and I\u2019m sure it was just a fluke.",
+              "I ordered this from one company, and after weeks of waiting for it to arrive, they told me they had cancelled my order due to it being discontinued. The website still showed it as available by multiple sellers, including the one who said th..."
+            ],
+            "Other": [
+              "I had to read this book after all of the \"hoopla\" going around. I saw it advertised as \"Mommy Porn\" and also saw the skit about this book on Saturday Night Live. I thought it might be something different and worth reading, but I was mistake...",
+              "Great story, flowed nicely. The characters were believable and fun. The story itself was nicely told and the mystery was spot on. This was a great start to a new series, can't wait to see what they dream up next.",
+              "I just loved this book.  I read it for book club and everyone of us really liked it and talked about it non-stop for two hours.  It\u2019s one I will re-read as there are so many twists and turns and I know I\u2019ll enjoy it the second time.  Highly..."
+            ]
+          }
+        }
+      ],
+      "elapsed_seconds": 332.5870361328125
+    },
+    {
+      "label": "homemade_erasure",
+      "use_toponymy": false,
+      "erasure": true,
+      "schema": [
+        {
+          "name": "review_sentiment",
+          "kind": "categorical",
+          "values": [
+            "positive",
+            "negative",
+            "mixed",
+            "Other"
+          ],
+          "definition": "Captures the overall evaluative sentiment the reviewer expresses toward the product, ranging from satisfaction to dissatisfaction.",
+          "labeling_prompt_template": "Classify the following product reviews along the \"review_sentiment\" dimension.\n\nCaptures the overall evaluative sentiment the reviewer expresses toward the product, ranging from satisfaction to dissatisfaction.\n\nChoose exactly one of: positive, negative, mixed, Other\n\nproduct reviews:\n{document}\n\nRespond with the chosen value name only, no explanation.",
+          "labeling_model": "claude-haiku-4-5"
+        },
+        {
+          "name": "review_focus_aspect",
+          "kind": "categorical",
+          "values": [
+            "price_and_value",
+            "durability_and_longevity",
+            "fit_and_sizing",
+            "ease_of_use_and_setup",
+            "aesthetics_and_design",
+            "comfort_and_feel",
+            "performance_and_functionality",
+            "material_and_build_quality",
+            "Other"
+          ],
+          "definition": "Captures which product attribute the reviewer primarily evaluates or emphasizes in their review.",
+          "labeling_prompt_template": "Classify the following product reviews along the \"review_focus_aspect\" dimension.\n\nCaptures which product attribute the reviewer primarily evaluates or emphasizes in their review.\n\nChoose exactly one of: price_and_value, durability_and_longevity, fit_and_sizing, ease_of_use_and_setup, aesthetics_and_design, comfort_and_feel, performance_and_functionality, material_and_build_quality, Other\n\nproduct reviews:\n{document}\n\nRespond with the chosen value name only, no explanation.",
+          "labeling_model": "claude-haiku-4-5"
+        },
+        {
+          "name": "reviewer_intended_recipient",
+          "kind": "categorical",
+          "values": [
+            "self_use",
+            "gift_for_others",
+            "child_or_family_use",
+            "household_shared_use",
+            "professional_or_work_use",
+            "Other"
+          ],
+          "definition": "Captures who the reviewer purchased or used the product for, distinguishing personal use from gifting, family/children, shared household, or professional contexts.",
+          "labeling_prompt_template": "Classify the following product reviews along the \"reviewer_intended_recipient\" dimension.\n\nCaptures who the reviewer purchased or used the product for, distinguishing personal use from gifting, family/children, shared household, or professional contexts.\n\nChoose exactly one of: self_use, gift_for_others, child_or_family_use, household_shared_use, professional_or_work_use, Other\n\nproduct reviews:\n{document}\n\nRespond with the chosen value name only, no explanation.",
+          "labeling_model": "claude-haiku-4-5"
+        }
+      ],
+      "diagnostics_summary": [
+        {
+          "cluster_count": 47,
+          "hierarchy_depth": 1,
+          "entropy_bits": {
+            "observed": 1.3671348719230865,
+            "uniform": 2.0,
+            "delta": -0.6328651280769135
+          }
+        },
+        {
+          "cluster_count": 48,
+          "hierarchy_depth": 1,
+          "entropy_bits": {
+            "observed": 2.8645127943314,
+            "uniform": 3.169925001442312,
+            "delta": -0.305412207110912
+          }
+        },
+        {
+          "cluster_count": 51,
+          "hierarchy_depth": 1,
+          "entropy_bits": {
+            "observed": 1.5049342214001844,
+            "uniform": 2.584962500721156,
+            "delta": -1.0800282793209717
+          }
+        }
+      ],
+      "crosstab_facet0_vs_category": {
+        "rows": [
+          "All_Beauty",
+          "Books",
+          "Clothing_Shoes_and_Jewelry",
+          "Electronics",
+          "Home_and_Kitchen",
+          "Toys_and_Games"
+        ],
+        "columns": [
+          "positive",
+          "negative",
+          "mixed",
+          "Other"
+        ],
+        "values": [
+          [
+            142,
+            44,
+            64,
+            0
+          ],
+          [
+            169,
+            25,
+            54,
+            2
+          ],
+          [
+            134,
+            46,
+            70,
+            0
+          ],
+          [
+            156,
+            33,
+            61,
+            0
+          ],
+          [
+            139,
+            31,
+            80,
+            0
+          ],
+          [
+            154,
+            41,
+            55,
+            0
+          ]
+        ]
+      },
+      "exemplars": [
+        {
+          "facet_name": "review_sentiment",
+          "values": {
+            "positive": [
+              "I purchased this book after looking at several of the reviews and they posted some of the pictures.  I am fairly new the adult coloring book ideas.  This book great.  I am so glad I decided to purchase this.  The pictures are beautiful and ...",
+              "Beautiful artwork and fun gameplay. Was able to play it easily with adults and my 9 year old (who loved it!). Fantastic storage box too with individual slots for each of the components - very well thought out design for the box. Rules are e...",
+              "I love this. Also gave  one to each daughter as a stocking stuffer and they love them too. It\u2019s so long that you can wash your whole back. Love the perfect level of friction. Great exfoliation. The ones we got were from Japan, not China."
+            ],
+            "negative": [
+              "I thought the price on this tshirt was pretty good, so I purchased for my 8 year old grandson.  I was so disappointed in the quality when it arrived- the material is SUPER thin... wrinkly - even after washing... but the worst is the little ...",
+              "I got this for my neighbor's daughter on her birthday. They were so excited to try it out and it broke on the first use. What a waste of money on this and I can't even \"return/exchange\" it as it's a gift.",
+              "I have ordered two other books that were good this one is complete garbage...Im debating about returning it...poor quality artwork and should be more of a day of the dead book than vampires..complete disappointment"
+            ],
+            "mixed": [
+              "I think it is wonderful.  My husband (82 years old) is having some difficulty getting familiar with the kindle book with audio.  He will get it, I think.  It is a bit different than his older Kindle Fire.",
+              "Good challenging book. The only thing that bugs me is that the book doesn't fold all the way flat without the pages being bent and there are many sections and I wish they were tabbed or notched so you could easily find the various sections.",
+              "I like the product. My stylist used it my hair before. It went off the market and one day I just took a chance that maybe it might be back. Well it was back alight. I paid triple the price for it on Amazon!!!!!!"
+            ],
+            "Other": [
+              "Essays, fiction and poetry grouped in sections -<br /><br />The Nature of the Erotic Impulse<br /><br />Erotic Initiation and Passage<br /><br />The Erotic Imagination<br /><br />Erotic Differences Between Men and Women<br /><br />The Suppr...",
+              "My friend says he wants a GSD.  My family has owned several over the past forty five years. I wanted to make sure he was informed as possible, specifically on GSDs and how hard raising a puppy can be.  As well as being realistic about a lar..."
+            ]
+          }
+        },
+        {
+          "facet_name": "review_focus_aspect",
+          "values": {
+            "price_and_value": [
+              "I like the product. My stylist used it my hair before. It went off the market and one day I just took a chance that maybe it might be back. Well it was back alight. I paid triple the price for it on Amazon!!!!!!",
+              "Inexpensive, yet very functional. I got the bright color so I can keep track of it always, especially if I'm out and leave it on a table to get a refill drink or something. Easy to spot. If you are looking to tuck things in the flap it is l...",
+              "This doll is a great surprise. The doll itself is very nicely made, joints move easily without being loose, her hair is thickly rooted, soft, and best of all, has a center part down the back so pigtails or braids look really nice. The cloth..."
+            ],
+            "durability_and_longevity": [
+              "The design is very pretty. The colors are as I expected but I wish it didn\u2019t start wearing so soon. Both ends are cracking. It\u2019s been dropped a couple times, but on the first drop there was immediate damage to the case. I think this would b...",
+              "Really like the concept of these and purchased several for children ovee the holidays.  Great variety.  I like that the multi-packs come in book form.  What turns me off is .... the stickers are so thin that they are difficult to remove, es...",
+              "I got this for my neighbor's daughter on her birthday. They were so excited to try it out and it broke on the first use. What a waste of money on this and I can't even \"return/exchange\" it as it's a gift."
+            ],
+            "fit_and_sizing": [
+              "These plushies are if great quality. Very soft and surprisingly highly detailed. I returned them, however, as they were slightly larger than anticipated. Since I was looking for something that would fit in a specific space, I did note the s...",
+              "These are super cute, but I was looking for something a little larger (wider) and thicker. From the picture I couldn\u2019t really tell how thin i they were, but when they got here I realized they weren\u2019t for me.",
+              "I just love the print, and the material feels good, but as usual the fit wasn\u2019t right. It never fails, I get a 2x one time and it\u2019s too snug/small. I get an extra large another time and it\u2019s too big ( nothing is to big for me because I can ..."
+            ],
+            "ease_of_use_and_setup": [
+              "Good challenging book. The only thing that bugs me is that the book doesn't fold all the way flat without the pages being bent and there are many sections and I wish they were tabbed or notched so you could easily find the various sections.",
+              "My daughter loves to crochet for her 4yr old daughter. She was delighted to open this holiday gift & can\u2019t wait to get started. She loved the pictures & once she makes the bunny doll, she is letting her daughter choose  the order in which s...",
+              "So easy to use. I have been considering microbladling my eyebrows which is crazy expensive. I ordered this eyebrow pen and now I will hold off on spending the money to do the microblading. Best eyebrow product I\u2019ve used. Looks natural and g..."
+            ],
+            "aesthetics_and_design": [
+              "I purchased this book after looking at several of the reviews and they posted some of the pictures.  I am fairly new the adult coloring book ideas.  This book great.  I am so glad I decided to purchase this.  The pictures are beautiful and ...",
+              "I have already written a review on this item, but am glad to repeat my pleasure at finding such great quality.The appearance is so lifelike. My Tween granddaughter is thrilled with it, she collects lobster items...thank you.",
+              "Great colours, good quality and fast arrival. Although I did notice a few small flowers dropping when I got them out of the package but you can easily reattach them back on. They look amazing as decoration and are exactly what I was looking..."
+            ],
+            "comfort_and_feel": [
+              "These are great, and they feel comfortable and soft and look very clean just what I needed and for the price they are okay, may not be the best quality out there but they look ok so far I just hope they don't lose shape too fast.",
+              "Great, comfy top! I have three of these now & love them. They are comfortable, wash up well & look good. I highly recommend this & other Amazon Essential products...I've never been disappointed with any Amazon Basics or Essential products. ...",
+              "I bought this blanket because it sounded like everything I wanted in a blanket. Well I was so happy. It is so soft and lightweight but warm. I absolutely love it. I highly recommend it and you won\u2019t be sorry."
+            ],
+            "performance_and_functionality": [
+              "I have a hard time finding a really good book but bought this based on the recommendations. What a disappointment. I did finish it, just for the sake of finishing, but wasn\u2019t worth reading. It was an easy read, but not a compelling read.  W...",
+              "This is great. I love the fire. Lots of functionality & great for reading. I got the 8&#34; because of reading. There are many terrific features for reading: auto turn, auto page save. It's so easy to use. I've got it chock full of books fo...",
+              "I had actually bought one like these ones before because both my husband and I don't like the normal ones and it didn't work for us and I had pretty much given up and decided to give it a second try but actually reading the reviews and chec..."
+            ],
+            "material_and_build_quality": [
+              "I thought the price on this tshirt was pretty good, so I purchased for my 8 year old grandson.  I was so disappointed in the quality when it arrived- the material is SUPER thin... wrinkly - even after washing... but the worst is the little ...",
+              "These are WONDERFUL!! Very good quality satin fabric. We love how they have a drawstring to tighten as needed. My granddaughters think the patterns are super cute and they get excited picking out which one to wear...every night! \ud83e\udd70 Oh and my...",
+              "The items feel very cheap. Many of the items came loose in the packaging and were just floating around. The little medallions with pictures of Elsa and Anna came apart on the first day. But my daughters love to play dress up with them. And ..."
+            ],
+            "Other": [
+              "I purchased the for part of my sister's Christmas bag.  She runs a private preschool/daycare.  She has raised dozens of children.  I just felt like she would really appreciate the positive thoughts and devotions in this book.",
+              "I had to read this book after all of the \"hoopla\" going around. I saw it advertised as \"Mommy Porn\" and also saw the skit about this book on Saturday Night Live. I thought it might be something different and worth reading, but I was mistake...",
+              "My first read with this author.  The story line was interesting, great character development.  The chapters are short and weave in and out the story as it touches the lives of characters.  While getting close to the end, I put the book down..."
+            ]
+          }
+        },
+        {
+          "facet_name": "reviewer_intended_recipient",
+          "values": {
+            "self_use": [
+              "Good challenging book. The only thing that bugs me is that the book doesn't fold all the way flat without the pages being bent and there are many sections and I wish they were tabbed or notched so you could easily find the various sections.",
+              "I have a hard time finding a really good book but bought this based on the recommendations. What a disappointment. I did finish it, just for the sake of finishing, but wasn\u2019t worth reading. It was an easy read, but not a compelling read.  W...",
+              "i just got it but im impressed \"so far\"  sounds good  looks good  easy to pair with my Google Mini home ... !<br /><br />i was impressed until last night when the yellow light turned on the blue light wont come back  i dont have 2  to pair ..."
+            ],
+            "gift_for_others": [
+              "I purchased the for part of my sister's Christmas bag.  She runs a private preschool/daycare.  She has raised dozens of children.  I just felt like she would really appreciate the positive thoughts and devotions in this book.",
+              "I got this for my neighbor's daughter on her birthday. They were so excited to try it out and it broke on the first use. What a waste of money on this and I can't even \"return/exchange\" it as it's a gift.",
+              "My daughter loves to crochet for her 4yr old daughter. She was delighted to open this holiday gift & can\u2019t wait to get started. She loved the pictures & once she makes the bunny doll, she is letting her daughter choose  the order in which s..."
+            ],
+            "child_or_family_use": [
+              "This was a Google recommended book from some parent or teaching group and they were spot on! My granddaughter is about 14 months old and she loves the book. I love the quality and the format. Everything has a learning sound and that is grea...",
+              "I purchased this book after looking at several of the reviews and they posted some of the pictures.  I am fairly new the adult coloring book ideas.  This book great.  I am so glad I decided to purchase this.  The pictures are beautiful and ...",
+              "great watch.  7 year old loves it, easy for any kid that has used ipad or kindle.  if she gets tired of games, it still is great for time, both analog and digital, has calendar, stop watch, etc.  she will never get tired of the camera, vide..."
+            ],
+            "household_shared_use": [
+              "I had actually bought one like these ones before because both my husband and I don't like the normal ones and it didn't work for us and I had pretty much given up and decided to give it a second try but actually reading the reviews and chec...",
+              "I ordered this for our family Christmas celebration & everyone LOVED it! It super easy & fun! We got lots of laughs! I just ordered \"The Office: Expansion Pack\" as all our kids are big Office fans! Can't wait to try that too & add to the fu...",
+              "I just loved this book.  I read it for book club and everyone of us really liked it and talked about it non-stop for two hours.  It\u2019s one I will re-read as there are so many twists and turns and I know I\u2019ll enjoy it the second time.  Highly..."
+            ],
+            "professional_or_work_use": [
+              "These look nice and give off surprisingly good sound,  I work with my laptop constantly and use it for everything, but their built in speakers are terrible.  These are nice an portable and plug and play, would recommend for anyone who trave...",
+              "I got this book today and I am very disappointed with what I see. There is NO activities that would motivate or challenge students. There are just worksheets, no better than those you can print out from any internet web site for free. There...",
+              "It was helpful for the course (and required actually) but it was really hard to read it, because it was so boring. I've read better Western Civ textbooks, but the size and weight are quite helpful for toting around, and the price is right."
+            ],
+            "Other": [
+              "This story was ok, but I found too many instances of the main character\u2019s reactions to situations that did not ring true, that the author then put a lot of effort into explaining and justifying in an attempt to convince the reader.",
+              "The wheel works fine. The tab at the top doesn\u2019t make much sound. One of the pegs is missing a metal washer ring. You can easily unscrew the wheel to pack it up. Requires  screw drivers for full assembly when you first set it up.",
+              "Why didn\u2019t he ask to purchase vials from crooks house? MC went to blank area of witches but thought he would go finish off hydra, lost opportunity. Great addition to series, why didn\u2019t level go up after defeating and getting loot from tower..."
+            ]
+          }
+        }
+      ],
+      "elapsed_seconds": 326.12073278427124
+    }
+  ]
+}

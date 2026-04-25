@@ -1,0 +1,478 @@
+Loading Amazon reviews...
+  streaming Books...
+  streaming Electronics...
+  streaming All_Beauty...
+  streaming Clothing_Shoes_and_Jewelry...
+  streaming Home_and_Kitchen...
+  streaming Toys_and_Games...
+  loaded 498 reviews across 6 categories
+Embedding with sentence-transformers all-MiniLM-L6-v2...
+Loading weights:   0%|          | 0/103 [00:00<?, ?it/s]Loading weights: 100%|██████████| 103/103 [00:00<00:00, 8135.23it/s]
+[1mBertModel LOAD REPORT[0m from: sentence-transformers/all-MiniLM-L6-v2
+Key                     | Status     |  | 
+------------------------+------------+--+-
+embeddings.position_ids | UNEXPECTED |  | 
+
+Notes:
+- UNEXPECTED:	can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+Batches:   0%|          | 0/16 [00:00<?, ?it/s]Batches:   6%|▋         | 1/16 [00:00<00:06,  2.39it/s]Batches:  12%|█▎        | 2/16 [00:00<00:03,  3.72it/s]Batches:  19%|█▉        | 3/16 [00:00<00:03,  4.26it/s]Batches:  25%|██▌       | 4/16 [00:00<00:02,  4.41it/s]Batches:  31%|███▏      | 5/16 [00:01<00:02,  4.97it/s]Batches:  38%|███▊      | 6/16 [00:01<00:01,  5.96it/s]Batches:  50%|█████     | 8/16 [00:01<00:01,  7.88it/s]Batches:  62%|██████▎   | 10/16 [00:01<00:00,  9.86it/s]Batches:  75%|███████▌  | 12/16 [00:01<00:00, 11.74it/s]Batches:  88%|████████▊ | 14/16 [00:01<00:00, 13.33it/s]Batches: 100%|██████████| 16/16 [00:01<00:00,  8.59it/s]
+  embeddings shape: (498, 384)
+Loading weights:   0%|          | 0/103 [00:00<?, ?it/s]Loading weights: 100%|██████████| 103/103 [00:00<00:00, 8879.48it/s]
+[1mBertModel LOAD REPORT[0m from: sentence-transformers/all-MiniLM-L6-v2
+Key                     | Status     |  | 
+------------------------+------------+--+-
+embeddings.position_ids | UNEXPECTED |  | 
+
+Notes:
+- UNEXPECTED:	can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+
+======================================================================
+Arm: toponymy_vanilla
+======================================================================
+
+Selecting central exemplars:   0%|          | 0/9 [00:00<?, ?cluster/s][A
+                                                                       [ABatches:   0%|          | 0/101 [00:00<?, ?it/s]Batches:   1%|          | 1/101 [00:00<00:22,  4.36it/s]Batches:   6%|▌         | 6/101 [00:00<00:04, 21.83it/s]Batches:  14%|█▍        | 14/101 [00:00<00:02, 41.24it/s]Batches:  24%|██▍       | 24/101 [00:00<00:01, 60.19it/s]Batches:  32%|███▏      | 32/101 [00:00<00:01, 61.29it/s]Batches:  39%|███▊      | 39/101 [00:00<00:01, 60.06it/s]Batches:  46%|████▌     | 46/101 [00:00<00:00, 59.62it/s]Batches:  58%|█████▊    | 59/101 [00:01<00:00, 78.59it/s]Batches:  70%|███████   | 71/101 [00:01<00:00, 88.93it/s]Batches:  80%|████████  | 81/101 [00:01<00:00, 85.25it/s]Batches:  89%|████████▉ | 90/101 [00:01<00:00, 85.93it/s]Batches:  98%|█████████▊| 99/101 [00:01<00:00, 86.48it/s]Batches: 100%|██████████| 101/101 [00:01<00:00, 66.78it/s]
+Building topic names by layer:   0%|          | 0/2 [00:00<?, ?layer/s]
+Generating informative keyphrases:   0%|          | 0/9 [00:00<?, ?cluster/s][A
+Generating informative keyphrases:  11%|█         | 1/9 [00:00<00:03,  2.15cluster/s][A
+                                                                                     [A
+Generating prompts for layer 0:   0%|          | 0/9 [00:00<?, ?topic/s][A
+                                                                        [A
+Generating topic names for layer 0:   0%|          | 0/9 [00:00<?, ?topic/s][A
+Generating topic names for layer 0:  11%|█         | 1/9 [00:01<00:09,  1.17s/topic][A
+Generating topic names for layer 0:  22%|██▏       | 2/9 [00:02<00:07,  1.07s/topic][A
+Generating topic names for layer 0:  33%|███▎      | 3/9 [00:03<00:05,  1.00topic/s][A
+Generating topic names for layer 0:  44%|████▍     | 4/9 [00:03<00:04,  1.08topic/s][A
+Generating topic names for layer 0:  56%|█████▌    | 5/9 [00:04<00:03,  1.08topic/s][A
+Generating topic names for layer 0:  67%|██████▋   | 6/9 [00:05<00:02,  1.08topic/s][A
+Generating topic names for layer 0:  78%|███████▊  | 7/9 [00:06<00:01,  1.12topic/s][A
+Generating topic names for layer 0:  89%|████████▉ | 8/9 [00:07<00:00,  1.12topic/s][A
+Generating topic names for layer 0: 100%|██████████| 9/9 [00:08<00:00,  1.14topic/s][A
+                                                                                    [A
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][A
+Batches: 100%|██████████| 1/1 [00:00<00:00,  7.22it/s][ABatches: 100%|██████████| 1/1 [00:00<00:00,  7.21it/s]
+Building topic names by layer:  50%|█████     | 1/2 [00:09<00:09,  9.82s/layer]
+Selecting central exemplars:   0%|          | 0/4 [00:00<?, ?cluster/s][A
+                                                                       [A
+Generating informative keyphrases:   0%|          | 0/4 [00:00<?, ?cluster/s][A
+                                                                             [A
+Selecting central subtopics:   0%|          | 0/4 [00:00<?, ?cluster/s][A
+                                                                       [A
+Generating prompts for layer 1:   0%|          | 0/4 [00:00<?, ?topic/s][A
+                                                                        [A
+Generating topic names for layer 1:   0%|          | 0/4 [00:00<?, ?topic/s][A
+Generating topic names for layer 1:  25%|██▌       | 1/4 [00:00<00:02,  1.20topic/s][A
+Generating topic names for layer 1:  50%|█████     | 2/4 [00:02<00:02,  1.18s/topic][A
+                                                                                    [A
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][A
+Batches: 100%|██████████| 1/1 [00:00<00:00,  7.91it/s][ABatches: 100%|██████████| 1/1 [00:00<00:00,  7.90it/s]
+Building topic names by layer: 100%|██████████| 2/2 [00:12<00:00,  5.51s/layer]Building topic names by layer: 100%|██████████| 2/2 [00:12<00:00,  6.16s/layer]
+labeling product_category:   0%|          | 0/498 [00:00<?, ?doc/s]labeling product_category:   0%|          | 1/498 [00:00<03:56,  2.10doc/s]labeling product_category:   0%|          | 2/498 [00:01<04:12,  1.96doc/s]labeling product_category:   4%|▍         | 19/498 [00:01<00:22, 20.86doc/s]labeling product_category:   5%|▍         | 23/498 [00:01<00:33, 14.31doc/s]labeling product_category:   6%|▌         | 31/498 [00:02<00:24, 18.76doc/s]labeling product_category:   7%|▋         | 34/498 [00:03<01:10,  6.54doc/s]labeling product_category:   9%|▊         | 43/498 [00:06<01:27,  5.18doc/s]labeling product_category:  19%|█▉        | 94/498 [00:07<00:24, 16.35doc/s]labeling product_category:  24%|██▍       | 122/498 [00:08<00:20, 18.22doc/s]labeling product_category:  28%|██▊       | 141/498 [00:08<00:14, 23.82doc/s]labeling product_category:  30%|███       | 150/498 [00:09<00:14, 23.69doc/s]labeling product_category:  32%|███▏      | 157/498 [00:09<00:13, 25.22doc/s]labeling product_category:  33%|███▎      | 162/498 [00:09<00:16, 20.21doc/s]labeling product_category:  33%|███▎      | 166/498 [00:15<01:14,  4.45doc/s]labeling product_category:  47%|████▋     | 234/498 [00:15<00:15, 16.57doc/s]labeling product_category:  53%|█████▎    | 264/498 [00:16<00:09, 23.50doc/s]labeling product_category:  55%|█████▌    | 274/498 [00:17<00:13, 16.70doc/s]labeling product_category:  60%|█████▉    | 298/498 [00:18<00:08, 22.97doc/s]labeling product_category:  62%|██████▏   | 307/498 [00:19<00:10, 18.72doc/s]labeling product_category:  65%|██████▍   | 322/498 [00:19<00:07, 23.42doc/s]labeling product_category:  66%|██████▋   | 330/498 [00:20<00:10, 16.14doc/s]labeling product_category:  68%|██████▊   | 340/498 [00:25<00:25,  6.20doc/s]labeling product_category:  81%|████████  | 404/498 [00:26<00:05, 17.31doc/s]labeling product_category:  88%|████████▊ | 437/498 [00:26<00:02, 25.18doc/s]labeling product_category:  91%|█████████ | 451/498 [00:27<00:02, 19.50doc/s]labeling product_category:  93%|█████████▎| 461/498 [00:29<00:02, 14.38doc/s]labeling product_category:  99%|█████████▉| 495/498 [00:29<00:00, 23.17doc/s]labeling product_category: 100%|██████████| 498/498 [00:29<00:00, 16.72doc/s]
+
+Selecting central exemplars:   0%|          | 0/14 [00:00<?, ?cluster/s][A
+                                                                        [ABatches:   0%|          | 0/101 [00:00<?, ?it/s]Batches:   5%|▍         | 5/101 [00:00<00:02, 46.04it/s]Batches:  17%|█▋        | 17/101 [00:00<00:00, 87.20it/s]Batches:  29%|██▊       | 29/101 [00:00<00:00, 101.03it/s]Batches:  41%|████      | 41/101 [00:00<00:00, 107.26it/s]Batches:  53%|█████▎    | 54/101 [00:00<00:00, 113.14it/s]Batches:  65%|██████▌   | 66/101 [00:00<00:00, 114.29it/s]Batches:  77%|███████▋  | 78/101 [00:00<00:00, 110.75it/s]Batches:  89%|████████▉ | 90/101 [00:00<00:00, 99.31it/s] Batches: 100%|██████████| 101/101 [00:01<00:00, 90.73it/s]Batches: 100%|██████████| 101/101 [00:01<00:00, 97.87it/s]
+Building topic names by layer:   0%|          | 0/2 [00:00<?, ?layer/s]
+Generating informative keyphrases:   0%|          | 0/14 [00:00<?, ?cluster/s][A
+                                                                              [A
+Generating prompts for layer 0:   0%|          | 0/14 [00:00<?, ?topic/s][A
+                                                                         [A
+Generating topic names for layer 0:   0%|          | 0/14 [00:00<?, ?topic/s][A
+Generating topic names for layer 0:   7%|▋         | 1/14 [00:01<00:14,  1.08s/topic][A
+Generating topic names for layer 0:  14%|█▍        | 2/14 [00:01<00:11,  1.09topic/s][A
+Generating topic names for layer 0:  21%|██▏       | 3/14 [00:02<00:09,  1.19topic/s][A
+Generating topic names for layer 0:  29%|██▊       | 4/14 [00:03<00:09,  1.05topic/s][A
+Generating topic names for layer 0:  36%|███▌      | 5/14 [00:04<00:08,  1.06topic/s][A
+Generating topic names for layer 0:  43%|████▎     | 6/14 [00:05<00:07,  1.07topic/s][A
+Generating topic names for layer 0:  50%|█████     | 7/14 [00:06<00:06,  1.11topic/s][A
+Generating topic names for layer 0:  57%|█████▋    | 8/14 [00:07<00:05,  1.10topic/s][A
+Generating topic names for layer 0:  64%|██████▍   | 9/14 [00:08<00:04,  1.14topic/s][A
+Generating topic names for layer 0:  71%|███████▏  | 10/14 [00:09<00:03,  1.15topic/s][A
+Generating topic names for layer 0:  79%|███████▊  | 11/14 [00:10<00:03,  1.03s/topic][A
+Generating topic names for layer 0:  86%|████████▌ | 12/14 [00:11<00:02,  1.01s/topic][A
+Generating topic names for layer 0:  93%|█████████▎| 13/14 [00:12<00:00,  1.03topic/s][A
+Generating topic names for layer 0: 100%|██████████| 14/14 [00:13<00:00,  1.00topic/s][A
+                                                                                      [A
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][A
+Batches: 100%|██████████| 1/1 [00:00<00:00,  3.96it/s][ABatches: 100%|██████████| 1/1 [00:00<00:00,  3.96it/s]
+Building topic names by layer:  50%|█████     | 1/2 [00:13<00:13, 13.69s/layer]
+Selecting central exemplars:   0%|          | 0/5 [00:00<?, ?cluster/s][A
+                                                                       [A
+Generating informative keyphrases:   0%|          | 0/5 [00:00<?, ?cluster/s][A
+                                                                             [A
+Selecting central subtopics:   0%|          | 0/5 [00:00<?, ?cluster/s][A
+                                                                       [A
+Generating prompts for layer 1:   0%|          | 0/5 [00:00<?, ?topic/s][A
+                                                                        [A
+Generating topic names for layer 1:   0%|          | 0/5 [00:00<?, ?topic/s][A
+Generating topic names for layer 1:  60%|██████    | 3/5 [00:01<00:00,  2.21topic/s][A
+Generating topic names for layer 1:  80%|████████  | 4/5 [00:02<00:00,  1.77topic/s][A
+Generating topic names for layer 1: 100%|██████████| 5/5 [00:05<00:00,  1.39s/topic][A
+                                                                                    [A
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][A
+Batches: 100%|██████████| 1/1 [00:00<00:00,  4.58it/s][ABatches: 100%|██████████| 1/1 [00:00<00:00,  4.57it/s]
+Building topic names by layer: 100%|██████████| 2/2 [00:19<00:00,  8.98s/layer]Building topic names by layer: 100%|██████████| 2/2 [00:19<00:00,  9.69s/layer]
+labeling review_sentiment:   0%|          | 0/498 [00:00<?, ?doc/s]labeling review_sentiment:   0%|          | 1/498 [00:00<04:32,  1.82doc/s]labeling review_sentiment:   1%|          | 5/498 [00:01<01:47,  4.58doc/s]labeling review_sentiment:   3%|▎         | 16/498 [00:01<00:35, 13.74doc/s]labeling review_sentiment:   5%|▌         | 26/498 [00:01<00:20, 23.13doc/s]labeling review_sentiment:   6%|▌         | 30/498 [00:02<00:32, 14.52doc/s]labeling review_sentiment:   7%|▋         | 35/498 [00:03<00:41, 11.07doc/s]labeling review_sentiment:  11%|█         | 56/498 [00:03<00:16, 26.82doc/s]labeling review_sentiment:  13%|█▎        | 63/498 [00:03<00:17, 25.03doc/s]labeling review_sentiment:  14%|█▍        | 69/498 [00:04<00:22, 18.73doc/s]labeling review_sentiment:  15%|█▌        | 77/498 [00:04<00:17, 23.43doc/s]labeling review_sentiment:  16%|█▋        | 82/498 [00:05<00:35, 11.70doc/s]labeling review_sentiment:  21%|██        | 105/498 [00:05<00:16, 23.54doc/s]labeling review_sentiment:  22%|██▏       | 110/498 [00:05<00:16, 24.15doc/s]labeling review_sentiment:  23%|██▎       | 115/498 [00:07<00:33, 11.58doc/s]labeling review_sentiment:  25%|██▌       | 125/498 [00:08<00:34, 10.85doc/s]labeling review_sentiment:  28%|██▊       | 138/498 [00:10<00:39,  9.04doc/s]labeling review_sentiment:  30%|██▉       | 147/498 [00:16<01:33,  3.77doc/s]labeling review_sentiment:  51%|█████     | 254/498 [00:16<00:12, 19.55doc/s]labeling review_sentiment:  54%|█████▍    | 269/498 [00:17<00:10, 21.66doc/s]labeling review_sentiment:  55%|█████▌    | 276/498 [00:17<00:11, 19.79doc/s]labeling review_sentiment:  57%|█████▋    | 285/498 [00:17<00:09, 22.00doc/s]labeling review_sentiment:  58%|█████▊    | 291/498 [00:18<00:09, 21.80doc/s]labeling review_sentiment:  59%|█████▉    | 296/498 [00:18<00:09, 22.27doc/s]labeling review_sentiment:  60%|██████    | 300/498 [00:18<00:11, 17.50doc/s]labeling review_sentiment:  62%|██████▏   | 311/498 [00:19<00:07, 23.53doc/s]labeling review_sentiment:  63%|██████▎   | 316/498 [00:19<00:09, 19.96doc/s]labeling review_sentiment:  65%|██████▍   | 323/498 [00:19<00:07, 23.76doc/s]labeling review_sentiment:  66%|██████▌   | 328/498 [00:19<00:07, 23.75doc/s]labeling review_sentiment:  67%|██████▋   | 332/498 [00:20<00:07, 23.48doc/s]labeling review_sentiment:  67%|██████▋   | 336/498 [00:20<00:11, 14.28doc/s]labeling review_sentiment:  69%|██████▉   | 345/498 [00:21<00:12, 12.14doc/s]labeling review_sentiment:  72%|███████▏  | 358/498 [00:21<00:07, 17.50doc/s]labeling review_sentiment:  72%|███████▏  | 361/498 [00:22<00:07, 18.17doc/s]labeling review_sentiment:  74%|███████▍  | 368/498 [00:22<00:07, 16.29doc/s]labeling review_sentiment:  74%|███████▍  | 371/498 [00:22<00:09, 14.05doc/s]labeling review_sentiment:  78%|███████▊  | 387/498 [00:23<00:04, 27.68doc/s]labeling review_sentiment:  79%|███████▉  | 393/498 [00:24<00:10, 10.39doc/s]labeling review_sentiment:  84%|████████▎ | 416/498 [00:30<00:13,  5.99doc/s]labeling review_sentiment:  95%|█████████▌| 475/498 [00:30<00:01, 16.92doc/s]labeling review_sentiment:  97%|█████████▋| 485/498 [00:30<00:00, 17.12doc/s]labeling review_sentiment: 100%|██████████| 498/498 [00:30<00:00, 16.09doc/s]
+
+Selecting central exemplars:   0%|          | 0/8 [00:00<?, ?cluster/s][A
+                                                                       [ABatches:   0%|          | 0/101 [00:00<?, ?it/s]Batches:   1%|          | 1/101 [00:00<00:15,  6.48it/s]Batches:   7%|▋         | 7/101 [00:00<00:02, 31.40it/s]Batches:  16%|█▌        | 16/101 [00:00<00:01, 53.63it/s]Batches:  28%|██▊       | 28/101 [00:00<00:00, 77.20it/s]Batches:  40%|███▉      | 40/101 [00:00<00:00, 90.45it/s]Batches:  51%|█████▏    | 52/101 [00:00<00:00, 97.33it/s]Batches:  61%|██████▏   | 62/101 [00:00<00:00, 82.65it/s]Batches:  70%|███████   | 71/101 [00:00<00:00, 79.78it/s]Batches:  79%|███████▉  | 80/101 [00:01<00:00, 78.11it/s]Batches:  88%|████████▊ | 89/101 [00:01<00:00, 76.18it/s]Batches: 100%|██████████| 101/101 [00:01<00:00, 77.59it/s]
+Building topic names by layer:   0%|          | 0/1 [00:00<?, ?layer/s]
+Generating informative keyphrases:   0%|          | 0/8 [00:00<?, ?cluster/s][A
+                                                                             [A
+Generating prompts for layer 0:   0%|          | 0/8 [00:00<?, ?topic/s][A
+                                                                        [A
+Generating topic names for layer 0:   0%|          | 0/8 [00:00<?, ?topic/s][A
+Generating topic names for layer 0:  12%|█▎        | 1/8 [00:01<00:07,  1.06s/topic][A
+Generating topic names for layer 0:  25%|██▌       | 2/8 [00:02<00:09,  1.51s/topic][A
+Generating topic names for layer 0:  38%|███▊      | 3/8 [00:04<00:07,  1.50s/topic][A
+Generating topic names for layer 0:  50%|█████     | 4/8 [00:05<00:04,  1.23s/topic][A
+Generating topic names for layer 0:  62%|██████▎   | 5/8 [00:06<00:03,  1.11s/topic][A
+Generating topic names for layer 0:  75%|███████▌  | 6/8 [00:07<00:02,  1.12s/topic][A
+Generating topic names for layer 0:  88%|████████▊ | 7/8 [00:08<00:01,  1.17s/topic][A
+Generating topic names for layer 0: 100%|██████████| 8/8 [00:09<00:00,  1.07s/topic][A
+                                                                                    [A
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][A
+Batches: 100%|██████████| 1/1 [00:00<00:00,  9.53it/s][ABatches: 100%|██████████| 1/1 [00:00<00:00,  9.52it/s]
+Building topic names by layer: 100%|██████████| 1/1 [00:09<00:00,  9.54s/layer]Building topic names by layer: 100%|██████████| 1/1 [00:09<00:00,  9.54s/layer]
+labeling review_focus_aspect:   0%|          | 0/498 [00:00<?, ?doc/s]labeling review_focus_aspect:   0%|          | 1/498 [00:00<06:31,  1.27doc/s]labeling review_focus_aspect:   3%|▎         | 13/498 [00:01<00:30, 15.81doc/s]labeling review_focus_aspect:   3%|▎         | 16/498 [00:01<00:28, 17.06doc/s]labeling review_focus_aspect:   4%|▍         | 19/498 [00:01<00:50,  9.41doc/s]labeling review_focus_aspect:   6%|▋         | 32/498 [00:02<00:26, 17.85doc/s]labeling review_focus_aspect:   7%|▋         | 35/498 [00:02<00:29, 15.81doc/s]labeling review_focus_aspect:   8%|▊         | 38/498 [00:02<00:28, 16.12doc/s]labeling review_focus_aspect:   9%|▉         | 46/498 [00:02<00:21, 21.35doc/s]labeling review_focus_aspect:  10%|█         | 50/498 [00:03<00:21, 20.44doc/s]labeling review_focus_aspect:  11%|█         | 53/498 [00:03<00:40, 11.11doc/s]labeling review_focus_aspect:  13%|█▎        | 65/498 [00:05<00:55,  7.78doc/s]labeling review_focus_aspect:  19%|█▉        | 97/498 [00:06<00:25, 15.69doc/s]labeling review_focus_aspect:  20%|██        | 102/498 [00:07<00:25, 15.64doc/s]labeling review_focus_aspect:  23%|██▎       | 117/498 [00:07<00:22, 17.13doc/s]labeling review_focus_aspect:  26%|██▌       | 127/498 [00:08<00:21, 17.11doc/s]labeling review_focus_aspect:  26%|██▋       | 131/498 [00:09<00:27, 13.36doc/s]labeling review_focus_aspect:  31%|███       | 154/498 [00:09<00:14, 23.60doc/s]labeling review_focus_aspect:  32%|███▏      | 158/498 [00:09<00:17, 19.93doc/s]labeling review_focus_aspect:  34%|███▍      | 169/498 [00:10<00:16, 20.06doc/s]labeling review_focus_aspect:  35%|███▍      | 172/498 [00:11<00:27, 11.72doc/s]labeling review_focus_aspect:  39%|███▉      | 193/498 [00:11<00:13, 22.83doc/s]labeling review_focus_aspect:  40%|████      | 201/498 [00:12<00:14, 20.85doc/s]labeling review_focus_aspect:  42%|████▏     | 207/498 [00:12<00:16, 17.74doc/s]labeling review_focus_aspect:  43%|████▎     | 212/498 [00:13<00:19, 14.48doc/s]labeling review_focus_aspect:  44%|████▍     | 220/498 [00:14<00:22, 12.50doc/s]labeling review_focus_aspect:  45%|████▌     | 225/498 [00:14<00:23, 11.75doc/s]labeling review_focus_aspect:  48%|████▊     | 239/498 [00:15<00:15, 16.91doc/s]labeling review_focus_aspect:  49%|████▊     | 242/498 [00:18<00:49,  5.15doc/s]labeling review_focus_aspect:  60%|██████    | 299/498 [00:19<00:10, 18.64doc/s]labeling review_focus_aspect:  63%|██████▎   | 315/498 [00:19<00:08, 20.38doc/s]labeling review_focus_aspect:  64%|██████▍   | 319/498 [00:24<00:23,  7.63doc/s]labeling review_focus_aspect:  77%|███████▋  | 385/498 [00:24<00:05, 19.33doc/s]labeling review_focus_aspect:  79%|███████▉  | 395/498 [00:25<00:05, 20.48doc/s]labeling review_focus_aspect:  81%|████████▏ | 405/498 [00:25<00:04, 23.23doc/s]labeling review_focus_aspect:  83%|████████▎ | 412/498 [00:25<00:03, 22.33doc/s]labeling review_focus_aspect:  84%|████████▎ | 417/498 [00:26<00:04, 19.26doc/s]labeling review_focus_aspect:  85%|████████▍ | 421/498 [00:26<00:04, 18.07doc/s]labeling review_focus_aspect:  86%|████████▌ | 426/498 [00:26<00:03, 20.07doc/s]labeling review_focus_aspect:  87%|████████▋ | 433/498 [00:26<00:02, 24.24doc/s]labeling review_focus_aspect:  88%|████████▊ | 438/498 [00:32<00:16,  3.57doc/s]labeling review_focus_aspect:  96%|█████████▌| 476/498 [00:34<00:02,  8.00doc/s]labeling review_focus_aspect: 100%|██████████| 498/498 [00:34<00:00, 14.32doc/s]
+
+--- Schema (toponymy_vanilla) ---
+
+Facet 0: product_category (categorical)
+  The type of product being reviewed, distinguishing the domain or category of the item.
+  - books
+  - cookbooks
+  - kitchenware
+  - footwear
+  - apparel
+  - hair_care
+  - skincare
+  - tech_accessories
+  - toys_and_games
+  - Other
+
+Facet 1: review_sentiment (categorical)
+  Captures the overall sentiment expressed by the reviewer toward the product.
+  - positive
+  - negative
+  - mixed
+  - neutral
+  - Other
+
+Facet 2: review_focus_aspect (categorical)
+  The primary product attribute or dimension the reviewer evaluates and emphasizes in their review.
+  - fit_and_sizing
+  - durability_and_build_quality
+  - ease_of_use_and_setup
+  - aesthetics_and_appearance
+  - functional_performance
+  - value_for_price
+  - content_and_storytelling
+  - Other
+
+--- toponymy_vanilla: Facet 0 (product_category) vs curator product_category ---
+
+product_category            books  cookbooks  kitchenware  footwear  apparel  hair_care  skincare  tech_accessories  toys_and_games  Other
+curator_category                                                                                                                          
+All_Beauty                      0          0            5         2        2         34        31                 2               3      4
+Books                          65         12            0         0        0          0         0                 0               4      2
+Clothing_Shoes_and_Jewelry      0          0            0        17       50          0         0                 8               2      6
+Electronics                     0          0            0         0        0          1         0                76               1      5
+Home_and_Kitchen                0          0           51         1        2          0         0                 4               4     21
+Toys_and_Games                  0          0            1         0        0          0         0                 1              80      1
+
+--- toponymy_vanilla: per-facet diagnostics ---
+  Facet 0: clusters=9 depth=2 entropy obs=3.11 unif=3.32 delta=-0.21 bits
+  Facet 1: clusters=14 depth=2 entropy obs=1.38 unif=2.32 delta=-0.95 bits
+  Facet 2: clusters=8 depth=1 entropy obs=2.78 unif=3.00 delta=-0.22 bits
+
+  elapsed: 153.6s
+
+======================================================================
+Arm: toponymy_erasure
+======================================================================
+
+Selecting central exemplars:   0%|          | 0/11 [00:00<?, ?cluster/s][A
+                                                                        [ABatches:   0%|          | 0/101 [00:00<?, ?it/s]Batches:   1%|          | 1/101 [00:00<00:26,  3.73it/s]Batches:  12%|█▏        | 12/101 [00:00<00:02, 40.63it/s]Batches:  23%|██▎       | 23/101 [00:00<00:01, 62.43it/s]Batches:  36%|███▌      | 36/101 [00:00<00:00, 83.12it/s]Batches:  48%|████▊     | 48/101 [00:00<00:00, 94.48it/s]Batches:  58%|█████▊    | 59/101 [00:00<00:00, 98.52it/s]Batches:  69%|██████▉   | 70/101 [00:00<00:00, 93.81it/s]Batches:  80%|████████  | 81/101 [00:01<00:00, 90.41it/s]Batches:  92%|█████████▏| 93/101 [00:01<00:00, 97.96it/s]Batches: 100%|██████████| 101/101 [00:01<00:00, 84.64it/s]
+Building topic names by layer:   0%|          | 0/1 [00:00<?, ?layer/s]
+Generating informative keyphrases:   0%|          | 0/11 [00:00<?, ?cluster/s][A
+                                                                              [A
+Generating prompts for layer 0:   0%|          | 0/11 [00:00<?, ?topic/s][A
+                                                                         [A
+Generating topic names for layer 0:   0%|          | 0/11 [00:00<?, ?topic/s][A
+Generating topic names for layer 0:   9%|▉         | 1/11 [00:00<00:09,  1.10topic/s][A
+Generating topic names for layer 0:  18%|█▊        | 2/11 [00:01<00:07,  1.20topic/s][A
+Generating topic names for layer 0:  27%|██▋       | 3/11 [00:02<00:07,  1.04topic/s][A
+Generating topic names for layer 0:  36%|███▋      | 4/11 [00:04<00:07,  1.06s/topic][A
+Generating topic names for layer 0:  45%|████▌     | 5/11 [00:06<00:08,  1.48s/topic][A
+Generating topic names for layer 0:  55%|█████▍    | 6/11 [00:08<00:07,  1.59s/topic][A
+Generating topic names for layer 0:  64%|██████▎   | 7/11 [00:09<00:05,  1.39s/topic][A
+Generating topic names for layer 0:  73%|███████▎  | 8/11 [00:09<00:03,  1.22s/topic][A
+Generating topic names for layer 0:  82%|████████▏ | 9/11 [00:10<00:02,  1.11s/topic][A
+Generating topic names for layer 0:  91%|█████████ | 10/11 [00:11<00:01,  1.02s/topic][A
+Generating topic names for layer 0: 100%|██████████| 11/11 [00:12<00:00,  1.02s/topic][A
+                                                                                      [A
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][A
+Batches: 100%|██████████| 1/1 [00:00<00:00,  5.86it/s][ABatches: 100%|██████████| 1/1 [00:00<00:00,  5.86it/s]
+Building topic names by layer: 100%|██████████| 1/1 [00:12<00:00, 12.84s/layer]Building topic names by layer: 100%|██████████| 1/1 [00:12<00:00, 12.84s/layer]
+labeling review_sentiment:   0%|          | 0/498 [00:00<?, ?doc/s]labeling review_sentiment:   0%|          | 1/498 [00:00<04:21,  1.90doc/s]labeling review_sentiment:   2%|▏         | 10/498 [00:00<00:35, 13.86doc/s]labeling review_sentiment:   3%|▎         | 13/498 [00:01<01:08,  7.04doc/s]labeling review_sentiment:   4%|▍         | 20/498 [00:02<00:49,  9.66doc/s]labeling review_sentiment:   5%|▍         | 23/498 [00:02<00:47, 10.09doc/s]labeling review_sentiment:   8%|▊         | 39/498 [00:02<00:21, 21.73doc/s]labeling review_sentiment:   9%|▉         | 44/498 [00:03<00:29, 15.65doc/s]labeling review_sentiment:   9%|▉         | 47/498 [00:03<00:31, 14.45doc/s]labeling review_sentiment:  11%|█         | 56/498 [00:03<00:22, 19.97doc/s]labeling review_sentiment:  12%|█▏        | 59/498 [00:04<00:22, 19.95doc/s]labeling review_sentiment:  12%|█▏        | 62/498 [00:04<00:39, 10.93doc/s]labeling review_sentiment:  15%|█▌        | 75/498 [00:05<00:29, 14.44doc/s]labeling review_sentiment:  18%|█▊        | 88/498 [00:05<00:18, 22.67doc/s]labeling review_sentiment:  18%|█▊        | 92/498 [00:06<00:21, 18.95doc/s]labeling review_sentiment:  19%|█▉        | 96/498 [00:06<00:22, 17.70doc/s]labeling review_sentiment:  20%|██        | 100/498 [00:06<00:30, 12.96doc/s]labeling review_sentiment:  21%|██▏       | 107/498 [00:07<00:25, 15.16doc/s]labeling review_sentiment:  23%|██▎       | 116/498 [00:07<00:18, 20.14doc/s]labeling review_sentiment:  24%|██▍       | 119/498 [00:08<00:29, 12.67doc/s]labeling review_sentiment:  24%|██▍       | 122/498 [00:08<00:27, 13.76doc/s]labeling review_sentiment:  27%|██▋       | 133/498 [00:08<00:15, 23.76doc/s]labeling review_sentiment:  28%|██▊       | 138/498 [00:08<00:19, 18.79doc/s]labeling review_sentiment:  30%|██▉       | 148/498 [00:09<00:14, 24.70doc/s]labeling review_sentiment:  31%|███       | 152/498 [00:09<00:18, 19.07doc/s]labeling review_sentiment:  31%|███       | 155/498 [00:10<00:25, 13.41doc/s]labeling review_sentiment:  32%|███▏      | 158/498 [00:10<00:26, 12.84doc/s]labeling review_sentiment:  33%|███▎      | 165/498 [00:10<00:20, 16.37doc/s]labeling review_sentiment:  36%|███▌      | 177/498 [00:10<00:13, 24.31doc/s]labeling review_sentiment:  36%|███▌      | 180/498 [00:11<00:14, 21.75doc/s]labeling review_sentiment:  38%|███▊      | 187/498 [00:11<00:12, 25.83doc/s]labeling review_sentiment:  38%|███▊      | 190/498 [00:11<00:14, 21.06doc/s]labeling review_sentiment:  39%|███▉      | 193/498 [00:12<00:39,  7.65doc/s]labeling review_sentiment:  41%|████      | 205/498 [00:14<00:40,  7.22doc/s]labeling review_sentiment:  49%|████▉     | 243/498 [00:14<00:12, 21.10doc/s]labeling review_sentiment:  50%|█████     | 250/498 [00:15<00:14, 17.66doc/s]labeling review_sentiment:  52%|█████▏    | 257/498 [00:15<00:12, 19.45doc/s]labeling review_sentiment:  52%|█████▏    | 261/498 [00:16<00:12, 19.47doc/s]labeling review_sentiment:  53%|█████▎    | 266/498 [00:16<00:13, 17.66doc/s]labeling review_sentiment:  55%|█████▌    | 274/498 [00:16<00:10, 20.37doc/s]labeling review_sentiment:  56%|█████▌    | 277/498 [00:17<00:13, 16.20doc/s]labeling review_sentiment:  58%|█████▊    | 288/498 [00:17<00:08, 23.63doc/s]labeling review_sentiment:  59%|█████▊    | 292/498 [00:17<00:11, 17.68doc/s]labeling review_sentiment:  60%|█████▉    | 297/498 [00:18<00:10, 19.14doc/s]labeling review_sentiment:  60%|██████    | 300/498 [00:18<00:11, 17.14doc/s]labeling review_sentiment:  61%|██████    | 303/498 [00:18<00:12, 15.30doc/s]labeling review_sentiment:  62%|██████▏   | 310/498 [00:18<00:09, 20.44doc/s]labeling review_sentiment:  64%|██████▎   | 317/498 [00:18<00:07, 23.40doc/s]labeling review_sentiment:  64%|██████▍   | 321/498 [00:19<00:07, 24.10doc/s]labeling review_sentiment:  65%|██████▌   | 325/498 [00:19<00:09, 17.76doc/s]labeling review_sentiment:  66%|██████▋   | 330/498 [00:24<00:56,  2.99doc/s]labeling review_sentiment:  81%|████████  | 404/498 [00:24<00:04, 21.37doc/s]labeling review_sentiment:  84%|████████▍ | 420/498 [00:25<00:03, 20.38doc/s]labeling review_sentiment:  87%|████████▋ | 432/498 [00:26<00:03, 18.30doc/s]labeling review_sentiment:  89%|████████▉ | 442/498 [00:27<00:03, 15.13doc/s]labeling review_sentiment:  93%|█████████▎| 461/498 [00:27<00:01, 21.15doc/s]labeling review_sentiment:  94%|█████████▍| 469/498 [00:29<00:01, 15.21doc/s]labeling review_sentiment:  96%|█████████▌| 477/498 [00:29<00:01, 15.59doc/s]labeling review_sentiment:  98%|█████████▊| 487/498 [00:31<00:00, 11.30doc/s]labeling review_sentiment: 100%|██████████| 498/498 [00:31<00:00, 16.01doc/s]
+
+Selecting central exemplars:   0%|          | 0/14 [00:00<?, ?cluster/s][A
+                                                                        [ABatches:   0%|          | 0/101 [00:00<?, ?it/s]Batches:   1%|          | 1/101 [00:00<00:20,  4.83it/s]Batches:   7%|▋         | 7/101 [00:00<00:03, 26.91it/s]Batches:  13%|█▎        | 13/101 [00:00<00:02, 38.92it/s]Batches:  19%|█▉        | 19/101 [00:00<00:01, 45.94it/s]Batches:  30%|██▉       | 30/101 [00:00<00:01, 66.31it/s]Batches:  45%|████▍     | 45/101 [00:00<00:00, 90.84it/s]Batches:  56%|█████▋    | 57/101 [00:00<00:00, 98.26it/s]Batches:  69%|██████▉   | 70/101 [00:00<00:00, 105.76it/s]Batches:  80%|████████  | 81/101 [00:01<00:00, 104.67it/s]Batches:  91%|█████████ | 92/101 [00:01<00:00, 102.22it/s]Batches: 100%|██████████| 101/101 [00:01<00:00, 82.02it/s]
+Building topic names by layer:   0%|          | 0/2 [00:00<?, ?layer/s]
+Generating informative keyphrases:   0%|          | 0/14 [00:00<?, ?cluster/s][A
+Generating informative keyphrases: 100%|██████████| 14/14 [00:00<00:00, 137.18cluster/s][A
+                                                                                        [A
+Generating prompts for layer 0:   0%|          | 0/14 [00:00<?, ?topic/s][A
+                                                                         [A
+Generating topic names for layer 0:   0%|          | 0/14 [00:00<?, ?topic/s][A
+Generating topic names for layer 0:   7%|▋         | 1/14 [00:00<00:10,  1.25topic/s][A
+Generating topic names for layer 0:  14%|█▍        | 2/14 [00:01<00:10,  1.14topic/s][A
+Generating topic names for layer 0:  21%|██▏       | 3/14 [00:02<00:10,  1.00topic/s][A
+Generating topic names for layer 0:  29%|██▊       | 4/14 [00:04<00:10,  1.09s/topic][A
+Generating topic names for layer 0:  36%|███▌      | 5/14 [00:05<00:09,  1.04s/topic][A
+Generating topic names for layer 0:  43%|████▎     | 6/14 [00:06<00:08,  1.02s/topic][A
+Generating topic names for layer 0:  50%|█████     | 7/14 [00:06<00:06,  1.02topic/s][A
+Generating topic names for layer 0:  57%|█████▋    | 8/14 [00:07<00:05,  1.10topic/s][A
+Generating topic names for layer 0:  64%|██████▍   | 9/14 [00:08<00:04,  1.14topic/s][A
+Generating topic names for layer 0:  71%|███████▏  | 10/14 [00:09<00:03,  1.17topic/s][A
+Generating topic names for layer 0:  79%|███████▊  | 11/14 [00:10<00:02,  1.19topic/s][A
+Generating topic names for layer 0:  86%|████████▌ | 12/14 [00:11<00:01,  1.12topic/s][A
+Generating topic names for layer 0:  93%|█████████▎| 13/14 [00:13<00:01,  1.21s/topic][A
+Generating topic names for layer 0: 100%|██████████| 14/14 [00:13<00:00,  1.09s/topic][A
+                                                                                      [A
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][A
+Batches: 100%|██████████| 1/1 [00:00<00:00,  3.80it/s][ABatches: 100%|██████████| 1/1 [00:00<00:00,  3.80it/s]
+Building topic names by layer:  50%|█████     | 1/2 [00:14<00:14, 14.25s/layer]
+Selecting central exemplars:   0%|          | 0/5 [00:00<?, ?cluster/s][A
+                                                                       [A
+Generating informative keyphrases:   0%|          | 0/5 [00:00<?, ?cluster/s][A
+                                                                             [A
+Selecting central subtopics:   0%|          | 0/5 [00:00<?, ?cluster/s][A
+                                                                       [A
+Generating prompts for layer 1:   0%|          | 0/5 [00:00<?, ?topic/s][A
+                                                                        [A
+Generating topic names for layer 1:   0%|          | 0/5 [00:00<?, ?topic/s][A
+Generating topic names for layer 1:  60%|██████    | 3/5 [00:01<00:00,  2.54topic/s][A
+Generating topic names for layer 1:  80%|████████  | 4/5 [00:02<00:00,  1.86topic/s][A
+Generating topic names for layer 1: 100%|██████████| 5/5 [00:02<00:00,  1.74topic/s][A
+                                                                                    [A
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][A
+Batches: 100%|██████████| 1/1 [00:00<00:00,  6.85it/s][ABatches: 100%|██████████| 1/1 [00:00<00:00,  6.76it/s]
+Building topic names by layer: 100%|██████████| 2/2 [00:17<00:00,  7.58s/layer]Building topic names by layer: 100%|██████████| 2/2 [00:17<00:00,  8.58s/layer]
+labeling review_focus:   0%|          | 0/498 [00:00<?, ?doc/s]labeling review_focus:   0%|          | 1/498 [00:00<04:36,  1.80doc/s]labeling review_focus:   1%|          | 3/498 [00:00<02:15,  3.65doc/s]labeling review_focus:   2%|▏         | 8/498 [00:04<04:40,  1.74doc/s]labeling review_focus:   9%|▉         | 44/498 [00:04<00:37, 12.00doc/s]labeling review_focus:  14%|█▍        | 72/498 [00:07<00:40, 10.59doc/s]labeling review_focus:  18%|█▊        | 89/498 [00:10<00:46,  8.72doc/s]labeling review_focus:  24%|██▍       | 119/498 [00:13<00:39,  9.48doc/s]labeling review_focus:  31%|███       | 154/498 [00:15<00:29, 11.74doc/s]labeling review_focus:  40%|████      | 201/498 [00:15<00:15, 19.63doc/s]labeling review_focus:  42%|████▏     | 208/498 [00:16<00:15, 18.66doc/s]labeling review_focus:  43%|████▎     | 212/498 [00:17<00:19, 14.85doc/s]labeling review_focus:  49%|████▉     | 243/498 [00:17<00:10, 24.16doc/s]labeling review_focus:  50%|█████     | 251/498 [00:18<00:14, 17.64doc/s]labeling review_focus:  55%|█████▍    | 273/498 [00:19<00:10, 21.67doc/s]labeling review_focus:  57%|█████▋    | 284/498 [00:19<00:08, 24.90doc/s]labeling review_focus:  58%|█████▊    | 290/498 [00:21<00:15, 13.46doc/s]labeling review_focus:  60%|█████▉    | 298/498 [00:24<00:25,  7.86doc/s]labeling review_focus:  71%|███████   | 354/498 [00:24<00:06, 21.90doc/s]labeling review_focus:  73%|███████▎  | 365/498 [00:24<00:06, 22.04doc/s]labeling review_focus:  75%|███████▍  | 373/498 [00:25<00:05, 22.38doc/s]labeling review_focus:  76%|███████▌  | 378/498 [00:25<00:05, 21.67doc/s]labeling review_focus:  78%|███████▊  | 387/498 [00:26<00:05, 19.57doc/s]labeling review_focus:  80%|███████▉  | 398/498 [00:26<00:04, 23.38doc/s]labeling review_focus:  81%|████████▏ | 405/498 [00:26<00:04, 22.26doc/s]labeling review_focus:  83%|████████▎ | 412/498 [00:26<00:03, 25.57doc/s]labeling review_focus:  84%|████████▎ | 416/498 [00:28<00:06, 12.85doc/s]labeling review_focus:  87%|████████▋ | 433/498 [00:28<00:04, 16.02doc/s]labeling review_focus:  88%|████████▊ | 436/498 [00:30<00:06,  9.42doc/s]labeling review_focus:  93%|█████████▎| 463/498 [00:33<00:04,  8.09doc/s]labeling review_focus:  97%|█████████▋| 484/498 [00:34<00:01, 11.96doc/s]labeling review_focus:  98%|█████████▊| 489/498 [00:35<00:00, 10.86doc/s]labeling review_focus: 100%|██████████| 498/498 [00:35<00:00, 14.18doc/s]
+
+Selecting central exemplars:   0%|          | 0/11 [00:00<?, ?cluster/s][A
+                                                                        [ABatches:   0%|          | 0/101 [00:00<?, ?it/s]Batches:   1%|          | 1/101 [00:00<00:25,  3.98it/s]Batches:  12%|█▏        | 12/101 [00:00<00:02, 41.68it/s]Batches:  24%|██▍       | 24/101 [00:00<00:01, 67.81it/s]Batches:  35%|███▍      | 35/101 [00:00<00:00, 81.15it/s]Batches:  46%|████▌     | 46/101 [00:00<00:00, 88.43it/s]Batches:  55%|█████▌    | 56/101 [00:00<00:00, 91.11it/s]Batches:  65%|██████▌   | 66/101 [00:00<00:00, 87.48it/s]Batches:  80%|████████  | 81/101 [00:00<00:00, 103.51it/s]Batches:  96%|█████████▌| 97/101 [00:01<00:00, 118.27it/s]Batches: 100%|██████████| 101/101 [00:01<00:00, 89.22it/s]
+Building topic names by layer:   0%|          | 0/2 [00:00<?, ?layer/s]
+Generating informative keyphrases:   0%|          | 0/11 [00:00<?, ?cluster/s][A
+                                                                              [A
+Generating prompts for layer 0:   0%|          | 0/11 [00:00<?, ?topic/s][A
+                                                                         [A
+Generating topic names for layer 0:   0%|          | 0/11 [00:00<?, ?topic/s][A
+Generating topic names for layer 0:   9%|▉         | 1/11 [00:01<00:10,  1.00s/topic][A
+Generating topic names for layer 0:  18%|█▊        | 2/11 [00:01<00:07,  1.20topic/s][A
+Generating topic names for layer 0:  27%|██▋       | 3/11 [00:02<00:07,  1.14topic/s][A
+Generating topic names for layer 0:  36%|███▋      | 4/11 [00:03<00:06,  1.09topic/s][A
+Generating topic names for layer 0:  45%|████▌     | 5/11 [00:04<00:05,  1.15topic/s][A
+Generating topic names for layer 0:  55%|█████▍    | 6/11 [00:05<00:04,  1.08topic/s][A
+Generating topic names for layer 0:  64%|██████▎   | 7/11 [00:06<00:04,  1.03s/topic][A
+Generating topic names for layer 0:  73%|███████▎  | 8/11 [00:07<00:02,  1.05topic/s][A
+Generating topic names for layer 0:  82%|████████▏ | 9/11 [00:08<00:02,  1.00s/topic][A
+Generating topic names for layer 0:  91%|█████████ | 10/11 [00:09<00:00,  1.06topic/s][A
+Generating topic names for layer 0: 100%|██████████| 11/11 [00:10<00:00,  1.11topic/s][A
+                                                                                      [A
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][ABatches: 100%|██████████| 1/1 [00:00<00:00, 13.00it/s]
+Building topic names by layer:  50%|█████     | 1/2 [00:10<00:10, 10.39s/layer]
+Selecting central exemplars:   0%|          | 0/4 [00:00<?, ?cluster/s][A
+                                                                       [A
+Generating informative keyphrases:   0%|          | 0/4 [00:00<?, ?cluster/s][A
+                                                                             [A
+Selecting central subtopics:   0%|          | 0/4 [00:00<?, ?cluster/s][A
+                                                                       [A
+Generating prompts for layer 1:   0%|          | 0/4 [00:00<?, ?topic/s][A
+                                                                        [A
+Generating topic names for layer 1:   0%|          | 0/4 [00:00<?, ?topic/s][A
+Generating topic names for layer 1:  25%|██▌       | 1/4 [00:00<00:01,  1.50topic/s][A
+Generating topic names for layer 1:  75%|███████▌  | 3/4 [00:01<00:00,  1.75topic/s][A
+Generating topic names for layer 1: 100%|██████████| 4/4 [00:02<00:00,  1.45topic/s][A
+                                                                                    [A
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][ABatches: 100%|██████████| 1/1 [00:00<00:00, 10.24it/s]
+Building topic names by layer: 100%|██████████| 2/2 [00:13<00:00,  5.95s/layer]Building topic names by layer: 100%|██████████| 2/2 [00:13<00:00,  6.62s/layer]
+labeling reviewer_purchase_motivation:   0%|          | 0/498 [00:00<?, ?doc/s]labeling reviewer_purchase_motivation:   0%|          | 1/498 [00:00<03:58,  2.09doc/s]labeling reviewer_purchase_motivation:   1%|          | 4/498 [00:00<01:02,  7.84doc/s]labeling reviewer_purchase_motivation:   1%|▏         | 7/498 [00:00<00:46, 10.48doc/s]labeling reviewer_purchase_motivation:   2%|▏         | 11/498 [00:01<00:34, 14.11doc/s]labeling reviewer_purchase_motivation:   3%|▎         | 17/498 [00:01<00:20, 22.99doc/s]labeling reviewer_purchase_motivation:   4%|▍         | 21/498 [00:01<00:25, 19.05doc/s]labeling reviewer_purchase_motivation:   5%|▍         | 24/498 [00:01<00:25, 18.87doc/s]labeling reviewer_purchase_motivation:   5%|▌         | 27/498 [00:01<00:32, 14.63doc/s]labeling reviewer_purchase_motivation:   6%|▌         | 31/498 [00:02<00:46, 10.09doc/s]labeling reviewer_purchase_motivation:   8%|▊         | 41/498 [00:03<00:54,  8.42doc/s]labeling reviewer_purchase_motivation:  13%|█▎        | 67/498 [00:03<00:17, 23.99doc/s]labeling reviewer_purchase_motivation:  15%|█▌        | 76/498 [00:05<00:27, 15.20doc/s]labeling reviewer_purchase_motivation:  18%|█▊        | 89/498 [00:05<00:21, 19.36doc/s]labeling reviewer_purchase_motivation:  19%|█▉        | 95/498 [00:05<00:19, 21.14doc/s]labeling reviewer_purchase_motivation:  20%|██        | 101/498 [00:05<00:18, 21.95doc/s]labeling reviewer_purchase_motivation:  21%|██▏       | 106/498 [00:06<00:18, 20.82doc/s]labeling reviewer_purchase_motivation:  22%|██▏       | 110/498 [00:08<00:59,  6.47doc/s]labeling reviewer_purchase_motivation:  25%|██▍       | 124/498 [00:12<01:15,  4.98doc/s]labeling reviewer_purchase_motivation:  29%|██▉       | 144/498 [00:19<01:36,  3.67doc/s]labeling reviewer_purchase_motivation:  62%|██████▏   | 307/498 [00:19<00:08, 23.52doc/s]labeling reviewer_purchase_motivation:  64%|██████▍   | 320/498 [00:19<00:07, 24.08doc/s]labeling reviewer_purchase_motivation:  66%|██████▋   | 330/498 [00:20<00:06, 25.57doc/s]labeling reviewer_purchase_motivation:  68%|██████▊   | 339/498 [00:21<00:07, 21.93doc/s]labeling reviewer_purchase_motivation:  71%|███████   | 354/498 [00:21<00:06, 20.73doc/s]labeling reviewer_purchase_motivation:  72%|███████▏  | 360/498 [00:22<00:07, 17.91doc/s]labeling reviewer_purchase_motivation:  74%|███████▍  | 371/498 [00:27<00:16,  7.53doc/s]labeling reviewer_purchase_motivation:  89%|████████▉ | 445/498 [00:27<00:02, 21.93doc/s]labeling reviewer_purchase_motivation:  93%|█████████▎| 462/498 [00:27<00:01, 24.73doc/s]labeling reviewer_purchase_motivation:  96%|█████████▌| 476/498 [00:28<00:00, 24.68doc/s]labeling reviewer_purchase_motivation:  98%|█████████▊| 487/498 [00:28<00:00, 23.19doc/s]labeling reviewer_purchase_motivation:  99%|█████████▉| 495/498 [00:29<00:00, 22.45doc/s]labeling reviewer_purchase_motivation: 100%|██████████| 498/498 [00:29<00:00, 16.81doc/s]
+
+--- Schema (toponymy_erasure) ---
+
+Facet 0: review_sentiment (categorical)
+  Captures the overall sentiment polarity and intensity expressed by the reviewer toward the product.
+  - strongly_positive
+  - mildly_positive
+  - mixed
+  - mildly_negative
+  - strongly_negative
+  - Other
+
+Facet 1: review_focus (categorical)
+  Captures the primary product attribute or dimension the reviewer focuses their evaluation on.
+  - fit_and_sizing
+  - durability_and_build_quality
+  - performance_and_functionality
+  - aesthetics_and_design
+  - value_for_money
+  - ease_of_use
+  - comfort
+  - scent_and_sensory
+  - Other
+
+Facet 2: reviewer_purchase_motivation (categorical)
+  Captures the underlying reason or context that motivated the reviewer to purchase the product.
+  - gift_for_others
+  - personal_use
+  - replacement_or_upgrade
+  - household_or_family_use
+  - professional_or_work_use
+  - trial_or_curiosity
+  - Other
+
+--- toponymy_erasure: Facet 0 (review_sentiment) vs curator product_category ---
+
+review_sentiment            strongly_positive  mildly_positive  mixed  mildly_negative  strongly_negative
+curator_category                                                                                         
+All_Beauty                                 36               15      9                9                 14
+Books                                      41               18      8                9                  7
+Clothing_Shoes_and_Jewelry                 33               24     10                6                 10
+Electronics                                40               16     12                7                  8
+Home_and_Kitchen                           36               15     14               10                  8
+Toys_and_Games                             43               15     15                2                  8
+
+--- toponymy_erasure: per-facet diagnostics ---
+  Facet 0: clusters=11 depth=1 entropy obs=2.03 unif=2.58 delta=-0.55 bits
+  Facet 1: clusters=14 depth=2 entropy obs=2.95 unif=3.17 delta=-0.22 bits
+  Facet 2: clusters=11 depth=2 entropy obs=1.99 unif=2.81 delta=-0.81 bits
+
+  elapsed: 152.6s
+
+======================================================================
+Arm: homemade_vanilla
+======================================================================
+naming clusters:   0%|          | 0/8 [00:00<?, ?cluster/s]naming clusters:  12%|█▎        | 1/8 [00:00<00:04,  1.60cluster/s]naming clusters:  25%|██▌       | 2/8 [00:01<00:03,  1.77cluster/s]naming clusters: 100%|██████████| 8/8 [00:01<00:00,  6.96cluster/s]
+labeling product_category:   0%|          | 0/498 [00:00<?, ?doc/s]labeling product_category:   0%|          | 1/498 [00:00<03:27,  2.40doc/s]labeling product_category:   0%|          | 2/498 [00:00<02:32,  3.24doc/s]labeling product_category:   2%|▏         | 11/498 [00:00<00:29, 16.46doc/s]labeling product_category:   3%|▎         | 13/498 [00:01<00:30, 15.70doc/s]labeling product_category:   3%|▎         | 15/498 [00:01<00:42, 11.40doc/s]labeling product_category:   4%|▍         | 22/498 [00:01<00:26, 17.76doc/s]labeling product_category:   6%|▌         | 29/498 [00:01<00:21, 21.93doc/s]labeling product_category:   7%|▋         | 33/498 [00:01<00:19, 24.05doc/s]labeling product_category:   7%|▋         | 36/498 [00:02<00:30, 15.35doc/s]labeling product_category:   8%|▊         | 39/498 [00:02<00:40, 11.36doc/s]labeling product_category:  11%|█         | 55/498 [00:03<00:22, 19.71doc/s]labeling product_category:  12%|█▏        | 58/498 [00:03<00:27, 15.98doc/s]labeling product_category:  13%|█▎        | 66/498 [00:03<00:20, 21.36doc/s]labeling product_category:  14%|█▍        | 69/498 [00:04<00:25, 17.08doc/s]labeling product_category:  15%|█▌        | 77/498 [00:04<00:17, 24.21doc/s]labeling product_category:  16%|█▋        | 82/498 [00:05<00:27, 15.15doc/s]labeling product_category:  19%|█▊        | 93/498 [00:06<00:32, 12.42doc/s]labeling product_category:  21%|██        | 104/498 [00:06<00:26, 14.65doc/s]labeling product_category:  22%|██▏       | 108/498 [00:07<00:41,  9.32doc/s]labeling product_category:  26%|██▌       | 128/498 [00:08<00:21, 17.14doc/s]labeling product_category:  28%|██▊       | 138/498 [00:08<00:19, 18.12doc/s]labeling product_category:  30%|██▉       | 147/498 [00:08<00:15, 22.03doc/s]labeling product_category:  31%|███       | 155/498 [00:09<00:14, 23.48doc/s]labeling product_category:  32%|███▏      | 159/498 [00:09<00:14, 24.04doc/s]labeling product_category:  33%|███▎      | 163/498 [00:09<00:14, 23.46doc/s]labeling product_category:  33%|███▎      | 166/498 [00:09<00:19, 16.62doc/s]labeling product_category:  35%|███▍      | 174/498 [00:10<00:25, 12.88doc/s]labeling product_category:  37%|███▋      | 184/498 [00:10<00:16, 19.23doc/s]labeling product_category:  38%|███▊      | 189/498 [00:11<00:19, 15.99doc/s]labeling product_category:  40%|████      | 201/498 [00:11<00:12, 24.02doc/s]labeling product_category:  41%|████▏     | 206/498 [00:11<00:13, 21.24doc/s]labeling product_category:  42%|████▏     | 210/498 [00:12<00:13, 21.26doc/s]labeling product_category:  43%|████▎     | 213/498 [00:12<00:14, 20.30doc/s]labeling product_category:  44%|████▍     | 218/498 [00:12<00:12, 21.72doc/s]labeling product_category:  45%|████▍     | 223/498 [00:12<00:11, 24.72doc/s]labeling product_category:  45%|████▌     | 226/498 [00:12<00:11, 23.82doc/s]labeling product_category:  46%|████▌     | 229/498 [00:14<00:33,  7.99doc/s]labeling product_category:  49%|████▉     | 246/498 [00:17<00:43,  5.83doc/s]labeling product_category:  61%|██████    | 302/498 [00:17<00:09, 20.86doc/s]labeling product_category:  62%|██████▏   | 308/498 [00:18<00:09, 20.86doc/s]labeling product_category:  64%|██████▎   | 317/498 [00:18<00:09, 18.30doc/s]labeling product_category:  66%|██████▌   | 327/498 [00:18<00:07, 22.30doc/s]labeling product_category:  67%|██████▋   | 333/498 [00:19<00:08, 20.38doc/s]labeling product_category:  68%|██████▊   | 338/498 [00:19<00:07, 22.19doc/s]labeling product_category:  69%|██████▉   | 343/498 [00:20<00:10, 15.23doc/s]labeling product_category:  70%|██████▉   | 347/498 [00:20<00:09, 15.89doc/s]labeling product_category:  70%|███████   | 350/498 [00:20<00:10, 14.51doc/s]labeling product_category:  72%|███████▏  | 361/498 [00:21<00:08, 15.69doc/s]labeling product_category:  75%|███████▌  | 375/498 [00:21<00:05, 24.31doc/s]labeling product_category:  76%|███████▌  | 379/498 [00:21<00:04, 25.14doc/s]labeling product_category:  77%|███████▋  | 383/498 [00:22<00:06, 16.92doc/s]labeling product_category:  78%|███████▊  | 390/498 [00:22<00:04, 21.74doc/s]labeling product_category:  79%|███████▉  | 395/498 [00:22<00:04, 23.69doc/s]labeling product_category:  80%|████████  | 399/498 [00:22<00:04, 20.07doc/s]labeling product_category:  81%|████████  | 402/498 [00:26<00:26,  3.69doc/s]labeling product_category:  85%|████████▍ | 422/498 [00:29<00:14,  5.38doc/s]labeling product_category:  87%|████████▋ | 431/498 [00:30<00:10,  6.34doc/s]labeling product_category: 100%|██████████| 498/498 [00:30<00:00, 16.49doc/s]
+naming clusters:   0%|          | 0/7 [00:00<?, ?cluster/s]naming clusters:  14%|█▍        | 1/7 [00:00<00:03,  1.52cluster/s]naming clusters:  57%|█████▋    | 4/7 [00:00<00:00,  5.44cluster/s]naming clusters: 100%|██████████| 7/7 [00:00<00:00,  7.82cluster/s]
+labeling review_sentiment:   0%|          | 0/498 [00:00<?, ?doc/s]labeling review_sentiment:   0%|          | 1/498 [00:00<03:25,  2.42doc/s]labeling review_sentiment:   1%|          | 6/498 [00:00<00:48, 10.24doc/s]labeling review_sentiment:   2%|▏         | 8/498 [00:01<01:40,  4.85doc/s]labeling review_sentiment:   6%|▌         | 29/498 [00:01<00:20, 23.28doc/s]labeling review_sentiment:   7%|▋         | 34/498 [00:02<00:23, 20.00doc/s]labeling review_sentiment:   8%|▊         | 38/498 [00:02<00:36, 12.49doc/s]labeling review_sentiment:  11%|█         | 53/498 [00:03<00:20, 21.98doc/s]labeling review_sentiment:  11%|█▏        | 57/498 [00:03<00:19, 22.96doc/s]labeling review_sentiment:  12%|█▏        | 61/498 [00:03<00:19, 21.97doc/s]labeling review_sentiment:  13%|█▎        | 65/498 [00:03<00:18, 23.93doc/s]labeling review_sentiment:  14%|█▍        | 69/498 [00:03<00:22, 19.00doc/s]labeling review_sentiment:  14%|█▍        | 72/498 [00:04<00:22, 19.26doc/s]labeling review_sentiment:  15%|█▌        | 75/498 [00:04<00:25, 16.78doc/s]labeling review_sentiment:  16%|█▌        | 78/498 [00:06<01:39,  4.24doc/s]labeling review_sentiment:  24%|██▎       | 118/498 [00:06<00:17, 22.17doc/s]labeling review_sentiment:  26%|██▌       | 128/498 [00:07<00:15, 23.70doc/s]labeling review_sentiment:  27%|██▋       | 136/498 [00:07<00:15, 22.83doc/s]labeling review_sentiment:  29%|██▊       | 142/498 [00:07<00:15, 22.30doc/s]labeling review_sentiment:  30%|██▉       | 147/498 [00:08<00:23, 15.20doc/s]labeling review_sentiment:  31%|███       | 154/498 [00:08<00:19, 17.65doc/s]labeling review_sentiment:  33%|███▎      | 163/498 [00:09<00:15, 21.62doc/s]labeling review_sentiment:  34%|███▎      | 167/498 [00:09<00:16, 20.11doc/s]labeling review_sentiment:  35%|███▍      | 174/498 [00:09<00:13, 24.25doc/s]labeling review_sentiment:  36%|███▌      | 178/498 [00:09<00:17, 18.78doc/s]labeling review_sentiment:  37%|███▋      | 186/498 [00:10<00:17, 17.87doc/s]labeling review_sentiment:  38%|███▊      | 189/498 [00:15<01:44,  2.97doc/s]labeling review_sentiment:  52%|█████▏    | 260/498 [00:19<00:23, 10.29doc/s]labeling review_sentiment:  66%|██████▌   | 328/498 [00:21<00:09, 17.49doc/s]labeling review_sentiment:  70%|███████   | 351/498 [00:21<00:07, 19.91doc/s]labeling review_sentiment:  73%|███████▎  | 363/498 [00:22<00:06, 19.48doc/s]labeling review_sentiment:  74%|███████▎  | 367/498 [00:23<00:08, 15.14doc/s]labeling review_sentiment:  79%|███████▉  | 394/498 [00:24<00:05, 19.60doc/s]labeling review_sentiment:  83%|████████▎ | 411/498 [00:24<00:03, 25.02doc/s]labeling review_sentiment:  84%|████████▍ | 418/498 [00:24<00:03, 25.80doc/s]labeling review_sentiment:  85%|████████▌ | 424/498 [00:24<00:03, 23.22doc/s]labeling review_sentiment:  86%|████████▌ | 429/498 [00:25<00:02, 23.50doc/s]labeling review_sentiment:  87%|████████▋ | 433/498 [00:25<00:02, 22.18doc/s]labeling review_sentiment:  88%|████████▊ | 437/498 [00:25<00:02, 23.80doc/s]labeling review_sentiment:  89%|████████▊ | 441/498 [00:26<00:03, 14.93doc/s]labeling review_sentiment:  91%|█████████ | 452/498 [00:26<00:02, 21.51doc/s]labeling review_sentiment:  92%|█████████▏| 457/498 [00:26<00:01, 22.75doc/s]labeling review_sentiment:  93%|█████████▎| 461/498 [00:26<00:01, 23.66doc/s]labeling review_sentiment:  93%|█████████▎| 465/498 [00:29<00:05,  6.29doc/s]labeling review_sentiment: 100%|█████████▉| 496/498 [00:29<00:00, 19.79doc/s]labeling review_sentiment: 100%|██████████| 498/498 [00:29<00:00, 17.03doc/s]
+naming clusters:   0%|          | 0/21 [00:00<?, ?cluster/s]naming clusters:   5%|▍         | 1/21 [00:00<00:11,  1.77cluster/s]naming clusters:  14%|█▍        | 3/21 [00:00<00:03,  4.56cluster/s]naming clusters:  19%|█▉        | 4/21 [00:00<00:03,  5.38cluster/s]naming clusters:  52%|█████▏    | 11/21 [00:01<00:00, 16.35cluster/s]naming clusters:  67%|██████▋   | 14/21 [00:01<00:00, 13.17cluster/s]naming clusters:  81%|████████  | 17/21 [00:01<00:00, 15.37cluster/s]naming clusters: 100%|██████████| 21/21 [00:03<00:00,  4.67cluster/s]naming clusters: 100%|██████████| 21/21 [00:03<00:00,  6.26cluster/s]
+labeling review_focus_aspect:   0%|          | 0/498 [00:00<?, ?doc/s]labeling review_focus_aspect:   0%|          | 1/498 [00:00<04:22,  1.89doc/s]labeling review_focus_aspect:   1%|          | 5/498 [00:00<01:08,  7.23doc/s]labeling review_focus_aspect:   2%|▏         | 11/498 [00:04<03:32,  2.29doc/s]labeling review_focus_aspect:   7%|▋         | 37/498 [00:06<01:06,  6.89doc/s]labeling review_focus_aspect:  13%|█▎        | 64/498 [00:08<00:45,  9.60doc/s]labeling review_focus_aspect:  22%|██▏       | 109/498 [00:08<00:18, 20.77doc/s]labeling review_focus_aspect:  23%|██▎       | 117/498 [00:20<01:27,  4.36doc/s]labeling review_focus_aspect:  53%|█████▎    | 266/498 [00:21<00:13, 16.65doc/s]labeling review_focus_aspect:  55%|█████▌    | 275/498 [00:24<00:16, 13.13doc/s]labeling review_focus_aspect:  65%|██████▌   | 326/498 [00:25<00:09, 18.35doc/s]labeling review_focus_aspect:  68%|██████▊   | 338/498 [00:27<00:11, 14.00doc/s]labeling review_focus_aspect:  73%|███████▎  | 364/498 [00:28<00:08, 15.71doc/s]labeling review_focus_aspect:  81%|████████  | 403/498 [00:29<00:04, 22.96doc/s]labeling review_focus_aspect:  84%|████████▍ | 418/498 [00:29<00:03, 26.17doc/s]labeling review_focus_aspect:  86%|████████▌ | 429/498 [00:29<00:02, 25.30doc/s]labeling review_focus_aspect:  88%|████████▊ | 437/498 [00:30<00:02, 24.63doc/s]labeling review_focus_aspect:  89%|████████▉ | 444/498 [00:31<00:02, 18.09doc/s]labeling review_focus_aspect:  90%|█████████ | 449/498 [00:31<00:02, 16.85doc/s]labeling review_focus_aspect:  93%|█████████▎| 465/498 [00:32<00:01, 17.46doc/s]labeling review_focus_aspect:  96%|█████████▌| 479/498 [00:33<00:01, 14.86doc/s]labeling review_focus_aspect: 100%|██████████| 498/498 [00:33<00:00, 14.80doc/s]
+
+--- Schema (homemade_vanilla) ---
+
+Facet 0: product_category (categorical)
+  The type of product being reviewed, grouping reviews by the broad merchandise category they describe.
+  - books
+  - clothing_and_apparel
+  - kitchen_and_dining
+  - electronics
+  - toys
+  - footwear
+  - Other
+
+Facet 1: review_sentiment (categorical)
+  Captures the overall sentiment expressed by the reviewer toward the product, independent of what category the product belongs to.
+  - strongly_positive
+  - mixed_with_caveats
+  - neutral
+  - negative
+  - Other
+
+Facet 2: review_focus_aspect (categorical)
+  The primary product attribute or dimension the reviewer focuses their evaluation on.
+  - fit_and_sizing
+  - material_and_build_quality
+  - performance_and_functionality
+  - appearance_and_aesthetics
+  - value_for_money
+  - ease_of_use
+  - customer_service_and_shipping
+  - durability_and_longevity
+  - Other
+
+--- homemade_vanilla: Facet 0 (product_category) vs curator product_category ---
+
+product_category            books  clothing_and_apparel  kitchen_and_dining  electronics  toys  footwear  Other  Unlabelled
+curator_category                                                                                                           
+All_Beauty                      0                     9                  10            2     2         2     58           0
+Books                          78                     0                   0            0     1         0      4           0
+Clothing_Shoes_and_Jewelry      0                    53                   0            1     1        17     11           0
+Electronics                     0                     3                   0           76     0         0      4           0
+Home_and_Kitchen                0                     0                  57            5     1         0     19           1
+Toys_and_Games                  0                     1                   0            1    77         0      4           0
+
+--- homemade_vanilla: per-facet diagnostics ---
+  Facet 0: clusters=8 depth=1 entropy obs=2.72 unif=2.81 delta=-0.09 bits
+  Facet 1: clusters=7 depth=1 entropy obs=1.41 unif=2.32 delta=-0.91 bits
+  Facet 2: clusters=21 depth=1 entropy obs=2.91 unif=3.17 delta=-0.26 bits
+
+  elapsed: 107.2s
+
+======================================================================
+Arm: homemade_erasure
+======================================================================
+naming clusters:   0%|          | 0/21 [00:00<?, ?cluster/s]naming clusters:   5%|▍         | 1/21 [00:00<00:12,  1.56cluster/s]naming clusters:  19%|█▉        | 4/21 [00:01<00:03,  4.25cluster/s]naming clusters:  29%|██▊       | 6/21 [00:01<00:02,  5.45cluster/s]naming clusters:  33%|███▎      | 7/21 [00:05<00:16,  1.15s/cluster]naming clusters: 100%|██████████| 21/21 [00:05<00:00,  3.78cluster/s]
+labeling review_sentiment:   0%|          | 0/498 [00:00<?, ?doc/s]labeling review_sentiment:   0%|          | 1/498 [00:00<04:11,  1.98doc/s]labeling review_sentiment:   1%|          | 4/498 [00:01<03:06,  2.65doc/s]labeling review_sentiment:   5%|▌         | 26/498 [00:01<00:21, 21.91doc/s]labeling review_sentiment:   7%|▋         | 34/498 [00:02<00:21, 21.10doc/s]labeling review_sentiment:   8%|▊         | 40/498 [00:02<00:21, 20.97doc/s]labeling review_sentiment:   9%|▉         | 44/498 [00:02<00:20, 21.76doc/s]labeling review_sentiment:  10%|▉         | 49/498 [00:03<00:30, 14.80doc/s]labeling review_sentiment:  11%|█         | 54/498 [00:04<00:42, 10.39doc/s]labeling review_sentiment:  14%|█▍        | 72/498 [00:04<00:20, 20.48doc/s]labeling review_sentiment:  16%|█▋        | 81/498 [00:04<00:16, 25.34doc/s]labeling review_sentiment:  17%|█▋        | 86/498 [00:04<00:17, 23.20doc/s]labeling review_sentiment:  18%|█▊        | 90/498 [00:05<00:22, 18.19doc/s]labeling review_sentiment:  19%|█▊        | 93/498 [00:10<02:04,  3.26doc/s]labeling review_sentiment:  23%|██▎       | 113/498 [00:10<00:53,  7.14doc/s]labeling review_sentiment:  37%|███▋      | 183/498 [00:11<00:13, 23.62doc/s]labeling review_sentiment:  38%|███▊      | 189/498 [00:11<00:12, 24.42doc/s]labeling review_sentiment:  39%|███▉      | 196/498 [00:11<00:11, 26.23doc/s]labeling review_sentiment:  40%|████      | 201/498 [00:11<00:10, 27.29doc/s]labeling review_sentiment:  42%|████▏     | 207/498 [00:11<00:09, 29.31doc/s]labeling review_sentiment:  43%|████▎     | 212/498 [00:12<00:16, 17.44doc/s]labeling review_sentiment:  44%|████▍     | 218/498 [00:14<00:28,  9.77doc/s]labeling review_sentiment:  45%|████▍     | 224/498 [00:16<00:46,  5.91doc/s]labeling review_sentiment:  55%|█████▌    | 274/498 [00:18<00:15, 14.38doc/s]labeling review_sentiment:  60%|█████▉    | 298/498 [00:25<00:29,  6.77doc/s]labeling review_sentiment:  75%|███████▍  | 372/498 [00:27<00:09, 13.05doc/s]labeling review_sentiment:  90%|████████▉ | 446/498 [00:28<00:02, 23.18doc/s]labeling review_sentiment:  92%|█████████▏| 456/498 [00:28<00:01, 23.61doc/s]labeling review_sentiment:  94%|█████████▎| 466/498 [00:28<00:01, 24.88doc/s]labeling review_sentiment:  95%|█████████▍| 473/498 [00:29<00:01, 23.45doc/s]labeling review_sentiment:  96%|█████████▌| 479/498 [00:29<00:00, 20.33doc/s]labeling review_sentiment:  97%|█████████▋| 483/498 [00:30<00:00, 16.28doc/s]labeling review_sentiment:  98%|█████████▊| 488/498 [00:30<00:00, 16.98doc/s]labeling review_sentiment:  99%|█████████▉| 495/498 [00:30<00:00, 19.62doc/s]labeling review_sentiment: 100%|██████████| 498/498 [00:30<00:00, 16.13doc/s]
+naming clusters:   0%|          | 0/7 [00:00<?, ?cluster/s]naming clusters:  14%|█▍        | 1/7 [00:00<00:03,  1.73cluster/s]naming clusters:  29%|██▊       | 2/7 [00:03<00:11,  2.24s/cluster]naming clusters: 100%|██████████| 7/7 [00:03<00:00,  1.76cluster/s]
+labeling review_focus_aspect:   0%|          | 0/498 [00:00<?, ?doc/s]labeling review_focus_aspect:   0%|          | 1/498 [00:00<04:05,  2.03doc/s]labeling review_focus_aspect:   1%|          | 3/498 [00:00<02:15,  3.66doc/s]labeling review_focus_aspect:   2%|▏         | 11/498 [00:00<00:31, 15.71doc/s]labeling review_focus_aspect:   3%|▎         | 15/498 [00:02<01:26,  5.56doc/s]labeling review_focus_aspect:   4%|▍         | 20/498 [00:03<01:25,  5.60doc/s]labeling review_focus_aspect:  10%|▉         | 49/498 [00:03<00:22, 19.95doc/s]labeling review_focus_aspect:  11%|█         | 56/498 [00:03<00:20, 21.61doc/s]labeling review_focus_aspect:  12%|█▏        | 60/498 [00:04<00:20, 21.55doc/s]labeling review_focus_aspect:  13%|█▎        | 64/498 [00:04<00:20, 21.49doc/s]labeling review_focus_aspect:  13%|█▎        | 67/498 [00:04<00:19, 22.48doc/s]labeling review_focus_aspect:  14%|█▍        | 70/498 [00:04<00:19, 22.19doc/s]labeling review_focus_aspect:  15%|█▍        | 73/498 [00:04<00:18, 23.09doc/s]labeling review_focus_aspect:  15%|█▌        | 76/498 [00:04<00:19, 21.51doc/s]labeling review_focus_aspect:  16%|█▌        | 79/498 [00:09<02:43,  2.57doc/s]labeling review_focus_aspect:  28%|██▊       | 140/498 [00:09<00:19, 18.32doc/s]labeling review_focus_aspect:  30%|███       | 151/498 [00:09<00:16, 21.06doc/s]labeling review_focus_aspect:  32%|███▏      | 158/498 [00:10<00:17, 19.45doc/s]labeling review_focus_aspect:  36%|███▌      | 177/498 [00:10<00:11, 27.70doc/s]labeling review_focus_aspect:  37%|███▋      | 184/498 [00:10<00:11, 26.18doc/s]labeling review_focus_aspect:  38%|███▊      | 190/498 [00:12<00:19, 15.84doc/s]labeling review_focus_aspect:  40%|███▉      | 199/498 [00:12<00:22, 13.56doc/s]labeling review_focus_aspect:  43%|████▎     | 216/498 [00:13<00:15, 17.88doc/s]labeling review_focus_aspect:  45%|████▌     | 225/498 [00:13<00:13, 19.80doc/s]labeling review_focus_aspect:  47%|████▋     | 235/498 [00:13<00:10, 24.13doc/s]labeling review_focus_aspect:  48%|████▊     | 240/498 [00:14<00:10, 25.56doc/s]labeling review_focus_aspect:  49%|████▉     | 244/498 [00:15<00:18, 13.49doc/s]labeling review_focus_aspect:  51%|█████▏    | 256/498 [00:15<00:12, 20.01doc/s]labeling review_focus_aspect:  52%|█████▏    | 261/498 [00:15<00:14, 15.90doc/s]labeling review_focus_aspect:  55%|█████▌    | 276/498 [00:15<00:08, 25.97doc/s]labeling review_focus_aspect:  57%|█████▋    | 282/498 [00:16<00:11, 19.39doc/s]labeling review_focus_aspect:  58%|█████▊    | 287/498 [00:17<00:16, 12.57doc/s]labeling review_focus_aspect:  60%|█████▉    | 297/498 [00:18<00:16, 11.88doc/s]labeling review_focus_aspect:  64%|██████▍   | 319/498 [00:18<00:07, 23.81doc/s]labeling review_focus_aspect:  66%|██████▌   | 328/498 [00:19<00:09, 17.25doc/s]labeling review_focus_aspect:  67%|██████▋   | 334/498 [00:20<00:14, 11.07doc/s]labeling review_focus_aspect:  68%|██████▊   | 339/498 [00:24<00:31,  5.03doc/s]labeling review_focus_aspect:  71%|███████   | 352/498 [00:24<00:19,  7.58doc/s]labeling review_focus_aspect:  83%|████████▎ | 415/498 [00:25<00:03, 26.11doc/s]labeling review_focus_aspect:  85%|████████▌ | 424/498 [00:25<00:02, 25.24doc/s]labeling review_focus_aspect:  87%|████████▋ | 431/498 [00:27<00:04, 14.34doc/s]labeling review_focus_aspect:  91%|█████████ | 453/498 [00:27<00:02, 20.47doc/s]labeling review_focus_aspect:  92%|█████████▏| 459/498 [00:29<00:03, 12.02doc/s]labeling review_focus_aspect: 100%|██████████| 498/498 [00:30<00:00, 22.67doc/s]labeling review_focus_aspect: 100%|██████████| 498/498 [00:30<00:00, 16.51doc/s]
+naming clusters:   0%|          | 0/4 [00:00<?, ?cluster/s]naming clusters:  25%|██▌       | 1/4 [00:00<00:01,  1.84cluster/s]naming clusters: 100%|██████████| 4/4 [00:00<00:00,  6.82cluster/s]
+labeling intended_recipient:   0%|          | 0/498 [00:00<?, ?doc/s]labeling intended_recipient:   0%|          | 1/498 [00:00<04:01,  2.06doc/s]labeling intended_recipient:   2%|▏         | 11/498 [00:00<00:29, 16.27doc/s]labeling intended_recipient:   3%|▎         | 13/498 [00:01<00:47, 10.26doc/s]labeling intended_recipient:   4%|▍         | 19/498 [00:01<00:40, 11.95doc/s]labeling intended_recipient:   5%|▌         | 25/498 [00:03<01:17,  6.09doc/s]labeling intended_recipient:   9%|▉         | 46/498 [00:04<00:43, 10.41doc/s]labeling intended_recipient:  10%|█         | 52/498 [00:09<01:54,  3.90doc/s]labeling intended_recipient:  26%|██▌       | 127/498 [00:09<00:20, 18.41doc/s]labeling intended_recipient:  30%|██▉       | 149/498 [00:11<00:20, 16.71doc/s]labeling intended_recipient:  34%|███▎      | 168/498 [00:11<00:16, 20.29doc/s]labeling intended_recipient:  36%|███▋      | 181/498 [00:12<00:14, 22.43doc/s]labeling intended_recipient:  38%|███▊      | 191/498 [00:14<00:23, 12.80doc/s]labeling intended_recipient:  43%|████▎     | 212/498 [00:17<00:29,  9.66doc/s]labeling intended_recipient:  52%|█████▏    | 257/498 [00:18<00:13, 17.71doc/s]labeling intended_recipient:  57%|█████▋    | 286/498 [00:18<00:08, 24.34doc/s]labeling intended_recipient:  59%|█████▉    | 295/498 [00:23<00:21,  9.51doc/s]labeling intended_recipient:  74%|███████▎  | 367/498 [00:24<00:06, 21.05doc/s]labeling intended_recipient:  76%|███████▌  | 376/498 [00:28<00:10, 11.11doc/s]labeling intended_recipient:  92%|█████████▏| 459/498 [00:28<00:01, 24.25doc/s]labeling intended_recipient:  96%|█████████▌| 478/498 [00:30<00:00, 21.79doc/s]labeling intended_recipient:  99%|█████████▉| 492/498 [00:30<00:00, 21.14doc/s]labeling intended_recipient: 100%|██████████| 498/498 [00:31<00:00, 15.75doc/s]
+
+--- Schema (homemade_erasure) ---
+
+Facet 0: review_sentiment (categorical)
+  Captures the overall sentiment expressed by the reviewer toward the product.
+  - positive
+  - negative
+  - mixed
+  - neutral
+  - Other
+
+Facet 1: review_focus_aspect (categorical)
+  The primary product attribute or dimension that the reviewer focuses their evaluation on.
+  - fit_and_sizing
+  - durability_and_build_quality
+  - ease_of_use
+  - value_for_price
+  - aesthetics_and_design
+  - comfort
+  - performance_and_effectiveness
+  - Other
+
+Facet 2: intended_recipient (categorical)
+  Captures who the reviewer indicates the product was purchased for or used by.
+  - self_use
+  - gift_for_others
+  - child_use
+  - household_shared_use
+  - professional_or_work_use
+  - Other
+
+--- homemade_erasure: Facet 0 (review_sentiment) vs curator product_category ---
+
+review_sentiment            positive  negative  mixed  neutral
+curator_category                                              
+All_Beauty                        45        17     21        0
+Books                             51        13     18        1
+Clothing_Shoes_and_Jewelry        49        14     20        0
+Electronics                       52        10     20        1
+Home_and_Kitchen                  42        12     29        0
+Toys_and_Games                    53         9     21        0
+
+--- homemade_erasure: per-facet diagnostics ---
+  Facet 0: clusters=21 depth=1 entropy obs=1.40 unif=2.32 delta=-0.92 bits
+  Facet 1: clusters=7 depth=1 entropy obs=2.86 unif=3.00 delta=-0.14 bits
+  Facet 2: clusters=4 depth=1 entropy obs=1.71 unif=2.58 delta=-0.88 bits
+
+  elapsed: 113.3s
+
+Wrote artifact: experiments/artifacts/runs/toponymy_vs_homemade_20260425_002749.json
+
+=== Summary ===
+  toponymy_vanilla       (153.6s)  facets: ['product_category', 'review_sentiment', 'review_focus_aspect']
+  toponymy_erasure       (152.6s)  facets: ['review_sentiment', 'review_focus', 'reviewer_purchase_motivation']
+  homemade_vanilla       (107.2s)  facets: ['product_category', 'review_sentiment', 'review_focus_aspect']
+  homemade_erasure       (113.3s)  facets: ['review_sentiment', 'review_focus_aspect', 'intended_recipient']

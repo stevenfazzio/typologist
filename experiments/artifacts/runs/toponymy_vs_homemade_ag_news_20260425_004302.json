@@ -1,0 +1,1061 @@
+{
+  "corpus": "ag_news",
+  "n_docs": 500,
+  "embedding_dim": 384,
+  "metadata_column": "label",
+  "random_state": 0,
+  "n_facets": 3,
+  "arms": [
+    {
+      "label": "toponymy_vanilla",
+      "use_toponymy": true,
+      "erasure": false,
+      "schema": [
+        {
+          "name": "subject_domain",
+          "kind": "categorical",
+          "values": [
+            "politics_and_elections",
+            "armed_conflict_and_terrorism",
+            "sports",
+            "business_and_markets",
+            "technology_and_telecom",
+            "science_and_environment",
+            "Other"
+          ],
+          "definition": "The primary subject domain that the news article covers.",
+          "labeling_prompt_template": "Classify the following news article along the \"subject_domain\" dimension.\n\nThe primary subject domain that the news article covers.\n\nChoose exactly one of: politics_and_elections, armed_conflict_and_terrorism, sports, business_and_markets, technology_and_telecom, science_and_environment, Other\n\nnews article:\n{document}\n\nRespond with the chosen value name only, no explanation.",
+          "labeling_model": "claude-haiku-4-5"
+        },
+        {
+          "name": "geographic_scope",
+          "kind": "categorical",
+          "values": [
+            "domestic_us",
+            "international_single_country",
+            "global_multinational",
+            "regional_conflict_zone",
+            "Other"
+          ],
+          "definition": "Captures the geographic scale and locus of the events covered in each article, independent of subject matter.",
+          "labeling_prompt_template": "Classify the following news article along the \"geographic_scope\" dimension.\n\nCaptures the geographic scale and locus of the events covered in each article, independent of subject matter.\n\nChoose exactly one of: domestic_us, international_single_country, global_multinational, regional_conflict_zone, Other\n\nnews article:\n{document}\n\nRespond with the chosen value name only, no explanation.",
+          "labeling_model": "claude-haiku-4-5"
+        },
+        {
+          "name": "narrative_function",
+          "kind": "categorical",
+          "values": [
+            "breaking_event_report",
+            "results_recap",
+            "investigative_expose",
+            "analysis_commentary",
+            "human_interest_profile",
+            "forecast_or_preview",
+            "official_statement_announcement",
+            "Other"
+          ],
+          "definition": "The journalistic purpose or narrative mode of the article, such as reporting a breaking event, recapping results, analyzing causes, profiling people, previewing upcoming events, or relaying official announcements.",
+          "labeling_prompt_template": "Classify the following news article along the \"narrative_function\" dimension.\n\nThe journalistic purpose or narrative mode of the article, such as reporting a breaking event, recapping results, analyzing causes, profiling people, previewing upcoming events, or relaying official announcements.\n\nChoose exactly one of: breaking_event_report, results_recap, investigative_expose, analysis_commentary, human_interest_profile, forecast_or_preview, official_statement_announcement, Other\n\nnews article:\n{document}\n\nRespond with the chosen value name only, no explanation.",
+          "labeling_model": "claude-haiku-4-5"
+        }
+      ],
+      "diagnostics_summary": [
+        {
+          "cluster_count": 11,
+          "hierarchy_depth": 2,
+          "entropy_bits": {
+            "observed": 2.487511613091851,
+            "uniform": 2.807354922057604,
+            "delta": -0.3198433089657531
+          }
+        },
+        {
+          "cluster_count": 14,
+          "hierarchy_depth": 2,
+          "entropy_bits": {
+            "observed": 1.4490053816034854,
+            "uniform": 2.321928094887362,
+            "delta": -0.8729227132838768
+          }
+        },
+        {
+          "cluster_count": 17,
+          "hierarchy_depth": 2,
+          "entropy_bits": {
+            "observed": 2.398550921673261,
+            "uniform": 3.0,
+            "delta": -0.601449078326739
+          }
+        }
+      ],
+      "crosstab_facet0_vs_category": {
+        "rows": [
+          "Business",
+          "Sci/Tech",
+          "Sports",
+          "World"
+        ],
+        "columns": [
+          "politics_and_elections",
+          "armed_conflict_and_terrorism",
+          "sports",
+          "business_and_markets",
+          "technology_and_telecom",
+          "science_and_environment",
+          "Other",
+          "Unlabelled"
+        ],
+        "values": [
+          [
+            5,
+            0,
+            0,
+            114,
+            3,
+            1,
+            2,
+            0
+          ],
+          [
+            1,
+            0,
+            0,
+            37,
+            55,
+            31,
+            1,
+            0
+          ],
+          [
+            0,
+            0,
+            124,
+            0,
+            0,
+            0,
+            1,
+            0
+          ],
+          [
+            39,
+            51,
+            6,
+            11,
+            0,
+            8,
+            9,
+            1
+          ]
+        ]
+      },
+      "exemplars": [
+        {
+          "facet_name": "subject_domain",
+          "values": {
+            "politics_and_elections": [
+              "President's fate is on the line in Venezuela CARACAS -- Partisans on both sides are calling it the most polarized and important election in Venezuela's history, a presidential recall referendum today that will determine the course of democr...",
+              "Bush and Kerry must engage in Gaza withdrawal The next few weeks may reveal whether or not Prime Minister Sharon will succeed in cobbling together a government that will implement his Gaza withdrawal plan. It is disconcerting to see how dif...",
+              "Nearly 10 Million Afghans to Embrace Democracy  KABUL (Reuters) - Thousands of U.S. troops in Afghanistan  may have failed to catch Osama bin Laden but they are credited  with encouraging millions of Afghans to register for the  country's h..."
+            ],
+            "armed_conflict_and_terrorism": [
+              "Iraq peace mission arrives in Najaf NAJAF, Iraq (Reuters) - An Iraqi peace delegation has urged a radical Shi #39;ite cleric to call off his uprising in the city of Najaf, where US troops have been pounding militia positions near the countr...",
+              "Baghdad bombs still haunt UN GENEVAUN Secretary-General Kofi Annan yesterday met survivors and families of the 22 workers killed in a suicide bombing that shattered United Nations offices in Baghdad last year  an attack many employees refer...",
+              "Al-Sadr OKs Plan to End Fighting in Najaf NAJAF, Iraq - Radical Shiite cleric Muqtada al-Sadr accepted a peace plan Wednesday for Najaf that would disarm his militiamen and remove them from a holy shrine where they are hiding out, according..."
+            ],
+            "sports": [
+              "A quick getaway: Greek sprinters beat expulsion by walking out on the games The final curtain yesterday came down on the Greek tragedy which has overshadowed the first week of the Athens Olympics when the sprinters Kostas Kederis and Ekater...",
+              "Phelps #146;s quest for 8 golds goes under ATHENS -- The evening began on a down note for the US swimming team, and descended from there. First, world champion Jenny Thompson struggled home fifth in the 100-meter butterfly. Then world recor...",
+              "No Gold for Phelps As Relay Team Falters ATHENS, Greece - Mark Spitz can rest easy. The best Michael Phelps can do is win seven gold medals at these Olympics..."
+            ],
+            "business_and_markets": [
+              "Wall Street Set to Open Down (Reuters) Reuters - U.S. shares were expected to open lower\\on Wednesday after crude oil pushed to a fresh high overnight,\\while Web search engine Google Inc. dented sentiment as it\\slashed the price range on it...",
+              "Bargain-hunting, Iraq deal push up US shares NEW YORK : US share prices surged on Wednesday as bargain hunting and news of a peace deal in the Iraqi city of Najaf overcame all-time high oil prices and weak demand for the Google share float....",
+              "Google Slashes IPO's Size  NEW YORK (Reuters) - Google Inc. slashed the size of its  closely watched initial public offering nearly in half to less  than \\$2 billion on Wednesday, splashing cold water on what has  been touted as the hottest..."
+            ],
+            "technology_and_telecom": [
+              "Windows XP Security Update Delayed (AP) AP - Microsoft Corp. has delayed automated distribution of a major security upgrade to its Windows XP Professional operating system, citing a desire to give companies more time to test it.",
+              "Microsoft Updates Its IBM Connectivity Server On Tuesday, Microsoft unveiled the 2004 version of its Host Integration Server (HIS) product, which is designed to integrate IBM mainframes and servers with Windows systems. ",
+              "Windows Update Operating systems just ain #39;t what they used to be. For a while, Microsoft released a new version of Windows every two or three yearseach creating a ripple effect on how we all used and thought about technology. But now, t..."
+            ],
+            "science_and_environment": [
+              "Benefits Seen in Earth Observation Data WASHINGTON Aug. 17, 2004  Scientists are planning to take the pulse of the planet and more in an effort to improve weather forecasts, predict energy needs months in advance, anticipate disease outbrea...",
+              "Florida Starts Massive Hurricane Cleanup PUNTA GORDA, Fla. - Residents left homeless by Hurricane Charley's 145 mph winds dug through their ravaged homes on Sunday, sweeping up shattered glass and rescuing what they could as President Bush ...",
+              "One dead, four missing as Typhoon Megi hits S.Korea SEOUL, Aug. 19 (Xinhuanet) -- One died and four others went missing as Typhoon Megi hit South Korea #39;s southern provinces with strong winds and heavy rains, reported South Korean Yonhap..."
+            ],
+            "Other": [
+              "The Geisha Stylist Who Let His Hair Down Here in the Gion geisha district of Japan's ancient capital, even one bad hair day can cost a girl her career. So it is no wonder that Tetsuo Ishihara is the man with the most popular hands in town.",
+              "Chess legend wedding bid  #39;genuine #39; TOKYO, Japan -- The Japanese woman who plans to marry former world chess champion Bobby Fischer says their feelings are genuine. ",
+              "The Ballad of Shaikh Ahmed THE guy exudes an aura of sure-fire confidence - the confidence that is based on his burning desire to excel. Shaikh Ahmed Mohammed Hasher Al Maktoum expects to be successful - and he invariably is. "
+            ]
+          }
+        },
+        {
+          "facet_name": "geographic_scope",
+          "values": {
+            "domestic_us": [
+              "MacGowan to play at jazz landmark Legendary singer Shane MacGowan is to play a mini-residency at London's famous Ronnie Scott's jazz club.",
+              "Wall Street Set to Open Down (Reuters) Reuters - U.S. shares were expected to open lower\\on Wednesday after crude oil pushed to a fresh high overnight,\\while Web search engine Google Inc. dented sentiment as it\\slashed the price range on it...",
+              "SEC Leaves Google Waiting on IPO Go Ahead NEW YORK/WASHINGTON (Reuters) - US regulators on Tuesday did not give Google Inc. the green light it needs to price its initial public offering, extending the wait for the Web search giant #39;s eag..."
+            ],
+            "international_single_country": [
+              "American claims Khorkina crown ATHENS -- With a dazzling routine on the floor, American Carly Patterson staked her claim last night as the new queen of gymnastics. Patterson, 16, spoiled Russian superstar Svetlana Khorkina #39;s final chanc...",
+              "Microsoft Says Battle in Japan Hurting Image By YURI KAGEYAMA     TOKYO (AP) -- The head of Microsoft Corp. (MSFT)'s Japan unit acknowledged Tuesday that the U.S...",
+              "Americans lose second beach volleyball match ATHENS, Greece (Ticker) -- The dream of a second consecutive beach volleyball gold medal has become all but impossible for American Dain Blanton. "
+            ],
+            "global_multinational": [
+              "Economies Not Yet Dented by Oil Prices  LONDON (Reuters) - OPEC oil producers and Chancellor  Schroeder of Germany, which is a prominent consumer, agree that  the remorseless rise in the price of crude has so far had  little impact on globa...",
+              "Oil Hits Record on China, India Demand LONDON (Reuters) - Oil prices struck a fresh record high above \\$47 a barrel on Thursday as fresh evidence of demand growth in China and India underlined how rising appetite for oil is straining the wo...",
+              "Crude oil crosses the \\$47 per barrel mark NEW YORK, August 18 (New Ratings)  Crude oil prices reached new record high levels today, following the US Energy Department report regarding the expanded operations by the US refineries and increa..."
+            ],
+            "regional_conflict_zone": [
+              "Five Palestinians killed Israeli attack that targeted Hamas activist in Gaza City JERUSALEM Israel set off a mysterious explosion in an olive grove near the house of a senior Hamas activist Wednesday, killing five Palestinians and wounding ...",
+              "5 die as Hamas chief survives Israeli strike GAZA CITYA senior Hamas leader survived an Israeli assassination attempt early today but at least five other Palestinians were killed in the explosion that tore through his Gaza home. ",
+              "Five die in renewed Gaza fighting against Mahmoud Abbas, a moderate backed by Israel and Washington as a potential peacemaker, a lawmaker said. killing one soldier and wounding four."
+            ],
+            "Other": [
+              "IBM #39;s New Midrange Server Allows Multiple OS Environments IBM #39;s new eServer allows users to run multiple OS environments at the same time to increase efficiency. Customers can purchase the machine based on the processing power they ...",
+              "Crack Fedora Core and Red Hat Enterprise Linux &lt;strong&gt;Site Offer&lt;/strong&gt; Save 30 at The Reg Bookshop",
+              "Creating Stunning DVDs  #147;No other DVD authoring program in the \\$500 price class is capable of creating such stunning, highly creative DVDs as Apple #146;s DVD Studio Pro 3, #148; writes PC Magazine.  #147;For video pros looking to take..."
+            ]
+          }
+        },
+        {
+          "facet_name": "narrative_function",
+          "values": {
+            "breaking_event_report": [
+              "Iraq's Sadr Declines to Meet Najaf Peace Delegation  NAJAF, Iraq (Reuters) - Iraq's radical cleric Moqtada  al-Sadr refused on Tuesday to meet a delegation of Iraqi  political and religious leaders who want him to call off his  uprising in ...",
+              "It #39;s a big injustice, protests Greek sprinter The Greek sprinter Kostas Kenteris left hospital yesterday protesting his innocence ahead of today #39;s International Olympic Committee disciplinary hearing that looks certain to land him w...",
+              "Sprinters #39; Withdrawals Lift Cloud Over Games ATHENS (Reuters) - Greece #39;s top two sprinters pulled out of the Olympics on Wednesday after inflicting six days of embarrassment on their country over a hide-and-seek contest with anti-do..."
+            ],
+            "results_recap": [
+              "Bargain-hunting, Iraq deal push up US shares NEW YORK : US share prices surged on Wednesday as bargain hunting and news of a peace deal in the Iraqi city of Najaf overcame all-time high oil prices and weak demand for the Google share float....",
+              "Al-Maktoum wins men #39;s double trap shooting gold ATHENS : Sheikh Ahmed Al-Maktoum #39;s six-year quest for Olympic glory ended with a historic first ever gold for the United Arab Emirates on Tuesday after he clinched the men #39;s double...",
+              "American Swimmers Fired Up by Relay Win ATHENS (Reuters) - The US swimming team was slow off the blocks but is heading for home at full speed propelled by Tuesday #39;s dramatic relay victory, US women #39;s head coach Mark Schubert said on..."
+            ],
+            "investigative_expose": [
+              "Sewage waters a tenth of world #39;s irrigated crops A tenth of the world #39;s irrigated crops - everything from lettuce and tomatoes to mangoes and coconuts - are watered by sewage. And much of that sewage is raw and untreated, gushing di..."
+            ],
+            "analysis_commentary": [
+              "Unobstructed Views: Olympic-sized fools For all their troubles, the Olympic Games remain the greatest unifying force in the world. Every four years, they draw a diverse international audience, bridging cultural gaps, transcending ethnic div...",
+              "Wind River's Smooth Sailing (The Motley Fool) The Motley Fool - Investors have unloaded on many software companies lately, such as Red Hat (Nasdaq: RHAT - News), Siebel (Nasdaq: SEBL - News), Novell (Nasdaq: NOVL - News), and so on. However...",
+              "Economies Not Yet Dented by Oil Prices  LONDON (Reuters) - OPEC oil producers and Chancellor  Schroeder of Germany, which is a prominent consumer, agree that  the remorseless rise in the price of crude has so far had  little impact on globa..."
+            ],
+            "human_interest_profile": [
+              "Dutch cyclist #39;s fairytale comeback Vouliagmeni, Greece - Watch Leontien Zijlaard-Van Moorsel, think Hermann Maier. Awful crash, unlikely fightback, gold within days. Instant Olympic lore. ",
+              "The Ballad of Shaikh Ahmed THE guy exudes an aura of sure-fire confidence - the confidence that is based on his burning desire to excel. Shaikh Ahmed Mohammed Hasher Al Maktoum expects to be successful - and he invariably is. ",
+              "Olympian women escape the age barrier (AFP) AFP - The older the violin, the sweeter the music. And the Athens Olympics is proving the lyrics right as Martina Navratilova, Merlene Ottey and company are demonstrating the endurance of women wi..."
+            ],
+            "forecast_or_preview": [
+              "MacGowan to play at jazz landmark Legendary singer Shane MacGowan is to play a mini-residency at London's famous Ronnie Scott's jazz club.",
+              "Last Call for Investors to Bid on Google (Reuters) Reuters - Time is running out for prospective\\investors to submit their offers to buy shares of Google Inc.\\(GOOG.O), the Web's No. 1 search company.",
+              "Dot-Coms Anxious to Get Back in IPO Game The successful bidders for Google shares won't be the only ones watching eagerly to see how much the IPO excites the stock market. Dozens of dot-com companies are hoping that Google's initial public ..."
+            ],
+            "official_statement_announcement": [
+              "Claria Cancels \\$150 million IPO Claria Cancels \\$150 million IPO\\Contextual advertising and pop up company Claria Corp. has canceled plans for a \\$150 million initial public offering due to \"current market conditions,\" it said in a regulat...",
+              "SEC Leaves Google Waiting on IPO Go Ahead NEW YORK/WASHINGTON (Reuters) - US regulators on Tuesday did not give Google Inc. the green light it needs to price its initial public offering, extending the wait for the Web search giant #39;s eag...",
+              "Google Slashes IPO's Size  NEW YORK (Reuters) - Google Inc. slashed the size of its  closely watched initial public offering nearly in half to less  than \\$2 billion on Wednesday, splashing cold water on what has  been touted as the hottest..."
+            ],
+            "Other": [
+              "My Blog as a Time Machine \\\\I'm starting to realize that my blog is a bit of a time machine.  For example I\\can create a blog entry to warn myself about something that WILL happen in the\\future.  \\\\My current NTP  blog entry is a good examp...",
+              "Pretty Log4J \\\\I've been a big fan of Log4J  for a while now but haven't migrated any code\\over for one central reason.  The following line of code:\\\\    final static Logger logger = Logger.getLogger( \"some.name\" );\\\\... is amazingly ugly a...",
+              "The Great K5 Limerick Contest Queue submissions being scarce, I suggest we all submit limericks for consideration.  Mod up your favorites.    I'm no poet, so I'll submit a favorite of my childhood:    There was a young woman named Bright,  ..."
+            ]
+          }
+        }
+      ],
+      "elapsed_seconds": 153.85416388511658
+    },
+    {
+      "label": "toponymy_erasure",
+      "use_toponymy": true,
+      "erasure": true,
+      "schema": [
+        {
+          "name": "geographic_focus",
+          "kind": "categorical",
+          "values": [
+            "united_states",
+            "middle_east",
+            "europe",
+            "asia_pacific",
+            "latin_america",
+            "africa",
+            "global_multinational",
+            "Other"
+          ],
+          "definition": "The primary geographic region that the news article centers on, based on where the events, entities, or markets discussed are located.",
+          "labeling_prompt_template": "Classify the following news article along the \"geographic_focus\" dimension.\n\nThe primary geographic region that the news article centers on, based on where the events, entities, or markets discussed are located.\n\nChoose exactly one of: united_states, middle_east, europe, asia_pacific, latin_america, africa, global_multinational, Other\n\nnews article:\n{document}\n\nRespond with the chosen value name only, no explanation.",
+          "labeling_model": "claude-haiku-4-5"
+        },
+        {
+          "name": "narrative_tone",
+          "kind": "categorical",
+          "values": [
+            "breaking_incident_report",
+            "investigative_expose",
+            "results_recap",
+            "analytical_commentary",
+            "human_interest_profile",
+            "official_announcement",
+            "Other"
+          ],
+          "definition": "Captures the journalistic mode or rhetorical style in which the article is written, independent of subject matter or location.",
+          "labeling_prompt_template": "Classify the following news article along the \"narrative_tone\" dimension.\n\nCaptures the journalistic mode or rhetorical style in which the article is written, independent of subject matter or location.\n\nChoose exactly one of: breaking_incident_report, investigative_expose, results_recap, analytical_commentary, human_interest_profile, official_announcement, Other\n\nnews article:\n{document}\n\nRespond with the chosen value name only, no explanation.",
+          "labeling_model": "claude-haiku-4-5"
+        },
+        {
+          "name": "temporal_orientation",
+          "kind": "categorical",
+          "values": [
+            "breaking_event_report",
+            "ongoing_situation_update",
+            "results_recap",
+            "forecast_or_outlook",
+            "retrospective_analysis",
+            "Other"
+          ],
+          "definition": "Captures the temporal stance of the article relative to the events it covers\u2014whether reporting a just-happened event, updating an ongoing story, recapping completed results, projecting forward, or analyzing past developments.",
+          "labeling_prompt_template": "Classify the following news article along the \"temporal_orientation\" dimension.\n\nCaptures the temporal stance of the article relative to the events it covers\u2014whether reporting a just-happened event, updating an ongoing story, recapping completed results, projecting forward, or analyzing past developments.\n\nChoose exactly one of: breaking_event_report, ongoing_situation_update, results_recap, forecast_or_outlook, retrospective_analysis, Other\n\nnews article:\n{document}\n\nRespond with the chosen value name only, no explanation.",
+          "labeling_model": "claude-haiku-4-5"
+        }
+      ],
+      "diagnostics_summary": [
+        {
+          "cluster_count": 14,
+          "hierarchy_depth": 2,
+          "entropy_bits": {
+            "observed": 2.273296291958804,
+            "uniform": 3.0,
+            "delta": -0.726703708041196
+          }
+        },
+        {
+          "cluster_count": 12,
+          "hierarchy_depth": 2,
+          "entropy_bits": {
+            "observed": 2.315634477437027,
+            "uniform": 2.807354922057604,
+            "delta": -0.4917204446205772
+          }
+        },
+        {
+          "cluster_count": 15,
+          "hierarchy_depth": 2,
+          "entropy_bits": {
+            "observed": 2.1008542772891188,
+            "uniform": 2.584962500721156,
+            "delta": -0.4841082234320373
+          }
+        }
+      ],
+      "crosstab_facet0_vs_category": {
+        "rows": [
+          "Business",
+          "Sci/Tech",
+          "Sports",
+          "World"
+        ],
+        "columns": [
+          "united_states",
+          "middle_east",
+          "europe",
+          "asia_pacific",
+          "latin_america",
+          "africa",
+          "global_multinational",
+          "Other",
+          "Unlabelled"
+        ],
+        "values": [
+          [
+            91,
+            4,
+            16,
+            9,
+            1,
+            0,
+            2,
+            0,
+            2
+          ],
+          [
+            68,
+            0,
+            3,
+            9,
+            0,
+            1,
+            36,
+            8,
+            0
+          ],
+          [
+            63,
+            2,
+            46,
+            8,
+            2,
+            0,
+            2,
+            1,
+            1
+          ],
+          [
+            18,
+            34,
+            21,
+            36,
+            8,
+            6,
+            1,
+            0,
+            1
+          ]
+        ]
+      },
+      "exemplars": [
+        {
+          "facet_name": "geographic_focus",
+          "values": {
+            "united_states": [
+              "Wall Street Set to Open Down (Reuters) Reuters - U.S. shares were expected to open lower\\on Wednesday after crude oil pushed to a fresh high overnight,\\while Web search engine Google Inc. dented sentiment as it\\slashed the price range on it...",
+              "Bargain-hunting, Iraq deal push up US shares NEW YORK : US share prices surged on Wednesday as bargain hunting and news of a peace deal in the Iraqi city of Najaf overcame all-time high oil prices and weak demand for the Google share float....",
+              "Dot-Coms Anxious to Get Back in IPO Game The successful bidders for Google shares won't be the only ones watching eagerly to see how much the IPO excites the stock market. Dozens of dot-com companies are hoping that Google's initial public ..."
+            ],
+            "middle_east": [
+              "Al-Sadr OKs Plan to End Fighting in Najaf NAJAF, Iraq - Radical Shiite cleric Muqtada al-Sadr accepted a peace plan Wednesday for Najaf that would disarm his militiamen and remove them from a holy shrine where they are hiding out, according...",
+              "Iraq peace mission arrives in Najaf NAJAF, Iraq (Reuters) - An Iraqi peace delegation has urged a radical Shi #39;ite cleric to call off his uprising in the city of Najaf, where US troops have been pounding militia positions near the countr...",
+              "Sadr agrees to end Najaf crisis: Iraqi delegates BAGHDAD, Aug. 18 (Xinhuanet) -- Iraqi delegates to a conference choosing a national assembly said on Wednesday that radical Shiite cleric Moqtada al-Sadr had agreed to government demands to e..."
+            ],
+            "europe": [
+              "Greek Sprinters Withdraw From Olympics ATHENS, Greece Aug. 18, 2004  Greek sprinters Kostas Kenteris and Katerina Thanou pulled out of the Athens Games on Wednesday, nearly a week after they missed a drug test and were later hospitalized fo...",
+              "Sprinters #39; Withdrawals Lift Cloud Over Games ATHENS (Reuters) - Greece #39;s top two sprinters pulled out of the Olympics on Wednesday after inflicting six days of embarrassment on their country over a hide-and-seek contest with anti-do...",
+              "No Gold for Phelps As Relay Team Falters ATHENS, Greece - Mark Spitz can rest easy. The best Michael Phelps can do is win seven gold medals at these Olympics..."
+            ],
+            "asia_pacific": [
+              "Microsoft Says Battle in Japan Hurting Image By YURI KAGEYAMA     TOKYO (AP) -- The head of Microsoft Corp. (MSFT)'s Japan unit acknowledged Tuesday that the U.S...",
+              "Phelps #146;s quest for 8 golds goes under ATHENS -- The evening began on a down note for the US swimming team, and descended from there. First, world champion Jenny Thompson struggled home fifth in the 100-meter butterfly. Then world recor...",
+              "Anno Captures Japan #39;s 6th Judo Gold; Inoue Fails to Win Medal Aug. 20 (Bloomberg) -- Noriko Anno, four-time world champion, won Japan #39;s sixth judo gold medal Thursday, defeating China #39;s Liu Xia in the women #39;s 78-kilogram cla..."
+            ],
+            "latin_america": [
+              "Venezuela Voters Turn Out in Huge Numbers CARACAS, Venezuela - Summoned by bugle calls and firecrackers, millions of Venezuelans turned out in unprecedented numbers Sunday to vote on whether to force leftist President Hugo Chavez from offic...",
+              "Venezuela Voters Turn Out in Huge Numbers CARACAS, Venezuela - Voters turned out in huge numbers Sunday to decide whether to keep populist President Hugo Chavez in power or oust him and his social revolution that critics say has sidelined t...",
+              "President's fate is on the line in Venezuela CARACAS -- Partisans on both sides are calling it the most polarized and important election in Venezuela's history, a presidential recall referendum today that will determine the course of democr..."
+            ],
+            "africa": [
+              "UN concerned by lack of Darfur progress on ground KHARTOUM, Aug 18 (Reuters) - The United Nations said on Wednesday it was very concerned by Sudan #39;s lack of practical progress in bringing security to Darfur, where more than a million pe...",
+              "Rwandan Troops Arrive in Darfur (AP) AP - Dozens of Rwandan soldiers flew into Sudan's troubled Darfur region Sunday, the first foreign armed force deployed in the area since Arab militiamen began a rampage against black African farmers, ki...",
+              "Darfur Displaced Return to 'Live in Fear' of Militia  KHARTOUM, Sudan (Reuters) - Villagers returning to their  homes in Sudan's Darfur region are living in fear of the Arab  militiamen who initially drove them away, the United Nations  sai..."
+            ],
+            "global_multinational": [
+              "Unobstructed Views: Olympic-sized fools For all their troubles, the Olympic Games remain the greatest unifying force in the world. Every four years, they draw a diverse international audience, bridging cultural gaps, transcending ethnic div...",
+              "US troops move gets muted response BERLIN, Germany (AP) -- Germany #39;s defense minister expressed regret Tuesday about US plans to restructure its forces abroad -- changes expected to hit Germany the hardest with the pullout of two heavy ...",
+              "Voyager 1, Prepare for Action At the outer limits of our solar system, a solar shock wave is about to overtake NASA's Voyager 1 spacecraft."
+            ],
+            "Other": [
+              "My Blog as a Time Machine \\\\I'm starting to realize that my blog is a bit of a time machine.  For example I\\can create a blog entry to warn myself about something that WILL happen in the\\future.  \\\\My current NTP  blog entry is a good examp...",
+              "The Great K5 Limerick Contest Queue submissions being scarce, I suggest we all submit limericks for consideration.  Mod up your favorites.    I'm no poet, so I'll submit a favorite of my childhood:    There was a young woman named Bright,  ...",
+              "HP: The Adaptive Enterprise that can't adapt &lt;strong&gt;Opinion&lt;/strong&gt; SAP hardly to blame"
+            ]
+          }
+        },
+        {
+          "facet_name": "narrative_tone",
+          "values": {
+            "breaking_incident_report": [
+              "A quick getaway: Greek sprinters beat expulsion by walking out on the games The final curtain yesterday came down on the Greek tragedy which has overshadowed the first week of the Athens Olympics when the sprinters Kostas Kederis and Ekater...",
+              "Wall Street Set to Open Down (Reuters) Reuters - U.S. shares were expected to open lower\\on Wednesday after crude oil pushed to a fresh high overnight,\\while Web search engine Google Inc. dented sentiment as it\\slashed the price range on it...",
+              "SEC Leaves Google Waiting on IPO Go Ahead NEW YORK/WASHINGTON (Reuters) - US regulators on Tuesday did not give Google Inc. the green light it needs to price its initial public offering, extending the wait for the Web search giant #39;s eag..."
+            ],
+            "investigative_expose": [
+              "Compuware Accuses IBM of Ambush Tactics (AP) AP - Compuware Corp. is accusing IBM of attempting to \"sandbag\" it with new evidence just three months before the software company's piracy claim against the technology giant is to go to trial.",
+              "What #39;s behind Israeli construction permits? Timing of new building in West Bank linked to political survival instincts of Ariel Sharon. In a move that caught both the international community and the Bush administration by surprise, the ...",
+              "DRM is doubleplus good for business, Congress advised The Budget Office and the case of the disappearing public interest"
+            ],
+            "results_recap": [
+              "Bargain-hunting, Iraq deal push up US shares NEW YORK : US share prices surged on Wednesday as bargain hunting and news of a peace deal in the Iraqi city of Najaf overcame all-time high oil prices and weak demand for the Google share float....",
+              "American Swimmers Fired Up by Relay Win ATHENS (Reuters) - The US swimming team was slow off the blocks but is heading for home at full speed propelled by Tuesday #39;s dramatic relay victory, US women #39;s head coach Mark Schubert said on...",
+              "Al-Maktoum wins men #39;s double trap shooting gold ATHENS : Sheikh Ahmed Al-Maktoum #39;s six-year quest for Olympic glory ended with a historic first ever gold for the United Arab Emirates on Tuesday after he clinched the men #39;s double..."
+            ],
+            "analytical_commentary": [
+              "Unobstructed Views: Olympic-sized fools For all their troubles, the Olympic Games remain the greatest unifying force in the world. Every four years, they draw a diverse international audience, bridging cultural gaps, transcending ethnic div...",
+              "Wall Street takes heart from positive economic reports A NEW record high for oil took some of the shine off Wall Street trade yesterday. An upbeat picture of inflation and good housing data boosted the mood early on and strong earnings from...",
+              "U.S. Broadband Growth Slows - Analyst &lt;p&gt;&lt;/p&gt;&lt;p&gt; WASHINGTON (Reuters) - U.S. telephone and cable companiessaw the growth of high-speed Internet services slow in thesecond quarter to the lowest rate in a year, an industryre..."
+            ],
+            "human_interest_profile": [
+              "Dutch cyclist #39;s fairytale comeback Vouliagmeni, Greece - Watch Leontien Zijlaard-Van Moorsel, think Hermann Maier. Awful crash, unlikely fightback, gold within days. Instant Olympic lore. ",
+              "Too tall, too old, too artistic, Khorkina makes grand Olympic exit ATHENS, Greece (AP) -- The diva does not warm up before her performance. Not much, anyway. That is something that other gymnasts do, and Svetlana Khorkina will never be conf...",
+              "Olympian women escape the age barrier (AFP) AFP - The older the violin, the sweeter the music. And the Athens Olympics is proving the lyrics right as Martina Navratilova, Merlene Ottey and company are demonstrating the endurance of women wi..."
+            ],
+            "official_announcement": [
+              "Claria Cancels \\$150 million IPO Claria Cancels \\$150 million IPO\\Contextual advertising and pop up company Claria Corp. has canceled plans for a \\$150 million initial public offering due to \"current market conditions,\" it said in a regulat...",
+              "SEC Seen to OK Google IPO After 4 P.M.  WASHINGTON (Reuters) - The U.S. Securities and Exchange  Commission is expected to declare the initial public offering  registration of Google Inc. &lt;A HREF=\"http://www.investor.reuters.com/FullQuot...",
+              "Google Slashes the Size of Its IPO NEW YORK (Reuters) - Google Inc. slashed the size of its closely watched initial public offering nearly in half to less than \\$2 billion on Wednesday, splashing cold water on what has been touted as the ho..."
+            ],
+            "Other": [
+              "Crack Fedora Core and Red Hat Enterprise Linux &lt;strong&gt;Site Offer&lt;/strong&gt; Save 30 at The Reg Bookshop",
+              "The Great K5 Limerick Contest Queue submissions being scarce, I suggest we all submit limericks for consideration.  Mod up your favorites.    I'm no poet, so I'll submit a favorite of my childhood:    There was a young woman named Bright,  ...",
+              "Pretty Log4J \\\\I've been a big fan of Log4J  for a while now but haven't migrated any code\\over for one central reason.  The following line of code:\\\\    final static Logger logger = Logger.getLogger( \"some.name\" );\\\\... is amazingly ugly a..."
+            ]
+          }
+        },
+        {
+          "facet_name": "temporal_orientation",
+          "values": {
+            "breaking_event_report": [
+              "Bargain-hunting, Iraq deal push up US shares NEW YORK : US share prices surged on Wednesday as bargain hunting and news of a peace deal in the Iraqi city of Najaf overcame all-time high oil prices and weak demand for the Google share float....",
+              "Google IPO Prices at \\$85/share - Source  SAN FRANCISCO (Reuters) - Google Inc.'s GOOG.O initial  public offering of 19.6 million shares priced at \\$85 each, the  low end of their projected range, a source familiar with the  auction said on...",
+              "Last Call for Investors to Bid on Google (Reuters) Reuters - Time is running out for prospective\\investors to submit their offers to buy shares of Google Inc.\\(GOOG.O), the Web's No. 1 search company."
+            ],
+            "ongoing_situation_update": [
+              "Microsoft Says Battle in Japan Hurting Image By YURI KAGEYAMA     TOKYO (AP) -- The head of Microsoft Corp. (MSFT)'s Japan unit acknowledged Tuesday that the U.S...",
+              "UN concerned by lack of Darfur progress on ground KHARTOUM, Aug 18 (Reuters) - The United Nations said on Wednesday it was very concerned by Sudan #39;s lack of practical progress in bringing security to Darfur, where more than a million pe...",
+              "SEC Leaves Google Waiting on IPO Go Ahead NEW YORK/WASHINGTON (Reuters) - US regulators on Tuesday did not give Google Inc. the green light it needs to price its initial public offering, extending the wait for the Web search giant #39;s eag..."
+            ],
+            "results_recap": [
+              "A quick getaway: Greek sprinters beat expulsion by walking out on the games The final curtain yesterday came down on the Greek tragedy which has overshadowed the first week of the Athens Olympics when the sprinters Kostas Kederis and Ekater...",
+              "Apax and Permira finalise \\$5bn acquisition of moon-landing firm The company that broadcast the moon landings in 1969 and kept the  quot;Hotline quot; open between the White House and the Kremlin during the Seventies has been sold for \\$5bn...",
+              "Al-Maktoum wins men #39;s double trap shooting gold ATHENS : Sheikh Ahmed Al-Maktoum #39;s six-year quest for Olympic glory ended with a historic first ever gold for the United Arab Emirates on Tuesday after he clinched the men #39;s double..."
+            ],
+            "forecast_or_outlook": [
+              "Dot-Coms Anxious to Get Back in IPO Game The successful bidders for Google shares won't be the only ones watching eagerly to see how much the IPO excites the stock market. Dozens of dot-com companies are hoping that Google's initial public ...",
+              "SEC Seen to OK Google IPO After 4 P.M.  WASHINGTON (Reuters) - The U.S. Securities and Exchange  Commission is expected to declare the initial public offering  registration of Google Inc. &lt;A HREF=\"http://www.investor.reuters.com/FullQuot...",
+              "Wall Street Set to Open Down (Reuters) Reuters - U.S. shares were expected to open lower\\on Wednesday after crude oil pushed to a fresh high overnight,\\while Web search engine Google Inc. dented sentiment as it\\slashed the price range on it..."
+            ],
+            "retrospective_analysis": [
+              "E-mail from Athens ATHENS, Greece  For people willing to devote an unfathomable \\$1.5 billion to  quot;security quot; for the Olympic Games, the Greeks sure are careless. As in, they couldn #39;t care less. ",
+              "HP: The Adaptive Enterprise that can't adapt &lt;strong&gt;Opinion&lt;/strong&gt; SAP hardly to blame",
+              "Microsoft Corp. 2.0: a kinder corporate culture Even a genius can mess up. Bill Gates was a brilliant technologist when he cofounded Microsoft , but as he guided it to greatness in both size and historical consequence, he blundered. He terr..."
+            ],
+            "Other": [
+              "My Blog as a Time Machine \\\\I'm starting to realize that my blog is a bit of a time machine.  For example I\\can create a blog entry to warn myself about something that WILL happen in the\\future.  \\\\My current NTP  blog entry is a good examp...",
+              "Does That Web Site Look Phishy? (PC World) PC World - WholeSecurity's new software claims to identify fraudulent sites.",
+              "Executive Compensation Post staff writer David Hilzenrath and editor Mike Flagg discuss which local executives have the sweetest deals."
+            ]
+          }
+        }
+      ],
+      "elapsed_seconds": 154.1513478755951
+    },
+    {
+      "label": "homemade_vanilla",
+      "use_toponymy": false,
+      "erasure": false,
+      "schema": [
+        {
+          "name": "subject_domain",
+          "kind": "categorical",
+          "values": [
+            "sports",
+            "international_conflict",
+            "financial_markets",
+            "corporate_business",
+            "Other"
+          ],
+          "definition": "The thematic domain of the news article, distinguishing whether it covers sports, geopolitical conflict, market/commodity finance, or corporate business events.",
+          "labeling_prompt_template": "Classify the following news article along the \"subject_domain\" dimension.\n\nThe thematic domain of the news article, distinguishing whether it covers sports, geopolitical conflict, market/commodity finance, or corporate business events.\n\nChoose exactly one of: sports, international_conflict, financial_markets, corporate_business, Other\n\nnews article:\n{document}\n\nRespond with the chosen value name only, no explanation.",
+          "labeling_model": "claude-haiku-4-5"
+        },
+        {
+          "name": "geographic_scope",
+          "kind": "categorical",
+          "values": [
+            "united_states",
+            "middle_east",
+            "europe",
+            "asia_pacific",
+            "latin_america",
+            "africa",
+            "global_international",
+            "Other"
+          ],
+          "definition": "The primary geographic region where the events reported in the article take place.",
+          "labeling_prompt_template": "Classify the following news article along the \"geographic_scope\" dimension.\n\nThe primary geographic region where the events reported in the article take place.\n\nChoose exactly one of: united_states, middle_east, europe, asia_pacific, latin_america, africa, global_international, Other\n\nnews article:\n{document}\n\nRespond with the chosen value name only, no explanation.",
+          "labeling_model": "claude-haiku-4-5"
+        },
+        {
+          "name": "narrative_frame",
+          "kind": "categorical",
+          "values": [
+            "event_recap",
+            "crisis_and_disaster",
+            "scandal_and_controversy",
+            "negotiation_and_diplomacy",
+            "financial_performance",
+            "product_announcement",
+            "competition_results",
+            "Other"
+          ],
+          "definition": "The dominant narrative framing the article uses to present its subject, such as recapping an event, covering a crisis, exposing a scandal, or announcing results.",
+          "labeling_prompt_template": "Classify the following news article along the \"narrative_frame\" dimension.\n\nThe dominant narrative framing the article uses to present its subject, such as recapping an event, covering a crisis, exposing a scandal, or announcing results.\n\nChoose exactly one of: event_recap, crisis_and_disaster, scandal_and_controversy, negotiation_and_diplomacy, financial_performance, product_announcement, competition_results, Other\n\nnews article:\n{document}\n\nRespond with the chosen value name only, no explanation.",
+          "labeling_model": "claude-haiku-4-5"
+        }
+      ],
+      "diagnostics_summary": [
+        {
+          "cluster_count": 4,
+          "hierarchy_depth": 1,
+          "entropy_bits": {
+            "observed": 2.1792771039536487,
+            "uniform": 2.321928094887362,
+            "delta": -0.14265099093371347
+          }
+        },
+        {
+          "cluster_count": 22,
+          "hierarchy_depth": 1,
+          "entropy_bits": {
+            "observed": 2.3450678593190104,
+            "uniform": 3.0,
+            "delta": -0.6549321406809896
+          }
+        },
+        {
+          "cluster_count": 10,
+          "hierarchy_depth": 1,
+          "entropy_bits": {
+            "observed": 2.8676576785795005,
+            "uniform": 3.0,
+            "delta": -0.1323423214204995
+          }
+        }
+      ],
+      "crosstab_facet0_vs_category": {
+        "rows": [
+          "Business",
+          "Sci/Tech",
+          "Sports",
+          "World"
+        ],
+        "columns": [
+          "sports",
+          "international_conflict",
+          "financial_markets",
+          "corporate_business",
+          "Other"
+        ],
+        "values": [
+          [
+            0,
+            2,
+            46,
+            73,
+            4
+          ],
+          [
+            0,
+            1,
+            5,
+            83,
+            36
+          ],
+          [
+            121,
+            0,
+            0,
+            4,
+            0
+          ],
+          [
+            7,
+            84,
+            3,
+            13,
+            18
+          ]
+        ]
+      },
+      "exemplars": [
+        {
+          "facet_name": "subject_domain",
+          "values": {
+            "sports": [
+              "A quick getaway: Greek sprinters beat expulsion by walking out on the games The final curtain yesterday came down on the Greek tragedy which has overshadowed the first week of the Athens Olympics when the sprinters Kostas Kederis and Ekater...",
+              "Phelps #146;s quest for 8 golds goes under ATHENS -- The evening began on a down note for the US swimming team, and descended from there. First, world champion Jenny Thompson struggled home fifth in the 100-meter butterfly. Then world recor...",
+              "No Gold for Phelps As Relay Team Falters ATHENS, Greece - Mark Spitz can rest easy. The best Michael Phelps can do is win seven gold medals at these Olympics..."
+            ],
+            "international_conflict": [
+              "Iraq peace mission arrives in Najaf NAJAF, Iraq (Reuters) - An Iraqi peace delegation has urged a radical Shi #39;ite cleric to call off his uprising in the city of Najaf, where US troops have been pounding militia positions near the countr...",
+              "Baghdad bombs still haunt UN GENEVAUN Secretary-General Kofi Annan yesterday met survivors and families of the 22 workers killed in a suicide bombing that shattered United Nations offices in Baghdad last year  an attack many employees refer...",
+              "Al-Sadr OKs Plan to End Fighting in Najaf NAJAF, Iraq - Radical Shiite cleric Muqtada al-Sadr accepted a peace plan Wednesday for Najaf that would disarm his militiamen and remove them from a holy shrine where they are hiding out, according..."
+            ],
+            "financial_markets": [
+              "Oil Up on Rosy U.S. Economic Data  LONDON (Reuters) - Oil prices rose to another record high  on Tuesday on U.S. economic data showing inflationary pressure  was held in check in July and ahead of weekly inventory data on  Wednesday expecte...",
+              "Stocks Up on Data, Despite Oil's Rise  NEW YORK (Reuters) - U.S. stocks ended higher for a third  successive day on Tuesday, even as oil prices rose to another  record, after investors were encouraged by data showing an  easing of inflation...",
+              "Stocks Up; Investors Bottom Fishing  NEW YORK (Reuters) - U.S. stocks were higher on Wednesday  as investors bought beaten-down shares, even as the price of  oil jumped to new 21-year record highs."
+            ],
+            "corporate_business": [
+              "Dot-Coms Anxious to Get Back in IPO Game The successful bidders for Google shares won't be the only ones watching eagerly to see how much the IPO excites the stock market. Dozens of dot-com companies are hoping that Google's initial public ...",
+              "SEC Leaves Google Waiting on IPO Go Ahead NEW YORK/WASHINGTON (Reuters) - US regulators on Tuesday did not give Google Inc. the green light it needs to price its initial public offering, extending the wait for the Web search giant #39;s eag...",
+              "Google Slashes IPO's Size  NEW YORK (Reuters) - Google Inc. slashed the size of its  closely watched initial public offering nearly in half to less  than \\$2 billion on Wednesday, splashing cold water on what has  been touted as the hottest..."
+            ],
+            "Other": [
+              "Benefits Seen in Earth Observation Data WASHINGTON Aug. 17, 2004  Scientists are planning to take the pulse of the planet and more in an effort to improve weather forecasts, predict energy needs months in advance, anticipate disease outbrea...",
+              "Florida Starts Massive Hurricane Cleanup PUNTA GORDA, Fla. - Residents left homeless by Hurricane Charley's 145 mph winds dug through their ravaged homes on Sunday, sweeping up shattered glass and rescuing what they could as President Bush ...",
+              "One dead, four missing as Typhoon Megi hits S.Korea SEOUL, Aug. 19 (Xinhuanet) -- One died and four others went missing as Typhoon Megi hit South Korea #39;s southern provinces with strong winds and heavy rains, reported South Korean Yonhap..."
+            ]
+          }
+        },
+        {
+          "facet_name": "geographic_scope",
+          "values": {
+            "united_states": [
+              "Wall Street Set to Open Down (Reuters) Reuters - U.S. shares were expected to open lower\\on Wednesday after crude oil pushed to a fresh high overnight,\\while Web search engine Google Inc. dented sentiment as it\\slashed the price range on it...",
+              "SEC Leaves Google Waiting on IPO Go Ahead NEW YORK/WASHINGTON (Reuters) - US regulators on Tuesday did not give Google Inc. the green light it needs to price its initial public offering, extending the wait for the Web search giant #39;s eag...",
+              "Bargain-hunting, Iraq deal push up US shares NEW YORK : US share prices surged on Wednesday as bargain hunting and news of a peace deal in the Iraqi city of Najaf overcame all-time high oil prices and weak demand for the Google share float...."
+            ],
+            "middle_east": [
+              "Sadr agrees to end Najaf crisis: Iraqi delegates BAGHDAD, Aug. 18 (Xinhuanet) -- Iraqi delegates to a conference choosing a national assembly said on Wednesday that radical Shiite cleric Moqtada al-Sadr had agreed to government demands to e...",
+              "Iraq peace mission arrives in Najaf NAJAF, Iraq (Reuters) - An Iraqi peace delegation has urged a radical Shi #39;ite cleric to call off his uprising in the city of Najaf, where US troops have been pounding militia positions near the countr...",
+              "Fighting Rages in Najaf After Peace Bid Fails  NAJAF, Iraq (Reuters) - Heavy fighting broke out between  U.S. troops and Shi'ite militiamen in the Iraqi city of Najaf,  where Iraq's interim defense minister said he expected a  \"decisive bat..."
+            ],
+            "europe": [
+              "Greek Sprinters Withdraw From Olympics ATHENS, Greece Aug. 18, 2004  Greek sprinters Kostas Kenteris and Katerina Thanou pulled out of the Athens Games on Wednesday, nearly a week after they missed a drug test and were later hospitalized fo...",
+              "Sprinters #39; Withdrawals Lift Cloud Over Games ATHENS (Reuters) - Greece #39;s top two sprinters pulled out of the Olympics on Wednesday after inflicting six days of embarrassment on their country over a hide-and-seek contest with anti-do...",
+              "A quick getaway: Greek sprinters beat expulsion by walking out on the games The final curtain yesterday came down on the Greek tragedy which has overshadowed the first week of the Athens Olympics when the sprinters Kostas Kederis and Ekater..."
+            ],
+            "asia_pacific": [
+              "Microsoft Says Battle in Japan Hurting Image By YURI KAGEYAMA     TOKYO (AP) -- The head of Microsoft Corp. (MSFT)'s Japan unit acknowledged Tuesday that the U.S...",
+              "Hostile Takeover The battle moves to the political arena as Taipei and Beijing wrap up their wargames",
+              "Typhoon Megi kills 12 TOKYO/SEOUL (Reuters) - Heavy rain from typhoon Megi has lashed South Korea and Japan, prompting the evacuation of some 3,000 people and leaving at least 12 dead. Some 165 Japanese children were trapped at a nature cen..."
+            ],
+            "latin_america": [
+              "Venezuela Voters Turn Out in Huge Numbers CARACAS, Venezuela - Summoned by bugle calls and firecrackers, millions of Venezuelans turned out in unprecedented numbers Sunday to vote on whether to force leftist President Hugo Chavez from offic...",
+              "Venezuela Voters Turn Out in Huge Numbers CARACAS, Venezuela - Voters turned out in huge numbers Sunday to decide whether to keep populist President Hugo Chavez in power or oust him and his social revolution that critics say has sidelined t...",
+              "President's fate is on the line in Venezuela CARACAS -- Partisans on both sides are calling it the most polarized and important election in Venezuela's history, a presidential recall referendum today that will determine the course of democr..."
+            ],
+            "africa": [
+              "UN concerned by lack of Darfur progress on ground KHARTOUM, Aug 18 (Reuters) - The United Nations said on Wednesday it was very concerned by Sudan #39;s lack of practical progress in bringing security to Darfur, where more than a million pe...",
+              "Rwandan Troops Arrive in Darfur (AP) AP - Dozens of Rwandan soldiers flew into Sudan's troubled Darfur region Sunday, the first foreign armed force deployed in the area since Arab militiamen began a rampage against black African farmers, ki...",
+              "Darfur Displaced Return to 'Live in Fear' of Militia  KHARTOUM, Sudan (Reuters) - Villagers returning to their  homes in Sudan's Darfur region are living in fear of the Arab  militiamen who initially drove them away, the United Nations  sai..."
+            ],
+            "global_international": [
+              "Benefits Seen in Earth Observation Data WASHINGTON Aug. 17, 2004  Scientists are planning to take the pulse of the planet and more in an effort to improve weather forecasts, predict energy needs months in advance, anticipate disease outbrea...",
+              "Voyager 1, Prepare for Action At the outer limits of our solar system, a solar shock wave is about to overtake NASA's Voyager 1 spacecraft.",
+              "Windows Update Operating systems just ain #39;t what they used to be. For a while, Microsoft released a new version of Windows every two or three yearseach creating a ripple effect on how we all used and thought about technology. But now, t..."
+            ],
+            "Other": [
+              "HP: The Adaptive Enterprise that can't adapt &lt;strong&gt;Opinion&lt;/strong&gt; SAP hardly to blame",
+              "My Blog as a Time Machine \\\\I'm starting to realize that my blog is a bit of a time machine.  For example I\\can create a blog entry to warn myself about something that WILL happen in the\\future.  \\\\My current NTP  blog entry is a good examp...",
+              "The Great K5 Limerick Contest Queue submissions being scarce, I suggest we all submit limericks for consideration.  Mod up your favorites.    I'm no poet, so I'll submit a favorite of my childhood:    There was a young woman named Bright,  ..."
+            ]
+          }
+        },
+        {
+          "facet_name": "narrative_frame",
+          "values": {
+            "event_recap": [
+              "Bargain-hunting, Iraq deal push up US shares NEW YORK : US share prices surged on Wednesday as bargain hunting and news of a peace deal in the Iraqi city of Najaf overcame all-time high oil prices and weak demand for the Google share float....",
+              "Muddling Through (or Not): Mid-2004 Update on the Philippines Looks like the Philippines, despite itself, has survived the election without excessive violence, major civil unrest, or untoward People Power eruptions. GMA finally has that elu...",
+              "Sprint stars create new Greek tragedy ATHENS, Greece -- It was just after 8 am Wednesday, and across the street from the downtown Hilton, hundreds of media waited for the ultimate Greek tragedy to reach its sad conclusion. "
+            ],
+            "crisis_and_disaster": [
+              "Typhoon Megi kills 12 TOKYO/SEOUL (Reuters) - Heavy rain from typhoon Megi has lashed South Korea and Japan, prompting the evacuation of some 3,000 people and leaving at least 12 dead. Some 165 Japanese children were trapped at a nature cen...",
+              "Charley #39;s insured losses seen hitting \\$7.4 billion NEW YORK, Aug 18 (Reuters) - Insurance payments to victims of Hurricane Charley are expected to reach \\$7.4 billion, making it the second most costly hurricane to hit the United States...",
+              "Charley Damage Estimated at \\$11 Billion PUNTA GORDA, Fla. - As Florida residents began sweeping up the wreckage left behind by Hurricane Charley, officials on Sunday estimated damages as high as \\$11 billion for insured homes alone..."
+            ],
+            "scandal_and_controversy": [
+              "It #39;s a big injustice, protests Greek sprinter The Greek sprinter Kostas Kenteris left hospital yesterday protesting his innocence ahead of today #39;s International Olympic Committee disciplinary hearing that looks certain to land him w...",
+              "Compuware Accuses IBM of Ambush Tactics (AP) AP - Compuware Corp. is accusing IBM of attempting to \"sandbag\" it with new evidence just three months before the software company's piracy claim against the technology giant is to go to trial.",
+              " #39;9-11 helper driven by anti-Israeli beliefs #39; A Moroccan accused of helping the Sept. 11 suicide hijackers was part of a group that raged against the United States  quot;because it defends Israel quot; and himself approved of Hitler ..."
+            ],
+            "negotiation_and_diplomacy": [
+              "Al-Sadr OKs Plan to End Fighting in Najaf NAJAF, Iraq - Radical Shiite cleric Muqtada al-Sadr accepted a peace plan Wednesday for Najaf that would disarm his militiamen and remove them from a holy shrine where they are hiding out, according...",
+              "Downer positive over North Korea talks TONY JONES: On a rare visit to North Korea, Australia #39;s Foreign Minister Alexander Downer said today he #39;s held productive talks on efforts to end the reclusive nation #39;s nuclear program. ",
+              "Iraqi delegation flies to Najaf for peace talks An eight-member team of Iraqi political and religious leaders flew to Najaf to talk with Sadr on Tuesday.(Xinhua/AFP) ..."
+            ],
+            "financial_performance": [
+              "Nortel to Cut 3,500 Jobs to Boost Profit  OTTAWA (Reuters) - Nortel Networks Corp. &lt;A HREF=\"http://www.investor.reuters.com/FullQuote.aspx?ticker=NT.TO target=/stocks/quickinfo/fullquote\"&gt;NT.TO&lt;/A&gt; &lt;A HREF=\"http://www.investo...",
+              "Lowe's Reports 18 Pct. Hike in Profits  ATLANTA (Reuters) - Lowe's Cos. &lt;A HREF=\"http://www.investor.reuters.com/FullQuote.aspx?ticker=LOW.N target=/stocks/quickinfo/fullquote\"&gt;LOW.N&lt;/A&gt;, the world's No. 2  home improvement reta...",
+              "Stocks Up; Investors Bottom Fishing  NEW YORK (Reuters) - U.S. stocks were higher on Wednesday  as investors bought beaten-down shares, even as the price of  oil jumped to new 21-year record highs."
+            ],
+            "product_announcement": [
+              "SEC Leaves Google Waiting on IPO Go Ahead NEW YORK/WASHINGTON (Reuters) - US regulators on Tuesday did not give Google Inc. the green light it needs to price its initial public offering, extending the wait for the Web search giant #39;s eag...",
+              "Dot-Coms Anxious to Get Back in IPO Game The successful bidders for Google shares won't be the only ones watching eagerly to see how much the IPO excites the stock market. Dozens of dot-com companies are hoping that Google's initial public ...",
+              "SEC Seen to OK Google IPO After 4 P.M.  WASHINGTON (Reuters) - The U.S. Securities and Exchange  Commission is expected to declare the initial public offering  registration of Google Inc. &lt;A HREF=\"http://www.investor.reuters.com/FullQuot..."
+            ],
+            "competition_results": [
+              "Al-Maktoum wins men #39;s double trap shooting gold ATHENS : Sheikh Ahmed Al-Maktoum #39;s six-year quest for Olympic glory ended with a historic first ever gold for the United Arab Emirates on Tuesday after he clinched the men #39;s double...",
+              "Phelps #146;s quest for 8 golds goes under ATHENS -- The evening began on a down note for the US swimming team, and descended from there. First, world champion Jenny Thompson struggled home fifth in the 100-meter butterfly. Then world recor...",
+              "American Swimmers Fired Up by Relay Win ATHENS (Reuters) - The US swimming team was slow off the blocks but is heading for home at full speed propelled by Tuesday #39;s dramatic relay victory, US women #39;s head coach Mark Schubert said on..."
+            ],
+            "Other": [
+              "Pretty Log4J \\\\I've been a big fan of Log4J  for a while now but haven't migrated any code\\over for one central reason.  The following line of code:\\\\    final static Logger logger = Logger.getLogger( \"some.name\" );\\\\... is amazingly ugly a...",
+              "British researchers trace John Kerry's family back to European royalty (Canadian Press) Canadian Press - LONDON (AP) - Senator John Kerry has blue blood from all the royal houses of Europe, with even more titled relations than President Geo...",
+              "The Great K5 Limerick Contest Queue submissions being scarce, I suggest we all submit limericks for consideration.  Mod up your favorites.    I'm no poet, so I'll submit a favorite of my childhood:    There was a young woman named Bright,  ..."
+            ]
+          }
+        }
+      ],
+      "elapsed_seconds": 103.43557405471802
+    },
+    {
+      "label": "homemade_erasure",
+      "use_toponymy": false,
+      "erasure": true,
+      "schema": [
+        {
+          "name": "geographic_focus",
+          "kind": "categorical",
+          "values": [
+            "middle_east",
+            "europe",
+            "north_america",
+            "asia_pacific",
+            "africa",
+            "latin_america",
+            "global",
+            "Other"
+          ],
+          "definition": "The primary geographic region that the news article centers on or takes place in.",
+          "labeling_prompt_template": "Classify the following news article along the \"geographic_focus\" dimension.\n\nThe primary geographic region that the news article centers on or takes place in.\n\nChoose exactly one of: middle_east, europe, north_america, asia_pacific, africa, latin_america, global, Other\n\nnews article:\n{document}\n\nRespond with the chosen value name only, no explanation.",
+          "labeling_model": "claude-haiku-4-5"
+        },
+        {
+          "name": "narrative_frame",
+          "kind": "categorical",
+          "values": [
+            "breaking_event",
+            "outcome_or_result",
+            "trend_analysis",
+            "controversy_or_dispute",
+            "product_or_announcement",
+            "profile_or_human_interest",
+            "Other"
+          ],
+          "definition": "Captures the journalistic framing or narrative angle of the article, such as reporting a breaking event, a final outcome, an ongoing trend, a dispute, an announcement, or a personal profile.",
+          "labeling_prompt_template": "Classify the following news article along the \"narrative_frame\" dimension.\n\nCaptures the journalistic framing or narrative angle of the article, such as reporting a breaking event, a final outcome, an ongoing trend, a dispute, an announcement, or a personal profile.\n\nChoose exactly one of: breaking_event, outcome_or_result, trend_analysis, controversy_or_dispute, product_or_announcement, profile_or_human_interest, Other\n\nnews article:\n{document}\n\nRespond with the chosen value name only, no explanation.",
+          "labeling_model": "claude-haiku-4-5"
+        },
+        {
+          "name": "temporal_orientation",
+          "kind": "categorical",
+          "values": [
+            "breaking_event",
+            "ongoing_developments",
+            "retrospective_analysis",
+            "forward_looking_forecast",
+            "scheduled_announcement",
+            "Other"
+          ],
+          "definition": "Captures the temporal stance of the article relative to the events it covers \u2014 whether it reports a just-happened event, tracks an unfolding situation, analyzes past events, predicts future outcomes, or previews a planned/scheduled occurrence.",
+          "labeling_prompt_template": "Classify the following news article along the \"temporal_orientation\" dimension.\n\nCaptures the temporal stance of the article relative to the events it covers \u2014 whether it reports a just-happened event, tracks an unfolding situation, analyzes past events, predicts future outcomes, or previews a planned/scheduled occurrence.\n\nChoose exactly one of: breaking_event, ongoing_developments, retrospective_analysis, forward_looking_forecast, scheduled_announcement, Other\n\nnews article:\n{document}\n\nRespond with the chosen value name only, no explanation.",
+          "labeling_model": "claude-haiku-4-5"
+        }
+      ],
+      "diagnostics_summary": [
+        {
+          "cluster_count": 4,
+          "hierarchy_depth": 1,
+          "entropy_bits": {
+            "observed": 2.3426507764579276,
+            "uniform": 3.0,
+            "delta": -0.6573492235420724
+          }
+        },
+        {
+          "cluster_count": 8,
+          "hierarchy_depth": 1,
+          "entropy_bits": {
+            "observed": 2.381410862198707,
+            "uniform": 2.807354922057604,
+            "delta": -0.4259440598588973
+          }
+        },
+        {
+          "cluster_count": 12,
+          "hierarchy_depth": 1,
+          "entropy_bits": {
+            "observed": 1.984566830055253,
+            "uniform": 2.584962500721156,
+            "delta": -0.600395670665903
+          }
+        }
+      ],
+      "crosstab_facet0_vs_category": {
+        "rows": [
+          "Business",
+          "Sci/Tech",
+          "Sports",
+          "World"
+        ],
+        "columns": [
+          "middle_east",
+          "europe",
+          "north_america",
+          "asia_pacific",
+          "africa",
+          "latin_america",
+          "global",
+          "Other",
+          "Unlabelled"
+        ],
+        "values": [
+          [
+            6,
+            15,
+            86,
+            10,
+            0,
+            1,
+            7,
+            0,
+            0
+          ],
+          [
+            0,
+            3,
+            53,
+            9,
+            1,
+            0,
+            52,
+            7,
+            0
+          ],
+          [
+            2,
+            50,
+            60,
+            9,
+            0,
+            1,
+            2,
+            1,
+            0
+          ],
+          [
+            36,
+            21,
+            17,
+            36,
+            6,
+            7,
+            0,
+            0,
+            2
+          ]
+        ]
+      },
+      "exemplars": [
+        {
+          "facet_name": "geographic_focus",
+          "values": {
+            "middle_east": [
+              "Al-Sadr OKs Plan to End Fighting in Najaf NAJAF, Iraq - Radical Shiite cleric Muqtada al-Sadr accepted a peace plan Wednesday for Najaf that would disarm his militiamen and remove them from a holy shrine where they are hiding out, according...",
+              "Iraq peace mission arrives in Najaf NAJAF, Iraq (Reuters) - An Iraqi peace delegation has urged a radical Shi #39;ite cleric to call off his uprising in the city of Najaf, where US troops have been pounding militia positions near the countr...",
+              "Sadr agrees to end Najaf crisis: Iraqi delegates BAGHDAD, Aug. 18 (Xinhuanet) -- Iraqi delegates to a conference choosing a national assembly said on Wednesday that radical Shiite cleric Moqtada al-Sadr had agreed to government demands to e..."
+            ],
+            "europe": [
+              "Greek Sprinters Withdraw From Olympics ATHENS, Greece Aug. 18, 2004  Greek sprinters Kostas Kenteris and Katerina Thanou pulled out of the Athens Games on Wednesday, nearly a week after they missed a drug test and were later hospitalized fo...",
+              "Sprinters #39; Withdrawals Lift Cloud Over Games ATHENS (Reuters) - Greece #39;s top two sprinters pulled out of the Olympics on Wednesday after inflicting six days of embarrassment on their country over a hide-and-seek contest with anti-do...",
+              "No Gold for Phelps As Relay Team Falters ATHENS, Greece - Mark Spitz can rest easy. The best Michael Phelps can do is win seven gold medals at these Olympics..."
+            ],
+            "north_america": [
+              "Bargain-hunting, Iraq deal push up US shares NEW YORK : US share prices surged on Wednesday as bargain hunting and news of a peace deal in the Iraqi city of Najaf overcame all-time high oil prices and weak demand for the Google share float....",
+              "Wall Street Set to Open Down (Reuters) Reuters - U.S. shares were expected to open lower\\on Wednesday after crude oil pushed to a fresh high overnight,\\while Web search engine Google Inc. dented sentiment as it\\slashed the price range on it...",
+              "Google Cuts Its IPO Price Range SAN JOSE, Calif. - In a sign that Google Inc.'s initial public offering will not be as hot or big as expected, the Internet search giant reduced the number of shares to be sold by insiders and slashed its est..."
+            ],
+            "asia_pacific": [
+              "Microsoft Says Battle in Japan Hurting Image By YURI KAGEYAMA     TOKYO (AP) -- The head of Microsoft Corp. (MSFT)'s Japan unit acknowledged Tuesday that the U.S...",
+              "Hostile Takeover The battle moves to the political arena as Taipei and Beijing wrap up their wargames",
+              "Cisco Gets New Partner, Clients, Product in the Core Cisco forged a partnership with Fujitsu wherein the Japanese company will market Cisco #39;s CRS-1 core router to carriers and large enterprises in Japan."
+            ],
+            "africa": [
+              "UN concerned by lack of Darfur progress on ground KHARTOUM, Aug 18 (Reuters) - The United Nations said on Wednesday it was very concerned by Sudan #39;s lack of practical progress in bringing security to Darfur, where more than a million pe...",
+              "Rwandan Troops Arrive in Darfur (AP) AP - Dozens of Rwandan soldiers flew into Sudan's troubled Darfur region Sunday, the first foreign armed force deployed in the area since Arab militiamen began a rampage against black African farmers, ki...",
+              "Darfur Displaced Return to 'Live in Fear' of Militia  KHARTOUM, Sudan (Reuters) - Villagers returning to their  homes in Sudan's Darfur region are living in fear of the Arab  militiamen who initially drove them away, the United Nations  sai..."
+            ],
+            "latin_america": [
+              "Venezuela Voters Turn Out in Huge Numbers CARACAS, Venezuela - Summoned by bugle calls and firecrackers, millions of Venezuelans turned out in unprecedented numbers Sunday to vote on whether to force leftist President Hugo Chavez from offic...",
+              "Venezuela Voters Turn Out in Huge Numbers CARACAS, Venezuela - Voters turned out in huge numbers Sunday to decide whether to keep populist President Hugo Chavez in power or oust him and his social revolution that critics say has sidelined t...",
+              "Venezuela's Chavez faces political gulfs CARACAS -- Fresh from victory and emboldened by a decisive mandate, Venezuelan President Hugo Chavez has the opportunity to extend an olive branch to a seething opposition and a suspicious US adminis..."
+            ],
+            "global": [
+              "Unobstructed Views: Olympic-sized fools For all their troubles, the Olympic Games remain the greatest unifying force in the world. Every four years, they draw a diverse international audience, bridging cultural gaps, transcending ethnic div...",
+              "Compuware Accuses IBM of Ambush Tactics (AP) AP - Compuware Corp. is accusing IBM of attempting to \"sandbag\" it with new evidence just three months before the software company's piracy claim against the technology giant is to go to trial.",
+              "MSN Closes Search Engine Technology Preview MSN Closes Search Engine Technology Preview\\\\Microsoft's MSN has closed down the preview/beta page of MSN Search Engine Technology ResearchBuzz reports. \\\\Trying to access it now gets you this pag..."
+            ],
+            "Other": [
+              "Apple G5 chips  #39;in short supply #39; Apple may be facing greater difficulties than previously thought in sourcing chips to power its high-end personal computers. ",
+              "Creating Stunning DVDs  #147;No other DVD authoring program in the \\$500 price class is capable of creating such stunning, highly creative DVDs as Apple #146;s DVD Studio Pro 3, #148; writes PC Magazine.  #147;For video pros looking to take...",
+              "Crack Fedora Core and Red Hat Enterprise Linux &lt;strong&gt;Site Offer&lt;/strong&gt; Save 30 at The Reg Bookshop"
+            ]
+          }
+        },
+        {
+          "facet_name": "narrative_frame",
+          "values": {
+            "breaking_event": [
+              "Wall Street Set to Open Down (Reuters) Reuters - U.S. shares were expected to open lower\\on Wednesday after crude oil pushed to a fresh high overnight,\\while Web search engine Google Inc. dented sentiment as it\\slashed the price range on it...",
+              "Bargain-hunting, Iraq deal push up US shares NEW YORK : US share prices surged on Wednesday as bargain hunting and news of a peace deal in the Iraqi city of Najaf overcame all-time high oil prices and weak demand for the Google share float....",
+              "SEC Leaves Google Waiting on IPO Go Ahead NEW YORK/WASHINGTON (Reuters) - US regulators on Tuesday did not give Google Inc. the green light it needs to price its initial public offering, extending the wait for the Web search giant #39;s eag..."
+            ],
+            "outcome_or_result": [
+              "Al-Maktoum wins men #39;s double trap shooting gold ATHENS : Sheikh Ahmed Al-Maktoum #39;s six-year quest for Olympic glory ended with a historic first ever gold for the United Arab Emirates on Tuesday after he clinched the men #39;s double...",
+              "American Swimmers Fired Up by Relay Win ATHENS (Reuters) - The US swimming team was slow off the blocks but is heading for home at full speed propelled by Tuesday #39;s dramatic relay victory, US women #39;s head coach Mark Schubert said on...",
+              "Stocks Up; Investors Bottom Fishing  NEW YORK (Reuters) - U.S. stocks were higher on Wednesday  as investors bought beaten-down shares, even as the price of  oil jumped to new 21-year record highs."
+            ],
+            "trend_analysis": [
+              "Benefits Seen in Earth Observation Data WASHINGTON Aug. 17, 2004  Scientists are planning to take the pulse of the planet and more in an effort to improve weather forecasts, predict energy needs months in advance, anticipate disease outbrea...",
+              "U.S. Broadband Growth Slows - Analyst &lt;p&gt;&lt;/p&gt;&lt;p&gt; WASHINGTON (Reuters) - U.S. telephone and cable companiessaw the growth of high-speed Internet services slow in thesecond quarter to the lowest rate in a year, an industryre...",
+              "Economies Not Yet Dented by Oil Prices  LONDON (Reuters) - OPEC oil producers and Chancellor  Schroeder of Germany, which is a prominent consumer, agree that  the remorseless rise in the price of crude has so far had  little impact on globa..."
+            ],
+            "controversy_or_dispute": [
+              "Compuware Accuses IBM of Ambush Tactics (AP) AP - Compuware Corp. is accusing IBM of attempting to \"sandbag\" it with new evidence just three months before the software company's piracy claim against the technology giant is to go to trial.",
+              "Microsoft Says Battle in Japan Hurting Image By YURI KAGEYAMA     TOKYO (AP) -- The head of Microsoft Corp. (MSFT)'s Japan unit acknowledged Tuesday that the U.S...",
+              "U.S. Studying Israeli West Bank Home Plan (AP) AP - The United States withheld judgment Tuesday on whether Israel's plans to build 1,000 new homes in Jewish settlements in the West Bank violate the U.S-led Middle East peace plan."
+            ],
+            "product_or_announcement": [
+              "Google Cuts Its IPO Price Range SAN JOSE, Calif. - In a sign that Google Inc.'s initial public offering will not be as hot or big as expected, the Internet search giant reduced the number of shares to be sold by insiders and slashed its est...",
+              "AT amp;T team wins \\$1bn network deal AT amp;T, the US telecoms group, and a team of subcontractors have won a contract valued at up to \\$1bn to design, build and manage a secure IP-based global network for the US government ",
+              "Google Slashes the Size of Its IPO NEW YORK (Reuters) - Google Inc. slashed the size of its closely watched initial public offering nearly in half to less than \\$2 billion on Wednesday, splashing cold water on what has been touted as the ho..."
+            ],
+            "profile_or_human_interest": [
+              "Dutch cyclist #39;s fairytale comeback Vouliagmeni, Greece - Watch Leontien Zijlaard-Van Moorsel, think Hermann Maier. Awful crash, unlikely fightback, gold within days. Instant Olympic lore. ",
+              "The Geisha Stylist Who Let His Hair Down Here in the Gion geisha district of Japan's ancient capital, even one bad hair day can cost a girl her career. So it is no wonder that Tetsuo Ishihara is the man with the most popular hands in town.",
+              "Life in Athens: From songs about Dutch swimmers to watching wedgies You #39;ve heard of swimmer #39;s ear, but what about swimmer #39;s wave? It #39;s the odd way in which Olympic swimmers -- and many gymnasts -- acknowledge applause: By ra..."
+            ],
+            "Other": []
+          }
+        },
+        {
+          "facet_name": "temporal_orientation",
+          "values": {
+            "breaking_event": [
+              "Bargain-hunting, Iraq deal push up US shares NEW YORK : US share prices surged on Wednesday as bargain hunting and news of a peace deal in the Iraqi city of Najaf overcame all-time high oil prices and weak demand for the Google share float....",
+              "Al-Maktoum wins men #39;s double trap shooting gold ATHENS : Sheikh Ahmed Al-Maktoum #39;s six-year quest for Olympic glory ended with a historic first ever gold for the United Arab Emirates on Tuesday after he clinched the men #39;s double...",
+              "Google Cuts Its IPO Price Range SAN JOSE, Calif. - In a sign that Google Inc.'s initial public offering will not be as hot or big as expected, the Internet search giant reduced the number of shares to be sold by insiders and slashed its est..."
+            ],
+            "ongoing_developments": [
+              "Intel Says It's Recovered from Missteps (Reuters) Reuters - Intel Corp.  will  miss\\its 2004 product cost reduction targets because of a widely\\publicized string of product delays and problems, but those\\missteps are largely behind it now, ...",
+              "Compuware Accuses IBM of Ambush Tactics (AP) AP - Compuware Corp. is accusing IBM of attempting to \"sandbag\" it with new evidence just three months before the software company's piracy claim against the technology giant is to go to trial.",
+              "Microsoft Says Battle in Japan Hurting Image By YURI KAGEYAMA     TOKYO (AP) -- The head of Microsoft Corp. (MSFT)'s Japan unit acknowledged Tuesday that the U.S..."
+            ],
+            "retrospective_analysis": [
+              "Unobstructed Views: Olympic-sized fools For all their troubles, the Olympic Games remain the greatest unifying force in the world. Every four years, they draw a diverse international audience, bridging cultural gaps, transcending ethnic div...",
+              "Muddling Through (or Not): Mid-2004 Update on the Philippines Looks like the Philippines, despite itself, has survived the election without excessive violence, major civil unrest, or untoward People Power eruptions. GMA finally has that elu...",
+              "Microsoft Corp. 2.0: a kinder corporate culture Even a genius can mess up. Bill Gates was a brilliant technologist when he cofounded Microsoft , but as he guided it to greatness in both size and historical consequence, he blundered. He terr..."
+            ],
+            "forward_looking_forecast": [
+              "Benefits Seen in Earth Observation Data WASHINGTON Aug. 17, 2004  Scientists are planning to take the pulse of the planet and more in an effort to improve weather forecasts, predict energy needs months in advance, anticipate disease outbrea...",
+              "Forecast: Plenty of Activity On the Weather Blog Front If it's possible to love something just because it could visit torrents upon the Washington region, fling hail from the skies and swell streams into rivers, then Jason Samenow is smitte...",
+              "BHP Billiton year to June profit seen up sharply on higher prices, demand (AFP) AFP - Australian resources firm BHP Billiton is expected to post sharply higher earnings in the year to June aided by rising commodities prices, high production..."
+            ],
+            "scheduled_announcement": [
+              "SEC Leaves Google Waiting on IPO Go Ahead NEW YORK/WASHINGTON (Reuters) - US regulators on Tuesday did not give Google Inc. the green light it needs to price its initial public offering, extending the wait for the Web search giant #39;s eag...",
+              "Wall Street Set to Open Down (Reuters) Reuters - U.S. shares were expected to open lower\\on Wednesday after crude oil pushed to a fresh high overnight,\\while Web search engine Google Inc. dented sentiment as it\\slashed the price range on it...",
+              "Last Call for Investors to Bid on Google (Reuters) Reuters - Time is running out for prospective\\investors to submit their offers to buy shares of Google Inc.\\(GOOG.O), the Web's No. 1 search company."
+            ],
+            "Other": [
+              "HP: The Adaptive Enterprise that can't adapt &lt;strong&gt;Opinion&lt;/strong&gt; SAP hardly to blame",
+              "E-mail from Athens ATHENS, Greece  For people willing to devote an unfathomable \\$1.5 billion to  quot;security quot; for the Olympic Games, the Greeks sure are careless. As in, they couldn #39;t care less. ",
+              "Crack Fedora Core and Red Hat Enterprise Linux &lt;strong&gt;Site Offer&lt;/strong&gt; Save 30 at The Reg Bookshop"
+            ]
+          }
+        }
+      ],
+      "elapsed_seconds": 115.76426124572754
+    }
+  ]
+}

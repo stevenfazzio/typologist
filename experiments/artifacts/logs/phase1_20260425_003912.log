@@ -1,0 +1,228 @@
+Loading weights:   0%|          | 0/103 [00:00<?, ?it/s]Loading weights: 100%|██████████| 103/103 [00:00<00:00, 8397.25it/s]
+[1mBertModel LOAD REPORT[0m from: sentence-transformers/all-MiniLM-L6-v2
+Key                     | Status     |  | 
+------------------------+------------+--+-
+embeddings.position_ids | UNEXPECTED |  | 
+
+Notes:
+- UNEXPECTED:	can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+
+######################################################################
+# Loading corpus: arxiv
+######################################################################
+  arxiv: 301 abstracts, 48 categories
+  embedding arxiv with sentence-transformers all-MiniLM-L6-v2...
+Loading weights:   0%|          | 0/103 [00:00<?, ?it/s]Loading weights: 100%|██████████| 103/103 [00:00<00:00, 13757.07it/s]
+[1mBertModel LOAD REPORT[0m from: sentence-transformers/all-MiniLM-L6-v2
+Key                     | Status     |  | 
+------------------------+------------+--+-
+embeddings.position_ids | UNEXPECTED |  | 
+
+Notes:
+- UNEXPECTED:	can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+Batches:   0%|          | 0/10 [00:00<?, ?it/s]Batches:  10%|█         | 1/10 [00:00<00:04,  1.82it/s]Batches:  20%|██        | 2/10 [00:00<00:02,  3.03it/s]Batches:  30%|███       | 3/10 [00:00<00:01,  3.74it/s]Batches:  40%|████      | 4/10 [00:01<00:01,  4.25it/s]Batches:  50%|█████     | 5/10 [00:01<00:01,  4.35it/s]Batches:  60%|██████    | 6/10 [00:01<00:00,  4.72it/s]Batches:  70%|███████   | 7/10 [00:01<00:00,  4.93it/s]Batches:  80%|████████  | 8/10 [00:01<00:00,  4.97it/s]Batches:  90%|█████████ | 9/10 [00:02<00:00,  5.01it/s]Batches: 100%|██████████| 10/10 [00:02<00:00,  5.00it/s]Batches: 100%|██████████| 10/10 [00:02<00:00,  4.38it/s]
+
+======================================================================
+Arm: arxiv_abstracts/toponymy_vanilla
+======================================================================
+
+Selecting central exemplars:   0%|          | 0/7 [00:00<?, ?cluster/s][A
+                                                                       [ABatches:   0%|          | 0/222 [00:00<?, ?it/s]Batches:   1%|          | 2/222 [00:00<00:14, 15.07it/s]Batches:   4%|▎         | 8/222 [00:00<00:06, 33.29it/s]Batches:   6%|▋         | 14/222 [00:00<00:05, 41.06it/s]Batches:   9%|▊         | 19/222 [00:00<00:05, 40.56it/s]Batches:  11%|█         | 24/222 [00:00<00:04, 42.37it/s]Batches:  13%|█▎        | 29/222 [00:00<00:04, 40.65it/s]Batches:  16%|█▌        | 35/222 [00:00<00:04, 44.76it/s]Batches:  18%|█▊        | 41/222 [00:00<00:03, 49.00it/s]Batches:  22%|██▏       | 48/222 [00:01<00:03, 52.45it/s]Batches:  24%|██▍       | 54/222 [00:01<00:03, 52.45it/s]Batches:  27%|██▋       | 60/222 [00:01<00:03, 52.89it/s]Batches:  30%|██▉       | 66/222 [00:01<00:03, 48.86it/s]Batches:  34%|███▍      | 75/222 [00:01<00:02, 59.48it/s]Batches:  37%|███▋      | 83/222 [00:01<00:02, 64.16it/s]Batches:  41%|████▏     | 92/222 [00:01<00:01, 69.88it/s]Batches:  45%|████▌     | 101/222 [00:01<00:01, 74.31it/s]Batches:  49%|████▉     | 109/222 [00:02<00:01, 67.63it/s]Batches:  52%|█████▏    | 116/222 [00:02<00:01, 65.83it/s]Batches:  55%|█████▌    | 123/222 [00:02<00:01, 64.68it/s]Batches:  59%|█████▊    | 130/222 [00:02<00:01, 63.19it/s]Batches:  62%|██████▏   | 138/222 [00:02<00:01, 66.55it/s]Batches:  66%|██████▌   | 146/222 [00:02<00:01, 68.56it/s]Batches:  69%|██████▉   | 153/222 [00:02<00:01, 64.10it/s]Batches:  74%|███████▍  | 165/222 [00:02<00:00, 78.66it/s]Batches:  80%|███████▉  | 177/222 [00:02<00:00, 89.55it/s]Batches:  85%|████████▍ | 188/222 [00:02<00:00, 95.06it/s]Batches:  90%|████████▉ | 199/222 [00:03<00:00, 97.86it/s]Batches:  94%|█████████▍| 209/222 [00:03<00:00, 94.93it/s]Batches:  99%|█████████▊| 219/222 [00:03<00:00, 90.41it/s]Batches: 100%|██████████| 222/222 [00:03<00:00, 65.74it/s]
+Building topic names by layer:   0%|          | 0/1 [00:00<?, ?layer/s]
+Generating informative keyphrases:   0%|          | 0/7 [00:00<?, ?cluster/s][A
+Generating informative keyphrases:  14%|█▍        | 1/7 [00:00<00:03,  1.98cluster/s][A
+                                                                                     [A
+Generating prompts for layer 0:   0%|          | 0/7 [00:00<?, ?topic/s][A
+                                                                        [A
+Generating topic names for layer 0:   0%|          | 0/7 [00:00<?, ?topic/s][A
+Generating topic names for layer 0:  14%|█▍        | 1/7 [00:01<00:06,  1.01s/topic][A
+Generating topic names for layer 0:  29%|██▊       | 2/7 [00:01<00:04,  1.18topic/s][A
+Generating topic names for layer 0:  43%|████▎     | 3/7 [00:02<00:03,  1.15topic/s][A
+Generating topic names for layer 0:  57%|█████▋    | 4/7 [00:03<00:02,  1.09topic/s][A
+Generating topic names for layer 0:  71%|███████▏  | 5/7 [00:04<00:01,  1.20topic/s][A
+Generating topic names for layer 0:  86%|████████▌ | 6/7 [00:05<00:00,  1.19topic/s][A
+Generating topic names for layer 0: 100%|██████████| 7/7 [00:06<00:00,  1.15topic/s][A
+                                                                                    [A
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][A
+Batches: 100%|██████████| 1/1 [00:00<00:00,  7.00it/s][ABatches: 100%|██████████| 1/1 [00:00<00:00,  6.99it/s]
+Building topic names by layer: 100%|██████████| 1/1 [00:07<00:00,  7.86s/layer]Building topic names by layer: 100%|██████████| 1/1 [00:07<00:00,  7.86s/layer]
+labeling research_contribution_type:   0%|          | 0/301 [00:00<?, ?doc/s]labeling research_contribution_type:   0%|          | 1/301 [00:00<02:18,  2.17doc/s]labeling research_contribution_type:   2%|▏         | 7/301 [00:00<00:32,  8.96doc/s]labeling research_contribution_type:   5%|▍         | 14/301 [00:01<00:16, 17.13doc/s]labeling research_contribution_type:   6%|▌         | 17/301 [00:01<00:23, 12.02doc/s]labeling research_contribution_type:   9%|▊         | 26/301 [00:01<00:13, 20.24doc/s]labeling research_contribution_type:  11%|█         | 32/301 [00:02<00:20, 13.16doc/s]labeling research_contribution_type:  12%|█▏        | 36/301 [00:02<00:18, 14.41doc/s]labeling research_contribution_type:  14%|█▍        | 43/301 [00:03<00:17, 14.62doc/s]labeling research_contribution_type:  18%|█▊        | 53/301 [00:03<00:11, 21.41doc/s]labeling research_contribution_type:  19%|█▉        | 57/301 [00:03<00:10, 22.89doc/s]labeling research_contribution_type:  20%|██        | 61/301 [00:03<00:12, 18.64doc/s]labeling research_contribution_type:  21%|██▏       | 64/301 [00:03<00:11, 19.87doc/s]labeling research_contribution_type:  24%|██▎       | 71/301 [00:04<00:10, 22.96doc/s]labeling research_contribution_type:  25%|██▍       | 74/301 [00:04<00:15, 14.64doc/s]labeling research_contribution_type:  26%|██▌       | 77/301 [00:04<00:15, 14.80doc/s]labeling research_contribution_type:  28%|██▊       | 84/301 [00:05<00:18, 11.70doc/s]labeling research_contribution_type:  30%|███       | 91/301 [00:06<00:19, 10.99doc/s]labeling research_contribution_type:  37%|███▋      | 112/301 [00:06<00:08, 22.68doc/s]labeling research_contribution_type:  40%|███▉      | 120/301 [00:06<00:06, 26.61doc/s]labeling research_contribution_type:  41%|████      | 124/301 [00:07<00:10, 17.57doc/s]labeling research_contribution_type:  45%|████▍     | 134/301 [00:07<00:07, 21.65doc/s]labeling research_contribution_type:  46%|████▌     | 139/301 [00:08<00:13, 11.78doc/s]labeling research_contribution_type:  54%|█████▍    | 162/301 [00:12<00:17,  7.82doc/s]labeling research_contribution_type:  61%|██████▏   | 185/301 [00:14<00:12,  9.17doc/s]labeling research_contribution_type:  83%|████████▎ | 250/301 [00:15<00:02, 21.58doc/s]labeling research_contribution_type:  86%|████████▋ | 260/301 [00:19<00:03, 11.07doc/s]labeling research_contribution_type: 100%|██████████| 301/301 [00:19<00:00, 15.58doc/s]
+
+Selecting central exemplars:   0%|          | 0/8 [00:00<?, ?cluster/s][A
+                                                                       [ABatches:   0%|          | 0/222 [00:00<?, ?it/s]Batches:   0%|          | 1/222 [00:00<00:49,  4.45it/s]Batches:   4%|▍         | 9/222 [00:00<00:06, 32.31it/s]Batches:   8%|▊         | 18/222 [00:00<00:04, 50.92it/s]Batches:  12%|█▏        | 26/222 [00:00<00:03, 60.20it/s]Batches:  15%|█▌        | 34/222 [00:00<00:02, 65.11it/s]Batches:  19%|█▉        | 42/222 [00:00<00:02, 65.44it/s]Batches:  22%|██▏       | 49/222 [00:00<00:02, 64.33it/s]Batches:  27%|██▋       | 59/222 [00:00<00:02, 73.30it/s]Batches:  31%|███       | 69/222 [00:01<00:01, 80.35it/s]Batches:  36%|███▌      | 79/222 [00:01<00:01, 83.56it/s]Batches:  40%|███▉      | 88/222 [00:01<00:01, 78.19it/s]Batches:  43%|████▎     | 96/222 [00:01<00:01, 69.89it/s]Batches:  47%|████▋     | 105/222 [00:01<00:01, 74.30it/s]Batches:  52%|█████▏    | 115/222 [00:01<00:01, 75.36it/s]Batches:  55%|█████▌    | 123/222 [00:01<00:01, 76.24it/s]Batches:  59%|█████▉    | 131/222 [00:01<00:01, 74.62it/s]Batches:  63%|██████▎   | 139/222 [00:02<00:01, 74.21it/s]Batches:  66%|██████▌   | 147/222 [00:02<00:01, 67.36it/s]Batches:  71%|███████   | 157/222 [00:02<00:00, 75.51it/s]Batches:  75%|███████▌  | 167/222 [00:02<00:00, 81.52it/s]Batches:  80%|███████▉  | 177/222 [00:02<00:00, 84.67it/s]Batches:  84%|████████▍ | 186/222 [00:02<00:00, 82.87it/s]Batches:  88%|████████▊ | 195/222 [00:02<00:00, 78.47it/s]Batches:  91%|█████████▏| 203/222 [00:02<00:00, 76.69it/s]Batches:  98%|█████████▊| 217/222 [00:02<00:00, 93.79it/s]Batches: 100%|██████████| 222/222 [00:02<00:00, 74.37it/s]
+Building topic names by layer:   0%|          | 0/1 [00:00<?, ?layer/s]
+Generating informative keyphrases:   0%|          | 0/8 [00:00<?, ?cluster/s][A
+                                                                             [A
+Generating prompts for layer 0:   0%|          | 0/8 [00:00<?, ?topic/s][A
+                                                                        [A
+Generating topic names for layer 0:   0%|          | 0/8 [00:00<?, ?topic/s][A
+Generating topic names for layer 0:  12%|█▎        | 1/8 [00:00<00:06,  1.11topic/s][A
+Generating topic names for layer 0:  25%|██▌       | 2/8 [00:02<00:07,  1.26s/topic][A
+Generating topic names for layer 0:  38%|███▊      | 3/8 [00:03<00:05,  1.03s/topic][A
+Generating topic names for layer 0:  50%|█████     | 4/8 [00:04<00:05,  1.27s/topic][A
+Generating topic names for layer 0:  62%|██████▎   | 5/8 [00:05<00:03,  1.13s/topic][A
+Generating topic names for layer 0:  75%|███████▌  | 6/8 [00:07<00:02,  1.44s/topic][A
+Generating topic names for layer 0:  88%|████████▊ | 7/8 [00:08<00:01,  1.28s/topic][A
+Generating topic names for layer 0: 100%|██████████| 8/8 [00:09<00:00,  1.11s/topic][A
+                                                                                    [A
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][A
+Batches: 100%|██████████| 1/1 [00:00<00:00,  4.56it/s][ABatches: 100%|██████████| 1/1 [00:00<00:00,  4.55it/s]
+Building topic names by layer: 100%|██████████| 1/1 [00:09<00:00,  9.74s/layer]Building topic names by layer: 100%|██████████| 1/1 [00:09<00:00,  9.74s/layer]
+labeling primary_data_modality:   0%|          | 0/301 [00:00<?, ?doc/s]labeling primary_data_modality:   0%|          | 1/301 [00:00<03:05,  1.61doc/s]labeling primary_data_modality:   1%|▏         | 4/301 [00:04<05:19,  1.08s/doc]labeling primary_data_modality:  24%|██▎       | 71/301 [00:04<00:10, 21.89doc/s]labeling primary_data_modality:  26%|██▌       | 79/301 [00:04<00:09, 24.22doc/s]labeling primary_data_modality:  29%|██▉       | 87/301 [00:07<00:22,  9.71doc/s]labeling primary_data_modality:  41%|████      | 122/301 [00:09<00:14, 12.68doc/s]labeling primary_data_modality:  52%|█████▏    | 156/301 [00:10<00:08, 17.47doc/s]labeling primary_data_modality:  59%|█████▉    | 179/301 [00:11<00:05, 23.17doc/s]labeling primary_data_modality:  62%|██████▏   | 186/301 [00:11<00:04, 23.60doc/s]labeling primary_data_modality:  64%|██████▍   | 192/301 [00:11<00:05, 21.14doc/s]labeling primary_data_modality:  65%|██████▌   | 197/301 [00:12<00:05, 20.25doc/s]labeling primary_data_modality:  68%|██████▊   | 204/301 [00:12<00:04, 23.43doc/s]labeling primary_data_modality:  69%|██████▉   | 209/301 [00:12<00:05, 17.91doc/s]labeling primary_data_modality:  71%|███████▏  | 215/301 [00:13<00:04, 17.90doc/s]labeling primary_data_modality:  73%|███████▎  | 221/301 [00:13<00:03, 20.09doc/s]labeling primary_data_modality:  75%|███████▌  | 226/301 [00:13<00:03, 21.62doc/s]labeling primary_data_modality:  76%|███████▋  | 230/301 [00:14<00:04, 14.98doc/s]labeling primary_data_modality:  79%|███████▉  | 239/301 [00:14<00:02, 20.97doc/s]labeling primary_data_modality:  81%|████████  | 243/301 [00:14<00:02, 20.69doc/s]labeling primary_data_modality:  82%|████████▏ | 246/301 [00:14<00:02, 21.69doc/s]labeling primary_data_modality:  83%|████████▎ | 250/301 [00:14<00:02, 22.08doc/s]labeling primary_data_modality:  84%|████████▍ | 254/301 [00:15<00:02, 18.56doc/s]labeling primary_data_modality:  86%|████████▋ | 260/301 [00:15<00:01, 20.64doc/s]labeling primary_data_modality:  87%|████████▋ | 263/301 [00:15<00:02, 18.75doc/s]labeling primary_data_modality:  88%|████████▊ | 266/301 [00:15<00:01, 19.18doc/s]labeling primary_data_modality:  89%|████████▉ | 269/301 [00:16<00:02, 12.20doc/s]labeling primary_data_modality:  91%|█████████▏| 275/301 [00:16<00:02, 10.56doc/s]labeling primary_data_modality:  94%|█████████▍| 283/301 [00:17<00:01, 13.97doc/s]labeling primary_data_modality:  99%|█████████▉| 298/301 [00:17<00:00, 27.06doc/s]labeling primary_data_modality: 100%|██████████| 301/301 [00:17<00:00, 17.35doc/s]
+
+Selecting central exemplars:   0%|          | 0/6 [00:00<?, ?cluster/s][A
+                                                                       [ABatches:   0%|          | 0/222 [00:00<?, ?it/s]Batches:   0%|          | 1/222 [00:00<00:45,  4.85it/s]Batches:   4%|▎         | 8/222 [00:00<00:07, 30.36it/s]Batches:   7%|▋         | 16/222 [00:00<00:04, 47.96it/s]Batches:  10%|▉         | 22/222 [00:00<00:03, 50.25it/s]Batches:  14%|█▎        | 30/222 [00:00<00:03, 56.29it/s]Batches:  17%|█▋        | 37/222 [00:00<00:03, 51.71it/s]Batches:  20%|█▉        | 44/222 [00:00<00:03, 55.48it/s]Batches:  23%|██▎       | 51/222 [00:01<00:02, 59.03it/s]Batches:  26%|██▌       | 58/222 [00:01<00:02, 58.79it/s]Batches:  29%|██▉       | 65/222 [00:01<00:02, 56.38it/s]Batches:  32%|███▏      | 71/222 [00:01<00:02, 56.32it/s]Batches:  35%|███▌      | 78/222 [00:01<00:02, 59.84it/s]Batches:  40%|███▉      | 88/222 [00:01<00:01, 69.27it/s]Batches:  44%|████▎     | 97/222 [00:01<00:01, 74.76it/s]Batches:  47%|████▋     | 105/222 [00:01<00:01, 73.47it/s]Batches:  51%|█████     | 113/222 [00:01<00:01, 68.45it/s]Batches:  55%|█████▌    | 123/222 [00:02<00:01, 75.93it/s]Batches:  60%|█████▉    | 133/222 [00:02<00:01, 81.42it/s]Batches:  64%|██████▍   | 143/222 [00:02<00:00, 84.83it/s]Batches:  69%|██████▉   | 154/222 [00:02<00:00, 88.79it/s]Batches:  73%|███████▎  | 163/222 [00:02<00:00, 80.41it/s]Batches:  77%|███████▋  | 172/222 [00:02<00:00, 80.11it/s]Batches:  82%|████████▏ | 181/222 [00:02<00:00, 80.82it/s]Batches:  86%|████████▌ | 190/222 [00:02<00:00, 82.89it/s]Batches:  90%|████████▉ | 199/222 [00:02<00:00, 83.00it/s]Batches:  94%|█████████▎| 208/222 [00:03<00:00, 78.74it/s]Batches:  97%|█████████▋| 216/222 [00:03<00:00, 75.17it/s]Batches: 100%|██████████| 222/222 [00:03<00:00, 68.99it/s]
+Building topic names by layer:   0%|          | 0/1 [00:00<?, ?layer/s]
+Generating informative keyphrases:   0%|          | 0/6 [00:00<?, ?cluster/s][A
+                                                                             [A
+Generating prompts for layer 0:   0%|          | 0/6 [00:00<?, ?topic/s][A
+                                                                        [A
+Generating topic names for layer 0:   0%|          | 0/6 [00:00<?, ?topic/s][A
+Generating topic names for layer 0:  17%|█▋        | 1/6 [00:00<00:04,  1.10topic/s][A
+Generating topic names for layer 0:  33%|███▎      | 2/6 [00:01<00:03,  1.19topic/s][A
+Generating topic names for layer 0:  50%|█████     | 3/6 [00:02<00:02,  1.05topic/s][A
+Generating topic names for layer 0:  67%|██████▋   | 4/6 [00:03<00:01,  1.13topic/s][A
+Generating topic names for layer 0:  83%|████████▎ | 5/6 [00:04<00:00,  1.15topic/s][A
+Generating topic names for layer 0: 100%|██████████| 6/6 [00:06<00:00,  1.20s/topic][A
+                                                                                    [A
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][A
+Batches: 100%|██████████| 1/1 [00:00<00:00,  5.00it/s][ABatches: 100%|██████████| 1/1 [00:00<00:00,  4.99it/s]
+Building topic names by layer: 100%|██████████| 1/1 [00:06<00:00,  6.53s/layer]Building topic names by layer: 100%|██████████| 1/1 [00:06<00:00,  6.53s/layer]
+labeling application_domain:   0%|          | 0/301 [00:00<?, ?doc/s]labeling application_domain:   0%|          | 1/301 [00:00<02:21,  2.13doc/s]labeling application_domain:   1%|          | 2/301 [00:01<02:56,  1.70doc/s]labeling application_domain:   2%|▏         | 7/301 [00:01<00:42,  7.00doc/s]labeling application_domain:   3%|▎         | 9/301 [00:04<03:07,  1.55doc/s]labeling application_domain:   5%|▌         | 16/301 [00:05<01:33,  3.04doc/s]labeling application_domain:  22%|██▏       | 67/301 [00:05<00:10, 21.59doc/s]labeling application_domain:  28%|██▊       | 85/301 [00:08<00:17, 12.36doc/s]labeling application_domain:  39%|███▊      | 116/301 [00:08<00:09, 19.74doc/s]labeling application_domain:  43%|████▎     | 128/301 [00:11<00:13, 12.43doc/s]labeling application_domain:  52%|█████▏    | 157/301 [00:11<00:07, 18.90doc/s]labeling application_domain:  55%|█████▌    | 166/301 [00:12<00:07, 17.18doc/s]labeling application_domain:  57%|█████▋    | 173/301 [00:15<00:13,  9.44doc/s]labeling application_domain:  64%|██████▍   | 193/301 [00:17<00:11,  9.23doc/s]labeling application_domain:  82%|████████▏ | 248/301 [00:18<00:02, 18.61doc/s]labeling application_domain:  85%|████████▌ | 257/301 [00:19<00:02, 18.34doc/s]labeling application_domain:  92%|█████████▏| 276/301 [00:19<00:01, 24.15doc/s]labeling application_domain:  94%|█████████▍| 284/301 [00:19<00:00, 22.41doc/s]labeling application_domain:  96%|█████████▋| 290/301 [00:20<00:00, 20.99doc/s]labeling application_domain:  98%|█████████▊| 295/301 [00:20<00:00, 18.09doc/s]labeling application_domain: 100%|█████████▉| 300/301 [00:20<00:00, 16.93doc/s]labeling application_domain: 100%|██████████| 301/301 [00:20<00:00, 14.37doc/s]
+
+--- Schema (arxiv_abstracts/toponymy_vanilla) ---
+
+Facet 0: research_contribution_type (categorical)
+  Categorizes papers by the primary nature of their contribution, distinguishing efficiency-focused work, applied domain systems, theoretical guarantees, security/safety studies, and multimodal integration research.
+  - efficiency_optimization
+  - application_domain_system
+  - theoretical_analysis
+  - safety_and_robustness
+  - multimodal_integration
+  - Other
+
+Facet 1: primary_data_modality (categorical)
+  The primary type of input data the paper's methods or experiments operate on.
+  - text_language
+  - vision_video
+  - audio_speech
+  - graph_structured
+  - tabular_numerical
+  - robotic_sensorimotor
+  - multimodal
+  - Other
+
+Facet 2: application_domain (categorical)
+  The real-world application domain or problem area that the paper's methods are designed to address.
+  - autonomous_systems_and_robotics
+  - scientific_computing_and_physics
+  - natural_language_processing
+  - healthcare_and_clinical_medicine
+  - social_and_policy_systems
+  - software_engineering_and_formal_methods
+  - Other
+
+--- Facet 0 (research_contribution_type) vs curator primary_category ---
+
+research_contribution_type  efficiency_optimization  application_domain_system  theoretical_analysis  safety_and_robustness  multimodal_integration
+curator_category                                                                                                                                   
+astro-ph.IM                                       1                          0                     1                      0                       0
+cs.AI                                             4                          4                     6                      9                       1
+cs.AR                                             3                          0                     0                      0                       0
+cs.CE                                             0                          1                     0                      0                       0
+cs.CL                                             6                         10                    10                      3                       1
+cs.CR                                             0                          3                     1                     13                       0
+cs.CV                                             7                         10                     0                      2                      11
+cs.CY                                             0                          0                     1                      1                       0
+cs.DB                                             1                          1                     0                      0                       0
+cs.DC                                             1                          0                     0                      0                       0
+cs.DL                                             0                          1                     0                      0                       0
+cs.DS                                             0                          0                     1                      0                       0
+cs.GR                                             1                          0                     1                      0                       0
+cs.HC                                             0                          3                     1                      2                       1
+cs.IR                                             1                          5                     0                      0                       2
+cs.IT                                             1                          1                     0                      0                       0
+cs.LG                                            11                          5                    11                      2                       1
+cs.LO                                             1                          0                     0                      0                       0
+cs.MM                                             1                          1                     0                      0                       0
+cs.NE                                             0                          0                     2                      0                       0
+cs.NI                                             1                          1                     0                      0                       0
+cs.PL                                             0                          0                     0                      1                       0
+cs.RO                                             3                         16                     1                      3                       3
+cs.SD                                             1                          2                     1                      0                       1
+cs.SE                                             2                          3                     1                      0                       0
+econ.EM                                           0                          1                     0                      0                       0
+eess.AS                                           0                          2                     1                      0                       6
+eess.IV                                           1                          6                     0                      1                       1
+eess.SP                                           0                          2                     0                      0                       0
+eess.SY                                           0                          1                     0                      1                       0
+hep-ex                                            0                          1                     0                      0                       0
+math.AT                                           0                          0                     1                      0                       0
+math.DS                                           1                          0                     1                      0                       0
+math.NA                                           0                          0                     4                      0                       0
+math.OC                                           1                          0                     5                      1                       0
+math.PR                                           0                          0                     1                      0                       0
+math.ST                                           0                          0                     2                      0                       0
+physics.chem-ph                                   1                          0                     0                      0                       0
+physics.data-an                                   0                          1                     0                      0                       0
+physics.flu-dyn                                   0                          1                     0                      0                       0
+q-bio.NC                                          0                          1                     0                      0                       0
+q-bio.QM                                          1                          1                     0                      0                       0
+q-fin.PR                                          1                          0                     0                      0                       0
+q-fin.ST                                          0                          2                     0                      0                       0
+quant-ph                                          1                          2                     0                      0                       0
+stat.CO                                           0                          1                     0                      0                       0
+stat.ME                                           0                          0                     9                      0                       0
+stat.ML                                           3                          1                    24                      1                       1
+
+--- per-facet diagnostics (arxiv_abstracts/toponymy_vanilla) ---
+  Facet 0: clusters=7 depth=1 entropy obs=2.20 unif=2.58 delta=-0.38 bits
+  Facet 1: clusters=8 depth=1 entropy obs=2.49 unif=3.00 delta=-0.51 bits
+  Facet 2: clusters=6 depth=1 entropy obs=2.61 unif=2.81 delta=-0.19 bits
+
+  elapsed: 105.4s
+
+======================================================================
+Arm: arxiv_abstracts/toponymy_erasure
+======================================================================
+Traceback (most recent call last):
+  File "/Users/stevenfazzio/repos/typologist/experiments/toponymy_vs_homemade.py", line 376, in <module>
+    main()
+  File "/Users/stevenfazzio/repos/typologist/experiments/toponymy_vs_homemade.py", line 357, in main
+    artifact = _run_corpus(corpus, topic_embedder)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/stevenfazzio/repos/typologist/experiments/toponymy_vs_homemade.py", line 327, in _run_corpus
+    results = [
+              ^
+  File "/Users/stevenfazzio/repos/typologist/experiments/toponymy_vs_homemade.py", line 328, in <listcomp>
+    _run_arm(label, use_toponymy, erasure, topic_embedder, corpus)
+  File "/Users/stevenfazzio/repos/typologist/experiments/toponymy_vs_homemade.py", line 274, in _run_arm
+    ).fit(
+      ^^^^
+  File "/Users/stevenfazzio/repos/typologist/src/typologist/typologist.py", line 92, in fit
+    naming_result = _run_toponymy(
+                    ^^^^^^^^^^^^^^
+  File "/Users/stevenfazzio/repos/typologist/src/typologist/_pipeline.py", line 197, in _run_toponymy
+    topo.fit(documents.tolist(), embeddings, embeddings)
+  File "/Users/stevenfazzio/repos/typologist/.venv/lib/python3.11/site-packages/toponymy/toponymy.py", line 214, in fit
+    self.cluster_layers_, self.cluster_tree_ = self.clusterer.fit_predict(
+                                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/stevenfazzio/repos/typologist/.venv/lib/python3.11/site-packages/toponymy/clustering.py", line 678, in fit_predict
+    self.fit(
+  File "/Users/stevenfazzio/repos/typologist/.venv/lib/python3.11/site-packages/toponymy/clustering.py", line 651, in fit
+    self.evoc.fit(embedding_vectors)
+  File "/Users/stevenfazzio/repos/typologist/.venv/lib/python3.11/site-packages/evoc/clustering.py", line 620, in fit
+    self.fit_predict(X, y, **fit_params)
+  File "/Users/stevenfazzio/repos/typologist/.venv/lib/python3.11/site-packages/evoc/clustering.py", line 591, in fit_predict
+    best_layer = np.argmax(n_points_clustered_per_layer)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/stevenfazzio/repos/typologist/.venv/lib/python3.11/site-packages/numpy/_core/fromnumeric.py", line 1314, in argmax
+    return _wrapfunc(a, 'argmax', axis=axis, out=out, **kwds)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/stevenfazzio/repos/typologist/.venv/lib/python3.11/site-packages/numpy/_core/fromnumeric.py", line 51, in _wrapfunc
+    return _wrapit(obj, method, *args, **kwds)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/stevenfazzio/repos/typologist/.venv/lib/python3.11/site-packages/numpy/_core/fromnumeric.py", line 43, in _wrapit
+    result = getattr(arr, method)(*args, **kwds)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ValueError: attempt to get argmax of an empty sequence

@@ -1,0 +1,509 @@
+Loading weights:   0%|          | 0/103 [00:00<?, ?it/s]Loading weights: 100%|██████████| 103/103 [00:00<00:00, 7475.70it/s]
+[1mBertModel LOAD REPORT[0m from: sentence-transformers/all-MiniLM-L6-v2
+Key                     | Status     |  | 
+------------------------+------------+--+-
+embeddings.position_ids | UNEXPECTED |  | 
+
+Notes:
+- UNEXPECTED:	can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+
+######################################################################
+# Loading corpus: ag_news
+######################################################################
+  ag_news: 500 items, 4 topic labels
+  embedding ag_news with sentence-transformers all-MiniLM-L6-v2...
+Loading weights:   0%|          | 0/103 [00:00<?, ?it/s]Loading weights: 100%|██████████| 103/103 [00:00<00:00, 12710.76it/s]
+[1mBertModel LOAD REPORT[0m from: sentence-transformers/all-MiniLM-L6-v2
+Key                     | Status     |  | 
+------------------------+------------+--+-
+embeddings.position_ids | UNEXPECTED |  | 
+
+Notes:
+- UNEXPECTED:	can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+Batches:   0%|          | 0/16 [00:00<?, ?it/s]Batches:   6%|▋         | 1/16 [00:00<00:04,  3.23it/s]Batches:  19%|█▉        | 3/16 [00:00<00:01,  6.77it/s]Batches:  31%|███▏      | 5/16 [00:00<00:01,  9.01it/s]Batches:  44%|████▍     | 7/16 [00:00<00:00, 11.14it/s]Batches:  56%|█████▋    | 9/16 [00:00<00:00, 12.68it/s]Batches:  75%|███████▌  | 12/16 [00:01<00:00, 15.55it/s]Batches:  94%|█████████▍| 15/16 [00:01<00:00, 18.19it/s]Batches: 100%|██████████| 16/16 [00:01<00:00, 12.95it/s]
+
+======================================================================
+Arm: ag_news/toponymy_vanilla
+======================================================================
+
+Selecting central exemplars:   0%|          | 0/14 [00:00<?, ?cluster/s][A
+                                                                        [ABatches:   0%|          | 0/112 [00:00<?, ?it/s]Batches:   2%|▏         | 2/112 [00:00<00:05, 19.59it/s]Batches:   7%|▋         | 8/112 [00:00<00:02, 43.09it/s]Batches:  12%|█▎        | 14/112 [00:00<00:02, 44.64it/s]Batches:  18%|█▊        | 20/112 [00:00<00:01, 49.35it/s]Batches:  23%|██▎       | 26/112 [00:00<00:01, 52.10it/s]Batches:  30%|███       | 34/112 [00:00<00:01, 60.21it/s]Batches:  37%|███▋      | 41/112 [00:00<00:01, 62.96it/s]Batches:  43%|████▎     | 48/112 [00:00<00:01, 61.89it/s]Batches:  49%|████▉     | 55/112 [00:01<00:01, 55.97it/s]Batches:  60%|█████▉    | 67/112 [00:01<00:00, 72.60it/s]Batches:  69%|██████▉   | 77/112 [00:01<00:00, 73.84it/s]Batches:  79%|███████▉  | 89/112 [00:01<00:00, 84.29it/s]Batches:  88%|████████▊ | 99/112 [00:01<00:00, 88.29it/s]Batches:  97%|█████████▋| 109/112 [00:01<00:00, 91.54it/s]Batches: 100%|██████████| 112/112 [00:01<00:00, 68.81it/s]
+Building topic names by layer:   0%|          | 0/2 [00:00<?, ?layer/s]
+Generating informative keyphrases:   0%|          | 0/14 [00:00<?, ?cluster/s][A
+Generating informative keyphrases:   7%|▋         | 1/14 [00:00<00:06,  2.14cluster/s][A
+                                                                                      [A
+Generating prompts for layer 0:   0%|          | 0/14 [00:00<?, ?topic/s][A
+                                                                         [A
+Generating topic names for layer 0:   0%|          | 0/14 [00:00<?, ?topic/s][A
+Generating topic names for layer 0:   7%|▋         | 1/14 [00:01<00:13,  1.05s/topic][A
+Generating topic names for layer 0:  14%|█▍        | 2/14 [00:01<00:10,  1.09topic/s][A
+Generating topic names for layer 0:  21%|██▏       | 3/14 [00:03<00:12,  1.15s/topic][A
+Generating topic names for layer 0:  29%|██▊       | 4/14 [00:05<00:13,  1.38s/topic][A
+Generating topic names for layer 0:  36%|███▌      | 5/14 [00:05<00:10,  1.16s/topic][A
+Generating topic names for layer 0:  43%|████▎     | 6/14 [00:06<00:08,  1.02s/topic][A
+Generating topic names for layer 0:  50%|█████     | 7/14 [00:07<00:06,  1.01topic/s][A
+Generating topic names for layer 0:  57%|█████▋    | 8/14 [00:08<00:05,  1.07topic/s][A
+Generating topic names for layer 0:  64%|██████▍   | 9/14 [00:09<00:05,  1.12s/topic][A
+Generating topic names for layer 0:  71%|███████▏  | 10/14 [00:10<00:04,  1.01s/topic][A
+Generating topic names for layer 0:  79%|███████▊  | 11/14 [00:11<00:02,  1.04topic/s][A
+Generating topic names for layer 0:  86%|████████▌ | 12/14 [00:12<00:01,  1.10topic/s][A
+Generating topic names for layer 0:  93%|█████████▎| 13/14 [00:13<00:00,  1.11topic/s][A
+Generating topic names for layer 0: 100%|██████████| 14/14 [00:13<00:00,  1.14topic/s][A
+                                                                                      [A
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][ABatches: 100%|██████████| 1/1 [00:00<00:00, 10.75it/s]
+Building topic names by layer:  50%|█████     | 1/2 [00:15<00:15, 15.57s/layer]
+Selecting central exemplars:   0%|          | 0/7 [00:00<?, ?cluster/s][A
+                                                                       [A
+Generating informative keyphrases:   0%|          | 0/7 [00:00<?, ?cluster/s][A
+                                                                             [A
+Selecting central subtopics:   0%|          | 0/7 [00:00<?, ?cluster/s][A
+                                                                       [A
+Generating prompts for layer 1:   0%|          | 0/7 [00:00<?, ?topic/s][A
+                                                                        [A
+Generating topic names for layer 1:   0%|          | 0/7 [00:00<?, ?topic/s][A
+Generating topic names for layer 1:  29%|██▊       | 2/7 [00:00<00:01,  2.84topic/s][A
+Generating topic names for layer 1:  43%|████▎     | 3/7 [00:01<00:01,  2.20topic/s][A
+Generating topic names for layer 1:  57%|█████▋    | 4/7 [00:02<00:01,  1.81topic/s][A
+Generating topic names for layer 1:  71%|███████▏  | 5/7 [00:02<00:01,  1.80topic/s][A
+                                                                                    [A
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][A
+Batches: 100%|██████████| 1/1 [00:00<00:00,  9.48it/s][ABatches: 100%|██████████| 1/1 [00:00<00:00,  9.46it/s]
+Building topic names by layer: 100%|██████████| 2/2 [00:18<00:00,  8.06s/layer]Building topic names by layer: 100%|██████████| 2/2 [00:18<00:00,  9.19s/layer]
+labeling subject_domain:   0%|          | 0/500 [00:00<?, ?doc/s]labeling subject_domain:   0%|          | 1/500 [00:01<09:23,  1.13s/doc]labeling subject_domain:   2%|▏         | 8/500 [00:01<01:15,  6.54doc/s]labeling subject_domain:   4%|▍         | 20/500 [00:02<00:53,  8.96doc/s]labeling subject_domain:   5%|▌         | 25/500 [00:02<00:41, 11.45doc/s]labeling subject_domain:   9%|▊         | 43/500 [00:03<00:23, 19.17doc/s]labeling subject_domain:  10%|█         | 51/500 [00:05<00:46,  9.64doc/s]labeling subject_domain:  15%|█▍        | 74/500 [00:07<00:45,  9.33doc/s]labeling subject_domain:  25%|██▍       | 123/500 [00:08<00:17, 21.54doc/s]labeling subject_domain:  26%|██▌       | 128/500 [00:08<00:20, 17.93doc/s]labeling subject_domain:  26%|██▋       | 132/500 [00:09<00:19, 18.61doc/s]labeling subject_domain:  28%|██▊       | 139/500 [00:09<00:21, 16.49doc/s]labeling subject_domain:  28%|██▊       | 142/500 [00:12<00:51,  6.91doc/s]labeling subject_domain:  29%|██▉       | 147/500 [00:13<00:53,  6.60doc/s]labeling subject_domain:  38%|███▊      | 192/500 [00:13<00:14, 21.30doc/s]labeling subject_domain:  42%|████▏     | 211/500 [00:14<00:14, 19.64doc/s]labeling subject_domain:  44%|████▍     | 220/500 [00:16<00:23, 12.12doc/s]labeling subject_domain:  54%|█████▎    | 268/500 [00:17<00:08, 26.08doc/s]labeling subject_domain:  56%|█████▌    | 279/500 [00:19<00:15, 14.67doc/s]labeling subject_domain:  61%|██████    | 306/500 [00:20<00:10, 18.21doc/s]labeling subject_domain:  63%|██████▎   | 316/500 [00:21<00:10, 18.00doc/s]labeling subject_domain:  67%|██████▋   | 336/500 [00:21<00:07, 22.08doc/s]labeling subject_domain:  68%|██████▊   | 342/500 [00:22<00:08, 19.73doc/s]labeling subject_domain:  69%|██████▉   | 346/500 [00:22<00:10, 14.66doc/s]labeling subject_domain:  72%|███████▏  | 358/500 [00:23<00:09, 14.45doc/s]labeling subject_domain:  76%|███████▌  | 379/500 [00:34<00:30,  3.94doc/s]labeling subject_domain: 100%|██████████| 500/500 [00:34<00:00, 14.60doc/s]
+
+Selecting central exemplars:   0%|          | 0/11 [00:00<?, ?cluster/s][A
+                                                                        [ABatches:   0%|          | 0/112 [00:00<?, ?it/s]Batches:   1%|          | 1/112 [00:00<00:18,  5.87it/s]Batches:   9%|▉         | 10/112 [00:00<00:02, 42.97it/s]Batches:  17%|█▋        | 19/112 [00:00<00:01, 60.23it/s]Batches:  26%|██▌       | 29/112 [00:00<00:01, 72.58it/s]Batches:  35%|███▍      | 39/112 [00:00<00:00, 81.58it/s]Batches:  43%|████▎     | 48/112 [00:00<00:00, 82.94it/s]Batches:  51%|█████     | 57/112 [00:00<00:00, 82.54it/s]Batches:  59%|█████▉    | 66/112 [00:00<00:00, 73.19it/s]Batches:  66%|██████▌   | 74/112 [00:01<00:00, 66.66it/s]Batches:  72%|███████▏  | 81/112 [00:01<00:00, 66.56it/s]Batches:  85%|████████▍ | 95/112 [00:01<00:00, 85.81it/s]Batches:  99%|█████████▉| 111/112 [00:01<00:00, 104.44it/s]Batches: 100%|██████████| 112/112 [00:01<00:00, 78.79it/s] 
+Building topic names by layer:   0%|          | 0/2 [00:00<?, ?layer/s]
+Generating informative keyphrases:   0%|          | 0/11 [00:00<?, ?cluster/s][A
+                                                                              [A
+Generating prompts for layer 0:   0%|          | 0/11 [00:00<?, ?topic/s][A
+                                                                         [A
+Generating topic names for layer 0:   0%|          | 0/11 [00:00<?, ?topic/s][A
+Generating topic names for layer 0:   9%|▉         | 1/11 [00:00<00:07,  1.39topic/s][A
+Generating topic names for layer 0:  18%|█▊        | 2/11 [00:01<00:07,  1.28topic/s][A
+Generating topic names for layer 0:  27%|██▋       | 3/11 [00:02<00:06,  1.16topic/s][A
+Generating topic names for layer 0:  36%|███▋      | 4/11 [00:03<00:05,  1.24topic/s][A
+Generating topic names for layer 0:  45%|████▌     | 5/11 [00:04<00:05,  1.13topic/s][A
+Generating topic names for layer 0:  55%|█████▍    | 6/11 [00:05<00:04,  1.08topic/s][A
+Generating topic names for layer 0:  64%|██████▎   | 7/11 [00:06<00:03,  1.10topic/s][A
+Generating topic names for layer 0:  73%|███████▎  | 8/11 [00:06<00:02,  1.13topic/s][A
+Generating topic names for layer 0:  82%|████████▏ | 9/11 [00:07<00:01,  1.14topic/s][A
+Generating topic names for layer 0:  91%|█████████ | 10/11 [00:08<00:00,  1.20topic/s][A
+Generating topic names for layer 0: 100%|██████████| 11/11 [00:09<00:00,  1.25topic/s][A
+                                                                                      [A
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][ABatches: 100%|██████████| 1/1 [00:00<00:00, 17.55it/s]
+Building topic names by layer:  50%|█████     | 1/2 [00:09<00:09,  9.40s/layer]
+Selecting central exemplars:   0%|          | 0/5 [00:00<?, ?cluster/s][A
+                                                                       [A
+Generating informative keyphrases:   0%|          | 0/5 [00:00<?, ?cluster/s][A
+                                                                             [A
+Selecting central subtopics:   0%|          | 0/5 [00:00<?, ?cluster/s][A
+                                                                       [A
+Generating prompts for layer 1:   0%|          | 0/5 [00:00<?, ?topic/s][A
+                                                                        [A
+Generating topic names for layer 1:   0%|          | 0/5 [00:00<?, ?topic/s][A
+Generating topic names for layer 1:  60%|██████    | 3/5 [00:00<00:00,  5.36topic/s][A
+Generating topic names for layer 1:  80%|████████  | 4/5 [00:01<00:00,  2.83topic/s][A
+Generating topic names for layer 1: 100%|██████████| 5/5 [00:01<00:00,  2.29topic/s][A
+                                                                                    [A
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][ABatches: 100%|██████████| 1/1 [00:00<00:00, 10.64it/s]
+Building topic names by layer: 100%|██████████| 2/2 [00:11<00:00,  5.08s/layer]Building topic names by layer: 100%|██████████| 2/2 [00:11<00:00,  5.73s/layer]
+labeling geographic_scope:   0%|          | 0/500 [00:00<?, ?doc/s]labeling geographic_scope:   0%|          | 1/500 [00:00<03:49,  2.17doc/s]labeling geographic_scope:   1%|▏         | 7/500 [00:00<00:40, 12.18doc/s]labeling geographic_scope:   2%|▏         | 11/500 [00:00<00:37, 13.14doc/s]labeling geographic_scope:   4%|▍         | 20/500 [00:01<00:18, 25.58doc/s]labeling geographic_scope:   5%|▍         | 24/500 [00:01<00:24, 19.17doc/s]labeling geographic_scope:   5%|▌         | 27/500 [00:01<00:38, 12.40doc/s]labeling geographic_scope:   6%|▌         | 30/500 [00:02<00:42, 11.17doc/s]labeling geographic_scope:   8%|▊         | 41/500 [00:02<00:24, 19.09doc/s]labeling geographic_scope:   9%|▉         | 46/500 [00:03<00:30, 14.85doc/s]labeling geographic_scope:  12%|█▏        | 58/500 [00:03<00:18, 24.29doc/s]labeling geographic_scope:  12%|█▏        | 62/500 [00:03<00:18, 23.65doc/s]labeling geographic_scope:  13%|█▎        | 66/500 [00:03<00:22, 19.30doc/s]labeling geographic_scope:  14%|█▍        | 69/500 [00:04<00:38, 11.25doc/s]labeling geographic_scope:  15%|█▍        | 73/500 [00:05<00:46,  9.23doc/s]labeling geographic_scope:  18%|█▊        | 90/500 [00:05<00:24, 16.61doc/s]labeling geographic_scope:  19%|█▊        | 93/500 [00:06<00:28, 14.21doc/s]labeling geographic_scope:  21%|██        | 103/500 [00:06<00:23, 16.64doc/s]labeling geographic_scope:  23%|██▎       | 114/500 [00:07<00:30, 12.73doc/s]labeling geographic_scope:  24%|██▍       | 121/500 [00:07<00:24, 15.38doc/s]labeling geographic_scope:  25%|██▌       | 126/500 [00:08<00:31, 11.70doc/s]labeling geographic_scope:  30%|██▉       | 148/500 [00:08<00:14, 23.79doc/s]labeling geographic_scope:  31%|███       | 155/500 [00:09<00:15, 22.49doc/s]labeling geographic_scope:  32%|███▏      | 159/500 [00:10<00:25, 13.41doc/s]labeling geographic_scope:  33%|███▎      | 163/500 [00:13<01:04,  5.23doc/s]labeling geographic_scope:  35%|███▌      | 177/500 [00:15<00:51,  6.29doc/s]labeling geographic_scope:  41%|████▏     | 207/500 [00:16<00:24, 11.90doc/s]labeling geographic_scope:  50%|█████     | 250/500 [00:16<00:10, 24.37doc/s]labeling geographic_scope:  52%|█████▏    | 258/500 [00:16<00:09, 24.78doc/s]labeling geographic_scope:  53%|█████▎    | 265/500 [00:17<00:12, 19.23doc/s]labeling geographic_scope:  54%|█████▍    | 270/500 [00:18<00:14, 15.84doc/s]labeling geographic_scope:  57%|█████▋    | 284/500 [00:18<00:11, 18.99doc/s]labeling geographic_scope:  60%|██████    | 302/500 [00:18<00:07, 26.95doc/s]labeling geographic_scope:  61%|██████▏   | 307/500 [00:20<00:12, 15.39doc/s]labeling geographic_scope:  66%|██████▌   | 330/500 [00:20<00:07, 24.07doc/s]labeling geographic_scope:  67%|██████▋   | 335/500 [00:25<00:25,  6.53doc/s]labeling geographic_scope:  77%|███████▋  | 387/500 [00:25<00:06, 17.33doc/s]labeling geographic_scope:  79%|███████▉  | 395/500 [00:25<00:06, 16.57doc/s]labeling geographic_scope:  81%|████████  | 406/500 [00:26<00:04, 19.36doc/s]labeling geographic_scope:  83%|████████▎ | 416/500 [00:26<00:03, 22.05doc/s]labeling geographic_scope:  84%|████████▍ | 422/500 [00:26<00:03, 20.56doc/s]labeling geographic_scope:  85%|████████▌ | 427/500 [00:27<00:03, 19.69doc/s]labeling geographic_scope:  86%|████████▌ | 431/500 [00:27<00:04, 16.21doc/s]labeling geographic_scope:  87%|████████▋ | 434/500 [00:27<00:04, 14.16doc/s]labeling geographic_scope:  88%|████████▊ | 440/500 [00:28<00:03, 15.94doc/s]labeling geographic_scope:  90%|█████████ | 452/500 [00:28<00:02, 21.95doc/s]labeling geographic_scope:  91%|█████████ | 455/500 [00:28<00:02, 21.53doc/s]labeling geographic_scope:  92%|█████████▏| 458/500 [00:29<00:03, 12.56doc/s]labeling geographic_scope:  94%|█████████▍| 470/500 [00:29<00:01, 21.54doc/s]labeling geographic_scope:  95%|█████████▌| 475/500 [00:29<00:01, 23.82doc/s]labeling geographic_scope:  96%|█████████▌| 479/500 [00:29<00:01, 21.00doc/s]labeling geographic_scope:  97%|█████████▋| 483/500 [00:30<00:00, 20.46doc/s]labeling geographic_scope:  97%|█████████▋| 486/500 [00:30<00:00, 21.10doc/s]labeling geographic_scope:  98%|█████████▊| 489/500 [00:30<00:00, 14.16doc/s]labeling geographic_scope: 100%|█████████▉| 498/500 [00:30<00:00, 20.84doc/s]labeling geographic_scope: 100%|██████████| 500/500 [00:30<00:00, 16.15doc/s]
+
+Selecting central exemplars:   0%|          | 0/12 [00:00<?, ?cluster/s][A
+                                                                        [ABatches:   0%|          | 0/112 [00:00<?, ?it/s]Batches:   4%|▍         | 5/112 [00:00<00:02, 48.35it/s]Batches:  12%|█▏        | 13/112 [00:00<00:01, 64.02it/s]Batches:  20%|█▉        | 22/112 [00:00<00:01, 71.36it/s]Batches:  28%|██▊       | 31/112 [00:00<00:01, 75.79it/s]Batches:  36%|███▌      | 40/112 [00:00<00:00, 77.49it/s]Batches:  44%|████▍     | 49/112 [00:00<00:00, 80.11it/s]Batches:  53%|█████▎    | 59/112 [00:00<00:00, 85.88it/s]Batches:  62%|██████▎   | 70/112 [00:00<00:00, 91.09it/s]Batches:  73%|███████▎  | 82/112 [00:00<00:00, 97.62it/s]Batches:  84%|████████▍ | 94/112 [00:01<00:00, 101.55it/s]Batches:  94%|█████████▍| 105/112 [00:01<00:00, 102.36it/s]Batches: 100%|██████████| 112/112 [00:01<00:00, 87.79it/s] 
+Building topic names by layer:   0%|          | 0/2 [00:00<?, ?layer/s]
+Generating informative keyphrases:   0%|          | 0/12 [00:00<?, ?cluster/s][A
+                                                                              [A
+Generating prompts for layer 0:   0%|          | 0/12 [00:00<?, ?topic/s][A
+                                                                         [A
+Generating topic names for layer 0:   0%|          | 0/12 [00:00<?, ?topic/s][A
+Generating topic names for layer 0:   8%|▊         | 1/12 [00:00<00:09,  1.14topic/s][A
+Generating topic names for layer 0:  17%|█▋        | 2/12 [00:02<00:10,  1.08s/topic][A
+Generating topic names for layer 0:  25%|██▌       | 3/12 [00:05<00:20,  2.32s/topic][A
+Generating topic names for layer 0:  33%|███▎      | 4/12 [00:06<00:13,  1.70s/topic][A
+Generating topic names for layer 0:  42%|████▏     | 5/12 [00:07<00:10,  1.52s/topic][A
+Generating topic names for layer 0:  50%|█████     | 6/12 [00:08<00:07,  1.28s/topic][A
+Generating topic names for layer 0:  58%|█████▊    | 7/12 [00:09<00:05,  1.14s/topic][A
+Generating topic names for layer 0:  67%|██████▋   | 8/12 [00:10<00:04,  1.05s/topic][A
+Generating topic names for layer 0:  75%|███████▌  | 9/12 [00:11<00:03,  1.05s/topic][A
+Generating topic names for layer 0:  83%|████████▎ | 10/12 [00:12<00:02,  1.00s/topic][A
+Generating topic names for layer 0:  92%|█████████▏| 11/12 [00:13<00:00,  1.05topic/s][A
+Generating topic names for layer 0: 100%|██████████| 12/12 [00:13<00:00,  1.10topic/s][A
+                                                                                      [A
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][ABatches: 100%|██████████| 1/1 [00:00<00:00, 10.64it/s]
+Building topic names by layer:  50%|█████     | 1/2 [00:14<00:14, 14.14s/layer]
+Selecting central exemplars:   0%|          | 0/5 [00:00<?, ?cluster/s][A
+                                                                       [A
+Generating informative keyphrases:   0%|          | 0/5 [00:00<?, ?cluster/s][A
+                                                                             [A
+Selecting central subtopics:   0%|          | 0/5 [00:00<?, ?cluster/s][A
+                                                                       [A
+Generating prompts for layer 1:   0%|          | 0/5 [00:00<?, ?topic/s][A
+                                                                        [A
+Generating topic names for layer 1:   0%|          | 0/5 [00:00<?, ?topic/s][A
+Generating topic names for layer 1:  60%|██████    | 3/5 [00:00<00:00,  4.63topic/s][A
+Generating topic names for layer 1:  80%|████████  | 4/5 [00:01<00:00,  3.15topic/s][A
+Generating topic names for layer 1: 100%|██████████| 5/5 [00:04<00:00,  1.31s/topic][A
+                                                                                    [A
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][ABatches: 100%|██████████| 1/1 [00:00<00:00, 11.60it/s]
+Building topic names by layer: 100%|██████████| 2/2 [00:18<00:00,  8.65s/layer]Building topic names by layer: 100%|██████████| 2/2 [00:18<00:00,  9.48s/layer]
+labeling narrative_tone:   0%|          | 0/500 [00:00<?, ?doc/s]labeling narrative_tone:   0%|          | 1/500 [00:03<27:44,  3.34s/doc]labeling narrative_tone:  11%|█         | 54/500 [00:03<00:24, 18.10doc/s]labeling narrative_tone:  12%|█▏        | 59/500 [00:05<00:34, 12.94doc/s]labeling narrative_tone:  13%|█▎        | 63/500 [00:06<00:43,  9.96doc/s]labeling narrative_tone:  14%|█▍        | 72/500 [00:09<01:14,  5.74doc/s]labeling narrative_tone:  30%|███       | 150/500 [00:10<00:16, 20.89doc/s]labeling narrative_tone:  31%|███       | 155/500 [00:11<00:21, 16.08doc/s]labeling narrative_tone:  36%|███▋      | 182/500 [00:11<00:13, 23.22doc/s]labeling narrative_tone:  38%|███▊      | 190/500 [00:12<00:13, 23.74doc/s]labeling narrative_tone:  39%|███▉      | 197/500 [00:12<00:13, 22.35doc/s]labeling narrative_tone:  40%|████      | 202/500 [00:12<00:12, 23.44doc/s]labeling narrative_tone:  41%|████▏     | 207/500 [00:12<00:12, 23.70doc/s]labeling narrative_tone:  42%|████▏     | 211/500 [00:13<00:17, 16.16doc/s]labeling narrative_tone:  44%|████▍     | 220/500 [00:14<00:15, 18.13doc/s]labeling narrative_tone:  45%|████▍     | 223/500 [00:14<00:15, 17.93doc/s]labeling narrative_tone:  47%|████▋     | 233/500 [00:14<00:11, 23.33doc/s]labeling narrative_tone:  48%|████▊     | 239/500 [00:14<00:10, 25.61doc/s]labeling narrative_tone:  49%|████▊     | 243/500 [00:14<00:12, 20.03doc/s]labeling narrative_tone:  50%|█████     | 250/500 [00:15<00:10, 23.41doc/s]labeling narrative_tone:  51%|█████     | 253/500 [00:15<00:13, 17.91doc/s]labeling narrative_tone:  51%|█████     | 256/500 [00:15<00:15, 15.76doc/s]labeling narrative_tone:  53%|█████▎    | 265/500 [00:16<00:12, 18.25doc/s]labeling narrative_tone:  54%|█████▎    | 268/500 [00:16<00:11, 19.55doc/s]labeling narrative_tone:  54%|█████▍    | 271/500 [00:16<00:18, 12.62doc/s]labeling narrative_tone:  57%|█████▋    | 283/500 [00:18<00:25,  8.59doc/s]labeling narrative_tone:  59%|█████▉    | 295/500 [00:19<00:16, 12.67doc/s]labeling narrative_tone:  60%|█████▉    | 298/500 [00:23<00:57,  3.53doc/s]labeling narrative_tone:  70%|███████   | 351/500 [00:25<00:13, 11.07doc/s]labeling narrative_tone:  72%|███████▏  | 359/500 [00:26<00:12, 11.38doc/s]labeling narrative_tone:  81%|████████  | 405/500 [00:26<00:04, 23.13doc/s]labeling narrative_tone:  83%|████████▎ | 413/500 [00:27<00:04, 18.78doc/s]labeling narrative_tone:  85%|████████▍ | 424/500 [00:27<00:03, 20.14doc/s]labeling narrative_tone:  87%|████████▋ | 435/500 [00:27<00:02, 24.09doc/s]labeling narrative_tone:  88%|████████▊ | 441/500 [00:28<00:02, 23.86doc/s]labeling narrative_tone:  89%|████████▉ | 446/500 [00:28<00:02, 24.18doc/s]labeling narrative_tone:  90%|█████████ | 451/500 [00:30<00:05,  9.59doc/s]labeling narrative_tone:  92%|█████████▏| 462/500 [00:30<00:03, 12.28doc/s]labeling narrative_tone:  95%|█████████▍| 473/500 [00:32<00:02,  9.96doc/s]labeling narrative_tone:  98%|█████████▊| 490/500 [00:33<00:00, 12.90doc/s]labeling narrative_tone:  99%|█████████▉| 497/500 [00:33<00:00, 12.19doc/s]labeling narrative_tone: 100%|██████████| 500/500 [00:33<00:00, 14.74doc/s]
+
+--- Schema (ag_news/toponymy_vanilla) ---
+
+Facet 0: subject_domain (categorical)
+  The primary subject domain of the news article, distinguishing what real-world sphere of activity the story covers.
+  - politics_and_government
+  - armed_conflict_and_military
+  - business_and_finance
+  - technology_and_computing
+  - science_and_environment
+  - sports
+  - Other
+
+Facet 1: geographic_scope (categorical)
+  Captures the geographic scope of the events or entities covered in each article, distinguishing US-only stories from those focused on a single foreign country, multi-country regional stories, or globally-spanning events.
+  - domestic_us
+  - international_single_country
+  - global_multinational
+  - regional_bloc
+  - Other
+
+Facet 2: narrative_tone (categorical)
+  Captures the journalistic mode or narrative posture of the article, such as whether it reports a breaking incident, investigates wrongdoing, analyzes trends, profiles people, gives routine updates, or offers opinion.
+  - breaking_incident_report
+  - investigative_expose
+  - analytical_commentary
+  - human_interest_feature
+  - routine_update
+  - opinion_editorial
+  - Other
+
+--- Facet 0 (subject_domain) vs curator label ---
+
+subject_domain    politics_and_government  armed_conflict_and_military  business_and_finance  technology_and_computing  science_and_environment  sports  Other
+curator_category                                                                                                                                              
+Business                                6                            0                   115                         2                        1       0      1
+Sci/Tech                                2                            0                    42                        50                       30       0      1
+Sports                                  0                            0                     0                         0                        0     124      1
+World                                  49                           43                    11                         0                        6       8      8
+
+--- per-facet diagnostics (ag_news/toponymy_vanilla) ---
+  Facet 0: clusters=14 depth=2 entropy obs=2.44 unif=2.81 delta=-0.37 bits
+  Facet 1: clusters=11 depth=2 entropy obs=1.64 unif=2.32 delta=-0.68 bits
+  Facet 2: clusters=12 depth=2 entropy obs=1.70 unif=2.81 delta=-1.11 bits
+
+  elapsed: 167.0s
+
+======================================================================
+Arm: ag_news/toponymy_erasure
+======================================================================
+
+Selecting central exemplars:   0%|          | 0/13 [00:00<?, ?cluster/s][A
+                                                                        [ABatches:   0%|          | 0/112 [00:00<?, ?it/s]Batches:   4%|▍         | 5/112 [00:00<00:02, 48.52it/s]Batches:  12%|█▏        | 13/112 [00:00<00:01, 65.71it/s]Batches:  18%|█▊        | 20/112 [00:00<00:01, 64.25it/s]Batches:  25%|██▌       | 28/112 [00:00<00:01, 68.68it/s]Batches:  32%|███▏      | 36/112 [00:00<00:01, 71.74it/s]Batches:  39%|███▉      | 44/112 [00:00<00:00, 71.23it/s]Batches:  46%|████▋     | 52/112 [00:00<00:00, 70.55it/s]Batches:  54%|█████▍    | 61/112 [00:00<00:00, 73.11it/s]Batches:  62%|██████▎   | 70/112 [00:00<00:00, 74.47it/s]Batches:  72%|███████▏  | 81/112 [00:01<00:00, 82.34it/s]Batches:  83%|████████▎ | 93/112 [00:01<00:00, 91.25it/s]Batches:  92%|█████████▏| 103/112 [00:01<00:00, 90.63it/s]Batches: 100%|██████████| 112/112 [00:01<00:00, 79.43it/s]
+Building topic names by layer:   0%|          | 0/2 [00:00<?, ?layer/s]
+Generating informative keyphrases:   0%|          | 0/13 [00:00<?, ?cluster/s][A
+                                                                              [A
+Generating prompts for layer 0:   0%|          | 0/13 [00:00<?, ?topic/s][A
+                                                                         [A
+Generating topic names for layer 0:   0%|          | 0/13 [00:00<?, ?topic/s][A
+Generating topic names for layer 0:   8%|▊         | 1/13 [00:00<00:10,  1.19topic/s][A
+Generating topic names for layer 0:  15%|█▌        | 2/13 [00:01<00:10,  1.06topic/s][A
+Generating topic names for layer 0:  23%|██▎       | 3/13 [00:02<00:09,  1.07topic/s][A
+Generating topic names for layer 0:  31%|███       | 4/13 [00:03<00:07,  1.13topic/s][A
+Generating topic names for layer 0:  38%|███▊      | 5/13 [00:05<00:09,  1.16s/topic][A
+Generating topic names for layer 0:  46%|████▌     | 6/13 [00:06<00:07,  1.07s/topic][A
+Generating topic names for layer 0:  54%|█████▍    | 7/13 [00:07<00:06,  1.03s/topic][A
+Generating topic names for layer 0:  62%|██████▏   | 8/13 [00:08<00:05,  1.07s/topic][A
+Generating topic names for layer 0:  69%|██████▉   | 9/13 [00:09<00:03,  1.01topic/s][A
+Generating topic names for layer 0:  77%|███████▋  | 10/13 [00:09<00:02,  1.04topic/s][A
+Generating topic names for layer 0:  85%|████████▍ | 11/13 [00:10<00:01,  1.05topic/s][A
+Generating topic names for layer 0:  92%|█████████▏| 12/13 [00:11<00:00,  1.10topic/s][A
+Generating topic names for layer 0: 100%|██████████| 13/13 [00:12<00:00,  1.10topic/s][A
+                                                                                      [A
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][ABatches: 100%|██████████| 1/1 [00:00<00:00, 10.15it/s]
+Building topic names by layer:  50%|█████     | 1/2 [00:12<00:12, 12.79s/layer]
+Selecting central exemplars:   0%|          | 0/5 [00:00<?, ?cluster/s][A
+                                                                       [A
+Generating informative keyphrases:   0%|          | 0/5 [00:00<?, ?cluster/s][A
+                                                                             [A
+Selecting central subtopics:   0%|          | 0/5 [00:00<?, ?cluster/s][A
+                                                                       [A
+Generating prompts for layer 1:   0%|          | 0/5 [00:00<?, ?topic/s][A
+                                                                        [A
+Generating topic names for layer 1:   0%|          | 0/5 [00:00<?, ?topic/s][A
+Generating topic names for layer 1:  20%|██        | 1/5 [00:00<00:03,  1.22topic/s][A
+Generating topic names for layer 1:  40%|████      | 2/5 [00:01<00:02,  1.32topic/s][A
+Generating topic names for layer 1:  60%|██████    | 3/5 [00:02<00:01,  1.50topic/s][A
+Generating topic names for layer 1:  80%|████████  | 4/5 [00:02<00:00,  1.57topic/s][A
+                                                                                    [A
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][ABatches: 100%|██████████| 1/1 [00:00<00:00, 17.73it/s]
+Building topic names by layer: 100%|██████████| 2/2 [00:15<00:00,  6.93s/layer]Building topic names by layer: 100%|██████████| 2/2 [00:15<00:00,  7.81s/layer]
+labeling geographic_focus:   0%|          | 0/500 [00:00<?, ?doc/s]labeling geographic_focus:   0%|          | 1/500 [00:00<04:25,  1.88doc/s]labeling geographic_focus:   2%|▏         | 8/500 [00:00<00:30, 16.10doc/s]labeling geographic_focus:   2%|▏         | 12/500 [00:01<00:37, 13.06doc/s]labeling geographic_focus:   3%|▎         | 15/500 [00:01<00:40, 11.92doc/s]labeling geographic_focus:   4%|▍         | 22/500 [00:01<00:24, 19.21doc/s]labeling geographic_focus:   5%|▌         | 27/500 [00:01<00:25, 18.25doc/s]labeling geographic_focus:   6%|▌         | 31/500 [00:02<00:34, 13.51doc/s]labeling geographic_focus:   9%|▊         | 43/500 [00:02<00:20, 22.58doc/s]labeling geographic_focus:   9%|▉         | 46/500 [00:04<00:59,  7.57doc/s]labeling geographic_focus:  14%|█▍        | 70/500 [00:04<00:23, 18.69doc/s]labeling geographic_focus:  15%|█▌        | 77/500 [00:04<00:23, 18.33doc/s]labeling geographic_focus:  16%|█▌        | 81/500 [00:05<00:21, 19.10doc/s]labeling geographic_focus:  17%|█▋        | 85/500 [00:05<00:19, 21.02doc/s]labeling geographic_focus:  18%|█▊        | 89/500 [00:05<00:20, 19.60doc/s]labeling geographic_focus:  19%|█▉        | 94/500 [00:10<02:00,  3.36doc/s]labeling geographic_focus:  32%|███▏      | 162/500 [00:11<00:21, 16.08doc/s]labeling geographic_focus:  37%|███▋      | 187/500 [00:11<00:14, 21.38doc/s]labeling geographic_focus:  40%|███▉      | 199/500 [00:11<00:12, 24.23doc/s]labeling geographic_focus:  41%|████      | 205/500 [00:13<00:16, 17.78doc/s]labeling geographic_focus:  44%|████▎     | 218/500 [00:14<00:18, 14.90doc/s]labeling geographic_focus:  45%|████▌     | 226/500 [00:17<00:34,  7.91doc/s]labeling geographic_focus:  53%|█████▎    | 263/500 [00:18<00:18, 13.09doc/s]labeling geographic_focus:  54%|█████▍    | 269/500 [00:20<00:22, 10.32doc/s]labeling geographic_focus:  62%|██████▏   | 310/500 [00:23<00:15, 12.03doc/s]labeling geographic_focus:  70%|██████▉   | 349/500 [00:23<00:08, 18.47doc/s]labeling geographic_focus:  73%|███████▎  | 365/500 [00:24<00:08, 16.87doc/s]labeling geographic_focus:  80%|███████▉  | 399/500 [00:25<00:03, 25.37doc/s]labeling geographic_focus:  81%|████████  | 406/500 [00:25<00:03, 24.83doc/s]labeling geographic_focus:  82%|████████▏ | 412/500 [00:25<00:03, 23.98doc/s]labeling geographic_focus:  83%|████████▎ | 417/500 [00:26<00:03, 24.40doc/s]labeling geographic_focus:  84%|████████▍ | 421/500 [00:26<00:03, 24.97doc/s]labeling geographic_focus:  85%|████████▌ | 425/500 [00:26<00:03, 20.56doc/s]labeling geographic_focus:  86%|████████▌ | 429/500 [00:27<00:04, 16.16doc/s]labeling geographic_focus:  88%|████████▊ | 440/500 [00:27<00:02, 21.96doc/s]labeling geographic_focus:  89%|████████▉ | 444/500 [00:28<00:03, 14.74doc/s]labeling geographic_focus:  90%|█████████ | 451/500 [00:28<00:02, 18.20doc/s]labeling geographic_focus:  91%|█████████ | 454/500 [00:28<00:02, 16.02doc/s]labeling geographic_focus:  92%|█████████▏| 458/500 [00:29<00:03, 11.12doc/s]labeling geographic_focus:  94%|█████████▎| 468/500 [00:29<00:01, 16.22doc/s]labeling geographic_focus:  96%|█████████▌| 478/500 [00:29<00:00, 23.50doc/s]labeling geographic_focus:  96%|█████████▋| 482/500 [00:29<00:00, 22.78doc/s]labeling geographic_focus:  97%|█████████▋| 486/500 [00:30<00:00, 22.45doc/s]labeling geographic_focus:  98%|█████████▊| 491/500 [00:30<00:00, 21.38doc/s]labeling geographic_focus:  99%|█████████▉| 494/500 [00:30<00:00, 14.96doc/s]labeling geographic_focus:  99%|█████████▉| 497/500 [00:33<00:00,  4.30doc/s]labeling geographic_focus: 100%|██████████| 500/500 [00:33<00:00, 15.02doc/s]
+
+Selecting central exemplars:   0%|          | 0/15 [00:00<?, ?cluster/s][A
+                                                                        [ABatches:   0%|          | 0/112 [00:00<?, ?it/s]Batches:   4%|▎         | 4/112 [00:00<00:03, 31.37it/s]Batches:  10%|▉         | 11/112 [00:00<00:02, 48.75it/s]Batches:  16%|█▌        | 18/112 [00:00<00:01, 57.12it/s]Batches:  23%|██▎       | 26/112 [00:00<00:01, 64.17it/s]Batches:  32%|███▏      | 36/112 [00:00<00:01, 73.61it/s]Batches:  40%|████      | 45/112 [00:00<00:00, 77.52it/s]Batches:  50%|█████     | 56/112 [00:00<00:00, 85.38it/s]Batches:  60%|█████▉    | 67/112 [00:00<00:00, 92.44it/s]Batches:  71%|███████   | 79/112 [00:00<00:00, 100.43it/s]Batches:  80%|████████  | 90/112 [00:01<00:00, 103.08it/s]Batches:  90%|█████████ | 101/112 [00:01<00:00, 102.56it/s]Batches: 100%|██████████| 112/112 [00:01<00:00, 96.98it/s] Batches: 100%|██████████| 112/112 [00:01<00:00, 85.45it/s]
+Building topic names by layer:   0%|          | 0/2 [00:00<?, ?layer/s]
+Generating informative keyphrases:   0%|          | 0/15 [00:00<?, ?cluster/s][A
+                                                                              [A
+Generating prompts for layer 0:   0%|          | 0/15 [00:00<?, ?topic/s][A
+                                                                         [A
+Generating topic names for layer 0:   0%|          | 0/15 [00:00<?, ?topic/s][A
+Generating topic names for layer 0:   7%|▋         | 1/15 [00:00<00:11,  1.22topic/s][A
+Generating topic names for layer 0:  13%|█▎        | 2/15 [00:02<00:15,  1.16s/topic][A
+Generating topic names for layer 0:  20%|██        | 3/15 [00:03<00:14,  1.23s/topic][A
+Generating topic names for layer 0:  27%|██▋       | 4/15 [00:04<00:11,  1.05s/topic][A
+Generating topic names for layer 0:  33%|███▎      | 5/15 [00:05<00:09,  1.01topic/s][A
+Generating topic names for layer 0:  40%|████      | 6/15 [00:06<00:08,  1.05topic/s][A
+Generating topic names for layer 0:  47%|████▋     | 7/15 [00:07<00:08,  1.08s/topic][A
+Generating topic names for layer 0:  53%|█████▎    | 8/15 [00:08<00:07,  1.02s/topic][A
+Generating topic names for layer 0:  60%|██████    | 9/15 [00:09<00:05,  1.08topic/s][A
+Generating topic names for layer 0:  67%|██████▋   | 10/15 [00:09<00:04,  1.12topic/s][A
+Generating topic names for layer 0:  73%|███████▎  | 11/15 [00:10<00:03,  1.19topic/s][A
+Generating topic names for layer 0:  80%|████████  | 12/15 [00:11<00:02,  1.12topic/s][A
+Generating topic names for layer 0:  87%|████████▋ | 13/15 [00:15<00:03,  1.74s/topic][A
+Generating topic names for layer 0:  93%|█████████▎| 14/15 [00:16<00:01,  1.46s/topic][A
+Generating topic names for layer 0: 100%|██████████| 15/15 [00:16<00:00,  1.27s/topic][A
+                                                                                      [A
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][ABatches: 100%|██████████| 1/1 [00:00<00:00, 12.58it/s]
+Building topic names by layer:  50%|█████     | 1/2 [00:17<00:17, 17.07s/layer]
+Selecting central exemplars:   0%|          | 0/5 [00:00<?, ?cluster/s][A
+                                                                       [A
+Generating informative keyphrases:   0%|          | 0/5 [00:00<?, ?cluster/s][A
+                                                                             [A
+Selecting central subtopics:   0%|          | 0/5 [00:00<?, ?cluster/s][A
+                                                                       [A
+Generating prompts for layer 1:   0%|          | 0/5 [00:00<?, ?topic/s][A
+                                                                        [A
+Generating topic names for layer 1:   0%|          | 0/5 [00:00<?, ?topic/s][A
+Generating topic names for layer 1:  20%|██        | 1/5 [00:00<00:02,  1.93topic/s][A
+Generating topic names for layer 1:  40%|████      | 2/5 [00:01<00:01,  1.80topic/s][A
+Generating topic names for layer 1:  80%|████████  | 4/5 [00:01<00:00,  2.19topic/s][A
+Generating topic names for layer 1: 100%|██████████| 5/5 [00:02<00:00,  1.91topic/s][A
+                                                                                    [A
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][ABatches: 100%|██████████| 1/1 [00:00<00:00, 11.68it/s]
+Building topic names by layer: 100%|██████████| 2/2 [00:19<00:00,  8.64s/layer]Building topic names by layer: 100%|██████████| 2/2 [00:19<00:00,  9.90s/layer]
+labeling narrative_frame:   0%|          | 0/500 [00:00<?, ?doc/s]labeling narrative_frame:   0%|          | 1/500 [00:00<04:50,  1.72doc/s]labeling narrative_frame:   2%|▏         | 11/500 [00:01<00:53,  9.07doc/s]labeling narrative_frame:   3%|▎         | 14/500 [00:02<01:14,  6.53doc/s]labeling narrative_frame:   5%|▌         | 26/500 [00:02<00:32, 14.49doc/s]labeling narrative_frame:   6%|▌         | 30/500 [00:02<00:28, 16.68doc/s]labeling narrative_frame:   7%|▋         | 36/500 [00:03<00:34, 13.39doc/s]labeling narrative_frame:   8%|▊         | 39/500 [00:06<01:59,  3.86doc/s]labeling narrative_frame:  19%|█▊        | 93/500 [00:06<00:18, 21.75doc/s]labeling narrative_frame:  22%|██▏       | 108/500 [00:06<00:16, 23.79doc/s]labeling narrative_frame:  24%|██▍       | 120/500 [00:07<00:18, 20.70doc/s]labeling narrative_frame:  26%|██▌       | 129/500 [00:07<00:16, 22.50doc/s]labeling narrative_frame:  27%|██▋       | 136/500 [00:09<00:23, 15.58doc/s]labeling narrative_frame:  30%|███       | 151/500 [00:09<00:16, 20.94doc/s]labeling narrative_frame:  31%|███▏      | 157/500 [00:09<00:15, 21.74doc/s]labeling narrative_frame:  32%|███▏      | 162/500 [00:09<00:16, 21.04doc/s]labeling narrative_frame:  33%|███▎      | 166/500 [00:10<00:22, 14.63doc/s]labeling narrative_frame:  36%|███▌      | 181/500 [00:10<00:13, 23.02doc/s]labeling narrative_frame:  37%|███▋      | 186/500 [00:10<00:13, 23.75doc/s]labeling narrative_frame:  38%|███▊      | 190/500 [00:13<00:45,  6.84doc/s]labeling narrative_frame:  44%|████▍     | 222/500 [00:14<00:21, 13.23doc/s]labeling narrative_frame:  49%|████▊     | 243/500 [00:15<00:14, 17.81doc/s]labeling narrative_frame:  50%|████▉     | 249/500 [00:15<00:13, 17.95doc/s]labeling narrative_frame:  53%|█████▎    | 263/500 [00:17<00:19, 12.30doc/s]labeling narrative_frame:  56%|█████▌    | 280/500 [00:17<00:12, 17.47doc/s]labeling narrative_frame:  59%|█████▉    | 294/500 [00:17<00:08, 23.24doc/s]labeling narrative_frame:  60%|██████    | 301/500 [00:18<00:11, 17.58doc/s]labeling narrative_frame:  61%|██████    | 306/500 [00:18<00:10, 18.42doc/s]labeling narrative_frame:  63%|██████▎   | 316/500 [00:19<00:11, 16.20doc/s]labeling narrative_frame:  64%|██████▍   | 320/500 [00:22<00:28,  6.42doc/s]labeling narrative_frame:  74%|███████▍  | 369/500 [00:22<00:06, 19.71doc/s]labeling narrative_frame:  75%|███████▌  | 376/500 [00:23<00:06, 19.69doc/s]labeling narrative_frame:  77%|███████▋  | 386/500 [00:23<00:05, 21.52doc/s]labeling narrative_frame:  78%|███████▊  | 390/500 [00:24<00:05, 19.64doc/s]labeling narrative_frame:  80%|███████▉  | 399/500 [00:24<00:04, 23.90doc/s]labeling narrative_frame:  81%|████████  | 404/500 [00:25<00:08, 11.61doc/s]labeling narrative_frame:  82%|████████▏ | 411/500 [00:25<00:06, 14.04doc/s]labeling narrative_frame:  85%|████████▌ | 426/500 [00:30<00:12,  6.16doc/s]labeling narrative_frame:  99%|█████████▉| 494/500 [00:30<00:00, 21.57doc/s]labeling narrative_frame: 100%|██████████| 500/500 [00:31<00:00, 16.07doc/s]
+
+Selecting central exemplars:   0%|          | 0/12 [00:00<?, ?cluster/s][A
+                                                                        [ABatches:   0%|          | 0/112 [00:00<?, ?it/s]Batches:   5%|▌         | 6/112 [00:00<00:01, 56.44it/s]Batches:  13%|█▎        | 15/112 [00:00<00:01, 73.16it/s]Batches:  21%|██▏       | 24/112 [00:00<00:01, 77.41it/s]Batches:  29%|██▉       | 33/112 [00:00<00:01, 78.22it/s]Batches:  37%|███▋      | 41/112 [00:00<00:01, 62.87it/s]Batches:  43%|████▎     | 48/112 [00:00<00:01, 63.50it/s]Batches:  52%|█████▏    | 58/112 [00:00<00:00, 72.09it/s]Batches:  61%|██████    | 68/112 [00:00<00:00, 79.08it/s]Batches:  71%|███████   | 79/112 [00:01<00:00, 86.82it/s]Batches:  79%|███████▉  | 89/112 [00:01<00:00, 90.43it/s]Batches:  88%|████████▊ | 99/112 [00:01<00:00, 91.73it/s]Batches:  97%|█████████▋| 109/112 [00:01<00:00, 92.07it/s]Batches: 100%|██████████| 112/112 [00:01<00:00, 81.53it/s]
+Building topic names by layer:   0%|          | 0/2 [00:00<?, ?layer/s]
+Generating informative keyphrases:   0%|          | 0/12 [00:00<?, ?cluster/s][A
+                                                                              [A
+Generating prompts for layer 0:   0%|          | 0/12 [00:00<?, ?topic/s][A
+                                                                         [A
+Generating topic names for layer 0:   0%|          | 0/12 [00:00<?, ?topic/s][A
+Generating topic names for layer 0:   8%|▊         | 1/12 [00:00<00:09,  1.17topic/s][A
+Generating topic names for layer 0:  17%|█▋        | 2/12 [00:02<00:13,  1.32s/topic][A
+Generating topic names for layer 0:  25%|██▌       | 3/12 [00:03<00:10,  1.16s/topic][A
+Generating topic names for layer 0:  33%|███▎      | 4/12 [00:04<00:08,  1.02s/topic][A
+Generating topic names for layer 0:  42%|████▏     | 5/12 [00:05<00:06,  1.07topic/s][A
+Generating topic names for layer 0:  50%|█████     | 6/12 [00:06<00:05,  1.06topic/s][A
+Generating topic names for layer 0:  58%|█████▊    | 7/12 [00:06<00:04,  1.07topic/s][A
+Generating topic names for layer 0:  67%|██████▋   | 8/12 [00:07<00:03,  1.08topic/s][A
+Generating topic names for layer 0:  75%|███████▌  | 9/12 [00:09<00:03,  1.05s/topic][A
+Generating topic names for layer 0:  83%|████████▎ | 10/12 [00:10<00:02,  1.14s/topic][A
+Generating topic names for layer 0:  92%|█████████▏| 11/12 [00:11<00:01,  1.03s/topic][A
+Generating topic names for layer 0: 100%|██████████| 12/12 [00:11<00:00,  1.08topic/s][A
+                                                                                      [A
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][ABatches: 100%|██████████| 1/1 [00:00<00:00, 14.22it/s]
+Building topic names by layer:  50%|█████     | 1/2 [00:12<00:12, 12.11s/layer]
+Selecting central exemplars:   0%|          | 0/4 [00:00<?, ?cluster/s][A
+                                                                       [A
+Generating informative keyphrases:   0%|          | 0/4 [00:00<?, ?cluster/s][A
+                                                                             [A
+Selecting central subtopics:   0%|          | 0/4 [00:00<?, ?cluster/s][A
+                                                                       [A
+Generating prompts for layer 1:   0%|          | 0/4 [00:00<?, ?topic/s][A
+                                                                        [A
+Generating topic names for layer 1:   0%|          | 0/4 [00:00<?, ?topic/s][A
+Generating topic names for layer 1:  25%|██▌       | 1/4 [00:00<00:01,  1.58topic/s][A
+Generating topic names for layer 1:  50%|█████     | 2/4 [00:01<00:01,  1.58topic/s][A
+Generating topic names for layer 1:  75%|███████▌  | 3/4 [00:01<00:00,  1.67topic/s][A
+                                                                                    [A
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][ABatches: 100%|██████████| 1/1 [00:00<00:00, 12.49it/s]
+
+Generating disambiguation prompts for layer 1:   0%|          | 0/1 [00:00<?, ?topic-cluster/s][A
+                                                                                               [A
+Generating new disambiguated topics names for layer 1:   0%|          | 0/1 [00:00<?, ?topic-cluster/s][A
+Generating new disambiguated topics names for layer 1: 100%|██████████| 1/1 [00:00<00:00,  1.09topic-cluster/s][A
+                                                                                                               [ABuilding topic names by layer: 100%|██████████| 2/2 [00:15<00:00,  6.70s/layer]Building topic names by layer: 100%|██████████| 2/2 [00:15<00:00,  7.51s/layer]
+labeling temporal_orientation:   0%|          | 0/500 [00:00<?, ?doc/s]labeling temporal_orientation:   0%|          | 1/500 [00:00<04:19,  1.92doc/s]labeling temporal_orientation:   1%|          | 3/500 [00:02<06:55,  1.20doc/s]labeling temporal_orientation:   8%|▊         | 40/500 [00:02<00:20, 22.35doc/s]labeling temporal_orientation:  10%|█         | 51/500 [00:07<01:07,  6.63doc/s]labeling temporal_orientation:  21%|██▏       | 107/500 [00:07<00:20, 19.59doc/s]labeling temporal_orientation:  24%|██▍       | 122/500 [00:08<00:22, 16.75doc/s]labeling temporal_orientation:  28%|██▊       | 140/500 [00:11<00:28, 12.45doc/s]labeling temporal_orientation:  30%|██▉       | 148/500 [00:13<00:39,  8.80doc/s]labeling temporal_orientation:  31%|███       | 153/500 [00:14<00:40,  8.60doc/s]labeling temporal_orientation:  43%|████▎     | 213/500 [00:14<00:12, 23.25doc/s]labeling temporal_orientation:  44%|████▍     | 222/500 [00:14<00:11, 24.04doc/s]labeling temporal_orientation:  46%|████▌     | 229/500 [00:15<00:11, 23.18doc/s]labeling temporal_orientation:  47%|████▋     | 235/500 [00:15<00:11, 23.38doc/s]labeling temporal_orientation:  48%|████▊     | 240/500 [00:16<00:12, 20.81doc/s]labeling temporal_orientation:  50%|████▉     | 248/500 [00:16<00:11, 21.82doc/s]labeling temporal_orientation:  50%|█████     | 252/500 [00:20<00:44,  5.64doc/s]labeling temporal_orientation:  59%|█████▉    | 294/500 [00:21<00:15, 13.28doc/s]labeling temporal_orientation:  65%|██████▍   | 324/500 [00:21<00:08, 20.21doc/s]labeling temporal_orientation:  67%|██████▋   | 335/500 [00:21<00:07, 23.17doc/s]labeling temporal_orientation:  68%|██████▊   | 341/500 [00:23<00:12, 13.00doc/s]labeling temporal_orientation:  75%|███████▍  | 374/500 [00:24<00:06, 18.53doc/s]labeling temporal_orientation:  78%|███████▊  | 388/500 [00:27<00:09, 12.23doc/s]labeling temporal_orientation:  86%|████████▌ | 431/500 [00:27<00:03, 21.90doc/s]labeling temporal_orientation:  88%|████████▊ | 438/500 [00:27<00:02, 22.41doc/s]labeling temporal_orientation:  89%|████████▉ | 446/500 [00:28<00:02, 23.68doc/s]labeling temporal_orientation:  90%|█████████ | 452/500 [00:28<00:01, 24.21doc/s]labeling temporal_orientation:  91%|█████████ | 456/500 [00:29<00:02, 16.01doc/s]labeling temporal_orientation:  94%|█████████▍| 472/500 [00:30<00:01, 15.57doc/s]labeling temporal_orientation:  98%|█████████▊| 491/500 [00:30<00:00, 22.97doc/s]labeling temporal_orientation:  99%|█████████▉| 496/500 [00:30<00:00, 21.80doc/s]labeling temporal_orientation: 100%|██████████| 500/500 [00:31<00:00, 22.71doc/s]labeling temporal_orientation: 100%|██████████| 500/500 [00:31<00:00, 16.12doc/s]
+
+--- Schema (ag_news/toponymy_erasure) ---
+
+Facet 0: geographic_focus (categorical)
+  The primary geographic region that the news article centers on or originates from.
+  - united_states
+  - middle_east
+  - europe
+  - asia_pacific
+  - latin_america
+  - africa
+  - global_international
+  - Other
+
+Facet 1: narrative_frame (categorical)
+  Captures the dominant narrative frame or story type of the article, independent of subject domain or geography.
+  - event_report
+  - results_announcement
+  - conflict_or_violence
+  - product_or_release_launch
+  - financial_disclosure
+  - scientific_discovery
+  - legal_proceeding
+  - market_movement
+  - human_interest_profile
+  - Other
+
+Facet 2: temporal_orientation (categorical)
+  Captures the temporal stance of the article relative to its subject—whether it reports a just-happened event, tracks an unfolding situation, previews something scheduled, analyzes past events, or recaps completed outcomes.
+  - breaking_event
+  - ongoing_developments
+  - scheduled_upcoming
+  - retrospective_analysis
+  - results_recap
+  - Other
+
+--- Facet 0 (geographic_focus) vs curator label ---
+
+geographic_focus  united_states  middle_east  europe  asia_pacific  latin_america  africa  global_international  Other  Unlabelled
+curator_category                                                                                                                  
+Business                     89            5      16            10              1       0                     2      0           2
+Sci/Tech                     69            0       3             9              0       1                    37      6           0
+Sports                       62            1      47            10              2       0                     2      1           0
+World                        18           34      21            36              8       6                     0      0           2
+
+--- per-facet diagnostics (ag_news/toponymy_erasure) ---
+  Facet 0: clusters=13 depth=2 entropy obs=2.27 unif=3.00 delta=-0.73 bits
+  Facet 1: clusters=15 depth=2 entropy obs=2.93 unif=3.32 delta=-0.39 bits
+  Facet 2: clusters=12 depth=2 entropy obs=2.14 unif=2.58 delta=-0.44 bits
+
+  elapsed: 160.0s
+
+======================================================================
+Arm: ag_news/homemade_vanilla
+======================================================================
+naming clusters:   0%|          | 0/22 [00:00<?, ?cluster/s]naming clusters:   5%|▍         | 1/22 [00:00<00:14,  1.41cluster/s]naming clusters:  14%|█▎        | 3/22 [00:00<00:04,  4.47cluster/s]naming clusters:  50%|█████     | 11/22 [00:01<00:00, 13.18cluster/s]naming clusters:  59%|█████▉    | 13/22 [00:01<00:01,  6.66cluster/s]naming clusters: 100%|██████████| 22/22 [00:01<00:00, 11.22cluster/s]
+labeling primary_subject_domain:   0%|          | 0/500 [00:00<?, ?doc/s]labeling primary_subject_domain:   0%|          | 1/500 [00:00<04:40,  1.78doc/s]labeling primary_subject_domain:   1%|          | 4/500 [00:01<02:11,  3.78doc/s]labeling primary_subject_domain:   1%|          | 5/500 [00:02<04:16,  1.93doc/s]labeling primary_subject_domain:   4%|▎         | 18/500 [00:05<02:07,  3.79doc/s]labeling primary_subject_domain:  12%|█▏        | 61/500 [00:05<00:28, 15.67doc/s]labeling primary_subject_domain:  16%|█▌        | 81/500 [00:05<00:18, 22.58doc/s]labeling primary_subject_domain:  18%|█▊        | 88/500 [00:06<00:18, 22.69doc/s]labeling primary_subject_domain:  19%|█▉        | 94/500 [00:06<00:22, 17.77doc/s]labeling primary_subject_domain:  20%|██        | 102/500 [00:07<00:18, 21.19doc/s]labeling primary_subject_domain:  21%|██▏       | 107/500 [00:07<00:20, 19.24doc/s]labeling primary_subject_domain:  22%|██▏       | 111/500 [00:07<00:20, 19.16doc/s]labeling primary_subject_domain:  23%|██▎       | 115/500 [00:07<00:19, 19.74doc/s]labeling primary_subject_domain:  24%|██▎       | 118/500 [00:08<00:25, 15.26doc/s]labeling primary_subject_domain:  24%|██▍       | 121/500 [00:08<00:28, 13.30doc/s]labeling primary_subject_domain:  25%|██▌       | 127/500 [00:10<00:55,  6.69doc/s]labeling primary_subject_domain:  30%|███       | 150/500 [00:11<00:32, 10.70doc/s]labeling primary_subject_domain:  35%|███▌      | 175/500 [00:13<00:24, 13.44doc/s]labeling primary_subject_domain:  38%|███▊      | 192/500 [00:13<00:16, 19.05doc/s]labeling primary_subject_domain:  42%|████▏     | 208/500 [00:13<00:12, 22.99doc/s]labeling primary_subject_domain:  43%|████▎     | 213/500 [00:14<00:16, 17.71doc/s]labeling primary_subject_domain:  43%|████▎     | 217/500 [00:14<00:16, 17.47doc/s]labeling primary_subject_domain:  46%|████▋     | 232/500 [00:14<00:10, 26.38doc/s]labeling primary_subject_domain:  48%|████▊     | 238/500 [00:15<00:15, 17.45doc/s]labeling primary_subject_domain:  49%|████▉     | 244/500 [00:17<00:26,  9.67doc/s]labeling primary_subject_domain:  53%|█████▎    | 265/500 [00:17<00:15, 15.08doc/s]labeling primary_subject_domain:  57%|█████▋    | 284/500 [00:18<00:09, 23.35doc/s]labeling primary_subject_domain:  58%|█████▊    | 292/500 [00:18<00:09, 22.52doc/s]labeling primary_subject_domain:  60%|██████    | 302/500 [00:19<00:09, 20.55doc/s]labeling primary_subject_domain:  61%|██████▏   | 307/500 [00:19<00:08, 21.58doc/s]labeling primary_subject_domain:  63%|██████▎   | 316/500 [00:19<00:06, 27.47doc/s]labeling primary_subject_domain:  64%|██████▍   | 322/500 [00:19<00:07, 22.98doc/s]labeling primary_subject_domain:  65%|██████▌   | 327/500 [00:21<00:16, 10.44doc/s]labeling primary_subject_domain:  67%|██████▋   | 336/500 [00:21<00:11, 14.58doc/s]labeling primary_subject_domain:  71%|███████   | 355/500 [00:21<00:05, 26.99doc/s]labeling primary_subject_domain:  73%|███████▎  | 363/500 [00:22<00:08, 16.98doc/s]labeling primary_subject_domain:  74%|███████▍  | 372/500 [00:22<00:06, 21.17doc/s]labeling primary_subject_domain:  76%|███████▌  | 378/500 [00:22<00:05, 23.07doc/s]labeling primary_subject_domain:  77%|███████▋  | 383/500 [00:23<00:05, 23.31doc/s]labeling primary_subject_domain:  78%|███████▊  | 388/500 [00:26<00:20,  5.50doc/s]labeling primary_subject_domain:  82%|████████▏ | 409/500 [00:26<00:07, 11.59doc/s]labeling primary_subject_domain:  88%|████████▊ | 439/500 [00:27<00:03, 17.07doc/s]labeling primary_subject_domain:  89%|████████▉ | 447/500 [00:31<00:06,  8.31doc/s]labeling primary_subject_domain:  98%|█████████▊| 488/500 [00:31<00:00, 17.92doc/s]labeling primary_subject_domain: 100%|█████████▉| 498/500 [00:32<00:00, 14.12doc/s]labeling primary_subject_domain: 100%|██████████| 500/500 [00:32<00:00, 15.22doc/s]
+naming clusters:   0%|          | 0/22 [00:00<?, ?cluster/s]naming clusters:   5%|▍         | 1/22 [00:00<00:18,  1.14cluster/s]naming clusters:   9%|▉         | 2/22 [00:01<00:15,  1.32cluster/s]naming clusters:  41%|████      | 9/22 [00:04<00:05,  2.21cluster/s]naming clusters: 100%|██████████| 22/22 [00:04<00:00,  5.06cluster/s]
+labeling geographic_focus:   0%|          | 0/500 [00:00<?, ?doc/s]labeling geographic_focus:   0%|          | 1/500 [00:00<03:33,  2.34doc/s]labeling geographic_focus:   1%|          | 3/500 [00:00<01:15,  6.58doc/s]labeling geographic_focus:   1%|          | 5/500 [00:00<01:09,  7.12doc/s]labeling geographic_focus:   2%|▏         | 11/500 [00:00<00:28, 17.17doc/s]labeling geographic_focus:   3%|▎         | 17/500 [00:01<00:35, 13.44doc/s]labeling geographic_focus:   6%|▌         | 29/500 [00:01<00:17, 26.71doc/s]labeling geographic_focus:   7%|▋         | 34/500 [00:01<00:22, 20.92doc/s]labeling geographic_focus:   8%|▊         | 39/500 [00:02<00:30, 15.36doc/s]labeling geographic_focus:   9%|▉         | 44/500 [00:03<00:34, 13.21doc/s]labeling geographic_focus:  11%|█▏        | 57/500 [00:03<00:25, 17.42doc/s]labeling geographic_focus:  12%|█▏        | 60/500 [00:03<00:27, 16.22doc/s]labeling geographic_focus:  14%|█▎        | 68/500 [00:04<00:21, 20.31doc/s]labeling geographic_focus:  14%|█▍        | 71/500 [00:04<00:25, 17.03doc/s]labeling geographic_focus:  16%|█▌        | 81/500 [00:04<00:16, 25.80doc/s]labeling geographic_focus:  17%|█▋        | 85/500 [00:08<01:39,  4.18doc/s]labeling geographic_focus:  30%|███       | 150/500 [00:10<00:24, 14.55doc/s]labeling geographic_focus:  35%|███▌      | 176/500 [00:11<00:17, 18.30doc/s]labeling geographic_focus:  39%|███▉      | 195/500 [00:11<00:14, 21.70doc/s]labeling geographic_focus:  41%|████      | 206/500 [00:12<00:12, 22.94doc/s]labeling geographic_focus:  43%|████▎     | 213/500 [00:12<00:11, 25.09doc/s]labeling geographic_focus:  44%|████▎     | 218/500 [00:13<00:16, 17.32doc/s]labeling geographic_focus:  46%|████▌     | 229/500 [00:13<00:12, 22.51doc/s]labeling geographic_focus:  47%|████▋     | 235/500 [00:14<00:16, 16.04doc/s]labeling geographic_focus:  48%|████▊     | 242/500 [00:19<00:57,  4.48doc/s]labeling geographic_focus:  61%|██████▏   | 307/500 [00:19<00:11, 17.02doc/s]labeling geographic_focus:  63%|██████▎   | 317/500 [00:21<00:13, 13.80doc/s]labeling geographic_focus:  69%|██████▉   | 346/500 [00:22<00:09, 15.68doc/s]labeling geographic_focus:  71%|███████▏  | 357/500 [00:23<00:08, 17.21doc/s]labeling geographic_focus:  75%|███████▌  | 377/500 [00:24<00:07, 16.96doc/s]labeling geographic_focus:  76%|███████▌  | 381/500 [00:26<00:12,  9.62doc/s]labeling geographic_focus:  88%|████████▊ | 442/500 [00:27<00:02, 23.47doc/s]labeling geographic_focus:  90%|█████████ | 452/500 [00:27<00:01, 24.35doc/s]labeling geographic_focus:  92%|█████████▏| 458/500 [00:28<00:01, 21.23doc/s]labeling geographic_focus:  93%|█████████▎| 463/500 [00:33<00:05,  6.93doc/s]labeling geographic_focus:  94%|█████████▎| 468/500 [00:33<00:04,  7.46doc/s]labeling geographic_focus: 100%|██████████| 500/500 [00:33<00:00, 14.99doc/s]
+naming clusters:   0%|          | 0/19 [00:00<?, ?cluster/s]naming clusters:   5%|▌         | 1/19 [00:00<00:12,  1.48cluster/s]naming clusters:  16%|█▌        | 3/19 [00:00<00:04,  3.60cluster/s]naming clusters:  58%|█████▊    | 11/19 [00:01<00:00, 12.22cluster/s]naming clusters: 100%|██████████| 19/19 [00:01<00:00, 21.25cluster/s]naming clusters: 100%|██████████| 19/19 [00:01<00:00, 13.83cluster/s]
+labeling narrative_event_type:   0%|          | 0/500 [00:00<?, ?doc/s]labeling narrative_event_type:   0%|          | 1/500 [00:00<04:03,  2.05doc/s]labeling narrative_event_type:   1%|          | 3/500 [00:00<01:49,  4.55doc/s]labeling narrative_event_type:   1%|          | 5/500 [00:00<01:20,  6.18doc/s]labeling narrative_event_type:   2%|▏         | 8/500 [00:01<00:49,  9.97doc/s]labeling narrative_event_type:   2%|▏         | 11/500 [00:01<01:23,  5.88doc/s]labeling narrative_event_type:   5%|▌         | 27/500 [00:02<00:21, 21.61doc/s]labeling narrative_event_type:   6%|▋         | 32/500 [00:02<00:18, 24.64doc/s]labeling narrative_event_type:   7%|▋         | 37/500 [00:03<00:39, 11.78doc/s]labeling narrative_event_type:   9%|▉         | 46/500 [00:03<00:27, 16.72doc/s]labeling narrative_event_type:  11%|█         | 53/500 [00:03<00:20, 21.54doc/s]labeling narrative_event_type:  12%|█▏        | 58/500 [00:08<02:01,  3.65doc/s]labeling narrative_event_type:  24%|██▍       | 122/500 [00:09<00:22, 16.81doc/s]labeling narrative_event_type:  26%|██▌       | 130/500 [00:09<00:22, 16.66doc/s]labeling narrative_event_type:  29%|██▉       | 145/500 [00:09<00:17, 20.34doc/s]labeling narrative_event_type:  30%|███       | 150/500 [00:11<00:27, 12.59doc/s]labeling narrative_event_type:  36%|███▌      | 181/500 [00:11<00:13, 23.57doc/s]labeling narrative_event_type:  38%|███▊      | 192/500 [00:12<00:14, 21.20doc/s]labeling narrative_event_type:  40%|████      | 200/500 [00:12<00:15, 19.97doc/s]labeling narrative_event_type:  41%|████      | 206/500 [00:13<00:14, 20.82doc/s]labeling narrative_event_type:  42%|████▏     | 211/500 [00:13<00:15, 18.74doc/s]labeling narrative_event_type:  44%|████▍     | 219/500 [00:13<00:12, 22.40doc/s]labeling narrative_event_type:  45%|████▍     | 224/500 [00:13<00:12, 22.32doc/s]labeling narrative_event_type:  46%|████▌     | 228/500 [00:14<00:18, 14.61doc/s]labeling narrative_event_type:  48%|████▊     | 241/500 [00:14<00:10, 23.57doc/s]labeling narrative_event_type:  49%|████▉     | 246/500 [00:15<00:12, 19.92doc/s]labeling narrative_event_type:  50%|█████     | 250/500 [00:15<00:17, 14.69doc/s]labeling narrative_event_type:  51%|█████     | 256/500 [00:16<00:19, 12.78doc/s]labeling narrative_event_type:  52%|█████▏    | 260/500 [00:16<00:16, 14.88doc/s]labeling narrative_event_type:  54%|█████▍    | 270/500 [00:16<00:10, 22.39doc/s]labeling narrative_event_type:  55%|█████▌    | 276/500 [00:17<00:13, 16.64doc/s]labeling narrative_event_type:  57%|█████▋    | 287/500 [00:17<00:08, 24.85doc/s]labeling narrative_event_type:  58%|█████▊    | 292/500 [00:19<00:21,  9.77doc/s]labeling narrative_event_type:  61%|██████▏   | 307/500 [00:20<00:16, 12.01doc/s]labeling narrative_event_type:  64%|██████▍   | 321/500 [00:21<00:16, 10.89doc/s]labeling narrative_event_type:  66%|██████▌   | 329/500 [00:25<00:30,  5.54doc/s]labeling narrative_event_type:  80%|███████▉  | 399/500 [00:25<00:05, 19.79doc/s]labeling narrative_event_type:  83%|████████▎ | 413/500 [00:25<00:03, 22.91doc/s]labeling narrative_event_type:  84%|████████▍ | 420/500 [00:26<00:03, 23.46doc/s]labeling narrative_event_type:  85%|████████▌ | 426/500 [00:26<00:03, 21.46doc/s]labeling narrative_event_type:  86%|████████▋ | 432/500 [00:26<00:02, 23.21doc/s]labeling narrative_event_type:  87%|████████▋ | 437/500 [00:27<00:04, 15.62doc/s]labeling narrative_event_type:  90%|█████████ | 451/500 [00:27<00:02, 21.02doc/s]labeling narrative_event_type:  91%|█████████ | 455/500 [00:28<00:02, 20.85doc/s]labeling narrative_event_type:  92%|█████████▏| 459/500 [00:28<00:02, 18.72doc/s]labeling narrative_event_type:  93%|█████████▎| 466/500 [00:29<00:02, 11.66doc/s]labeling narrative_event_type:  96%|█████████▌| 481/500 [00:29<00:01, 17.38doc/s]labeling narrative_event_type:  98%|█████████▊| 491/500 [00:30<00:00, 22.81doc/s]labeling narrative_event_type:  99%|█████████▉| 496/500 [00:31<00:00, 13.05doc/s]labeling narrative_event_type: 100%|██████████| 500/500 [00:31<00:00, 16.03doc/s]
+
+--- Schema (ag_news/homemade_vanilla) ---
+
+Facet 0: primary_subject_domain (categorical)
+  Categorizes each news article by the primary subject domain it covers.
+  - politics_and_government
+  - armed_conflict_and_terrorism
+  - business_and_finance
+  - science_and_environment
+  - technology
+  - sports
+  - natural_disasters
+  - Other
+
+Facet 1: geographic_focus (categorical)
+  The primary geographic region where the events reported in the article take place or are centered.
+  - united_states
+  - middle_east
+  - europe
+  - asia_pacific
+  - global_international
+  - Other
+
+Facet 2: narrative_event_type (categorical)
+  Captures the type of underlying news event being reported, independent of subject matter or geography.
+  - competitive_outcome
+  - financial_disclosure
+  - crisis_or_conflict
+  - legal_proceeding
+  - policy_or_negotiation
+  - scandal_or_investigation
+  - milestone_achievement
+  - market_movement
+  - Other
+
+--- Facet 0 (primary_subject_domain) vs curator label ---
+
+primary_subject_domain  politics_and_government  armed_conflict_and_terrorism  business_and_finance  science_and_environment  technology  sports  natural_disasters  Other  Unlabelled
+curator_category                                                                                                                                                                      
+Business                                      7                             0                   114                        0           1       0                  3      0           0
+Sci/Tech                                      2                             0                    40                       30          50       0                  2      1           0
+Sports                                        1                             0                     0                        0           0     122                  0      2           0
+World                                        48                            44                    10                        2           0       6                  7      7           1
+
+--- per-facet diagnostics (ag_news/homemade_vanilla) ---
+  Facet 0: clusters=22 depth=1 entropy obs=2.55 unif=3.00 delta=-0.45 bits
+  Facet 1: clusters=22 depth=1 entropy obs=2.23 unif=2.58 delta=-0.36 bits
+  Facet 2: clusters=19 depth=1 entropy obs=2.98 unif=3.17 delta=-0.19 bits
+
+  elapsed: 113.8s
+
+======================================================================
+Arm: ag_news/homemade_erasure
+======================================================================
+naming clusters:   0%|          | 0/22 [00:00<?, ?cluster/s]naming clusters:   5%|▍         | 1/22 [00:00<00:13,  1.52cluster/s]naming clusters:  32%|███▏      | 7/22 [00:00<00:01,  9.35cluster/s]naming clusters:  50%|█████     | 11/22 [00:01<00:00, 13.91cluster/s]naming clusters:  64%|██████▎   | 14/22 [00:01<00:00, 13.18cluster/s]naming clusters:  91%|█████████ | 20/22 [00:01<00:00, 15.15cluster/s]naming clusters: 100%|██████████| 22/22 [00:01<00:00, 15.28cluster/s]naming clusters: 100%|██████████| 22/22 [00:01<00:00, 12.58cluster/s]
+labeling geographic_focus:   0%|          | 0/500 [00:00<?, ?doc/s]labeling geographic_focus:   0%|          | 1/500 [00:00<03:31,  2.36doc/s]labeling geographic_focus:   1%|          | 3/500 [00:00<01:42,  4.86doc/s]labeling geographic_focus:   1%|          | 4/500 [00:00<01:40,  4.93doc/s]labeling geographic_focus:   3%|▎         | 15/500 [00:00<00:19, 25.44doc/s]labeling geographic_focus:   4%|▍         | 20/500 [00:01<00:21, 22.51doc/s]labeling geographic_focus:   5%|▍         | 24/500 [00:01<00:26, 17.79doc/s]labeling geographic_focus:   6%|▌         | 30/500 [00:01<00:19, 23.81doc/s]labeling geographic_focus:   7%|▋         | 34/500 [00:01<00:21, 21.43doc/s]labeling geographic_focus:   7%|▋         | 37/500 [00:03<01:15,  6.10doc/s]labeling geographic_focus:  12%|█▏        | 60/500 [00:03<00:24, 18.02doc/s]labeling geographic_focus:  13%|█▎        | 65/500 [00:10<01:59,  3.64doc/s]labeling geographic_focus:  34%|███▍      | 172/500 [00:10<00:14, 23.03doc/s]labeling geographic_focus:  39%|███▉      | 194/500 [00:13<00:18, 16.61doc/s]labeling geographic_focus:  45%|████▌     | 227/500 [00:13<00:12, 21.91doc/s]labeling geographic_focus:  48%|████▊     | 241/500 [00:18<00:23, 10.86doc/s]labeling geographic_focus:  61%|██████    | 305/500 [00:18<00:09, 20.48doc/s]labeling geographic_focus:  63%|██████▎   | 317/500 [00:19<00:09, 20.20doc/s]labeling geographic_focus:  65%|██████▌   | 326/500 [00:23<00:17, 10.20doc/s]labeling geographic_focus:  80%|███████▉  | 398/500 [00:24<00:05, 19.49doc/s]labeling geographic_focus:  85%|████████▍ | 423/500 [00:25<00:03, 22.24doc/s]labeling geographic_focus:  86%|████████▌ | 429/500 [00:26<00:03, 18.42doc/s]labeling geographic_focus:  89%|████████▉ | 445/500 [00:26<00:02, 20.99doc/s]labeling geographic_focus:  92%|█████████▏| 458/500 [00:27<00:01, 23.06doc/s]labeling geographic_focus:  93%|█████████▎| 463/500 [00:27<00:01, 23.16doc/s]labeling geographic_focus:  93%|█████████▎| 467/500 [00:28<00:02, 16.48doc/s]labeling geographic_focus:  97%|█████████▋| 487/500 [00:28<00:00, 26.01doc/s]labeling geographic_focus:  99%|█████████▉| 494/500 [00:29<00:00, 18.28doc/s]labeling geographic_focus: 100%|█████████▉| 499/500 [00:29<00:00, 17.28doc/s]labeling geographic_focus: 100%|██████████| 500/500 [00:29<00:00, 16.79doc/s]
+naming clusters:   0%|          | 0/21 [00:00<?, ?cluster/s]naming clusters:   5%|▍         | 1/21 [00:00<00:12,  1.56cluster/s]naming clusters:  24%|██▍       | 5/21 [00:01<00:03,  4.71cluster/s]naming clusters:  57%|█████▋    | 12/21 [00:02<00:01,  4.88cluster/s]naming clusters: 100%|██████████| 21/21 [00:02<00:00,  8.08cluster/s]
+labeling narrative_tone:   0%|          | 0/500 [00:00<?, ?doc/s]labeling narrative_tone:   0%|          | 1/500 [00:00<04:05,  2.03doc/s]labeling narrative_tone:   2%|▏         | 8/500 [00:01<00:54,  9.01doc/s]labeling narrative_tone:   3%|▎         | 13/500 [00:01<00:46, 10.42doc/s]labeling narrative_tone:   3%|▎         | 15/500 [00:01<01:02,  7.71doc/s]labeling narrative_tone:   5%|▌         | 26/500 [00:02<00:30, 15.35doc/s]labeling narrative_tone:   6%|▌         | 31/500 [00:02<00:29, 16.05doc/s]labeling narrative_tone:   8%|▊         | 41/500 [00:02<00:19, 23.87doc/s]labeling narrative_tone:   9%|▉         | 45/500 [00:02<00:22, 19.89doc/s]labeling narrative_tone:  10%|█         | 51/500 [00:03<00:20, 21.77doc/s]labeling narrative_tone:  11%|█         | 54/500 [00:05<01:18,  5.68doc/s]labeling narrative_tone:  17%|█▋        | 83/500 [00:08<00:54,  7.69doc/s]labeling narrative_tone:  30%|███       | 150/500 [00:09<00:15, 23.03doc/s]labeling narrative_tone:  31%|███       | 156/500 [00:09<00:15, 21.98doc/s]labeling narrative_tone:  32%|███▏      | 161/500 [00:09<00:14, 22.74doc/s]labeling narrative_tone:  33%|███▎      | 166/500 [00:10<00:15, 20.97doc/s]labeling narrative_tone:  35%|███▌      | 177/500 [00:10<00:15, 21.05doc/s]labeling narrative_tone:  37%|███▋      | 186/500 [00:10<00:12, 24.90doc/s]labeling narrative_tone:  38%|███▊      | 190/500 [00:14<00:47,  6.54doc/s]labeling narrative_tone:  40%|███▉      | 199/500 [00:15<00:38,  7.73doc/s]labeling narrative_tone:  50%|████▉     | 248/500 [00:15<00:10, 23.14doc/s]labeling narrative_tone:  51%|█████     | 256/500 [00:15<00:09, 25.47doc/s]labeling narrative_tone:  53%|█████▎    | 263/500 [00:15<00:09, 24.20doc/s]labeling narrative_tone:  54%|█████▍    | 269/500 [00:16<00:09, 24.28doc/s]labeling narrative_tone:  55%|█████▍    | 274/500 [00:16<00:13, 17.06doc/s]labeling narrative_tone:  57%|█████▋    | 286/500 [00:17<00:09, 23.42doc/s]labeling narrative_tone:  58%|█████▊    | 291/500 [00:20<00:35,  5.96doc/s]labeling narrative_tone:  65%|██████▌   | 327/500 [00:23<00:18,  9.27doc/s]labeling narrative_tone:  70%|███████   | 350/500 [00:23<00:10, 13.70doc/s]labeling narrative_tone:  77%|███████▋  | 384/500 [00:23<00:04, 23.38doc/s]labeling narrative_tone:  79%|███████▉  | 395/500 [00:24<00:04, 22.97doc/s]labeling narrative_tone:  81%|████████  | 404/500 [00:25<00:05, 18.88doc/s]labeling narrative_tone:  83%|████████▎ | 413/500 [00:25<00:04, 21.51doc/s]labeling narrative_tone:  84%|████████▍ | 420/500 [00:25<00:03, 23.82doc/s]labeling narrative_tone:  85%|████████▌ | 426/500 [00:26<00:03, 20.22doc/s]labeling narrative_tone:  87%|████████▋ | 434/500 [00:26<00:02, 24.54doc/s]labeling narrative_tone:  88%|████████▊ | 439/500 [00:27<00:03, 15.69doc/s]labeling narrative_tone:  89%|████████▉ | 447/500 [00:27<00:02, 19.00doc/s]labeling narrative_tone:  90%|█████████ | 451/500 [00:28<00:04, 10.40doc/s]labeling narrative_tone:  94%|█████████▎| 468/500 [00:29<00:02, 15.50doc/s]labeling narrative_tone:  96%|█████████▌| 481/500 [00:29<00:01, 18.62doc/s]labeling narrative_tone:  97%|█████████▋| 484/500 [00:29<00:00, 19.24doc/s]labeling narrative_tone:  99%|█████████▉| 497/500 [00:29<00:00, 28.05doc/s]labeling narrative_tone: 100%|██████████| 500/500 [00:30<00:00, 16.48doc/s]
+naming clusters:   0%|          | 0/19 [00:00<?, ?cluster/s]naming clusters:   5%|▌         | 1/19 [00:01<00:24,  1.38s/cluster]naming clusters:  79%|███████▉  | 15/19 [00:01<00:00, 13.77cluster/s]naming clusters: 100%|██████████| 19/19 [00:01<00:00, 12.72cluster/s]
+labeling temporal_orientation:   0%|          | 0/500 [00:00<?, ?doc/s]labeling temporal_orientation:   0%|          | 1/500 [00:00<04:15,  1.95doc/s]labeling temporal_orientation:   1%|          | 4/500 [00:00<01:11,  6.97doc/s]labeling temporal_orientation:   2%|▏         | 11/500 [00:00<00:33, 14.70doc/s]labeling temporal_orientation:   3%|▎         | 14/500 [00:01<00:30, 15.75doc/s]labeling temporal_orientation:   4%|▍         | 21/500 [00:01<00:22, 20.91doc/s]labeling temporal_orientation:   5%|▍         | 24/500 [00:03<01:28,  5.37doc/s]labeling temporal_orientation:  10%|█         | 50/500 [00:03<00:25, 17.97doc/s]labeling temporal_orientation:  11%|█         | 54/500 [00:04<00:31, 14.16doc/s]labeling temporal_orientation:  12%|█▏        | 59/500 [00:04<00:26, 16.40doc/s]labeling temporal_orientation:  14%|█▍        | 69/500 [00:08<01:17,  5.54doc/s]labeling temporal_orientation:  22%|██▏       | 110/500 [00:10<00:36, 10.61doc/s]labeling temporal_orientation:  28%|██▊       | 141/500 [00:12<00:29, 12.14doc/s]labeling temporal_orientation:  32%|███▏      | 162/500 [00:14<00:30, 11.01doc/s]labeling temporal_orientation:  47%|████▋     | 235/500 [00:15<00:10, 25.42doc/s]labeling temporal_orientation:  49%|████▉     | 245/500 [00:16<00:11, 22.04doc/s]labeling temporal_orientation:  52%|█████▏    | 259/500 [00:16<00:11, 21.71doc/s]labeling temporal_orientation:  53%|█████▎    | 265/500 [00:18<00:15, 15.00doc/s]labeling temporal_orientation:  58%|█████▊    | 288/500 [00:18<00:09, 21.98doc/s]labeling temporal_orientation:  59%|█████▉    | 297/500 [00:19<00:11, 17.77doc/s]labeling temporal_orientation:  61%|██████    | 306/500 [00:20<00:11, 17.20doc/s]labeling temporal_orientation:  63%|██████▎   | 315/500 [00:20<00:09, 19.52doc/s]labeling temporal_orientation:  64%|██████▍   | 322/500 [00:20<00:08, 19.90doc/s]labeling temporal_orientation:  67%|██████▋   | 334/500 [00:20<00:06, 25.84doc/s]labeling temporal_orientation:  68%|██████▊   | 339/500 [00:21<00:10, 16.09doc/s]labeling temporal_orientation:  70%|██████▉   | 348/500 [00:22<00:10, 14.00doc/s]labeling temporal_orientation:  71%|███████   | 355/500 [00:24<00:16,  8.67doc/s]labeling temporal_orientation:  73%|███████▎  | 364/500 [00:27<00:24,  5.52doc/s]labeling temporal_orientation:  84%|████████▎ | 418/500 [00:27<00:04, 18.86doc/s]labeling temporal_orientation:  87%|████████▋ | 436/500 [00:28<00:03, 19.85doc/s]labeling temporal_orientation:  88%|████████▊ | 442/500 [00:29<00:03, 15.37doc/s]labeling temporal_orientation:  92%|█████████▏| 461/500 [00:29<00:01, 20.70doc/s]labeling temporal_orientation:  94%|█████████▍| 469/500 [00:29<00:01, 21.35doc/s]labeling temporal_orientation:  95%|█████████▍| 474/500 [00:30<00:01, 16.77doc/s]labeling temporal_orientation:  98%|█████████▊| 491/500 [00:30<00:00, 23.98doc/s]labeling temporal_orientation:  99%|█████████▉| 496/500 [00:31<00:00, 22.16doc/s]labeling temporal_orientation: 100%|██████████| 500/500 [00:32<00:00, 12.98doc/s]labeling temporal_orientation: 100%|██████████| 500/500 [00:32<00:00, 15.46doc/s]
+
+--- Schema (ag_news/homemade_erasure) ---
+
+Facet 0: geographic_focus (categorical)
+  The primary geographic region or setting where the events described in the article take place.
+  - united_states
+  - middle_east
+  - europe
+  - asia
+  - global_or_multinational
+  - outer_space
+  - Other
+
+Facet 1: narrative_tone (categorical)
+  Captures the dominant narrative framing or tone of the article, indicating whether it reports on a crisis, conflict, achievement, financial outcome, controversy, announcement, or legal/investigative matter.
+  - crisis_or_disaster
+  - conflict_or_violence
+  - achievement_or_victory
+  - financial_performance
+  - scandal_or_controversy
+  - announcement_or_launch
+  - investigation_or_legal_proceeding
+  - Other
+
+Facet 2: temporal_orientation (categorical)
+  Captures the temporal stance of the article relative to the events it covers, distinguishing immediate breaking news from ongoing coverage, retrospectives, forecasts, and pre-scheduled announcements.
+  - breaking_event
+  - ongoing_developments
+  - retrospective_analysis
+  - forward_looking_forecast
+  - scheduled_announcement
+  - Other
+
+--- Facet 0 (geographic_focus) vs curator label ---
+
+geographic_focus  united_states  middle_east  europe  asia  global_or_multinational  outer_space  Other  Unlabelled
+curator_category                                                                                                   
+Business                     90            6      15     9                        2            1      0           2
+Sci/Tech                     66            0       3     9                       24           12     10           1
+Sports                       60            1      52     7                        2            0      2           1
+World                        17           36      23    35                        0            0      3          11
+
+--- per-facet diagnostics (ag_news/homemade_erasure) ---
+  Facet 0: clusters=22 depth=1 entropy obs=2.31 unif=2.81 delta=-0.50 bits
+  Facet 1: clusters=21 depth=1 entropy obs=2.57 unif=3.00 delta=-0.43 bits
+  Facet 2: clusters=19 depth=1 entropy obs=1.95 unif=2.58 delta=-0.64 bits
+
+  elapsed: 108.7s
+
+Wrote artifact: experiments/artifacts/runs/toponymy_vs_homemade_ag_news_20260425_011921.json
+
+=== Summary ===
+  ag_news            toponymy_vanilla       (167.0s)  facets: ['subject_domain', 'geographic_scope', 'narrative_tone']
+  ag_news            toponymy_erasure       (160.0s)  facets: ['geographic_focus', 'narrative_frame', 'temporal_orientation']
+  ag_news            homemade_vanilla       (113.8s)  facets: ['primary_subject_domain', 'geographic_focus', 'narrative_event_type']
+  ag_news            homemade_erasure       (108.7s)  facets: ['geographic_focus', 'narrative_tone', 'temporal_orientation']

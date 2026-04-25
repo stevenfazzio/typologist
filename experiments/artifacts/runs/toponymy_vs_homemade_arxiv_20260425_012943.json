@@ -1,0 +1,1180 @@
+{
+  "corpus": "arxiv_abstracts",
+  "n_docs": 332,
+  "embedding_dim": 384,
+  "metadata_column": "primary_category",
+  "random_state": 0,
+  "n_facets": 3,
+  "arms": [
+    {
+      "label": "toponymy_vanilla",
+      "use_toponymy": true,
+      "erasure": false,
+      "schema": [
+        {
+          "name": "primary_application_domain",
+          "kind": "categorical",
+          "values": [
+            "robotics_and_embodied_ai",
+            "natural_language_processing",
+            "computer_vision_and_multimodal",
+            "scientific_and_medical_imaging",
+            "distributed_and_federated_systems",
+            "reinforcement_learning_and_decision_making",
+            "ai_safety_and_alignment",
+            "Other"
+          ],
+          "definition": "The primary application domain or problem area that the machine-learning paper targets.",
+          "labeling_prompt_template": "Classify the following scientific paper along the \"primary_application_domain\" dimension.\n\nThe primary application domain or problem area that the machine-learning paper targets.\n\nChoose exactly one of: robotics_and_embodied_ai, natural_language_processing, computer_vision_and_multimodal, scientific_and_medical_imaging, distributed_and_federated_systems, reinforcement_learning_and_decision_making, ai_safety_and_alignment, Other\n\nscientific paper:\n{document}\n\nRespond with the chosen value name only, no explanation.",
+          "labeling_model": "claude-haiku-4-5"
+        },
+        {
+          "name": "research_contribution_type",
+          "kind": "categorical",
+          "values": [
+            "novel_architecture",
+            "training_algorithm",
+            "benchmark_or_dataset",
+            "empirical_analysis",
+            "theoretical_framework",
+            "system_or_pipeline",
+            "survey_or_review",
+            "Other"
+          ],
+          "definition": "The primary type of scientific contribution the paper makes, independent of its application domain.",
+          "labeling_prompt_template": "Classify the following scientific paper along the \"research_contribution_type\" dimension.\n\nThe primary type of scientific contribution the paper makes, independent of its application domain.\n\nChoose exactly one of: novel_architecture, training_algorithm, benchmark_or_dataset, empirical_analysis, theoretical_framework, system_or_pipeline, survey_or_review, Other\n\nscientific paper:\n{document}\n\nRespond with the chosen value name only, no explanation.",
+          "labeling_model": "claude-haiku-4-5"
+        },
+        {
+          "name": "data_modality_focus",
+          "kind": "categorical",
+          "values": [
+            "text_only",
+            "vision_only",
+            "vision_language_multimodal",
+            "sensor_point_cloud",
+            "tabular_or_structured",
+            "graph_or_network",
+            "audio_speech",
+            "Other"
+          ],
+          "definition": "The primary type of input data the paper's methods operate on, distinguishing modalities such as text, images, multimodal vision-language, sensor/point-cloud, tabular, graph, or audio.",
+          "labeling_prompt_template": "Classify the following scientific paper along the \"data_modality_focus\" dimension.\n\nThe primary type of input data the paper's methods operate on, distinguishing modalities such as text, images, multimodal vision-language, sensor/point-cloud, tabular, graph, or audio.\n\nChoose exactly one of: text_only, vision_only, vision_language_multimodal, sensor_point_cloud, tabular_or_structured, graph_or_network, audio_speech, Other\n\nscientific paper:\n{document}\n\nRespond with the chosen value name only, no explanation.",
+          "labeling_model": "claude-haiku-4-5"
+        }
+      ],
+      "diagnostics_summary": [
+        {
+          "cluster_count": 8,
+          "hierarchy_depth": 1,
+          "entropy_bits": {
+            "observed": 2.765595729503814,
+            "uniform": 3.0,
+            "delta": -0.23440427049618595
+          }
+        },
+        {
+          "cluster_count": 7,
+          "hierarchy_depth": 1,
+          "entropy_bits": {
+            "observed": 2.5310598815879293,
+            "uniform": 3.0,
+            "delta": -0.46894011841207073
+          }
+        },
+        {
+          "cluster_count": 5,
+          "hierarchy_depth": 1,
+          "entropy_bits": {
+            "observed": 2.4408808290196653,
+            "uniform": 3.0,
+            "delta": -0.5591191709803347
+          }
+        }
+      ],
+      "crosstab_facet0_vs_category": {
+        "rows": [
+          "cs.AI",
+          "cs.CL",
+          "cs.CV",
+          "cs.LG",
+          "cs.RO",
+          "stat.ML"
+        ],
+        "columns": [
+          "robotics_and_embodied_ai",
+          "natural_language_processing",
+          "computer_vision_and_multimodal",
+          "scientific_and_medical_imaging",
+          "distributed_and_federated_systems",
+          "reinforcement_learning_and_decision_making",
+          "ai_safety_and_alignment",
+          "Other",
+          "Unlabelled"
+        ],
+        "values": [
+          [
+            1,
+            10,
+            0,
+            1,
+            1,
+            7,
+            4,
+            0,
+            0
+          ],
+          [
+            0,
+            59,
+            2,
+            8,
+            0,
+            5,
+            7,
+            2,
+            0
+          ],
+          [
+            11,
+            2,
+            58,
+            11,
+            0,
+            1,
+            0,
+            0,
+            0
+          ],
+          [
+            1,
+            12,
+            15,
+            14,
+            9,
+            19,
+            1,
+            11,
+            1
+          ],
+          [
+            26,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            3,
+            5,
+            1,
+            6,
+            3,
+            15,
+            0
+          ]
+        ]
+      },
+      "exemplars": [
+        {
+          "facet_name": "primary_application_domain",
+          "values": {
+            "robotics_and_embodied_ai": [
+              "Scaling Sim-to-Real Reinforcement Learning for Robot VLAs with Generative 3D Worlds\n\nThe strong performance of large vision-language models (VLMs) trained with reinforcement learning (RL) has motivated similar approaches for fine-tuning vis...",
+              "Towards Generalizable Robotic Manipulation in Dynamic Environments\n\nVision-Language-Action (VLA) models excel in static manipulation but struggle in dynamic environments with moving targets. This performance gap primarily stems from a scarc...",
+              "SceneTeract: Agentic Functional Affordances and VLM Grounding in 3D Scenes\n\nEmbodied AI depends on interactive 3D environments that support meaningful activities for diverse users, yet assessing their functional affordances remains a core c..."
+            ],
+            "natural_language_processing": [
+              "Beyond Facts: Benchmarking Distributional Reading Comprehension in Large Language Models\n\nWhile most reading comprehension benchmarks for LLMs focus on factual information that can be answered by localizing specific textual evidence, many r...",
+              "PMIScore: An Unsupervised Approach to Quantify Dialogue Engagement\n\nHigh dialogue engagement is a crucial indicator of an effective conversation. A reliable measure of engagement could help benchmark large language models, enhance the effec...",
+              "Diverging Transformer Predictions for Human Sentence Processing: A Comprehensive Analysis of Agreement Attraction Effects\n\nTransformers underlie almost all state-of-the-art language models in computational linguistics, yet their cognitive a..."
+            ],
+            "computer_vision_and_multimodal": [
+              "SJD-PV: Speculative Jacobi Decoding with Phrase Verification for Autoregressive Image Generation\n\nAutoregressive (AR) image models have recently demonstrated remarkable generative capability, but their sequential nature results in significa...",
+              "T-QPM: Enabling Temporal Out-Of-Distribution Detection and Domain Generalization for Vision-Language Models in Open-World\n\nOut-of-distribution (OOD) detection remains a critical challenge in open-world learning, where models must adapt to e...",
+              "BiCLIP: Domain Canonicalization via Structured Geometric Transformation\n\nRecent advances in vision-language models (VLMs) have demonstrated remarkable zero-shot capabilities, yet adapting these models to specialized domains remains a signif..."
+            ],
+            "scientific_and_medical_imaging": [
+              "Survival In-Context: Prior-fitted In-context Learning Tabular Foundation Model for Survival Analysis\n\nSurvival analysis is crucial for many medical applications but remains challenging for modern machine learning due to limited data, censor...",
+              "Toward Clinically Ready Foundation Models in Medical Image Analysis: Adaptation Mechanisms and Deployment Trade-offs\n\nFoundation models (FMs) have demonstrated strong transferability across medical imaging tasks, yet their clinical utility ...",
+              "Pathology-Aware Multi-View Contrastive Learning for Patient-Independent ECG Reconstruction\n\nReconstructing a 12-lead electrocardiogram (ECG) from a reduced lead set is an ill-posed inverse problem due to anatomical variability. Standard dee..."
+            ],
+            "distributed_and_federated_systems": [
+              "Few-for-Many Personalized Federated Learning\n\nPersonalized Federated Learning (PFL) aims to train customized models for clients with highly heterogeneous data distributions while preserving data privacy. Existing approaches often rely on he...",
+              "Loss Gap Parity for Fairness in Heterogeneous Federated Learning\n\nWhile clients may join federated learning to improve performance on data they rarely observe locally, they often remain self-interested, expecting the global model to perform...",
+              "QuantFL: Sustainable Federated Learning for Edge IoT via Pre-Trained Model Quantisation\n\nFederated Learning (FL) enables privacy-preserving intelligence on Internet of Things (IoT) devices but incurs a significant carbon footprint due to th..."
+            ],
+            "reinforcement_learning_and_decision_making": [
+              "How Far Can Unsupervised RLVR Scale LLM Training?\n\nUnsupervised reinforcement learning with verifiable rewards (URLVR) offers a pathway to scale LLM training beyond the supervision bottleneck by deriving rewards without ground truth labels....",
+              "Alternating Reinforcement Learning with Contextual Rubric Rewards\n\nReinforcement Learning with Rubric Rewards (RLRR) is a framework that extends conventional reinforcement learning from human feedback (RLHF) and verifiable rewards (RLVR) by...",
+              "Counteractive RL: Rethinking Core Principles for Efficient and Scalable Deep Reinforcement Learning\n\nFollowing the pivotal success of learning strategies to win at tasks, solely by interacting with an environment without any supervision, ag..."
+            ],
+            "ai_safety_and_alignment": [
+              "Silent Commitment Failure in Instruction-Tuned Language Models: Evidence of Governability Divergence Across Architectures\n\nAs large language models are deployed as autonomous agents with tool execution privileges, a critical assumption unde...",
+              "Can Safety Emerge from Weak Supervision? A Systematic Analysis of Small Language Models\n\nSafety alignment is critical for deploying large language models (LLMs) in real-world applications, yet most existing approaches rely on large human-an...",
+              "IH-Challenge: A Training Dataset to Improve Instruction Hierarchy on Frontier LLMs\n\nInstruction hierarchy (IH) defines how LLMs prioritize system, developer, user, and tool instructions under conflict, providing a concrete, trust-ordered po..."
+            ],
+            "Other": [
+              "The Rules-and-Facts Model for Simultaneous Generalization and Memorization in Neural Networks\n\nA key capability of modern neural networks is their capacity to simultaneously learn underlying rules and memorize specific facts or exceptions. ...",
+              "Transformers Trained via Gradient Descent Can Provably Learn a Class of Teacher Models\n\nTransformers have achieved great success across a wide range of applications, yet the theoretical foundations underlying their success remain largely un...",
+              "Embedding World Knowledge into Tabular Models: Towards Best Practices for Embedding Pipeline Design\n\nEmbeddings are a powerful way to enrich data-driven machine learning models with the world knowledge of large language models (LLMs). Yet, ..."
+            ]
+          }
+        },
+        {
+          "facet_name": "research_contribution_type",
+          "values": {
+            "novel_architecture": [
+              "Chameleon: Episodic Memory for Long-Horizon Robotic Manipulation\n\nRobotic manipulation often requires memory: occlusion and state changes can make decision-time observations perceptually aliased, making action selection non-Markovian at the...",
+              "LAD-Drive: Bridging Language and Trajectory with Action-Aware Diffusion Transformers\n\nWhile multimodal large language models (MLLMs) provide advanced reasoning for autonomous driving, translating their discrete semantic knowledge into conti...",
+              "SpatialStack: Layered Geometry-Language Fusion for 3D VLM Spatial Reasoning\n\nLarge vision-language models (VLMs) still struggle with reliable 3D spatial reasoning, a core capability for embodied and physical AI systems. This limitation aris..."
+            ],
+            "training_algorithm": [
+              "PowerFlow: Unlocking the Dual Nature of LLMs via Principled Distribution Matching\n\nUnsupervised Reinforcement Learning from Internal Feedback (RLIF) has emerged as a promising paradigm for eliciting the latent capabilities of Large Language...",
+              "SJD-PV: Speculative Jacobi Decoding with Phrase Verification for Autoregressive Image Generation\n\nAutoregressive (AR) image models have recently demonstrated remarkable generative capability, but their sequential nature results in significa...",
+              "TableMind++: An Uncertainty-Aware Programmatic Agent for Tool-Augmented Table Reasoning\n\nTable reasoning requires models to jointly perform semantic understanding and precise numerical operations. Most existing methods rely on a single-turn..."
+            ],
+            "benchmark_or_dataset": [
+              "MedSPOT: A Workflow-Aware Sequential Grounding Benchmark for Clinical GUI\n\nDespite the rapid progress of Multimodal Large Language Models (MLLMs), their ability to perform reliable visual grounding in high-stakes clinical software environme...",
+              "Towards Generalizable Robotic Manipulation in Dynamic Environments\n\nVision-Language-Action (VLA) models excel in static manipulation but struggle in dynamic environments with moving targets. This performance gap primarily stems from a scarc...",
+              "Beyond Idealized Patients: Evaluating LLMs under Challenging Patient Behaviors in Medical Consultations\n\nLarge language models (LLMs) are increasingly used for medical consultation and health information support. In this high-stakes setting..."
+            ],
+            "empirical_analysis": [
+              "Signals of Success and Struggle: Early Prediction and Physiological Signatures of Human Performance across Task Complexity\n\nUser performance is crucial in interactive systems, capturing how effectively users engage with task execution. Pros...",
+              "Probing Visual Concepts in Lightweight Vision-Language Models for Automated Driving\n\nThe use of Vision-Language Models (VLMs) in automated driving applications is becoming increasingly common, with the aim of leveraging their reasoning and ...",
+              "Diverging Transformer Predictions for Human Sentence Processing: A Comprehensive Analysis of Agreement Attraction Effects\n\nTransformers underlie almost all state-of-the-art language models in computational linguistics, yet their cognitive a..."
+            ],
+            "theoretical_framework": [
+              "Neural Uncertainty Principle: A Unified View of Adversarial Fragility and LLM Hallucination\n\nAdversarial vulnerability in vision and hallucination in large language models are conventionally viewed as separate problems, each addressed with ...",
+              "How Far Can Unsupervised RLVR Scale LLM Training?\n\nUnsupervised reinforcement learning with verifiable rewards (URLVR) offers a pathway to scale LLM training beyond the supervision bottleneck by deriving rewards without ground truth labels....",
+              "Transformers Trained via Gradient Descent Can Provably Learn a Class of Teacher Models\n\nTransformers have achieved great success across a wide range of applications, yet the theoretical foundations underlying their success remain largely un..."
+            ],
+            "system_or_pipeline": [
+              "SceneTeract: Agentic Functional Affordances and VLM Grounding in 3D Scenes\n\nEmbodied AI depends on interactive 3D environments that support meaningful activities for diverse users, yet assessing their functional affordances remains a core c...",
+              "Vision Verification Enhanced Fusion of VLMs for Efficient Visual Reasoning\n\nWith the growing number and diversity of Vision-Language Models (VLMs), many works explore language-based ensemble, collaboration, and routing techniques across mul...",
+              "Scaling Sim-to-Real Reinforcement Learning for Robot VLAs with Generative 3D Worlds\n\nThe strong performance of large vision-language models (VLMs) trained with reinforcement learning (RL) has motivated similar approaches for fine-tuning vis..."
+            ],
+            "survey_or_review": [
+              "Toward Clinically Ready Foundation Models in Medical Image Analysis: Adaptation Mechanisms and Deployment Trade-offs\n\nFoundation models (FMs) have demonstrated strong transferability across medical imaging tasks, yet their clinical utility ...",
+              "SoK: Agentic Retrieval-Augmented Generation (RAG): Taxonomy, Architectures, Evaluation, and Research Directions\n\nRetrieval-Augmented Generation (RAG) systems are increasingly evolving into agentic architectures where large language models a...",
+              "Empowering Epidemic Response: The Role of Reinforcement Learning in Infectious Disease Control\n\nReinforcement learning (RL), owing to its adaptability to various dynamic systems in many real-world scenarios and the capability of maximizing ..."
+            ],
+            "Other": []
+          }
+        },
+        {
+          "facet_name": "data_modality_focus",
+          "values": {
+            "text_only": [
+              "Position: Vector Prompt Interfaces Should Be Exposed to Enable Customization of Large Language Models\n\nAs large language models (LLMs) transition from research prototypes to real-world systems, customization has emerged as a central bottlen...",
+              "How Far Can Unsupervised RLVR Scale LLM Training?\n\nUnsupervised reinforcement learning with verifiable rewards (URLVR) offers a pathway to scale LLM training beyond the supervision bottleneck by deriving rewards without ground truth labels....",
+              "PowerFlow: Unlocking the Dual Nature of LLMs via Principled Distribution Matching\n\nUnsupervised Reinforcement Learning from Internal Feedback (RLIF) has emerged as a promising paradigm for eliciting the latent capabilities of Large Language..."
+            ],
+            "vision_only": [
+              "Toward Clinically Ready Foundation Models in Medical Image Analysis: Adaptation Mechanisms and Deployment Trade-offs\n\nFoundation models (FMs) have demonstrated strong transferability across medical imaging tasks, yet their clinical utility ...",
+              "SJD-PV: Speculative Jacobi Decoding with Phrase Verification for Autoregressive Image Generation\n\nAutoregressive (AR) image models have recently demonstrated remarkable generative capability, but their sequential nature results in significa...",
+              "Rethinking Camera Choice: An Empirical Study on Fisheye Camera Properties in Robotic Manipulation\n\nThe adoption of fisheye cameras in robotic manipulation, driven by their exceptionally wide Field of View (FoV), is rapidly outpacing a syste..."
+            ],
+            "vision_language_multimodal": [
+              "MedSPOT: A Workflow-Aware Sequential Grounding Benchmark for Clinical GUI\n\nDespite the rapid progress of Multimodal Large Language Models (MLLMs), their ability to perform reliable visual grounding in high-stakes clinical software environme...",
+              "Towards Generalizable Robotic Manipulation in Dynamic Environments\n\nVision-Language-Action (VLA) models excel in static manipulation but struggle in dynamic environments with moving targets. This performance gap primarily stems from a scarc...",
+              "FairLLaVA: Fairness-Aware Parameter-Efficient Fine-Tuning for Large Vision-Language Assistants\n\nWhile powerful in image-conditioned generation, multimodal large language models (MLLMs) can display uneven performance across demographic group..."
+            ],
+            "sensor_point_cloud": [
+              "Signals of Success and Struggle: Early Prediction and Physiological Signatures of Human Performance across Task Complexity\n\nUser performance is crucial in interactive systems, capturing how effectively users engage with task execution. Pros...",
+              "Closed-Loop Action Chunks with Dynamic Corrections for Training-Free Diffusion Policy\n\nDiffusion-based policies have achieved remarkable results in robotic manipulation but often struggle to adapt rapidly in dynamic scenarios, leading to de...",
+              "Tele-Catch: Adaptive Teleoperation for Dexterous Dynamic 3D Object Catching\n\nTeleoperation is a key paradigm for transferring human dexterity to robots, yet most prior work targets objects that are initially static, such as grasping or mani..."
+            ],
+            "tabular_or_structured": [
+              "Survival In-Context: Prior-fitted In-context Learning Tabular Foundation Model for Survival Analysis\n\nSurvival analysis is crucial for many medical applications but remains challenging for modern machine learning due to limited data, censor...",
+              "Key-Embedded Privacy for Decentralized AI in Biomedical Omics\n\nThe rapid adoption of data-driven methods in biomedicine has intensified concerns over privacy, governance, and regulation, limiting raw data sharing and hindering the assembly ...",
+              "TableMind++: An Uncertainty-Aware Programmatic Agent for Tool-Augmented Table Reasoning\n\nTable reasoning requires models to jointly perform semantic understanding and precise numerical operations. Most existing methods rely on a single-turn..."
+            ],
+            "graph_or_network": [
+              "Gaussian Process Limit Reveals Structural Benefits of Graph Transformers\n\nGraph transformers are the state-of-the-art for learning from graph-structured data and are empirically known to avoid several pitfalls of message-passing architectur...",
+              "Contextual Graph Representations for Task-Driven 3D Perception and Planning\n\nRecent advances in computer vision facilitate fully automatic extraction of object-centric relational representations from visual-inertial data. These state repres...",
+              "Resource-constrained Amazons chess decision framework integrating large language models and graph attention\n\nArtificial intelligence has advanced significantly through the development of intelligent game-playing systems, providing rigorous ..."
+            ],
+            "audio_speech": [
+              "Polyglot-Lion: Efficient Multilingual ASR for Singapore via Balanced Fine-Tuning of Qwen3-ASR\n\nWe present Polyglot-Lion, a family of compact multilingual automatic speech recognition (ASR) models tailored for the linguistic landscape of Sin...",
+              "The Talking Robot: Distortion-Robust Acoustic Models for Robot-Robot Communication\n\nWe present Artoo, a learned acoustic communication system for robots that replaces hand-designed signal processing with end-to-end co-trained neural network...",
+              "WAND: Windowed Attention and Knowledge Distillation for Efficient Autoregressive Text-to-Speech Models\n\nRecent decoder-only autoregressive text-to-speech (AR-TTS) models produce high-fidelity speech, but their memory and compute costs scale..."
+            ],
+            "Other": [
+              "Empowering Epidemic Response: The Role of Reinforcement Learning in Infectious Disease Control\n\nReinforcement learning (RL), owing to its adaptability to various dynamic systems in many real-world scenarios and the capability of maximizing ...",
+              "Agile Interception of a Flying Target using Competitive Reinforcement Learning\n\nThis article presents a solution to intercept an agile drone by another agile drone carrying a catching net. We formulate the interception as a Competitive Rein...",
+              "High-Probability Bounds for SGD under the Polyak-Lojasiewicz Condition with Markovian Noise\n\nWe present the first uniform-in-time high-probability bound for SGD under the PL condition, where the gradient noise contains both Markovian and ma..."
+            ]
+          }
+        }
+      ],
+      "elapsed_seconds": 118.13812971115112
+    },
+    {
+      "label": "toponymy_erasure",
+      "use_toponymy": true,
+      "erasure": true,
+      "schema": [
+        {
+          "name": "research_contribution_type",
+          "kind": "categorical",
+          "values": [
+            "new_algorithm_or_method",
+            "benchmark_or_dataset",
+            "empirical_study_or_analysis",
+            "theoretical_framework",
+            "system_or_application",
+            "survey_or_position",
+            "Other"
+          ],
+          "definition": "The primary type of scholarly contribution the paper makes, distinguishing methodological proposals from datasets, empirical analyses, theory, deployed systems, and surveys.",
+          "labeling_prompt_template": "Classify the following scientific paper along the \"research_contribution_type\" dimension.\n\nThe primary type of scholarly contribution the paper makes, distinguishing methodological proposals from datasets, empirical analyses, theory, deployed systems, and surveys.\n\nChoose exactly one of: new_algorithm_or_method, benchmark_or_dataset, empirical_study_or_analysis, theoretical_framework, system_or_application, survey_or_position, Other\n\nscientific paper:\n{document}\n\nRespond with the chosen value name only, no explanation.",
+          "labeling_model": "claude-haiku-4-5"
+        },
+        {
+          "name": "evaluation_methodology",
+          "kind": "categorical",
+          "values": [
+            "benchmark_leaderboard_comparison",
+            "ablation_study_driven",
+            "human_evaluation",
+            "real_world_deployment_case_study",
+            "theoretical_analysis_with_proofs",
+            "synthetic_controlled_experiments",
+            "Other"
+          ],
+          "definition": "Captures the dominant empirical or analytical strategy used to validate the paper's claims.",
+          "labeling_prompt_template": "Classify the following scientific paper along the \"evaluation_methodology\" dimension.\n\nCaptures the dominant empirical or analytical strategy used to validate the paper's claims.\n\nChoose exactly one of: benchmark_leaderboard_comparison, ablation_study_driven, human_evaluation, real_world_deployment_case_study, theoretical_analysis_with_proofs, synthetic_controlled_experiments, Other\n\nscientific paper:\n{document}\n\nRespond with the chosen value name only, no explanation.",
+          "labeling_model": "claude-haiku-4-5"
+        },
+        {
+          "name": "application_domain",
+          "kind": "categorical",
+          "values": [
+            "healthcare_and_clinical",
+            "robotics_and_embodied_ai",
+            "finance_and_economics",
+            "education_and_human_performance",
+            "scientific_discovery",
+            "software_and_code",
+            "general_purpose_nlp",
+            "computer_vision_perception",
+            "Other"
+          ],
+          "definition": "The real-world application domain or target use case that the paper's methods are designed for or evaluated on.",
+          "labeling_prompt_template": "Classify the following scientific paper along the \"application_domain\" dimension.\n\nThe real-world application domain or target use case that the paper's methods are designed for or evaluated on.\n\nChoose exactly one of: healthcare_and_clinical, robotics_and_embodied_ai, finance_and_economics, education_and_human_performance, scientific_discovery, software_and_code, general_purpose_nlp, computer_vision_perception, Other\n\nscientific paper:\n{document}\n\nRespond with the chosen value name only, no explanation.",
+          "labeling_model": "claude-haiku-4-5"
+        }
+      ],
+      "diagnostics_summary": [
+        {
+          "cluster_count": 9,
+          "hierarchy_depth": 1,
+          "entropy_bits": {
+            "observed": 1.7911369945808933,
+            "uniform": 2.807354922057604,
+            "delta": -1.016217927476711
+          }
+        },
+        {
+          "cluster_count": 7,
+          "hierarchy_depth": 1,
+          "entropy_bits": {
+            "observed": 2.1131249028121175,
+            "uniform": 2.807354922057604,
+            "delta": -0.6942300192454867
+          }
+        },
+        {
+          "cluster_count": 7,
+          "hierarchy_depth": 1,
+          "entropy_bits": {
+            "observed": 2.814563638233135,
+            "uniform": 3.169925001442312,
+            "delta": -0.3553613632091772
+          }
+        }
+      ],
+      "crosstab_facet0_vs_category": {
+        "rows": [
+          "cs.AI",
+          "cs.CL",
+          "cs.CV",
+          "cs.LG",
+          "cs.RO",
+          "stat.ML"
+        ],
+        "columns": [
+          "new_algorithm_or_method",
+          "benchmark_or_dataset",
+          "empirical_study_or_analysis",
+          "theoretical_framework",
+          "system_or_application",
+          "survey_or_position"
+        ],
+        "values": [
+          [
+            15,
+            2,
+            3,
+            1,
+            2,
+            1
+          ],
+          [
+            33,
+            20,
+            20,
+            3,
+            6,
+            1
+          ],
+          [
+            57,
+            14,
+            6,
+            0,
+            5,
+            1
+          ],
+          [
+            60,
+            1,
+            10,
+            7,
+            4,
+            1
+          ],
+          [
+            18,
+            2,
+            1,
+            0,
+            5,
+            0
+          ],
+          [
+            18,
+            0,
+            1,
+            14,
+            0,
+            0
+          ]
+        ]
+      },
+      "exemplars": [
+        {
+          "facet_name": "research_contribution_type",
+          "values": {
+            "new_algorithm_or_method": [
+              "PowerFlow: Unlocking the Dual Nature of LLMs via Principled Distribution Matching\n\nUnsupervised Reinforcement Learning from Internal Feedback (RLIF) has emerged as a promising paradigm for eliciting the latent capabilities of Large Language...",
+              "Scaling Sim-to-Real Reinforcement Learning for Robot VLAs with Generative 3D Worlds\n\nThe strong performance of large vision-language models (VLMs) trained with reinforcement learning (RL) has motivated similar approaches for fine-tuning vis...",
+              "Policy-Guided World Model Planning for Language-Conditioned Visual Navigation\n\nNavigating to a visually specified goal given natural language instructions remains a fundamental challenge in embodied AI. Existing approaches either rely on re..."
+            ],
+            "benchmark_or_dataset": [
+              "Towards Generalizable Robotic Manipulation in Dynamic Environments\n\nVision-Language-Action (VLA) models excel in static manipulation but struggle in dynamic environments with moving targets. This performance gap primarily stems from a scarc...",
+              "UniICL: Systematizing Unified Multimodal In-context Learning through a Capability-Oriented Taxonomy\n\nIn-context Learning enables training-free adaptation via demonstrations but remains highly sensitive to example selection and formatting. I...",
+              "AMemGym: Interactive Memory Benchmarking for Assistants in Long-Horizon Conversations\n\nLong-horizon interactions between users and LLM-based assistants necessitate effective memory management, yet current approaches face challenges in train..."
+            ],
+            "empirical_study_or_analysis": [
+              "Probing Visual Concepts in Lightweight Vision-Language Models for Automated Driving\n\nThe use of Vision-Language Models (VLMs) in automated driving applications is becoming increasingly common, with the aim of leveraging their reasoning and ...",
+              "The Cost of Reasoning: Chain-of-Thought Induces Overconfidence in Vision-Language Models\n\nVision-language models (VLMs) are increasingly deployed in high-stakes settings where reliable uncertainty quantification (UQ) is as important as pred...",
+              "How Far Can Unsupervised RLVR Scale LLM Training?\n\nUnsupervised reinforcement learning with verifiable rewards (URLVR) offers a pathway to scale LLM training beyond the supervision bottleneck by deriving rewards without ground truth labels...."
+            ],
+            "theoretical_framework": [
+              "Gradient Flow Polarizes Softmax Outputs towards Low-Entropy Solutions\n\nUnderstanding the intricate non-convex training dynamics of softmax-based models is crucial for explaining the empirical success of transformers. In this article, we ana...",
+              "The Rules-and-Facts Model for Simultaneous Generalization and Memorization in Neural Networks\n\nA key capability of modern neural networks is their capacity to simultaneously learn underlying rules and memorize specific facts or exceptions. ...",
+              "Transformers Trained via Gradient Descent Can Provably Learn a Class of Teacher Models\n\nTransformers have achieved great success across a wide range of applications, yet the theoretical foundations underlying their success remain largely un..."
+            ],
+            "system_or_application": [
+              "SceneTeract: Agentic Functional Affordances and VLM Grounding in 3D Scenes\n\nEmbodied AI depends on interactive 3D environments that support meaningful activities for diverse users, yet assessing their functional affordances remains a core c...",
+              "MAGNET: Autonomous Expert Model Generation via Decentralized Autoresearch and BitNet Training\n\nWe present MAGNET (Model Autonomously Growing Network), a decentralized system for autonomous generation, training, and serving of domain-expert ...",
+              "AOI: Turning Failed Trajectories into Training Signals for Autonomous Cloud Diagnosis\n\nLarge language model (LLM) agents offer a promising data-driven approach to automating Site Reliability Engineering (SRE), yet their enterprise deploymen..."
+            ],
+            "survey_or_position": [
+              "SoK: Agentic Retrieval-Augmented Generation (RAG): Taxonomy, Architectures, Evaluation, and Research Directions\n\nRetrieval-Augmented Generation (RAG) systems are increasingly evolving into agentic architectures where large language models a...",
+              "Toward Clinically Ready Foundation Models in Medical Image Analysis: Adaptation Mechanisms and Deployment Trade-offs\n\nFoundation models (FMs) have demonstrated strong transferability across medical imaging tasks, yet their clinical utility ...",
+              "Position: Vector Prompt Interfaces Should Be Exposed to Enable Customization of Large Language Models\n\nAs large language models (LLMs) transition from research prototypes to real-world systems, customization has emerged as a central bottlen..."
+            ],
+            "Other": []
+          }
+        },
+        {
+          "facet_name": "evaluation_methodology",
+          "values": {
+            "benchmark_leaderboard_comparison": [
+              "Towards Generalizable Robotic Manipulation in Dynamic Environments\n\nVision-Language-Action (VLA) models excel in static manipulation but struggle in dynamic environments with moving targets. This performance gap primarily stems from a scarc...",
+              "A Simple Efficiency Incremental Learning Framework via Vision-Language Model with Nonlinear Multi-Adapters\n\nIncremental Learning (IL) aims to learn new tasks while preserving previously acquired knowledge. Integrating the zero-shot learning...",
+              "RASPRef: Retrieval-Augmented Self-Supervised Prompt Refinement for Large Reasoning Models\n\nRecent reasoning-focused language models such as DeepSeek R1 and OpenAI o1 have demonstrated strong performance on structured reasoning benchmarks in..."
+            ],
+            "ablation_study_driven": [
+              "How Far Can Unsupervised RLVR Scale LLM Training?\n\nUnsupervised reinforcement learning with verifiable rewards (URLVR) offers a pathway to scale LLM training beyond the supervision bottleneck by deriving rewards without ground truth labels....",
+              "C2F-Thinker: Coarse-to-Fine Reasoning with Hint-Guided Reinforcement Learning for Multimodal Sentiment Analysis\n\nMultimodal sentiment analysis aims to integrate textual, acoustic, and visual information for deep emotional understanding. Des...",
+              "Breaking Contextual Inertia: Reinforcement Learning with Single-Turn Anchors for Stable Multi-Turn Interaction\n\nWhile LLMs demonstrate strong reasoning capabilities when provided with full information in a single turn, they exhibit substant..."
+            ],
+            "human_evaluation": [
+              "Multilingual KokoroChat: A Multi-LLM Ensemble Translation Method for Creating a Multilingual Counseling Dialogue Dataset\n\nTo address the critical scarcity of high-quality, publicly available counseling dialogue datasets, we created Multilin...",
+              "Mind the Gap: Pitfalls of LLM Alignment with Asian Public Opinion\n\nLarge Language Models (LLMs) are increasingly being deployed in multilingual, multicultural settings, yet their reliance on predominantly English-centric training data risks...",
+              "Reference-Free Image Quality Assessment for Virtual Try-On via Human Feedback\n\nGiven a person image and a garment image, image-based Virtual Try-ON (VTON) synthesizes a try-on image of the person wearing the target garment. As VTON systems ..."
+            ],
+            "real_world_deployment_case_study": [
+              "Chameleon: Episodic Memory for Long-Horizon Robotic Manipulation\n\nRobotic manipulation often requires memory: occlusion and state changes can make decision-time observations perceptually aliased, making action selection non-Markovian at the...",
+              "PhyGile: Physics-Prefix Guided Motion Generation for Agile General Humanoid Motion Tracking\n\nHumanoid robots are expected to execute agile and expressive whole-body motions in real-world settings. Existing text-to-motion generation models a...",
+              "REFINE-DP: Diffusion Policy Fine-tuning for Humanoid Loco-manipulation via Reinforcement Learning\n\nHumanoid loco-manipulation requires coordinated high-level motion plans with stable, low-level whole-body execution under complex robot-envir..."
+            ],
+            "theoretical_analysis_with_proofs": [
+              "PowerFlow: Unlocking the Dual Nature of LLMs via Principled Distribution Matching\n\nUnsupervised Reinforcement Learning from Internal Feedback (RLIF) has emerged as a promising paradigm for eliciting the latent capabilities of Large Language...",
+              "Sharpness-Aware Minimization in Logit Space Efficiently Enhances Direct Preference Optimization\n\nDirect Preference Optimization (DPO) has emerged as a popular algorithm for aligning pretrained large language models with human preferences, o...",
+              "Toward Clinically Ready Foundation Models in Medical Image Analysis: Adaptation Mechanisms and Deployment Trade-offs\n\nFoundation models (FMs) have demonstrated strong transferability across medical imaging tasks, yet their clinical utility ..."
+            ],
+            "synthetic_controlled_experiments": [
+              "Probing Visual Concepts in Lightweight Vision-Language Models for Automated Driving\n\nThe use of Vision-Language Models (VLMs) in automated driving applications is becoming increasingly common, with the aim of leveraging their reasoning and ...",
+              "SJD-PV: Speculative Jacobi Decoding with Phrase Verification for Autoregressive Image Generation\n\nAutoregressive (AR) image models have recently demonstrated remarkable generative capability, but their sequential nature results in significa...",
+              "Scaling Sim-to-Real Reinforcement Learning for Robot VLAs with Generative 3D Worlds\n\nThe strong performance of large vision-language models (VLMs) trained with reinforcement learning (RL) has motivated similar approaches for fine-tuning vis..."
+            ],
+            "Other": [
+              "A Multilingual Human Annotated Corpus of Original and Easy-to-Read Texts to Support Access to Democratic Participatory Processes\n\nBeing able to understand information is a key factor for a self-determined life and society. It is also very i...",
+              "IWLV-Ramayana: A Sarga-Aligned Parallel Corpus of Valmiki's Ramayana Across Indian Languages\n\nThe Ramayana is among the most influential literary traditions of South and Southeast Asia, transmitted across numerous linguistic and cultural co...",
+              "Empowering Epidemic Response: The Role of Reinforcement Learning in Infectious Disease Control\n\nReinforcement learning (RL), owing to its adaptability to various dynamic systems in many real-world scenarios and the capability of maximizing ..."
+            ]
+          }
+        },
+        {
+          "facet_name": "application_domain",
+          "values": {
+            "healthcare_and_clinical": [
+              "Survival In-Context: Prior-fitted In-context Learning Tabular Foundation Model for Survival Analysis\n\nSurvival analysis is crucial for many medical applications but remains challenging for modern machine learning due to limited data, censor...",
+              "Multilingual KokoroChat: A Multi-LLM Ensemble Translation Method for Creating a Multilingual Counseling Dialogue Dataset\n\nTo address the critical scarcity of high-quality, publicly available counseling dialogue datasets, we created Multilin...",
+              "Calibrated Confidence Expression for Radiology Report Generation\n\nSafe deployment of Large Vision-Language Models (LVLMs) in radiology report generation requires not only accurate predictions but also clinically interpretable indicators of ..."
+            ],
+            "robotics_and_embodied_ai": [
+              "Probing Visual Concepts in Lightweight Vision-Language Models for Automated Driving\n\nThe use of Vision-Language Models (VLMs) in automated driving applications is becoming increasingly common, with the aim of leveraging their reasoning and ...",
+              "Scaling Sim-to-Real Reinforcement Learning for Robot VLAs with Generative 3D Worlds\n\nThe strong performance of large vision-language models (VLMs) trained with reinforcement learning (RL) has motivated similar approaches for fine-tuning vis...",
+              "SceneTeract: Agentic Functional Affordances and VLM Grounding in 3D Scenes\n\nEmbodied AI depends on interactive 3D environments that support meaningful activities for diverse users, yet assessing their functional affordances remains a core c..."
+            ],
+            "finance_and_economics": [
+              "Embedding-Aware Feature Discovery: Bridging Latent Representations and Interpretable Features in Event Sequences\n\nIndustrial financial systems operate on temporal event sequences such as transactions, user actions, and system logs. While re...",
+              "The Price Reversal Phenomenon: When Cheaper Reasoning Models End Up Costing More\n\nDevelopers and consumers increasingly choose reasoning language models (RLMs) based on their listed API prices. However, how accurately do these prices reflec...",
+              "Robust and Consistent Ski Rental with Distributional Advice\n\nThe ski rental problem is a canonical model for online decision-making under uncertainty, capturing the fundamental trade-off between repeated rental costs and a one-time purchase..."
+            ],
+            "education_and_human_performance": [
+              "A Multilingual Human Annotated Corpus of Original and Easy-to-Read Texts to Support Access to Democratic Participatory Processes\n\nBeing able to understand information is a key factor for a self-determined life and society. It is also very i...",
+              "Predicting States of Understanding in Explanatory Interactions Using Cognitive Load-Related Linguistic Cues\n\nWe investigate how verbal and nonverbal linguistic features, exhibited by speakers and listeners in dialogue, can contribute to pre...",
+              "When AI Meets Early Childhood Education: Large Language Models as Assessment Teammates in Chinese Preschools\n\nHigh-quality teacher-child interaction (TCI) is fundamental to early childhood development, yet traditional expert-based assessmen..."
+            ],
+            "scientific_discovery": [
+              "UniICL: Systematizing Unified Multimodal In-context Learning through a Capability-Oriented Taxonomy\n\nIn-context Learning enables training-free adaptation via demonstrations but remains highly sensitive to example selection and formatting. I...",
+              "Diverging Transformer Predictions for Human Sentence Processing: A Comprehensive Analysis of Agreement Attraction Effects\n\nTransformers underlie almost all state-of-the-art language models in computational linguistics, yet their cognitive a...",
+              "RASPRef: Retrieval-Augmented Self-Supervised Prompt Refinement for Large Reasoning Models\n\nRecent reasoning-focused language models such as DeepSeek R1 and OpenAI o1 have demonstrated strong performance on structured reasoning benchmarks in..."
+            ],
+            "software_and_code": [
+              "AE-LLM: Adaptive Efficiency Optimization for Large Language Models\n\nLarge Language Models (LLMs) have achieved remarkable success across diverse applications, yet their deployment remains challenging due to substantial computational costs, ...",
+              "Behavioral Steering in a 35B MoE Language Model via SAE-Decoded Probe Vectors: One Agency Axis, Not Five Traits\n\nWe train nine sparse autoencoders (SAEs) on the residual stream of Qwen 3.5-35B-A3B, a 35-billion-parameter Mixture-of-Experts ...",
+              "MAGNET: Autonomous Expert Model Generation via Decentralized Autoresearch and BitNet Training\n\nWe present MAGNET (Model Autonomously Growing Network), a decentralized system for autonomous generation, training, and serving of domain-expert ..."
+            ],
+            "general_purpose_nlp": [
+              "PowerFlow: Unlocking the Dual Nature of LLMs via Principled Distribution Matching\n\nUnsupervised Reinforcement Learning from Internal Feedback (RLIF) has emerged as a promising paradigm for eliciting the latent capabilities of Large Language...",
+              "Generative Score Inference for Multimodal Data\n\nAccurate uncertainty quantification is crucial for making reliable decisions in various supervised learning scenarios, particularly when dealing with complex, multimodal data such as images an...",
+              "How Far Can Unsupervised RLVR Scale LLM Training?\n\nUnsupervised reinforcement learning with verifiable rewards (URLVR) offers a pathway to scale LLM training beyond the supervision bottleneck by deriving rewards without ground truth labels...."
+            ],
+            "computer_vision_perception": [
+              "SJD-PV: Speculative Jacobi Decoding with Phrase Verification for Autoregressive Image Generation\n\nAutoregressive (AR) image models have recently demonstrated remarkable generative capability, but their sequential nature results in significa...",
+              "The Cost of Reasoning: Chain-of-Thought Induces Overconfidence in Vision-Language Models\n\nVision-language models (VLMs) are increasingly deployed in high-stakes settings where reliable uncertainty quantification (UQ) is as important as pred...",
+              "A Simple Efficiency Incremental Learning Framework via Vision-Language Model with Nonlinear Multi-Adapters\n\nIncremental Learning (IL) aims to learn new tasks while preserving previously acquired knowledge. Integrating the zero-shot learning..."
+            ],
+            "Other": [
+              "Resource-constrained Amazons chess decision framework integrating large language models and graph attention\n\nArtificial intelligence has advanced significantly through the development of intelligent game-playing systems, providing rigorous ...",
+              "Towards Automated Community Notes Generation with Large Vision Language Models for Combating Contextual Deception\n\nCommunity Notes have emerged as an effective crowd-sourced mechanism for combating online deception on social media platforms...",
+              "Stochastic Sequential Decision Making over Expanding Networks with Graph Filtering\n\nGraph filters leverage topological information to process networked data with existing methods mainly studying fixed graphs, ignoring that graphs often expa..."
+            ]
+          }
+        }
+      ],
+      "elapsed_seconds": 112.76759195327759
+    },
+    {
+      "label": "homemade_vanilla",
+      "use_toponymy": false,
+      "erasure": false,
+      "schema": [
+        {
+          "name": "primary_application_domain",
+          "kind": "categorical",
+          "values": [
+            "natural_language_processing",
+            "computer_vision",
+            "multimodal_vision_language",
+            "robotics_and_control",
+            "medical_imaging",
+            "graph_learning",
+            "causal_inference",
+            "ml_theory_and_optimization",
+            "Other"
+          ],
+          "definition": "The primary application domain or problem area that the paper targets with its machine learning contributions.",
+          "labeling_prompt_template": "Classify the following scientific paper along the \"primary_application_domain\" dimension.\n\nThe primary application domain or problem area that the paper targets with its machine learning contributions.\n\nChoose exactly one of: natural_language_processing, computer_vision, multimodal_vision_language, robotics_and_control, medical_imaging, graph_learning, causal_inference, ml_theory_and_optimization, Other\n\nscientific paper:\n{document}\n\nRespond with the chosen value name only, no explanation.",
+          "labeling_model": "claude-haiku-4-5"
+        },
+        {
+          "name": "research_contribution_type",
+          "kind": "categorical",
+          "values": [
+            "new_method_or_algorithm",
+            "benchmark_or_dataset",
+            "empirical_study_or_analysis",
+            "theoretical_framework",
+            "survey_or_review",
+            "system_or_application",
+            "Other"
+          ],
+          "definition": "Captures the primary type of scholarly contribution the paper makes, independent of its application domain.",
+          "labeling_prompt_template": "Classify the following scientific paper along the \"research_contribution_type\" dimension.\n\nCaptures the primary type of scholarly contribution the paper makes, independent of its application domain.\n\nChoose exactly one of: new_method_or_algorithm, benchmark_or_dataset, empirical_study_or_analysis, theoretical_framework, survey_or_review, system_or_application, Other\n\nscientific paper:\n{document}\n\nRespond with the chosen value name only, no explanation.",
+          "labeling_model": "claude-haiku-4-5"
+        },
+        {
+          "name": "data_modality",
+          "kind": "categorical",
+          "values": [
+            "text",
+            "speech_audio",
+            "image_2d",
+            "video_motion",
+            "3d_geometry",
+            "tabular_structured",
+            "multimodal",
+            "Other"
+          ],
+          "definition": "The primary type of input/output data the paper's methods operate on.",
+          "labeling_prompt_template": "Classify the following scientific paper along the \"data_modality\" dimension.\n\nThe primary type of input/output data the paper's methods operate on.\n\nChoose exactly one of: text, speech_audio, image_2d, video_motion, 3d_geometry, tabular_structured, multimodal, Other\n\nscientific paper:\n{document}\n\nRespond with the chosen value name only, no explanation.",
+          "labeling_model": "claude-haiku-4-5"
+        }
+      ],
+      "diagnostics_summary": [
+        {
+          "cluster_count": 13,
+          "hierarchy_depth": 1,
+          "entropy_bits": {
+            "observed": 2.7793096286457146,
+            "uniform": 3.169925001442312,
+            "delta": -0.3906153727965975
+          }
+        },
+        {
+          "cluster_count": 12,
+          "hierarchy_depth": 1,
+          "entropy_bits": {
+            "observed": 1.7391354553704121,
+            "uniform": 2.807354922057604,
+            "delta": -1.068219466687192
+          }
+        },
+        {
+          "cluster_count": 15,
+          "hierarchy_depth": 1,
+          "entropy_bits": {
+            "observed": 2.3986320361065276,
+            "uniform": 3.0,
+            "delta": -0.6013679638934724
+          }
+        }
+      ],
+      "crosstab_facet0_vs_category": {
+        "rows": [
+          "cs.AI",
+          "cs.CL",
+          "cs.CV",
+          "cs.LG",
+          "cs.RO",
+          "stat.ML"
+        ],
+        "columns": [
+          "natural_language_processing",
+          "computer_vision",
+          "multimodal_vision_language",
+          "robotics_and_control",
+          "medical_imaging",
+          "graph_learning",
+          "causal_inference",
+          "ml_theory_and_optimization",
+          "Other"
+        ],
+        "values": [
+          [
+            14,
+            1,
+            1,
+            3,
+            0,
+            1,
+            1,
+            3,
+            0
+          ],
+          [
+            68,
+            1,
+            6,
+            0,
+            4,
+            0,
+            0,
+            2,
+            2
+          ],
+          [
+            0,
+            39,
+            29,
+            8,
+            6,
+            1,
+            0,
+            0,
+            0
+          ],
+          [
+            19,
+            8,
+            5,
+            6,
+            6,
+            5,
+            4,
+            22,
+            8
+          ],
+          [
+            0,
+            1,
+            1,
+            24,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            1,
+            1,
+            1,
+            2,
+            2,
+            4,
+            20,
+            2
+          ]
+        ]
+      },
+      "exemplars": [
+        {
+          "facet_name": "primary_application_domain",
+          "values": {
+            "natural_language_processing": [
+              "Beyond Facts: Benchmarking Distributional Reading Comprehension in Large Language Models\n\nWhile most reading comprehension benchmarks for LLMs focus on factual information that can be answered by localizing specific textual evidence, many r...",
+              "Synthetic Data Generation for Training Diversified Commonsense Reasoning Models\n\nConversational agents are required to respond to their users not only with high quality (i.e. commonsense bearing) responses, but also considering multiple pla...",
+              "AMemGym: Interactive Memory Benchmarking for Assistants in Long-Horizon Conversations\n\nLong-horizon interactions between users and LLM-based assistants necessitate effective memory management, yet current approaches face challenges in train..."
+            ],
+            "computer_vision": [
+              "UniDA3D: A Unified Domain-Adaptive Framework for Multi-View 3D Object Detection\n\nCamera-only 3D object detection is critical for autonomous driving, offering a cost-effective alternative to LiDAR based methods. In particular, multi-view 3D ...",
+              "Direct Reward Fine-Tuning on Poses for Single Image to 3D Human in the Wild\n\nSingle-view 3D human reconstruction has achieved remarkable progress through the adoption of multi-view diffusion models, yet the recovered 3D humans often exhibit...",
+              "Seeing Beyond: Extrapolative Domain Adaptive Panoramic Segmentation\n\nCross-domain panoramic semantic segmentation has attracted growing interest as it enables comprehensive 360\u00b0 scene understanding for real-world applications. However, it r..."
+            ],
+            "multimodal_vision_language": [
+              "UniICL: Systematizing Unified Multimodal In-context Learning through a Capability-Oriented Taxonomy\n\nIn-context Learning enables training-free adaptation via demonstrations but remains highly sensitive to example selection and formatting. I...",
+              "Beyond Static Visual Tokens: Structured Sequential Visual Chain-of-Thought Reasoning\n\nCurrent multimodal LLMs encode images as static visual prefixes and rely on text-based reasoning, lacking goal-driven and adaptive visual access. Inspired...",
+              "Vision Verification Enhanced Fusion of VLMs for Efficient Visual Reasoning\n\nWith the growing number and diversity of Vision-Language Models (VLMs), many works explore language-based ensemble, collaboration, and routing techniques across mul..."
+            ],
+            "robotics_and_control": [
+              "Scaling Sim-to-Real Reinforcement Learning for Robot VLAs with Generative 3D Worlds\n\nThe strong performance of large vision-language models (VLMs) trained with reinforcement learning (RL) has motivated similar approaches for fine-tuning vis...",
+              "Towards Generalizable Robotic Manipulation in Dynamic Environments\n\nVision-Language-Action (VLA) models excel in static manipulation but struggle in dynamic environments with moving targets. This performance gap primarily stems from a scarc...",
+              "Policy-Guided World Model Planning for Language-Conditioned Visual Navigation\n\nNavigating to a visually specified goal given natural language instructions remains a fundamental challenge in embodied AI. Existing approaches either rely on re..."
+            ],
+            "medical_imaging": [
+              "Survival In-Context: Prior-fitted In-context Learning Tabular Foundation Model for Survival Analysis\n\nSurvival analysis is crucial for many medical applications but remains challenging for modern machine learning due to limited data, censor...",
+              "Pathology-Aware Multi-View Contrastive Learning for Patient-Independent ECG Reconstruction\n\nReconstructing a 12-lead electrocardiogram (ECG) from a reduced lead set is an ill-posed inverse problem due to anatomical variability. Standard dee...",
+              "Toward Clinically Ready Foundation Models in Medical Image Analysis: Adaptation Mechanisms and Deployment Trade-offs\n\nFoundation models (FMs) have demonstrated strong transferability across medical imaging tasks, yet their clinical utility ..."
+            ],
+            "graph_learning": [
+              "Gaussian Process Limit Reveals Structural Benefits of Graph Transformers\n\nGraph transformers are the state-of-the-art for learning from graph-structured data and are empirically known to avoid several pitfalls of message-passing architectur...",
+              "Resource-constrained Amazons chess decision framework integrating large language models and graph attention\n\nArtificial intelligence has advanced significantly through the development of intelligent game-playing systems, providing rigorous ...",
+              "$P^2$GNN: Two Prototype Sets to boost GNN Performance\n\nMessage Passing Graph Neural Networks (MP-GNNs) have garnered attention for addressing various industry challenges, such as user recommendation and fraud detection. However, they face t..."
+            ],
+            "causal_inference": [
+              "A Knowledge-Informed Pretrained Model for Causal Discovery\n\nCausal discovery has been widely studied, yet many existing methods rely on strong assumptions or fall into two extremes: either depending on costly interventional signals or parti...",
+              "Beyond identifiability: Learning causal representations with few environments and finite samples\n\nWe provide explicit, finite-sample guarantees for learning causal representations from data with a sublinear number of environments. Causal re...",
+              "Causal Effects with Unobserved Unit Types in Interacting Human-AI Systems\n\nWe study experiments on interacting populations of humans and AI agents, where both unit types and the interaction network remain unobserved. Although causal effects..."
+            ],
+            "ml_theory_and_optimization": [
+              "Loss Gap Parity for Fairness in Heterogeneous Federated Learning\n\nWhile clients may join federated learning to improve performance on data they rarely observe locally, they often remain self-interested, expecting the global model to perform...",
+              "Gradient Flow Polarizes Softmax Outputs towards Low-Entropy Solutions\n\nUnderstanding the intricate non-convex training dynamics of softmax-based models is crucial for explaining the empirical success of transformers. In this article, we ana...",
+              "The Rules-and-Facts Model for Simultaneous Generalization and Memorization in Neural Networks\n\nA key capability of modern neural networks is their capacity to simultaneously learn underlying rules and memorize specific facts or exceptions. ..."
+            ],
+            "Other": [
+              "ARTEMIS: A Neuro Symbolic Framework for Economically Constrained Market Dynamics\n\nDeep learning models in quantitative finance often operate as black boxes, lacking interpretability and failing to incorporate fundamental economic principles...",
+              "An Interpretable Generative Framework for Anomaly Detection in High-Dimensional Financial Time Series\n\nDetecting structural instability and anomalies in high-dimensional financial time series is challenging due to complex temporal dependenc...",
+              "Learning with the Nash-Sutcliffe loss\n\nThe Nash-Sutcliffe efficiency ($\\text{NSE}$) is a widely used, positively oriented relative measure for evaluating forecasts across multiple time series. However, it lacks a decision-theoretic foundati..."
+            ]
+          }
+        },
+        {
+          "facet_name": "research_contribution_type",
+          "values": {
+            "new_method_or_algorithm": [
+              "Scaling Sim-to-Real Reinforcement Learning for Robot VLAs with Generative 3D Worlds\n\nThe strong performance of large vision-language models (VLMs) trained with reinforcement learning (RL) has motivated similar approaches for fine-tuning vis...",
+              "PowerFlow: Unlocking the Dual Nature of LLMs via Principled Distribution Matching\n\nUnsupervised Reinforcement Learning from Internal Feedback (RLIF) has emerged as a promising paradigm for eliciting the latent capabilities of Large Language...",
+              "Policy-Guided World Model Planning for Language-Conditioned Visual Navigation\n\nNavigating to a visually specified goal given natural language instructions remains a fundamental challenge in embodied AI. Existing approaches either rely on re..."
+            ],
+            "benchmark_or_dataset": [
+              "Towards Generalizable Robotic Manipulation in Dynamic Environments\n\nVision-Language-Action (VLA) models excel in static manipulation but struggle in dynamic environments with moving targets. This performance gap primarily stems from a scarc...",
+              "World Reasoning Arena\n\nWorld models (WMs) are intended to serve as internal simulators of the real world that enable agents to understand, anticipate, and act upon complex environments. Existing WM benchmarks remain narrowly focused on next...",
+              "Beyond Idealized Patients: Evaluating LLMs under Challenging Patient Behaviors in Medical Consultations\n\nLarge language models (LLMs) are increasingly used for medical consultation and health information support. In this high-stakes setting..."
+            ],
+            "empirical_study_or_analysis": [
+              "Probing Visual Concepts in Lightweight Vision-Language Models for Automated Driving\n\nThe use of Vision-Language Models (VLMs) in automated driving applications is becoming increasingly common, with the aim of leveraging their reasoning and ...",
+              "The Cost of Reasoning: Chain-of-Thought Induces Overconfidence in Vision-Language Models\n\nVision-language models (VLMs) are increasingly deployed in high-stakes settings where reliable uncertainty quantification (UQ) is as important as pred...",
+              "A Systematic Empirical Study of Grokking: Depth, Architecture, Activation, and Regularization\n\nGrokking the delayed transition from memorization to generalization in neural networks remains poorly understood, in part because prior empirical..."
+            ],
+            "theoretical_framework": [
+              "Gradient Flow Polarizes Softmax Outputs towards Low-Entropy Solutions\n\nUnderstanding the intricate non-convex training dynamics of softmax-based models is crucial for explaining the empirical success of transformers. In this article, we ana...",
+              "Gaussian Process Limit Reveals Structural Benefits of Graph Transformers\n\nGraph transformers are the state-of-the-art for learning from graph-structured data and are empirically known to avoid several pitfalls of message-passing architectur...",
+              "Transformers Trained via Gradient Descent Can Provably Learn a Class of Teacher Models\n\nTransformers have achieved great success across a wide range of applications, yet the theoretical foundations underlying their success remain largely un..."
+            ],
+            "survey_or_review": [
+              "SoK: Agentic Retrieval-Augmented Generation (RAG): Taxonomy, Architectures, Evaluation, and Research Directions\n\nRetrieval-Augmented Generation (RAG) systems are increasingly evolving into agentic architectures where large language models a...",
+              "Toward Clinically Ready Foundation Models in Medical Image Analysis: Adaptation Mechanisms and Deployment Trade-offs\n\nFoundation models (FMs) have demonstrated strong transferability across medical imaging tasks, yet their clinical utility ...",
+              "Empowering Epidemic Response: The Role of Reinforcement Learning in Infectious Disease Control\n\nReinforcement learning (RL), owing to its adaptability to various dynamic systems in many real-world scenarios and the capability of maximizing ..."
+            ],
+            "system_or_application": [
+              "AOI: Turning Failed Trajectories into Training Signals for Autonomous Cloud Diagnosis\n\nLarge language model (LLM) agents offer a promising data-driven approach to automating Site Reliability Engineering (SRE), yet their enterprise deploymen...",
+              "MAGNET: Autonomous Expert Model Generation via Decentralized Autoresearch and BitNet Training\n\nWe present MAGNET (Model Autonomously Growing Network), a decentralized system for autonomous generation, training, and serving of domain-expert ...",
+              "AutoStan: Autonomous Bayesian Model Improvement via Predictive Feedback\n\nWe present AutoStan, a framework in which a command-line interface (CLI) coding agent autonomously builds and iteratively improves Bayesian models written in Stan. The..."
+            ],
+            "Other": []
+          }
+        },
+        {
+          "facet_name": "data_modality",
+          "values": {
+            "text": [
+              "Gradient Flow Polarizes Softmax Outputs towards Low-Entropy Solutions\n\nUnderstanding the intricate non-convex training dynamics of softmax-based models is crucial for explaining the empirical success of transformers. In this article, we ana...",
+              "PowerFlow: Unlocking the Dual Nature of LLMs via Principled Distribution Matching\n\nUnsupervised Reinforcement Learning from Internal Feedback (RLIF) has emerged as a promising paradigm for eliciting the latent capabilities of Large Language...",
+              "How Far Can Unsupervised RLVR Scale LLM Training?\n\nUnsupervised reinforcement learning with verifiable rewards (URLVR) offers a pathway to scale LLM training beyond the supervision bottleneck by deriving rewards without ground truth labels...."
+            ],
+            "speech_audio": [
+              "Polyglot-Lion: Efficient Multilingual ASR for Singapore via Balanced Fine-Tuning of Qwen3-ASR\n\nWe present Polyglot-Lion, a family of compact multilingual automatic speech recognition (ASR) models tailored for the linguistic landscape of Sin...",
+              "The Talking Robot: Distortion-Robust Acoustic Models for Robot-Robot Communication\n\nWe present Artoo, a learned acoustic communication system for robots that replaces hand-designed signal processing with end-to-end co-trained neural network...",
+              "WAND: Windowed Attention and Knowledge Distillation for Efficient Autoregressive Text-to-Speech Models\n\nRecent decoder-only autoregressive text-to-speech (AR-TTS) models produce high-fidelity speech, but their memory and compute costs scale..."
+            ],
+            "image_2d": [
+              "Toward Clinically Ready Foundation Models in Medical Image Analysis: Adaptation Mechanisms and Deployment Trade-offs\n\nFoundation models (FMs) have demonstrated strong transferability across medical imaging tasks, yet their clinical utility ...",
+              "Resource-constrained Amazons chess decision framework integrating large language models and graph attention\n\nArtificial intelligence has advanced significantly through the development of intelligent game-playing systems, providing rigorous ...",
+              "Every Error has Its Magnitude: Asymmetric Mistake Severity Training for Multiclass Multiple Instance Learning\n\nMultiple Instance Learning (MIL) has emerged as a promising paradigm for Whole Slide Image (WSI) diagnosis, offering effective le..."
+            ],
+            "video_motion": [
+              "TIGFlow-GRPO: Trajectory Forecasting via Interaction-Aware Flow Matching and Reward-Guided Optimization\n\nHuman trajectory forecasting is important for intelligent multimedia systems operating in visually complex environments, such as autono...",
+              "Encoding Predictability and Legibility for Style-Conditioned Diffusion Policy\n\nStriking a balance between efficiency and transparent motion is a core challenge in human-robot collaboration, as highly expressive movements often incur unneces...",
+              "World Reasoning Arena\n\nWorld models (WMs) are intended to serve as internal simulators of the real world that enable agents to understand, anticipate, and act upon complex environments. Existing WM benchmarks remain narrowly focused on next..."
+            ],
+            "3d_geometry": [
+              "SceneTeract: Agentic Functional Affordances and VLM Grounding in 3D Scenes\n\nEmbodied AI depends on interactive 3D environments that support meaningful activities for diverse users, yet assessing their functional affordances remains a core c...",
+              "ManiTwin: Scaling Data-Generation-Ready Digital Object Dataset to 100K\n\nLearning in simulation provides a useful foundation for scaling robotic manipulation capabilities. However, this paradigm often suffers from a lack of data-generation-r...",
+              "CAM3R: Camera-Agnostic Model for 3D Reconstruction\n\nRecovering dense 3D geometry from unposed images remains a foundational challenge in computer vision. Current state-of-the-art models are predominantly trained on perspective datasets, whi..."
+            ],
+            "tabular_structured": [
+              "Survival In-Context: Prior-fitted In-context Learning Tabular Foundation Model for Survival Analysis\n\nSurvival analysis is crucial for many medical applications but remains challenging for modern machine learning due to limited data, censor...",
+              "TableMind++: An Uncertainty-Aware Programmatic Agent for Tool-Augmented Table Reasoning\n\nTable reasoning requires models to jointly perform semantic understanding and precise numerical operations. Most existing methods rely on a single-turn...",
+              "Embedding World Knowledge into Tabular Models: Towards Best Practices for Embedding Pipeline Design\n\nEmbeddings are a powerful way to enrich data-driven machine learning models with the world knowledge of large language models (LLMs). Yet, ..."
+            ],
+            "multimodal": [
+              "Towards Generalizable Robotic Manipulation in Dynamic Environments\n\nVision-Language-Action (VLA) models excel in static manipulation but struggle in dynamic environments with moving targets. This performance gap primarily stems from a scarc...",
+              "Scaling Sim-to-Real Reinforcement Learning for Robot VLAs with Generative 3D Worlds\n\nThe strong performance of large vision-language models (VLMs) trained with reinforcement learning (RL) has motivated similar approaches for fine-tuning vis...",
+              "Policy-Guided World Model Planning for Language-Conditioned Visual Navigation\n\nNavigating to a visually specified goal given natural language instructions remains a fundamental challenge in embodied AI. Existing approaches either rely on re..."
+            ],
+            "Other": []
+          }
+        }
+      ],
+      "elapsed_seconds": 81.96539807319641
+    },
+    {
+      "label": "homemade_erasure",
+      "use_toponymy": false,
+      "erasure": true,
+      "schema": [
+        {
+          "name": "contribution_type",
+          "kind": "categorical",
+          "values": [
+            "new_algorithm_or_model",
+            "benchmark_or_dataset",
+            "empirical_study_or_analysis",
+            "theoretical_framework",
+            "survey_or_position",
+            "application_case_study",
+            "Other"
+          ],
+          "definition": "The primary type of scientific contribution the paper makes, independent of its subject area or arxiv category.",
+          "labeling_prompt_template": "Classify the following scientific paper along the \"contribution_type\" dimension.\n\nThe primary type of scientific contribution the paper makes, independent of its subject area or arxiv category.\n\nChoose exactly one of: new_algorithm_or_model, benchmark_or_dataset, empirical_study_or_analysis, theoretical_framework, survey_or_position, application_case_study, Other\n\nscientific paper:\n{document}\n\nRespond with the chosen value name only, no explanation.",
+          "labeling_model": "claude-haiku-4-5"
+        },
+        {
+          "name": "evaluation_methodology",
+          "kind": "categorical",
+          "values": [
+            "benchmark_comparison",
+            "ablation_study",
+            "human_evaluation",
+            "theoretical_analysis",
+            "case_study",
+            "real_world_deployment",
+            "synthetic_experiments",
+            "Other"
+          ],
+          "definition": "Captures the primary empirical or analytical methodology used to validate the paper's claims.",
+          "labeling_prompt_template": "Classify the following scientific paper along the \"evaluation_methodology\" dimension.\n\nCaptures the primary empirical or analytical methodology used to validate the paper's claims.\n\nChoose exactly one of: benchmark_comparison, ablation_study, human_evaluation, theoretical_analysis, case_study, real_world_deployment, synthetic_experiments, Other\n\nscientific paper:\n{document}\n\nRespond with the chosen value name only, no explanation.",
+          "labeling_model": "claude-haiku-4-5"
+        },
+        {
+          "name": "deployment_resource_setting",
+          "kind": "categorical",
+          "values": [
+            "cloud_datacenter",
+            "edge_device",
+            "on_device_mobile",
+            "distributed_federated",
+            "embodied_robotic",
+            "hardware_agnostic_simulation",
+            "Other"
+          ],
+          "definition": "Captures the target computational/deployment environment that the paper's methods are designed for or evaluated in.",
+          "labeling_prompt_template": "Classify the following scientific paper along the \"deployment_resource_setting\" dimension.\n\nCaptures the target computational/deployment environment that the paper's methods are designed for or evaluated in.\n\nChoose exactly one of: cloud_datacenter, edge_device, on_device_mobile, distributed_federated, embodied_robotic, hardware_agnostic_simulation, Other\n\nscientific paper:\n{document}\n\nRespond with the chosen value name only, no explanation.",
+          "labeling_model": "claude-haiku-4-5"
+        }
+      ],
+      "diagnostics_summary": [
+        {
+          "cluster_count": 13,
+          "hierarchy_depth": 1,
+          "entropy_bits": {
+            "observed": 1.7826221296976446,
+            "uniform": 2.807354922057604,
+            "delta": -1.0247327923599596
+          }
+        },
+        {
+          "cluster_count": 11,
+          "hierarchy_depth": 1,
+          "entropy_bits": {
+            "observed": 2.024863609137952,
+            "uniform": 3.0,
+            "delta": -0.9751363908620481
+          }
+        },
+        {
+          "cluster_count": 14,
+          "hierarchy_depth": 1,
+          "entropy_bits": {
+            "observed": 1.3172915908573595,
+            "uniform": 2.807354922057604,
+            "delta": -1.4900633312002447
+          }
+        }
+      ],
+      "crosstab_facet0_vs_category": {
+        "rows": [
+          "cs.AI",
+          "cs.CL",
+          "cs.CV",
+          "cs.LG",
+          "cs.RO",
+          "stat.ML"
+        ],
+        "columns": [
+          "new_algorithm_or_model",
+          "benchmark_or_dataset",
+          "empirical_study_or_analysis",
+          "theoretical_framework",
+          "survey_or_position",
+          "application_case_study"
+        ],
+        "values": [
+          [
+            14,
+            2,
+            4,
+            1,
+            1,
+            2
+          ],
+          [
+            35,
+            22,
+            21,
+            2,
+            1,
+            2
+          ],
+          [
+            56,
+            14,
+            7,
+            0,
+            1,
+            5
+          ],
+          [
+            57,
+            1,
+            14,
+            7,
+            1,
+            3
+          ],
+          [
+            20,
+            3,
+            1,
+            0,
+            0,
+            2
+          ],
+          [
+            16,
+            0,
+            1,
+            16,
+            0,
+            0
+          ]
+        ]
+      },
+      "exemplars": [
+        {
+          "facet_name": "contribution_type",
+          "values": {
+            "new_algorithm_or_model": [
+              "PowerFlow: Unlocking the Dual Nature of LLMs via Principled Distribution Matching\n\nUnsupervised Reinforcement Learning from Internal Feedback (RLIF) has emerged as a promising paradigm for eliciting the latent capabilities of Large Language...",
+              "Scaling Sim-to-Real Reinforcement Learning for Robot VLAs with Generative 3D Worlds\n\nThe strong performance of large vision-language models (VLMs) trained with reinforcement learning (RL) has motivated similar approaches for fine-tuning vis...",
+              "Policy-Guided World Model Planning for Language-Conditioned Visual Navigation\n\nNavigating to a visually specified goal given natural language instructions remains a fundamental challenge in embodied AI. Existing approaches either rely on re..."
+            ],
+            "benchmark_or_dataset": [
+              "Towards Generalizable Robotic Manipulation in Dynamic Environments\n\nVision-Language-Action (VLA) models excel in static manipulation but struggle in dynamic environments with moving targets. This performance gap primarily stems from a scarc...",
+              "UniICL: Systematizing Unified Multimodal In-context Learning through a Capability-Oriented Taxonomy\n\nIn-context Learning enables training-free adaptation via demonstrations but remains highly sensitive to example selection and formatting. I...",
+              "AMemGym: Interactive Memory Benchmarking for Assistants in Long-Horizon Conversations\n\nLong-horizon interactions between users and LLM-based assistants necessitate effective memory management, yet current approaches face challenges in train..."
+            ],
+            "empirical_study_or_analysis": [
+              "Probing Visual Concepts in Lightweight Vision-Language Models for Automated Driving\n\nThe use of Vision-Language Models (VLMs) in automated driving applications is becoming increasingly common, with the aim of leveraging their reasoning and ...",
+              "SceneTeract: Agentic Functional Affordances and VLM Grounding in 3D Scenes\n\nEmbodied AI depends on interactive 3D environments that support meaningful activities for diverse users, yet assessing their functional affordances remains a core c...",
+              "The Cost of Reasoning: Chain-of-Thought Induces Overconfidence in Vision-Language Models\n\nVision-language models (VLMs) are increasingly deployed in high-stakes settings where reliable uncertainty quantification (UQ) is as important as pred..."
+            ],
+            "theoretical_framework": [
+              "Gradient Flow Polarizes Softmax Outputs towards Low-Entropy Solutions\n\nUnderstanding the intricate non-convex training dynamics of softmax-based models is crucial for explaining the empirical success of transformers. In this article, we ana...",
+              "The Rules-and-Facts Model for Simultaneous Generalization and Memorization in Neural Networks\n\nA key capability of modern neural networks is their capacity to simultaneously learn underlying rules and memorize specific facts or exceptions. ...",
+              "Transformers Trained via Gradient Descent Can Provably Learn a Class of Teacher Models\n\nTransformers have achieved great success across a wide range of applications, yet the theoretical foundations underlying their success remain largely un..."
+            ],
+            "survey_or_position": [
+              "SoK: Agentic Retrieval-Augmented Generation (RAG): Taxonomy, Architectures, Evaluation, and Research Directions\n\nRetrieval-Augmented Generation (RAG) systems are increasingly evolving into agentic architectures where large language models a...",
+              "Toward Clinically Ready Foundation Models in Medical Image Analysis: Adaptation Mechanisms and Deployment Trade-offs\n\nFoundation models (FMs) have demonstrated strong transferability across medical imaging tasks, yet their clinical utility ...",
+              "Position: Vector Prompt Interfaces Should Be Exposed to Enable Customization of Large Language Models\n\nAs large language models (LLMs) transition from research prototypes to real-world systems, customization has emerged as a central bottlen..."
+            ],
+            "application_case_study": [
+              "CRASH: Cognitive Reasoning Agent for Safety Hazards in Autonomous Driving\n\nAs AVs grow in complexity and diversity, identifying the root causes of operational failures has become increasingly complex. The heterogeneity of system architectur...",
+              "When AI Meets Early Childhood Education: Large Language Models as Assessment Teammates in Chinese Preschools\n\nHigh-quality teacher-child interaction (TCI) is fundamental to early childhood development, yet traditional expert-based assessmen...",
+              "IROSA: Interactive Robot Skill Adaptation using Natural Language\n\nFoundation models have demonstrated impressive capabilities across diverse domains, while imitation learning provides principled methods for robot skill adaptation from limit..."
+            ],
+            "Other": []
+          }
+        },
+        {
+          "facet_name": "evaluation_methodology",
+          "values": {
+            "benchmark_comparison": [
+              "PowerFlow: Unlocking the Dual Nature of LLMs via Principled Distribution Matching\n\nUnsupervised Reinforcement Learning from Internal Feedback (RLIF) has emerged as a promising paradigm for eliciting the latent capabilities of Large Language...",
+              "Policy-Guided World Model Planning for Language-Conditioned Visual Navigation\n\nNavigating to a visually specified goal given natural language instructions remains a fundamental challenge in embodied AI. Existing approaches either rely on re...",
+              "UniICL: Systematizing Unified Multimodal In-context Learning through a Capability-Oriented Taxonomy\n\nIn-context Learning enables training-free adaptation via demonstrations but remains highly sensitive to example selection and formatting. I..."
+            ],
+            "ablation_study": [
+              "How Far Can Unsupervised RLVR Scale LLM Training?\n\nUnsupervised reinforcement learning with verifiable rewards (URLVR) offers a pathway to scale LLM training beyond the supervision bottleneck by deriving rewards without ground truth labels....",
+              "Probing Visual Concepts in Lightweight Vision-Language Models for Automated Driving\n\nThe use of Vision-Language Models (VLMs) in automated driving applications is becoming increasingly common, with the aim of leveraging their reasoning and ...",
+              "The Cost of Reasoning: Chain-of-Thought Induces Overconfidence in Vision-Language Models\n\nVision-language models (VLMs) are increasingly deployed in high-stakes settings where reliable uncertainty quantification (UQ) is as important as pred..."
+            ],
+            "human_evaluation": [
+              "Reference-Free Image Quality Assessment for Virtual Try-On via Human Feedback\n\nGiven a person image and a garment image, image-based Virtual Try-ON (VTON) synthesizes a try-on image of the person wearing the target garment. As VTON systems ...",
+              "Multilingual KokoroChat: A Multi-LLM Ensemble Translation Method for Creating a Multilingual Counseling Dialogue Dataset\n\nTo address the critical scarcity of high-quality, publicly available counseling dialogue datasets, we created Multilin...",
+              "Reading Between the Lines: How Electronic Nonverbal Cues shape Emotion Decoding\n\nAs text-based computer-mediated communication (CMC) increasingly structures everyday interaction, a central question re-emerges with new urgency: How do users ..."
+            ],
+            "theoretical_analysis": [
+              "Toward Clinically Ready Foundation Models in Medical Image Analysis: Adaptation Mechanisms and Deployment Trade-offs\n\nFoundation models (FMs) have demonstrated strong transferability across medical imaging tasks, yet their clinical utility ...",
+              "Best-of-Tails: Bridging Optimism and Pessimism in Inference-Time Alignment\n\nInference-time alignment effectively steers large language models (LLMs) by generating multiple candidates from a reference model and selecting among them with an i...",
+              "MCLR: Improving Conditional Modeling via Inter-Class Likelihood-Ratio Maximization and Unifying Classifier-Free Guidance with Alignment Objectives\n\nDiffusion models have achieved state-of-the-art performance in generative modeling, but thei..."
+            ],
+            "case_study": [
+              "Diverging Transformer Predictions for Human Sentence Processing: A Comprehensive Analysis of Agreement Attraction Effects\n\nTransformers underlie almost all state-of-the-art language models in computational linguistics, yet their cognitive a...",
+              "Generative Score Inference for Multimodal Data\n\nAccurate uncertainty quantification is crucial for making reliable decisions in various supervised learning scenarios, particularly when dealing with complex, multimodal data such as images an...",
+              "IROSA: Interactive Robot Skill Adaptation using Natural Language\n\nFoundation models have demonstrated impressive capabilities across diverse domains, while imitation learning provides principled methods for robot skill adaptation from limit..."
+            ],
+            "real_world_deployment": [
+              "Chameleon: Episodic Memory for Long-Horizon Robotic Manipulation\n\nRobotic manipulation often requires memory: occlusion and state changes can make decision-time observations perceptually aliased, making action selection non-Markovian at the...",
+              "CRASH: Cognitive Reasoning Agent for Safety Hazards in Autonomous Driving\n\nAs AVs grow in complexity and diversity, identifying the root causes of operational failures has become increasingly complex. The heterogeneity of system architectur...",
+              "When AI Meets Early Childhood Education: Large Language Models as Assessment Teammates in Chinese Preschools\n\nHigh-quality teacher-child interaction (TCI) is fundamental to early childhood development, yet traditional expert-based assessmen..."
+            ],
+            "synthetic_experiments": [
+              "SceneTeract: Agentic Functional Affordances and VLM Grounding in 3D Scenes\n\nEmbodied AI depends on interactive 3D environments that support meaningful activities for diverse users, yet assessing their functional affordances remains a core c...",
+              "Scaling Sim-to-Real Reinforcement Learning for Robot VLAs with Generative 3D Worlds\n\nThe strong performance of large vision-language models (VLMs) trained with reinforcement learning (RL) has motivated similar approaches for fine-tuning vis...",
+              "Position: Vector Prompt Interfaces Should Be Exposed to Enable Customization of Large Language Models\n\nAs large language models (LLMs) transition from research prototypes to real-world systems, customization has emerged as a central bottlen..."
+            ],
+            "Other": [
+              "Empowering Epidemic Response: The Role of Reinforcement Learning in Infectious Disease Control\n\nReinforcement learning (RL), owing to its adaptability to various dynamic systems in many real-world scenarios and the capability of maximizing ..."
+            ]
+          }
+        },
+        {
+          "facet_name": "deployment_resource_setting",
+          "values": {
+            "cloud_datacenter": [
+              "Vision Verification Enhanced Fusion of VLMs for Efficient Visual Reasoning\n\nWith the growing number and diversity of Vision-Language Models (VLMs), many works explore language-based ensemble, collaboration, and routing techniques across mul...",
+              "Position: Vector Prompt Interfaces Should Be Exposed to Enable Customization of Large Language Models\n\nAs large language models (LLMs) transition from research prototypes to real-world systems, customization has emerged as a central bottlen...",
+              "ES-dLLM: Efficient Inference for Diffusion Large Language Models by Early-Skipping\n\nDiffusion large language models (dLLMs) are emerging as a promising alternative to autoregressive models (ARMs) due to their ability to capture bidirectiona..."
+            ],
+            "edge_device": [
+              "Lightweight User-Personalization Method for Closed Split Computing\n\nSplit Computing enables collaborative inference between edge devices and the cloud by partitioning a deep neural network into an edge-side head and a server-side tail, redu...",
+              "Polyglot-Lion: Efficient Multilingual ASR for Singapore via Balanced Fine-Tuning of Qwen3-ASR\n\nWe present Polyglot-Lion, a family of compact multilingual automatic speech recognition (ASR) models tailored for the linguistic landscape of Sin...",
+              "Trainable Bitwise Soft Quantization for Input Feature Compression\n\nThe growing demand for machine learning applications in the context of the Internet of Things calls for new approaches to optimize the use of limited compute and memory reso..."
+            ],
+            "on_device_mobile": [
+              "LAD-Drive: Bridging Language and Trajectory with Action-Aware Diffusion Transformers\n\nWhile multimodal large language models (MLLMs) provide advanced reasoning for autonomous driving, translating their discrete semantic knowledge into conti...",
+              "Resource-constrained Amazons chess decision framework integrating large language models and graph attention\n\nArtificial intelligence has advanced significantly through the development of intelligent game-playing systems, providing rigorous ...",
+              "SortScrews: A Dataset and Baseline for Real-time Screw Classification\n\nAutomatic identification of screw types is important for industrial automation, robotics, and inventory management. However, publicly available datasets for screw classi..."
+            ],
+            "distributed_federated": [
+              "Few-for-Many Personalized Federated Learning\n\nPersonalized Federated Learning (PFL) aims to train customized models for clients with highly heterogeneous data distributions while preserving data privacy. Existing approaches often rely on he...",
+              "Loss Gap Parity for Fairness in Heterogeneous Federated Learning\n\nWhile clients may join federated learning to improve performance on data they rarely observe locally, they often remain self-interested, expecting the global model to perform...",
+              "Federated fairness-aware classification under differential privacy\n\nPrivacy and algorithmic fairness have become two central issues in modern machine learning. Although each has separately emerged as a rapidly growing research area, their j..."
+            ],
+            "embodied_robotic": [
+              "SceneTeract: Agentic Functional Affordances and VLM Grounding in 3D Scenes\n\nEmbodied AI depends on interactive 3D environments that support meaningful activities for diverse users, yet assessing their functional affordances remains a core c...",
+              "Towards Generalizable Robotic Manipulation in Dynamic Environments\n\nVision-Language-Action (VLA) models excel in static manipulation but struggle in dynamic environments with moving targets. This performance gap primarily stems from a scarc...",
+              "AffordGrasp: Cross-Modal Diffusion for Affordance-Aware Grasp Synthesis\n\nGenerating human grasping poses that accurately reflect both object geometry and user-specified interaction semantics is essential for natural hand-object interactions..."
+            ],
+            "hardware_agnostic_simulation": [
+              "Empowering Epidemic Response: The Role of Reinforcement Learning in Infectious Disease Control\n\nReinforcement learning (RL), owing to its adaptability to various dynamic systems in many real-world scenarios and the capability of maximizing ...",
+              "Scaling Sim-to-Real Reinforcement Learning for Robot VLAs with Generative 3D Worlds\n\nThe strong performance of large vision-language models (VLMs) trained with reinforcement learning (RL) has motivated similar approaches for fine-tuning vis...",
+              "Generative Score Inference for Multimodal Data\n\nAccurate uncertainty quantification is crucial for making reliable decisions in various supervised learning scenarios, particularly when dealing with complex, multimodal data such as images an..."
+            ],
+            "Other": []
+          }
+        }
+      ],
+      "elapsed_seconds": 81.74767589569092
+    }
+  ]
+}
