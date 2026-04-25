@@ -5,11 +5,11 @@ import math
 import numpy as np
 import pandas as pd
 
-from typologist._pipeline import _build_facet_diagnostics, _ToponymyResult
+from typologist._pipeline import _build_facet_diagnostics, _NamingResult
 
 
-def _topo_result(cluster_count=8, hierarchy_depth=3):
-    return _ToponymyResult(
+def _naming_result(cluster_count=8, hierarchy_depth=3):
+    return _NamingResult(
         topic_names=[["x"]],
         topic_name_vectors=[np.array([], dtype=object)],
         cluster_count=cluster_count,
@@ -21,7 +21,7 @@ def test_diagnostics_passes_through_synthesis_prompt_and_counts():
     labels = pd.Series(pd.Categorical(["a"] * 4, categories=["a", "b"]))
     out = _build_facet_diagnostics(
         synthesis_prompt="prompt text",
-        toponymy_result=_topo_result(cluster_count=12, hierarchy_depth=4),
+        naming_result=_naming_result(cluster_count=12, hierarchy_depth=4),
         labels=labels,
         embeddings_pre_erasure=np.zeros((4, 8)),
         values=["a", "b"],
@@ -35,7 +35,7 @@ def test_diagnostics_entropy_uniform_is_log2_n_values():
     labels = pd.Series(pd.Categorical(["a", "b", "c", "d"], categories=["a", "b", "c", "d"]))
     out = _build_facet_diagnostics(
         synthesis_prompt="",
-        toponymy_result=_topo_result(),
+        naming_result=_naming_result(),
         labels=labels,
         embeddings_pre_erasure=np.zeros((4, 8)),
         values=["a", "b", "c", "d"],
@@ -50,7 +50,7 @@ def test_diagnostics_entropy_observed_matches_distribution():
     )
     out = _build_facet_diagnostics(
         synthesis_prompt="",
-        toponymy_result=_topo_result(),
+        naming_result=_naming_result(),
         labels=labels,
         embeddings_pre_erasure=np.zeros((8, 8)),
         values=["a", "b", "c"],
@@ -63,7 +63,7 @@ def test_diagnostics_entropy_delta_is_observed_minus_uniform():
     labels = pd.Series(pd.Categorical(["a", "b", "c", "d"], categories=["a", "b", "c", "d"]))
     out = _build_facet_diagnostics(
         synthesis_prompt="",
-        toponymy_result=_topo_result(),
+        naming_result=_naming_result(),
         labels=labels,
         embeddings_pre_erasure=np.zeros((4, 8)),
         values=["a", "b", "c", "d"],
@@ -74,7 +74,7 @@ def test_diagnostics_entropy_delta_is_observed_minus_uniform():
     labels_concentrated = pd.Series(pd.Categorical(["a"] * 4, categories=["a", "b", "c", "d"]))
     out2 = _build_facet_diagnostics(
         synthesis_prompt="",
-        toponymy_result=_topo_result(),
+        naming_result=_naming_result(),
         labels=labels_concentrated,
         embeddings_pre_erasure=np.zeros((4, 8)),
         values=["a", "b", "c", "d"],
@@ -103,7 +103,7 @@ def test_diagnostics_exemplars_are_nearest_to_centroid():
     )
     out = _build_facet_diagnostics(
         synthesis_prompt="",
-        toponymy_result=_topo_result(),
+        naming_result=_naming_result(),
         labels=labels,
         embeddings_pre_erasure=embeddings,
         values=["a", "b"],
@@ -119,7 +119,7 @@ def test_diagnostics_exemplars_respect_k_limit():
     labels = pd.Series(pd.Categorical(["a"] * 10, categories=["a", "b"]))
     out = _build_facet_diagnostics(
         synthesis_prompt="",
-        toponymy_result=_topo_result(),
+        naming_result=_naming_result(),
         labels=labels,
         embeddings_pre_erasure=np.random.default_rng(0).random((10, 4)),
         values=["a", "b"],
@@ -133,7 +133,7 @@ def test_diagnostics_exemplars_handle_fewer_docs_than_k():
     labels = pd.Series(pd.Categorical(["a", "b", "a"], categories=["a", "b"]))
     out = _build_facet_diagnostics(
         synthesis_prompt="",
-        toponymy_result=_topo_result(),
+        naming_result=_naming_result(),
         labels=labels,
         embeddings_pre_erasure=np.ones((3, 4)),
         values=["a", "b"],
@@ -151,7 +151,7 @@ def test_diagnostics_exemplars_preserve_user_index():
     )
     out = _build_facet_diagnostics(
         synthesis_prompt="",
-        toponymy_result=_topo_result(),
+        naming_result=_naming_result(),
         labels=labels,
         embeddings_pre_erasure=np.ones((3, 4)),
         values=["a"],
