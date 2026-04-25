@@ -8,7 +8,7 @@ Extract a categorical schema from a corpus of documents.
 
 ## What it does
 
-You give it documents and their embeddings. It gives you back a handful of categorical facets and a per-document label for each. Run it on a stratified sample of 500 Amazon product reviews and you get three facets (`product_category`, `reviewer_sentiment`, and `review_focus_aspect`), each with a definition and 5-10 values, plus a 500-row DataFrame of per-doc labels you can join straight back onto the original corpus. Worked example with real output below.
+You give it documents and their embeddings. It gives you back a handful of *facets* (each a named categorical dimension with a short list of values) and a per-document label on each facet. Run it on a stratified sample of 500 Amazon product reviews and you get three facets (`product_category`, `reviewer_sentiment`, and `review_focus_aspect`), each with a definition and 5-10 values, plus a 500-row DataFrame of per-doc labels you can join straight back onto the original corpus. Worked example with real output below.
 
 What makes Typologist's facets mutually orthogonal rather than redundant is concept erasure. After each facet is discovered, its per-document labels are erased from the embeddings via [LEACE](https://github.com/EleutherAI/concept-erasure), and the next facet is discovered against the residual. If you pass in known metadata (existing category tags, ratings, source) it's erased the same way up front, so discovery starts from embeddings orthogonal to what you already have.
 
@@ -31,8 +31,8 @@ uv add typologist
 
 You'll also want:
 
-- `ANTHROPIC_API_KEY` in the environment (or your own LLM callable for each of the three roles; see below).
-- A sentence-embedding model that Toponymy can use internally for keyphrases and topic names. `sentence-transformers` with MiniLM is cheap and good enough for most use cases:
+- `ANTHROPIC_API_KEY` in the environment, or pass your own LLM callable for any of the three discovery roles (see [`docs/design.md`](docs/design.md)).
+- A sentence-embedding model that Toponymy (the cluster-naming library Typologist builds on) can use internally for keyphrases and topic names. `sentence-transformers` with MiniLM is cheap and good enough for most use cases:
 
   ```bash
   uv pip install sentence-transformers
@@ -167,6 +167,8 @@ See [`docs/design.md`](docs/design.md) for the full schema entry shape and `appl
 
 Per-document labeling runs through a threadpool (`max_concurrency=10` by default). On 1000 docs with `n_facets=3` you should see roughly 6-8 minutes end to end. Toponymy's cluster naming and the schema-synthesis LLM calls are still serial; full async is a 0.2 item.
 
+Cost on the default Anthropic models (Haiku for naming and per-doc labeling, Opus for the small number of schema-synthesis calls) runs about $3 per 500-doc fit at `n_facets=3`, dominated by per-document labeling. Local embedding (the MiniLM path above) is free; remote embedding APIs (Cohere, OpenAI) are usually a small additional fraction.
+
 ## Related
 
 Typologist is an independent project with no affiliation to the authors of the libraries it builds on:
@@ -176,6 +178,10 @@ Typologist is an independent project with no affiliation to the authors of the l
 - [concept-erasure](https://github.com/EleutherAI/concept-erasure): LEACE implementation
 
 If you want a 2D embedding projection with your Typologist labels on top, [DataMapPlot](https://github.com/TutteInstitute/datamapplot) is a natural match.
+
+## Questions and bug reports
+
+Open an issue at [github.com/stevenfazzio/typologist/issues](https://github.com/stevenfazzio/typologist/issues). Pre-alpha feedback is especially welcome while the API is still settling.
 
 ## License
 
