@@ -6,6 +6,7 @@ from typing import Any
 import numpy as np
 import pandas as pd
 
+from typologist._homemade import _run_homemade_naming
 from typologist._llm import _resolve_llm
 from typologist._pipeline import (
     _build_facet_diagnostics,
@@ -38,6 +39,7 @@ class Typologist:
         noise_label: str = "Unlabelled",
         verbose: bool = False,
         max_concurrency: int = 10,
+        use_toponymy: bool = True,
     ) -> None:
         self.n_facets = n_facets
         self.topic_embedder = topic_embedder
@@ -50,6 +52,7 @@ class Typologist:
         self.noise_label = noise_label
         self.verbose = verbose
         self.max_concurrency = max_concurrency
+        self.use_toponymy = use_toponymy
 
     def fit(
         self,
@@ -85,18 +88,29 @@ class Typologist:
         diagnostics: list[dict] = []
 
         for _ in range(self.n_facets):
-            topo = _run_toponymy(
-                documents=inputs.documents,
-                embeddings=working,
-                topic_embedder=self.topic_embedder,
-                naming_llm=naming,
-                object_description=self.object_description,
-                corpus_description=self.corpus_description,
-                verbose=self.verbose,
-            )
+            if self.use_toponymy:
+                naming_result = _run_toponymy(
+                    documents=inputs.documents,
+                    embeddings=working,
+                    topic_embedder=self.topic_embedder,
+                    naming_llm=naming,
+                    object_description=self.object_description,
+                    corpus_description=self.corpus_description,
+                    verbose=self.verbose,
+                )
+            else:
+                naming_result = _run_homemade_naming(
+                    documents=inputs.documents,
+                    embeddings=working,
+                    naming_llm=naming,
+                    object_description=self.object_description,
+                    corpus_description=self.corpus_description,
+                    max_concurrency=self.max_concurrency,
+                    verbose=self.verbose,
+                )
 
             facet, synthesis_prompt = _synthesize_facet(
-                cluster_hierarchy=topo.topic_names,
+                cluster_hierarchy=naming_result.topic_names,
                 schema_llm=schema_llm,
                 labeling_llm_model_name=labeling_llm.model_name,
                 object_description=self.object_description,
@@ -117,7 +131,7 @@ class Typologist:
             diagnostics.append(
                 _build_facet_diagnostics(
                     synthesis_prompt=synthesis_prompt,
-                    toponymy_result=topo,
+                    naming_result=naming_result,
                     labels=labels,
                     embeddings_pre_erasure=working,
                     values=facet["values"],

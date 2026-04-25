@@ -162,8 +162,8 @@ def _erase_metadata(
 
 
 @dataclass(frozen=True)
-class _ToponymyResult:
-    """Topic-naming output from one Toponymy run."""
+class _NamingResult:
+    """Topic-naming output from one naming-stage run (Toponymy or homemade)."""
 
     topic_names: list[list[str]]
     topic_name_vectors: list[np.ndarray]
@@ -179,7 +179,7 @@ def _run_toponymy(
     object_description: str,
     corpus_description: str,
     verbose: bool,
-) -> _ToponymyResult:
+) -> _NamingResult:
     """Construct a Toponymy instance with EVoCClusterer and run it on embeddings.
 
     Toponymy's ``fit`` expects a third ``clusterable_vectors`` argument, which
@@ -195,7 +195,7 @@ def _run_toponymy(
         verbose=verbose,
     )
     topo.fit(documents.tolist(), embeddings, embeddings)
-    return _ToponymyResult(
+    return _NamingResult(
         topic_names=topo.topic_names_,
         topic_name_vectors=topo.topic_name_vectors_,
         cluster_count=max(len(layer) for layer in topo.topic_names_),
@@ -340,7 +340,7 @@ def _classify_docs(
 
 def _build_facet_diagnostics(
     synthesis_prompt: str,
-    toponymy_result: _ToponymyResult,
+    naming_result: _NamingResult,
     labels: pd.Series,
     embeddings_pre_erasure: np.ndarray,
     values: list[str],
@@ -383,8 +383,8 @@ def _build_facet_diagnostics(
 
     return {
         "synthesis_prompt": synthesis_prompt,
-        "cluster_count": toponymy_result.cluster_count,
-        "hierarchy_depth": toponymy_result.hierarchy_depth,
+        "cluster_count": naming_result.cluster_count,
+        "hierarchy_depth": naming_result.hierarchy_depth,
         "entropy_bits": {
             "observed": observed,
             "uniform": uniform,

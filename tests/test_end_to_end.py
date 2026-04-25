@@ -171,6 +171,50 @@ def test_fit_with_metadata_runs_pre_erasure(monkeypatch):
     assert t.embeddings_residualized_.shape == (n, 8)
 
 
+def test_fit_with_use_toponymy_false_routes_through_homemade(monkeypatch):
+    """When use_toponymy=False, Toponymy should not be touched and EVoC should drive naming."""
+    from typologist import _homemade, _pipeline
+
+    sentinel_topo_called = False
+
+    class _ExplodeIfCalled:
+        def __init__(self, **kwargs):
+            nonlocal sentinel_topo_called
+            sentinel_topo_called = True
+
+        def fit(self, *args, **kwargs):
+            raise AssertionError("Toponymy should not be invoked when use_toponymy=False")
+
+    monkeypatch.setattr(_pipeline, "Toponymy", _ExplodeIfCalled)
+
+    class _FakeEVoC:
+        def __init__(self, **kwargs):
+            pass
+
+        def fit(self, x):
+            self.labels_ = np.array([0, 0, 1, 1])
+            return self
+
+    monkeypatch.setattr(_homemade, "EVoC", _FakeEVoC)
+
+    t = Typologist(
+        n_facets=1,
+        topic_embedder=_FakeTopicEmbedder(),
+        naming_llm=lambda p: "named_cluster",
+        schema_llm=_make_schema_llm(
+            [{"name": "f", "kind": "categorical", "values": ["a", "b"], "definition": "d"}]
+        ),
+        labeling_llm=lambda p: "a",
+        use_toponymy=False,
+    )
+
+    t.fit(["d1", "d2", "d3", "d4"], np.eye(4, 8, dtype=np.float32))
+
+    assert sentinel_topo_called is False
+    assert t.facet_diagnostics_[0]["hierarchy_depth"] == 1
+    assert t.facet_diagnostics_[0]["cluster_count"] == 2
+
+
 def test_apply_schema_applies_stored_template():
     schema = [
         {
