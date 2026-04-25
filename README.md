@@ -38,6 +38,9 @@ You'll also want:
   uv pip install sentence-transformers
   ```
 
+> [!IMPORTANT]
+> Fitting Typologist makes paid LLM API calls. With the default Anthropic models, expect about $3 per 500-doc fit at `n_facets=3`. See [Performance](#performance) for the breakdown and [Model choice](#model-choice) for ways to lower it.
+
 ## Quick start
 
 ```python
@@ -168,6 +171,12 @@ See [`docs/design.md`](docs/design.md) for the full schema entry shape and `appl
 Per-document labeling runs through a threadpool (`max_concurrency=10` by default). On 1000 docs with `n_facets=3` you should see roughly 6-8 minutes end to end. Toponymy's cluster naming and the schema-synthesis LLM calls are still serial; full async is a 0.2 item.
 
 Cost on the default Anthropic models (Haiku for naming and per-doc labeling, Opus for the small number of schema-synthesis calls) runs about $3 per 500-doc fit at `n_facets=3`, dominated by per-document labeling. Local embedding (the MiniLM path above) is free; remote embedding APIs (Cohere, OpenAI) are usually a small additional fraction.
+
+## Model choice
+
+**LLMs.** The default `naming_llm` and `labeling_llm` are Haiku; `schema_llm` is Opus. The split reflects where quality matters most: schema synthesis runs only `n_facets` times and is the quality-dominant step, so it's worth the upgrade. Cluster naming and per-document labeling are called orders of magnitude more often and benefit less from a more capable model. If you're cost-cutting, downgrade `schema_llm` last.
+
+**Embeddings.** The input embeddings (your `(n_docs, d)` array) and the `topic_embedder` Toponymy uses for keyphrases and exemplar selection are separate slots and don't have to come from the same model. In practice a local sentence-transformers `topic_embedder` seems to work fine even when input embeddings come from a stronger remote model (Cohere, OpenAI), so you can put your embedding budget on the input embeddings without losing quality on the cluster-naming side.
 
 ## Related
 
