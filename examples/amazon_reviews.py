@@ -59,7 +59,7 @@ RANDOM_SEED = 0
 # --- helpers ----------------------------------------------------------------
 
 
-def load_reviews(seed: int) -> pd.DataFrame:
+def load_reviews(seed: int, n_per_category: int = 83) -> pd.DataFrame:
     """Stream a stratified sample of Amazon reviews from HuggingFace.
 
     The ``SOURCE_PRODUCT_CATEGORIES`` list below is *input to sampling*, not
@@ -67,6 +67,10 @@ def load_reviews(seed: int) -> pd.DataFrame:
     product categories and draw a balanced number of reviews from each so
     the corpus isn't dominated by one type. Typologist will then discover
     its own categorization from the review text alone (see Step 3 in main).
+
+    ``n_per_category`` defaults to 83 (6 x 83 = ~498 reviews total) for the
+    example here; experiments that want a different size pass a larger value
+    (e.g. 250 -> ~1500).
     """
     from datasets import load_dataset
 
@@ -78,8 +82,7 @@ def load_reviews(seed: int) -> pd.DataFrame:
         "Home_and_Kitchen",
         "Toys_and_Games",
     ]
-    n_per_category = 83  # 6 x 83 = ~498 reviews total
-    stream_window = 3000  # Stream this many per category before sampling
+    stream_window = max(3000, n_per_category * 6)  # Pull enough headroom for big samples
     min_text_chars = 200  # Drop one-liner reviews; they embed poorly
 
     jsonl_url = (

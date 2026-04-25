@@ -193,6 +193,7 @@ def test_fit_with_use_toponymy_false_routes_through_homemade(monkeypatch):
 
         def fit(self, x):
             self.labels_ = np.array([0, 0, 1, 1])
+            self.cluster_layers_ = [self.labels_]
             return self
 
     monkeypatch.setattr(_homemade, "EVoC", _FakeEVoC)

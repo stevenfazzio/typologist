@@ -82,14 +82,22 @@ def _run_homemade_naming(
 ) -> _NamingResult:
     """Cluster with EVoC, name each cluster from its centroid-nearest exemplars.
 
-    EVoC's ``labels_`` (single layer of cluster assignments, ``-1`` for noise)
-    is used directly; multi-scale layers are intentionally ignored. Returns a
+    Uses EVoC's finest (most-clusters) layer rather than ``labels_`` (EVoC's
+    auto-pick of the layer with the fewest noise points): the auto-pick
+    sometimes returns 4 coarse clusters when the underlying data has 11+
+    natural ones, and the schema-synthesis LLM benefits from finer-grained
+    cluster names. Toponymy similarly feeds all layers (finest included) into
+    its synthesis prompt; this is the single-layer analog. Returns a
     single-layer ``_NamingResult`` whose ``topic_names[0]`` lists the named
-    clusters in the order EVoC assigned them.
+    clusters.
     """
     evoc = EVoC()
     evoc.fit(embeddings)
-    raw_labels = np.asarray(evoc.labels_)
+    layers = list(evoc.cluster_layers_) or [np.asarray(evoc.labels_)]
+    finest_layer = max(
+        layers, key=lambda layer: len(set(int(lbl) for lbl in np.unique(layer) if lbl != -1))
+    )
+    raw_labels = np.asarray(finest_layer)
 
     cluster_ids = sorted(int(lbl) for lbl in np.unique(raw_labels) if lbl != -1)
     if not cluster_ids:
