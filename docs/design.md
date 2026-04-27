@@ -112,6 +112,8 @@ One entry per discovered facet, in discovery order:
 - Shape: `(n_docs, dim)`, matching the input `embeddings`
 - Contents: the embeddings after all erasure passes (metadata + all facets). Intermediate per-facet residualizations are not retained.
 
+**What "erased" means here.** Each erasure pass is a LEACE projection on either a metadata column (during pre-erasure) or a facet's per-document labels (during between-facet residualization). LEACE removes the *entire* linear subspace of the embeddings that predicts the one-hot encoding of those labels, not just the centroid offset between value groups. In practice this means signals that are linearly correlated with the erased facet or metadata column (even if they aren't it themselves) also get removed. Users chaining `embeddings_residualized_` into downstream tasks whose targets correlate with an erased facet or metadata column (e.g., predicting a 1-5 rating after erasing a sentiment facet) should expect partial erasure of those targets as well.
+
 ### `facet_diagnostics_: list[dict]`
 
 One entry per facet, mirroring `schema_` order. Contains provenance and per-facet signals:

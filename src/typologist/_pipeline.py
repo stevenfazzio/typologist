@@ -146,6 +146,12 @@ def _erase_metadata(
     (the LEACE-with-int-labels gotcha: integer class labels get treated as one
     continuous axis otherwise). Bucket continuous metadata yourself before
     passing it in.
+
+    LEACE removes the entire linear subspace that predicts the labels, not
+    just the centroid offset between value groups. Signals in the embedding
+    that are linearly correlated with the labels (even if they aren't what
+    the labels directly encode) also get removed. See ``docs/design.md``
+    (``embeddings_residualized_`` section) for the user-facing implication.
     """
     one_hot = pd.get_dummies(metadata.astype(str), dtype=float).to_numpy()
 

@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - **Breaking:** renamed the `schema_[i]["type"]` dict key to `schema_[i]["kind"]`. "Type" is too loaded in Python and pandas; "kind" is the canonical term for a facet's categorical-vs-ordinal shape per `docs/glossary.md`. Saved schemas from 0.0.1 need their `"type"` key renamed to `"kind"` before loading.
 - Synthesis prompt now describes erased metadata columns to the schema LLM, so `metadata=` on `fit()` steers the LLM at both the embedding level (via LEACE) and at the prompt level. Measured reductions in curator-label rediscovery: amazon `product_category` -74%, arxiv `primary_category` -39%, amazon `rating` -8% (sentiment-like axes are harder to steer from dtype alone). See `docs/design.md` for the two-lever erasure model.
+- Clarified what `embeddings_residualized_` actually contains: LEACE removes the entire linear subspace that predicts the erased facet (or metadata column), not just the centroid offset between value groups. Signals linearly correlated with the erased facet or metadata column also get partially removed. See `docs/design.md` (`embeddings_residualized_` section) for the user-facing implication when chaining residualized embeddings into downstream tasks.
 
 ## [0.0.1] - 2026-04-22
 
