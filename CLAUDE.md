@@ -55,6 +55,10 @@ Lint and format check: `uv run ruff check src tests && uv run ruff format --chec
 
 Apply format: `uv run ruff format src tests`
 
+## Before committing
+
+Check whether `CHANGELOG.md` needs an entry under `[Unreleased]`. The bar: would someone upgrading from the previous version benefit from knowing? If yes, add to the appropriate Keep-a-Changelog section (Added / Changed / Deprecated / Removed / Fixed / Security); breaking changes get a `**Breaking:**` prefix inside Changed. Skip for internal refactors, dev tooling, CI, test-only, or pure doc tidying.
+
 ## Reading order for a fresh agent
 
 1. This file
