@@ -68,3 +68,6 @@ experiments/
 
 # Generated DataMapPlot HTML from examples (regenerated on each run).
 examples/*.html
+
+# Local-only working notes (gitignored intentionally).
+.local/
