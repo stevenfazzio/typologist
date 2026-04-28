@@ -3,8 +3,8 @@ from __future__ import annotations
 import numpy as np
 import pandas as pd
 
-from typologist._llm import _CallableLLM
 from typologist._pipeline import _run_toponymy
+from typologist.llm import _CallableLLM
 
 
 class _FakeToponymy:

@@ -4,23 +4,25 @@ from collections.abc import Callable
 
 import pandas as pd
 
-from typologist._llm import _resolve_llm
 from typologist._pipeline import _classify_docs
+from typologist.llm import LLM, _resolve_llm
 
 
 def apply_schema(
     schema: list[dict] | dict,
     documents: list[str] | pd.Series,
-    llm: str | Callable[..., str] | None = None,
+    llm: LLM | Callable[..., str] | None = None,
     noise_label: str = "Unlabelled",
     max_concurrency: int = 10,
     verbose: bool = False,
 ) -> pd.DataFrame:
     """Apply a previously-discovered schema to new documents.
 
-    Each facet uses its stored ``labeling_model`` by default; pass ``llm`` to
-    override every facet's model. A facet whose ``labeling_model`` is ``None``
-    (created with a callable ``labeling_llm``) requires ``llm`` to be passed.
+    The schema's stored ``labeling_model`` is provenance only (a
+    ``"provider:model"`` string identifying what produced the schema), so
+    ``llm`` is required to actually label new documents. Pass an
+    ``AnthropicLLM(...)``, ``OpenAILLM(...)``, custom ``LLM`` subclass, or a
+    ``Callable[[str], str]``.
 
     Per-doc LLM calls are dispatched concurrently via a threadpool with up to
     ``max_concurrency`` workers. Pass ``max_concurrency=1`` for serial.
@@ -44,19 +46,17 @@ def apply_schema(
     if not all(isinstance(d, str) for d in docs_series):
         raise TypeError("all entries in documents must be str")
 
-    override_llm = _resolve_llm(llm) if llm is not None else None
+    if llm is None:
+        raise TypeError(
+            "apply_schema requires `llm=`. The schema's stored labeling_model is "
+            "provenance only and is no longer auto-resolved. Pass typologist."
+            "AnthropicLLM(...), typologist.OpenAILLM(...), a custom LLM subclass, "
+            "or a Callable[[str], str]."
+        )
+    facet_llm = _resolve_llm(llm)
 
     label_series: list[pd.Series] = []
     for facet in facets:
-        if override_llm is not None:
-            facet_llm = override_llm
-        elif facet.get("labeling_model") is not None:
-            facet_llm = _resolve_llm(facet["labeling_model"])
-        else:
-            raise RuntimeError(
-                f"Facet {facet.get('name', '<unnamed>')!r} has labeling_model=None "
-                "(created with a callable labeling_llm). Pass `llm=` to apply_schema."
-            )
         label_series.append(
             _classify_docs(
                 facet=facet,

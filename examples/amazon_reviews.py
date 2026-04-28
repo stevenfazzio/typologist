@@ -23,14 +23,19 @@ What this does:
    between Typologist facets via a dropdown; hovering on a point shows
    the assigned facet values followed by the review text itself.
 
+This example wires up Anthropic models because that's what the worked
+output below was generated with; OpenAI works the same way via
+``OpenAILLM(...)``, and any provider can be supplied via a
+``Callable[[str], str]``. See the README's "Model choice" section.
+
 Expected runtime: ~10 minutes on a laptop.
 Expected cost: ~$6 (Anthropic LLM calls for schema synthesis and per-doc
 labeling, two passes; embedding runs locally and is free).
 
 Required environment variables:
-    ANTHROPIC_API_KEY  Anthropic API key (Typologist's default LLM provider)
+    ANTHROPIC_API_KEY  Anthropic API key (used by this example)
 
-Required extra installs (on top of `typologist` itself):
+Required extra installs (on top of `typologist[anthropic]`):
     uv pip install datasets sentence-transformers umap-learn datamapplot
 
 Run from the repo root:
@@ -244,7 +249,7 @@ def _run_pass(
     with ``metadata=df[["product_category"]]`` (erasure). The only difference
     between the two calls is the ``metadata=`` keyword.
     """
-    from typologist import Typologist
+    from typologist import AnthropicLLM, Typologist
 
     print(f"Fitting Typologist ({label}, n_facets=3)...")
     t = Typologist(
@@ -252,6 +257,9 @@ def _run_pass(
         topic_embedder=topic_embedder,
         object_description="product reviews",
         corpus_description="Amazon product reviews",
+        naming_llm=AnthropicLLM("claude-haiku-4-5"),
+        schema_llm=AnthropicLLM("claude-opus-4-7"),
+        labeling_llm=AnthropicLLM("claude-haiku-4-5"),
         random_state=RANDOM_SEED,
         verbose=True,
     ).fit(documents, embeddings, metadata=metadata)
@@ -314,10 +322,10 @@ def main() -> None:
     #     projects its linear signal out of the embeddings and the synthesis
     #     prompt is told to avoid it, so discovery finds something else.
     #
-    # naming_llm, schema_llm, and labeling_llm default to Anthropic model
-    # strings (so ANTHROPIC_API_KEY is read from the env). If you use a
-    # different provider, pass a callable(prompt: str) -> str to any of those
-    # three kwargs; see docs/design.md for the full contract.
+    # naming_llm, schema_llm, and labeling_llm are required keyword-only
+    # arguments. This example uses AnthropicLLM (reading ANTHROPIC_API_KEY
+    # from the env). For other providers, swap in OpenAILLM(...) or a
+    # callable(prompt: str) -> str; see docs/design.md for the contract.
     topic_embedder = SentenceTransformer("all-MiniLM-L6-v2")
 
     _run_pass(

@@ -2,8 +2,8 @@ from __future__ import annotations
 
 import pandas as pd
 
-from typologist._llm import _CallableLLM
 from typologist._pipeline import _classify_docs
+from typologist.llm import _CallableLLM
 
 
 def _facet(name="sentiment", values=None):

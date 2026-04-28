@@ -22,16 +22,18 @@ If you've used BERTopic or similar, the question worth asking up front is how th
 
 ## Install
 
-Requires Python 3.11+.
+Requires Python 3.11+. Pick a provider extra; the package itself is provider-neutral.
 
 ```bash
-uv add typologist
-# or: pip install typologist
+uv add 'typologist[anthropic]'
+# or: pip install 'typologist[anthropic]'
 ```
+
+Extras: `[anthropic]`, `[openai]`, `[all]`. None of them are activated by default. If you want to wire up your own provider via a `Callable[[str], str]`, install bare `typologist` and skip the extras entirely.
 
 You'll also want:
 
-- `ANTHROPIC_API_KEY` in the environment, or pass your own LLM callable for any of the three discovery roles (see [`docs/design.md`](docs/design.md)).
+- An API key for whichever provider you picked: `ANTHROPIC_API_KEY` for `AnthropicLLM`, `OPENAI_API_KEY` for `OpenAILLM`. The example below uses Anthropic.
 - A sentence-embedding model that Toponymy (the cluster-naming library Typologist builds on) can use internally for keyphrases and topic names. `sentence-transformers` with MiniLM is cheap and good enough for most use cases:
 
   ```bash
@@ -39,14 +41,14 @@ You'll also want:
   ```
 
 > [!IMPORTANT]
-> Fitting Typologist makes paid LLM API calls. With the default Anthropic models, expect about $3 per 500-doc fit at `n_facets=3`. See [Performance](#performance) for the breakdown and [Model choice](#model-choice) for ways to lower it.
+> Fitting Typologist makes paid LLM API calls. With the Anthropic Haiku/Opus mix shown below, expect about $3 per 500-doc fit at `n_facets=3`; other providers will differ. See [Performance](#performance) for the breakdown and [Model choice](#model-choice) for ways to lower it.
 
 ## Quick start
 
 ```python
 import numpy as np
 from sentence_transformers import SentenceTransformer
-from typologist import Typologist
+from typologist import AnthropicLLM, Typologist
 
 documents = [...]              # list[str], one per document
 embeddings = np.array(...)     # shape (n_docs, d), float
@@ -54,8 +56,13 @@ embeddings = np.array(...)     # shape (n_docs, d), float
 t = Typologist(
     n_facets=3,
     topic_embedder=SentenceTransformer("all-MiniLM-L6-v2"),
+    naming_llm=AnthropicLLM("claude-haiku-4-5"),
+    schema_llm=AnthropicLLM("claude-opus-4-7"),
+    labeling_llm=AnthropicLLM("claude-haiku-4-5"),
 ).fit(documents, embeddings)
 ```
+
+The three LLM kwargs are required and have no defaults. Swap any of them for `OpenAILLM("gpt-4o-mini")`, a custom `LLM` subclass, or a plain `Callable[[str], str]` to use a different provider; the rest of the API stays the same.
 
 Run on a stratified sample of 500 Amazon product reviews ([`examples/amazon_reviews.py`](examples/amazon_reviews.py) is the runnable script), `t.schema_` looks like:
 
@@ -106,7 +113,7 @@ Pass a `metadata` DataFrame to erase known axes before discovery starts, so the 
 ```python
 import pandas as pd
 from sentence_transformers import SentenceTransformer
-from typologist import Typologist
+from typologist import AnthropicLLM, Typologist
 
 # df has columns "text" (review body) and curator-assigned "product_category"
 documents = df["text"]
@@ -117,6 +124,9 @@ t = Typologist(
     topic_embedder=SentenceTransformer("all-MiniLM-L6-v2"),
     object_description="product reviews",
     corpus_description="Amazon product reviews",
+    naming_llm=AnthropicLLM("claude-haiku-4-5"),
+    schema_llm=AnthropicLLM("claude-opus-4-7"),
+    labeling_llm=AnthropicLLM("claude-haiku-4-5"),
     random_state=0,
 ).fit(
     documents,
@@ -156,12 +166,16 @@ Erasure is partial, not absolute. Passing `metadata=` activates two independent 
 
 ## Reusing a discovered schema
 
-Every facet entry stores its own `labeling_prompt_template` and `labeling_model`, so you can apply a schema to new documents without re-running discovery:
+Every facet entry stores its own `labeling_prompt_template` and a `labeling_model` provenance string (e.g., `"anthropic:claude-haiku-4-5"`), so you can apply a schema to new documents without re-running discovery. `apply_schema` is provider-neutral, so you pass the LLM you want to label with:
 
 ```python
-from typologist import apply_schema
+from typologist import AnthropicLLM, apply_schema
 
-new_labels = apply_schema(schema=t.schema_, documents=new_docs)
+new_labels = apply_schema(
+    schema=t.schema_,
+    documents=new_docs,
+    llm=AnthropicLLM("claude-haiku-4-5"),
+)
 ```
 
 See [`docs/design.md`](docs/design.md) for the full schema entry shape and `apply_schema` contract.
@@ -170,11 +184,14 @@ See [`docs/design.md`](docs/design.md) for the full schema entry shape and `appl
 
 Per-document labeling runs through a threadpool (`max_concurrency=10` by default). On 1000 docs with `n_facets=3` you should see roughly 6-8 minutes end to end. Toponymy's cluster naming and the schema-synthesis LLM calls are still serial; full async is a 0.2 item.
 
-Cost on the default Anthropic models (Haiku for naming and per-doc labeling, Opus for the small number of schema-synthesis calls) runs about $3 per 500-doc fit at `n_facets=3`, dominated by per-document labeling. Local embedding (the MiniLM path above) is free; remote embedding APIs (Cohere, OpenAI) are usually a small additional fraction.
+Cost on the Anthropic Haiku/Opus mix used in the example above (Haiku for naming and per-doc labeling, Opus for the small number of schema-synthesis calls) runs about $3 per 500-doc fit at `n_facets=3`, dominated by per-document labeling. Local embedding (the MiniLM path above) is free; remote embedding APIs (Cohere, OpenAI) are usually a small additional fraction. Other providers and tiers will differ; pick the model trade-off that fits your budget.
 
 ## Model choice
 
-**LLMs.** The default `naming_llm` and `labeling_llm` are Haiku; `schema_llm` is Opus. The split reflects where quality matters most: schema synthesis runs only `n_facets` times and is the quality-dominant step, so it's worth the upgrade. Cluster naming and per-document labeling are called orders of magnitude more often and benefit less from a more capable model. If you're cost-cutting, downgrade `schema_llm` last.
+**LLMs.** Typologist is provider-neutral — pick whichever you have keys for. `AnthropicLLM` and `OpenAILLM` ship in the package; subclass `LLM` (or pass a `Callable[[str], str]`) for anything else. Within whichever provider you pick, the three roles trade off differently:
+
+- `schema_llm` runs only `n_facets` times and is the quality-dominant step. Use the strongest model you'll pay for here.
+- `naming_llm` and `labeling_llm` are called orders of magnitude more often and benefit less from a more capable model. If you're cost-cutting, downgrade these first; a Haiku/Opus split (or `gpt-4o-mini` / `gpt-4o`) is a reasonable default shape.
 
 **Embeddings.** The input embeddings (your `(n_docs, d)` array) and the `topic_embedder` Toponymy uses for keyphrases and exemplar selection are separate slots and don't have to come from the same model. In practice a local sentence-transformers `topic_embedder` seems to work fine even when input embeddings come from a stronger remote model (Cohere, OpenAI), so you can put your embedding budget on the input embeddings without losing quality on the cluster-naming side.
 

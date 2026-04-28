@@ -29,16 +29,16 @@ The commitment is intentional. Agentic architectures are useful for path-depende
 ## Public surface
 
 ```python
-from typologist import Typologist, apply_schema
+from typologist import AnthropicLLM, Typologist, apply_schema
 
 t = Typologist(
     n_facets=3,
     topic_embedder=...,                         # required, no default
+    naming_llm=AnthropicLLM("claude-haiku-4-5"),  # required, keyword-only
+    schema_llm=AnthropicLLM("claude-opus-4-7"),   # required, keyword-only
+    labeling_llm=AnthropicLLM("claude-haiku-4-5"),  # required, keyword-only
     object_description="objects",
     corpus_description="collection of objects",
-    naming_llm="claude-haiku-4-5",
-    schema_llm="claude-opus-4-7",
-    labeling_llm="claude-haiku-4-5",
     random_state=None,
     noise_label="Unlabelled",
     verbose=False,
@@ -49,7 +49,7 @@ t.labels_df_                 # pd.DataFrame, shape (n_docs, n_facets)
 t.embeddings_residualized_   # np.ndarray, shape (n_docs, dim)
 t.facet_diagnostics_         # list[dict]
 
-labels_df = apply_schema(schema, documents, llm=None)
+labels_df = apply_schema(schema, documents, llm=AnthropicLLM("claude-haiku-4-5"))
 ```
 
 ## Constructor parameters
@@ -58,11 +58,11 @@ labels_df = apply_schema(schema, documents, llm=None)
 |---|---|---|---|
 | `n_facets` | `int` | required | number of categorical facets to discover; no `"auto"` in 0.1 |
 | `topic_embedder` | object implementing `TextEmbedderProtocol` | required | no default; matches Toponymy's stance. Intended for Toponymy's internal keyphrase/topic-name embedding. `sentence_transformers.SentenceTransformer("all-MiniLM-L6-v2")` is a recommended baseline (see predecessor evidence) |
+| `naming_llm` | `LLM \| Callable` | required, keyword-only | names Toponymy's clusters. Called O(n_clusters x n_layers x n_facets) times. Pass `AnthropicLLM(...)`, `OpenAILLM(...)`, a custom `LLM` subclass, or a `Callable[[str], str]` |
+| `schema_llm` | `LLM \| Callable` | required, keyword-only | synthesizes a facet from cluster names. Called O(n_facets) times; quality-dominant step |
+| `labeling_llm` | `LLM \| Callable` | required, keyword-only | classifies each document into a facet's value vocabulary. Called O(n_docs x n_facets) times |
 | `object_description` | `str` | `"objects"` | describes what each document is. Passed through to Toponymy; also rendered into our schema-synthesis and labeling prompts |
 | `corpus_description` | `str` | `"collection of objects"` | describes the collection as a whole. Same passthrough behavior |
-| `naming_llm` | `str \| Callable` | `"claude-haiku-4-5"` | names Toponymy's clusters. Called O(n_clusters x n_layers x n_facets) times |
-| `schema_llm` | `str \| Callable` | `"claude-opus-4-7"` | synthesizes a facet from cluster names. Called O(n_facets) times; quality-dominant step |
-| `labeling_llm` | `str \| Callable` | `"claude-haiku-4-5"` | classifies each document into a facet's value vocabulary. Called O(n_docs x n_facets) times |
 | `random_state` | `int \| None` | `None` | threaded into LEACE fit, sampling, NumPy RNG. EVoC has no `random_state` and is the residual source of non-determinism; this is documented, not fixed |
 | `noise_label` | `str` | `"Unlabelled"` | sentinel string for docs that couldn't be classified into any value. British spelling matches Toponymy and DataMapPlot |
 | `verbose` | `bool` | `False` | cascades to Toponymy and other noisy subcomponents, and to a tqdm bar around the per-doc labeling loop |
@@ -89,9 +89,12 @@ One entry per discovered facet, in discovery order:
     "values": list[str],              # value vocabulary for this facet, "Other" appended
     "definition": str,                # human-readable semantic definition
     "labeling_prompt_template": str,  # f-string template containing "{document}"
-    "labeling_model": str | None,     # None if labeling_llm was a callable
+    "labeling_model": str | None,     # "{provider}:{model_name}" provenance string;
+                                      # None if labeling_llm was a callable
 }
 ```
+
+**`labeling_model`.** Provenance only: a `"provider:model"` string (e.g., `"anthropic:claude-haiku-4-5"`, `"openai:gpt-4o-mini"`) identifying the LLM that produced the schema. `apply_schema` does *not* auto-resolve this back to an LLM instance; you always pass `llm=` explicitly. The string is informational, intended for humans reading a JSON-serialized schema.
 
 **`labeling_prompt_template` format.** Plain Python f-string with a single `{document}` variable. No Jinja, no additional placeholders, no hidden context substituted at call time. The template is fully self-contained at storage time: `object_description` and `corpus_description` are rendered into the template when the schema is generated, so downstream users reusing a schema do not need to know the original descriptions.
 
@@ -127,17 +130,17 @@ One entry per facet, mirroring `schema_` order. Contains provenance and per-face
 
 Exact fields may evolve across minor versions; `facet_diagnostics_` is **not** part of the stable persisted-state contract.
 
-## `apply_schema(schema, documents, llm=None, noise_label="Unlabelled", max_concurrency=10, verbose=False) -> pd.DataFrame`
+## `apply_schema(schema, documents, llm, noise_label="Unlabelled", max_concurrency=10, verbose=False) -> pd.DataFrame`
 
 Applies an existing schema to new documents without running discovery.
 
 - `schema`: a `list[dict]` in the `schema_` format, or a single facet dict.
 - `documents`: `list[str]` or `pd.Series[str]`. Index-preservation behavior matches `fit`.
-- `llm`: `str | Callable | None`. If `None`, each facet uses its own `labeling_model`. If `str` or `Callable`, that overrides every facet's stored model.
+- `llm`: `LLM | Callable[[str], str]`. Required. The schema's stored `labeling_model` is provenance only and is not auto-resolved.
 - `noise_label`: sentinel for parse failures; defaults to the same string `Typologist` uses by default.
 - `max_concurrency`: per-doc labeling calls run through a threadpool. Set to `1` for serial.
 - `verbose`: if true, shows a tqdm progress bar per facet.
-- Raises a clear error if any facet has `labeling_model=None` and no `llm=` is passed.
+- Raises `TypeError` if `llm` is omitted.
 
 Returns a `pd.DataFrame` in the same shape as `labels_df_` (Categorical columns, noise-labeled per the schema at generation time).
 
@@ -192,7 +195,6 @@ Each item is tracked as a GitHub issue with the `parking-lot` label; click throu
 - **Async support (0.2+).** Threadpool covers most labeling-throughput; full async rework with `AsyncLLMWrapper` is the 0.2 story. (see #15)
 - **Ordinal facets (0.2+).** Adds `"ordinal"` kind, value-ordering invariant, and `pd.Categorical(..., ordered=True)` in `labels_df_`. (see #16)
 - **Stability helper `stability_check(docs, embeddings, n_seeds=5)` (0.2).** Reports cross-seed agreement on facets, values, and per-doc labels. (see #17)
-- **`anthropic_llm(model)` convenience factory (0.1.x).** Collapses the 9-line `make_tracked_llm` pattern into one line. (see #18)
 - **Functional `discover()` (needs separate design pass).** Open question: rich result object that surfaces all four fitted artifacts. (see #19)
 - **`predefined_facets=` one-call sugar.** Already composable via `apply_schema` + `metadata=`; sugar later if clunky in practice. (see #20)
 - **Extension / incremental `n_facets` (0.2+).** Resume a previous fit via `prior_schema=` / `prior_labels_df=` / `prior_residualized=`. (see #21)
