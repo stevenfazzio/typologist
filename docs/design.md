@@ -114,6 +114,8 @@ One entry per discovered facet, in discovery order:
 
 **What "erased" means here.** Each erasure pass is a LEACE projection on either a metadata column (during pre-erasure) or a facet's per-document labels (during between-facet residualization). LEACE removes the *entire* linear subspace of the embeddings that predicts the one-hot encoding of those labels, not just the centroid offset between value groups. In practice this means signals that are linearly correlated with the erased facet or metadata column (even if they aren't it themselves) also get removed. Users chaining `embeddings_residualized_` into downstream tasks whose targets correlate with an erased facet or metadata column (e.g., predicting a 1-5 rating after erasing a sentiment facet) should expect partial erasure of those targets as well.
 
+This compounds across passes. After K facets have been residualized iteratively, the embedding has had K linear subspaces projected out. Predicting any one of those K facets from `embeddings_residualized_` typically drops to chance; correlated signals survive better but still degrade meaningfully. Downstream-predictive uses of `embeddings_residualized_` should account for this.
+
 ### `facet_diagnostics_: list[dict]`
 
 One entry per facet, mirroring `schema_` order. Contains provenance and per-facet signals:
@@ -185,13 +187,13 @@ Measured reductions (baseline vs with both levers, n=500 per run, 2 seeds averag
 
 ## Parking lot (post-0.1)
 
-Each item has a one-line "why deferred" note.
+Each item is tracked as a GitHub issue with the `parking-lot` label; click through for full design notes. Filter: [is:issue label:parking-lot](https://github.com/stevenfazzio/typologist/issues?q=is%3Aissue+label%3Aparking-lot).
 
-- **Async support (0.2+).** Labeling concurrency landed early via a threadpool (see `max_concurrency` above), which delivers most of the practical throughput win without touching the `_LLM` interface. Toponymy naming and schema synthesis are still serial; full async rework with `AsyncLLMWrapper` integration is the 0.2 story.
-- **Ordinal facets (0.2+).** Predecessor evidence showed ordinal discovery works when the data has a spectrum, but the behavior was only barely observed at n=5. 0.1 emits `"categorical"` only; properly adding `"ordinal"` means prompt guidance on when to pick it, a value-ordering invariant, and `pd.Categorical(..., ordered=True)` in the labels DataFrame. Deferred until we have prompt tuning and tests that verify the ordered semantics round-trip.
-- **Stability helper `stability_check(docs, embeddings, n_seeds=5)` (0.2).** Predecessor evidence shows this is cheap and produces robust signal; deferred only to minimize 0.1 surface.
-- **`anthropic_llm(model)` convenience factory (0.1.x).** Collapses the 9-line `make_tracked_llm` pattern into one line; easy addition once we see real usage.
-- **Functional `discover()` (needs separate design pass).** Thin wrapper over the class didn't feel worth it given our multi-artifact output. If added later, the open design question is what a rich result object looks like so users don't miss `schema_` / `labels_df_` / `embeddings_residualized_` / `facet_diagnostics_`.
-- **`predefined_facets=` one-call sugar.** Already composable in 0.1 via `apply_schema` + `metadata=` (the user labels with a predefined schema, then passes those labels as `metadata` to erase before discovering more). Syntactic sugar later if the composition proves clunky in practice.
-- **Extension / incremental `n_facets` (0.2+).** Running `Typologist(n_facets=2).fit(..., prior_schema=t1.schema_, prior_labels_df=t1.labels_df_, prior_residualized=t1.embeddings_residualized_)`. 0.1 persisted-state contract (above) already makes this addable without breaking changes.
-- **Tier-1 map output (0.2).** Surface 2D coordinates and hierarchical region labels so users go straight to DataMapPlot without the plumbing. Requires UMAP on the original (pre-residualization) embeddings plus a *separate* Toponymy fit on the 2D coords: Toponymy on the high-dim embeddings produces semantically sensible clusters but they don't line up with the 2D layout, so the labels float over regions that aren't theirs. Cost beyond base fit: ~1 minute and ~$0.25. Adds `umap-learn` as an optional extra (`typologist[viz]`); inherits upstream Toponymy + fast-hdbscan fragility (see `TutteInstitute/toponymy#135` / our `#4`). Placement is an open design question: sibling module (`typologist.viz.make_map_artifacts(t)`), method on the fitted class (`t.produce_map_artifacts()`), or flag on `fit` (`produce_map=True` with `coords_2d_` / `map_labels_` / `map_topic_names_` as fitted attributes). Current lean: sibling module, to keep core focused on schema extraction and contain the compat risk.
+- **Async support (0.2+).** Threadpool covers most labeling-throughput; full async rework with `AsyncLLMWrapper` is the 0.2 story. (see #15)
+- **Ordinal facets (0.2+).** Adds `"ordinal"` kind, value-ordering invariant, and `pd.Categorical(..., ordered=True)` in `labels_df_`. (see #16)
+- **Stability helper `stability_check(docs, embeddings, n_seeds=5)` (0.2).** Reports cross-seed agreement on facets, values, and per-doc labels. (see #17)
+- **`anthropic_llm(model)` convenience factory (0.1.x).** Collapses the 9-line `make_tracked_llm` pattern into one line. (see #18)
+- **Functional `discover()` (needs separate design pass).** Open question: rich result object that surfaces all four fitted artifacts. (see #19)
+- **`predefined_facets=` one-call sugar.** Already composable via `apply_schema` + `metadata=`; sugar later if clunky in practice. (see #20)
+- **Extension / incremental `n_facets` (0.2+).** Resume a previous fit via `prior_schema=` / `prior_labels_df=` / `prior_residualized=`. (see #21)
+- **Tier-1 map output (0.2).** Surface 2D coords and hierarchical region labels for direct DataMapPlot use; adds `umap-learn` as optional extra. (see #22)
