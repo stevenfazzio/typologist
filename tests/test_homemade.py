@@ -5,7 +5,7 @@ import pandas as pd
 import pytest
 
 from typologist._homemade import _run_homemade_naming, _select_exemplars
-from typologist._llm import _CallableLLM
+from typologist.llm import _CallableLLM
 
 
 class _FakeEVoC:

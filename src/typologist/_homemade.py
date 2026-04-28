@@ -24,8 +24,8 @@ import pandas as pd
 from evoc import EVoC
 from tqdm.auto import tqdm
 
-from typologist._llm import _LLM
 from typologist._pipeline import _NamingResult
+from typologist.llm import LLM
 
 _NAMING_PROMPT = """\
 Below are {n_exemplars} {object_description} from one cluster within {corpus_description}.
@@ -73,7 +73,7 @@ def _select_exemplars(
 def _run_homemade_naming(
     documents: pd.Series,
     embeddings: np.ndarray,
-    naming_llm: _LLM,
+    naming_llm: LLM,
     object_description: str,
     corpus_description: str,
     exemplars_k: int = 8,

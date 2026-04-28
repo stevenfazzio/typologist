@@ -252,7 +252,24 @@ def test_apply_schema_accepts_single_facet_dict():
     assert list(result.columns) == ["f"]
 
 
-def test_apply_schema_requires_llm_when_facet_has_no_labeling_model():
+def test_apply_schema_requires_llm_even_when_labeling_model_set():
+    import pytest
+
+    schema = [
+        {
+            "name": "f",
+            "kind": "categorical",
+            "values": ["a", "b"],
+            "definition": "d",
+            "labeling_prompt_template": "{document}",
+            "labeling_model": "anthropic:claude-haiku-4-5",
+        }
+    ]
+    with pytest.raises(TypeError, match="apply_schema requires `llm="):
+        apply_schema(schema, documents=["x"])
+
+
+def test_apply_schema_requires_llm_when_labeling_model_is_none():
     import pytest
 
     schema = [
@@ -265,7 +282,7 @@ def test_apply_schema_requires_llm_when_facet_has_no_labeling_model():
             "labeling_model": None,
         }
     ]
-    with pytest.raises(RuntimeError, match="labeling_model=None"):
+    with pytest.raises(TypeError, match="apply_schema requires `llm="):
         apply_schema(schema, documents=["x"])
 
 

@@ -12,12 +12,12 @@ from toponymy import Toponymy
 from toponymy.clustering import EVoCClusterer
 from tqdm.auto import tqdm
 
-from typologist._llm import _LLM, _wrap_for_toponymy
 from typologist._prompts import (
     render_labeling_prompt,
     render_labeling_template,
     render_synthesis_prompt,
 )
+from typologist.llm import LLM, _wrap_for_toponymy
 
 
 @dataclass(frozen=True)
@@ -181,7 +181,7 @@ def _run_toponymy(
     documents: pd.Series,
     embeddings: np.ndarray,
     topic_embedder: Any,
-    naming_llm: _LLM,
+    naming_llm: LLM,
     object_description: str,
     corpus_description: str,
     verbose: bool,
@@ -227,8 +227,8 @@ _FACET_RESPONSE_SCHEMA = {
 
 def _synthesize_facet(
     cluster_hierarchy: list[list[str]],
-    schema_llm: _LLM,
-    labeling_llm_model_name: str | None,
+    schema_llm: LLM,
+    labeling_llm: LLM,
     object_description: str,
     corpus_description: str,
     prior_facet_names: list[str],
@@ -238,9 +238,9 @@ def _synthesize_facet(
 
     Returns a (facet_dict, synthesis_prompt) tuple. The synthesis prompt is
     returned so the caller can record it in ``facet_diagnostics_``. The
-    facet_dict is the entry that goes into ``schema_``; it records
-    ``labeling_llm_model_name`` as the ``labeling_model`` field (the
-    classification-step model, not the synthesis-step one).
+    facet_dict is the entry that goes into ``schema_``; it records the
+    classification-step model as ``"{provider}:{model_name}"`` in
+    ``labeling_model`` (or ``None`` if ``labeling_llm`` is a callable).
     """
     prompt = render_synthesis_prompt(
         cluster_hierarchy=cluster_hierarchy,
@@ -281,13 +281,18 @@ def _synthesize_facet(
         object_description=object_description,
     )
 
+    if labeling_llm.provider is not None and labeling_llm.model_name is not None:
+        labeling_model_id: str | None = f"{labeling_llm.provider}:{labeling_llm.model_name}"
+    else:
+        labeling_model_id = None
+
     facet = {
         "name": name,
         "kind": response["kind"],
         "values": values,
         "definition": response["definition"],
         "labeling_prompt_template": labeling_template,
-        "labeling_model": labeling_llm_model_name,
+        "labeling_model": labeling_model_id,
     }
     return facet, prompt
 
@@ -295,7 +300,7 @@ def _synthesize_facet(
 def _classify_docs(
     facet: dict,
     documents: pd.Series,
-    labeling_llm: _LLM,
+    labeling_llm: LLM,
     noise_label: str,
     max_concurrency: int = 1,
     verbose: bool = False,

@@ -7,7 +7,6 @@ import numpy as np
 import pandas as pd
 
 from typologist._homemade import _run_homemade_naming
-from typologist._llm import _resolve_llm
 from typologist._pipeline import (
     _build_facet_diagnostics,
     _classify_docs,
@@ -18,6 +17,7 @@ from typologist._pipeline import (
     _run_toponymy,
     _synthesize_facet,
 )
+from typologist.llm import LLM, _resolve_llm
 
 
 class Typologist:
@@ -30,11 +30,12 @@ class Typologist:
         self,
         n_facets: int,
         topic_embedder: Any,
+        *,
+        naming_llm: LLM | Callable[..., str],
+        schema_llm: LLM | Callable[..., str],
+        labeling_llm: LLM | Callable[..., str],
         object_description: str = "objects",
         corpus_description: str = "collection of objects",
-        naming_llm: str | Callable[..., str] = "claude-haiku-4-5",
-        schema_llm: str | Callable[..., str] = "claude-opus-4-7",
-        labeling_llm: str | Callable[..., str] = "claude-haiku-4-5",
         random_state: int | None = None,
         noise_label: str = "Unlabelled",
         verbose: bool = False,
@@ -112,7 +113,7 @@ class Typologist:
             facet, synthesis_prompt = _synthesize_facet(
                 cluster_hierarchy=naming_result.topic_names,
                 schema_llm=schema_llm,
-                labeling_llm_model_name=labeling_llm.model_name,
+                labeling_llm=labeling_llm,
                 object_description=self.object_description,
                 corpus_description=self.corpus_description,
                 prior_facet_names=[f["name"] for f in schema],
