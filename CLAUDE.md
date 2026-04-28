@@ -4,13 +4,17 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## What this is
 
-Typologist is a Python FOSS tool that takes a corpus of documents (plus embeddings, and optionally existing structured metadata to concept-erase) and returns a schema of discovered categorical facets with per-document labels. Built on [Toponymy](https://github.com/TutteInstitute/toponymy) and [EVoC](https://github.com/TutteInstitute/evoc).
+Typologist is a Python FOSS tool for *schema induction* over document corpora: given a corpus (plus embeddings, optionally with structured metadata to concept-erase), it returns a multi-facet categorical schema with per-document labels. Built on [Toponymy](https://github.com/TutteInstitute/toponymy), [EVoC](https://github.com/TutteInstitute/evoc), and [LEACE](https://github.com/EleutherAI/concept-erasure).
+
+Schema induction is the automated form of faceted classification, the library-science approach to multi-axis categorical description (Ranganathan's colon classification, 1933). The project is positioned for ML/data-science audiences and for the taxonomy/ontology/archives/library-science world alike.
 
 Audience: data scientists, ML engineers, taxonomists/ontologists/archivists/librarians, social scientists, marketing/product analysts, and users of McInnes/Tutte tools.
 
+The 0.1 public-API contract lives in `docs/design.md`.
+
 ## Project state (2026-04-22)
 
-Alpha. 0.0.1 is live on PyPI; the public API is still subject to change as we iterate (see `docs/design.md` for the current contract). Successor to an earlier research harness (see memory for design rationale and empirical findings that inform current defaults).
+Alpha. 0.0.1 is live on PyPI; the public API is still subject to change as we iterate.
 
 ## Key decisions locked
 
@@ -26,7 +30,7 @@ Alpha. 0.0.1 is live on PyPI; the public API is still subject to change as we it
 
 ## Inherited gotchas from the dependency ecosystem
 
-These apply to any code built on Toponymy + EVoC + LEACE, carried over from prior work on the predecessor harness:
+These apply to any code built on Toponymy + EVoC + LEACE:
 
 **LEACE fit with int labels.** `LeaceEraser.fit(X, z_int)` accepts integer class labels but treats them as a single continuous feature, so only one axis of variance gets projected out. For multi-class erasure Z must be one-hot.
 
@@ -40,10 +44,12 @@ These apply to any code built on Toponymy + EVoC + LEACE, carried over from prio
 
 **EVoC has no `random_state`.** Clustering is non-deterministic within a session. Wire a `random_state` at the Typologist level where we can (LEACE fit, any sampling, NumPy RNG) and document EVoC as the residual source of non-determinism.
 
-## Required env vars (when code is added)
+## Provider API keys
 
-- `ANTHROPIC_API_KEY`: for cluster naming and axis synthesis
-- `CO_API_KEY`: for Cohere embeddings. Note: NOT the more common `COHERE_API_KEY`. The Cohere Python SDK v5+ uses `CO_API_KEY`; some older docs still say `COHERE_API_KEY` and that silently fails to authenticate.
+None are required by Typologist itself; each is required only if you use the corresponding provider.
+
+- `ANTHROPIC_API_KEY`: for `AnthropicLLM`.
+- `OPENAI_API_KEY`: for `OpenAILLM`.
 
 ## Commands
 
@@ -59,11 +65,3 @@ Apply format: `uv run ruff format src tests`
 
 Check whether `CHANGELOG.md` needs an entry under `[Unreleased]`. The bar: would someone upgrading from the previous version benefit from knowing? If yes, add to the appropriate Keep-a-Changelog section (Added / Changed / Deprecated / Removed / Fixed / Security); breaking changes get a `**Breaking:**` prefix inside Changed. Skip for internal refactors, dev tooling, CI, test-only, or pure doc tidying.
 
-## Reading order for a fresh agent
-
-1. This file
-2. `README.md` for user-facing framing
-3. The memory directory for locked decisions, API design heuristics, empirical findings, and collaboration preferences
-4. `docs/design.md` for the 0.1 public-API contract (the implementation target)
-5. `pyproject.toml` for build/deps config
-6. Once there's code: `src/typologist/__init__.py` to see the public surface

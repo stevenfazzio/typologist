@@ -1,7 +1,7 @@
 [project]
 name = "typologist"
 version = "0.0.1"
-description = "Extract categorical schema from a corpus of documents. Built on Toponymy and EVoC."
+description = "Induce a multi-facet categorical schema from a corpus of documents. Built on Toponymy, EVoC, and LEACE."
 readme = "README.md"
 authors = [{name = "Steven Fazzio", email = "fazzios@gmail.com"}]
 license = "BSD-3-Clause"
@@ -27,7 +27,8 @@ keywords = [
     "clustering",
     "concept-erasure",
     "taxonomy",
-    "schema-extraction",
+    "schema-induction",
+    "faceted-classification",
 ]
 dependencies = [
     "numpy>=1.24",
