@@ -40,6 +40,37 @@ Choose exactly one of: {values_joined}
 Respond with the chosen value name only, no explanation.\
 """
 
+_MULTI_SYNTHESIS_PROMPT = """\
+You are analyzing a corpus of {object_description} from {corpus_description}.
+
+Clustered topics discovered in this corpus at multiple levels of granularity:
+
+{hierarchy_block}
+
+Identify {n_facets} mutually orthogonal categorical axes along which these {object_description} vary.{accounted_for_block}
+
+Respond with only valid JSON of the form:
+{{
+  "facets": [
+    {{
+      "name": "<lowercase snake_case identifier>",
+      "kind": "categorical",
+      "values": ["<value1>", "<value2>", ...],
+      "definition": "<one short sentence explaining what this facet captures>"
+    }}
+  ]
+}}
+
+Return exactly {n_facets} facets in the array.
+
+Rules:
+- The {n_facets} facets must be distinct categorical axes, orthogonal to each other (a document's value on one facet should not predict its value on another).
+- Do not include "Other" or any similar catch-all value. A catch-all will be appended automatically after your response.
+- Choose value names that are specific and discriminating; avoid vague umbrella terms like "General", "Miscellaneous", or anything broad enough to absorb the majority of {object_description}.
+- Use lowercase snake_case for value names unless proper nouns are required.
+- The "name" field should describe the axis itself, not a specific value on it.
+"""
+
 
 def _format_accounted_for_entry(entry: dict) -> str:
     """Format one bullet of the accounted-for-axes block.
@@ -138,3 +169,46 @@ def render_labeling_prompt(template: str, document: str) -> str:
     literal curly braces (JSON snippets, code) don't blow up.
     """
     return template.replace("{document}", document)
+
+
+def render_multi_synthesis_prompt(
+    cluster_hierarchy: list[list[str]],
+    object_description: str,
+    corpus_description: str,
+    n_facets: int,
+    erased_metadata_descriptions: list[dict] | None = None,
+) -> str:
+    """Build a one-shot prompt asking the schema_llm for ``n_facets`` facets at once.
+
+    Used by ``Typologist.fit_single_pass``: no iterative loop, no per-facet LEACE.
+    The model sees one Toponymy hierarchy and is asked to extract every axis at
+    once, with the only steering being the "must be orthogonal to each other"
+    instruction (and any erased-metadata bullets if provided).
+    """
+    hierarchy_lines: list[str] = []
+    for i, layer in enumerate(cluster_hierarchy):
+        hierarchy_lines.append(f"Layer {i}:")
+        for name in layer:
+            hierarchy_lines.append(f"  - {name}")
+    hierarchy_block = "\n".join(hierarchy_lines)
+
+    if erased_metadata_descriptions:
+        bullets = "\n".join(
+            _format_accounted_for_entry({"kind": "erased_metadata", **d})
+            for d in erased_metadata_descriptions
+        )
+        accounted_for_block = (
+            "\n\nThe following axes have already been accounted for in this "
+            "corpus and should NOT be re-proposed. Propose axes that are "
+            "orthogonal to all of them:\n" + bullets
+        )
+    else:
+        accounted_for_block = ""
+
+    return _MULTI_SYNTHESIS_PROMPT.format(
+        object_description=object_description,
+        corpus_description=corpus_description,
+        hierarchy_block=hierarchy_block,
+        n_facets=n_facets,
+        accounted_for_block=accounted_for_block,
+    )
