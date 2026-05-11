@@ -4,17 +4,21 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## What this is
 
-Typologist is a Python FOSS tool for *schema induction* over document corpora: given a corpus (plus embeddings, optionally with structured metadata to concept-erase), it returns a multi-facet categorical schema with per-document labels. Built on [Toponymy](https://github.com/TutteInstitute/toponymy), [EVoC](https://github.com/TutteInstitute/evoc), and [LEACE](https://github.com/EleutherAI/concept-erasure).
+Typologist is a Python FOSS tool for *schema induction* over document corpora: given a corpus and its embeddings, it returns a multi-facet categorical schema (a list of named axes, each with a vocabulary of values and a definition). Built on [Toponymy](https://github.com/TutteInstitute/toponymy) and [EVoC](https://github.com/TutteInstitute/evoc).
 
 Schema induction is the automated form of faceted classification, the library-science approach to multi-axis categorical description (Ranganathan's colon classification, 1933). The project is positioned for ML/data-science audiences and for the taxonomy/ontology/archives/library-science world alike.
+
+The pipeline is a single pass: Toponymy clusters and names the corpus; a schema-synthesis LLM proposes `n_facets` mutually orthogonal categorical axes from the resulting cluster hierarchy in one call. Per-document labels are obtained separately via `apply_schema(t.schema_, documents, llm=...)`, so discovery and labeling are budgeted independently.
 
 Audience: data scientists, ML engineers, taxonomists/ontologists/archivists/librarians, social scientists, marketing/product analysts, and users of McInnes/Tutte tools.
 
 The 0.1 public-API contract lives in `docs/design.md`.
 
-## Project state (2026-04-22)
+## Project state (2026-05-11)
 
-Alpha. 0.0.1 is live on PyPI; the public API is still subject to change as we iterate.
+Alpha. 0.1.0 on PyPI. The public API is still subject to change as we iterate.
+
+0.1.0 is a pivot release that removed the iterative LEACE-residualization workflow in favor of single-pass synthesis (`fit_single_pass` semantics promoted to `fit`). See `CHANGELOG.md` and `experiments/artifacts/` for the ablation evidence that motivated the change.
 
 ## Key decisions locked
 
@@ -30,19 +34,13 @@ Alpha. 0.0.1 is live on PyPI; the public API is still subject to change as we it
 
 ## Inherited gotchas from the dependency ecosystem
 
-These apply to any code built on Toponymy + EVoC + LEACE:
-
-**LEACE fit with int labels.** `LeaceEraser.fit(X, z_int)` accepts integer class labels but treats them as a single continuous feature, so only one axis of variance gets projected out. For multi-class erasure Z must be one-hot.
-
-**Re-normalization after LEACE.** Many embedders (including Cohere) return L2-normalized unit vectors. LEACE's affine projection pushes points slightly off the unit sphere, which matters for cosine-similarity clustering downstream. Renormalize after LEACE unless there's a specific reason not to.
-
 **Toponymy pinned to `>=0.5.0,<0.6.0`.** PyPI 0.5.0 works with `evoc==0.1.3`; earlier PyPI versions (0.4.0) had API drifts. Don't bump to 0.6.x without re-verifying evoc compatibility, since Toponymy's `EVoCClusterer` adapter ties the two together tightly.
 
 **EVoC pinned to `==0.1.3`.** Toponymy's `EVoCClusterer` adapter passes `min_num_clusters` and `next_cluster_size_quantile` kwargs that newer evoc (0.3.x) removed. If either pin changes, expect breakage.
 
-**Toponymy hard-imports `tokenizers` and `transformers` at module load** via `toponymy/llm_wrappers.py`; neither is in Toponymy's declared deps, so `uv sync` won't pull them in transitively. Both are listed as direct deps in our `pyproject.toml`. Matplotlib and `anywidget` are only needed if you import `toponymy.plotting`, which we don't.
+**Toponymy hard-imports `tokenizers`, `transformers`, and `jinja2` at module load** via its templates and llm-wrapper modules. None are in Toponymy's declared deps, so `uv sync` won't pull them in transitively. All three are listed as direct deps in our `pyproject.toml`. Matplotlib and `anywidget` are only needed if you import `toponymy.plotting`, which we don't.
 
-**EVoC has no `random_state`.** Clustering is non-deterministic within a session. Wire a `random_state` at the Typologist level where we can (LEACE fit, any sampling, NumPy RNG) and document EVoC as the residual source of non-determinism.
+**EVoC has no `random_state`.** Clustering is non-deterministic within a session. Wire a `random_state` at the Typologist level where we can (any sampling, NumPy RNG) and document EVoC as the residual source of non-determinism.
 
 ## Provider API keys
 
@@ -64,4 +62,3 @@ Apply format: `uv run ruff format src tests`
 ## Before committing
 
 Check whether `CHANGELOG.md` needs an entry under `[Unreleased]`. The bar: would someone upgrading from the previous version benefit from knowing? If yes, add to the appropriate Keep-a-Changelog section (Added / Changed / Deprecated / Removed / Fixed / Security); breaking changes get a `**Breaking:**` prefix inside Changed. Skip for internal refactors, dev tooling, CI, test-only, or pure doc tidying.
-

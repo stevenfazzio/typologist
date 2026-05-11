@@ -7,25 +7,30 @@ Clustered topics discovered in this corpus at multiple levels of granularity:
 
 {hierarchy_block}
 
-Identify a single categorical axis along which these {object_description} vary.{accounted_for_block}
+Identify {n_facets} mutually orthogonal categorical axes along which these {object_description} vary.
 
 Respond with only valid JSON of the form:
 {{
-  "name": "<lowercase snake_case identifier>",
-  "kind": "categorical",
-  "values": ["<value1>", "<value2>", ...],
-  "definition": "<one short sentence explaining what this facet captures>"
+  "facets": [
+    {{
+      "name": "<lowercase snake_case identifier>",
+      "kind": "categorical",
+      "values": ["<value1>", "<value2>", ...],
+      "definition": "<one short sentence explaining what this facet captures>"
+    }}
+  ]
 }}
 
+Return exactly {n_facets} facets in the array.
+
 Rules:
-- Do not include "Other" or any similar catch-all value. A catch-all will
-  be appended automatically after your response.
-- Choose value names that are specific and discriminating; avoid vague
-  umbrella terms like "General", "Miscellaneous", "Novel method", or
-  anything broad enough to absorb the majority of {object_description}.
+- The {n_facets} facets must be distinct categorical axes, orthogonal to each other (a document's value on one facet should not predict its value on another).
+- Do not include "Other" or any similar catch-all value. A catch-all will be appended automatically after your response.
+- Choose value names that are specific and discriminating; avoid vague umbrella terms like "General", "Miscellaneous", or anything broad enough to absorb the majority of {object_description}.
 - Use lowercase snake_case for value names unless proper nouns are required.
 - The "name" field should describe the axis itself, not a specific value on it.
 """
+
 
 _LABELING_TEMPLATE = """\
 Classify the following {object_description} along the "{facet_name}" dimension.
@@ -41,43 +46,16 @@ Respond with the chosen value name only, no explanation.\
 """
 
 
-def _format_accounted_for_entry(entry: dict) -> str:
-    """Format one bullet of the accounted-for-axes block.
-
-    ``entry`` is one of:
-    - ``{"kind": "prior_facet", "name": str}``
-    - ``{"kind": "erased_metadata", "name": str, "type": "categorical" | "ordinal",
-         "values_shown": list[str], "truncated": bool, "total_unique": int}``
-    """
-    name = entry["name"]
-    if entry["kind"] == "prior_facet":
-        return f'- "{name}"'
-
-    values_joined = ", ".join(entry["values_shown"])
-    remaining = entry["total_unique"] - len(entry["values_shown"])
-    trailing = f", ... and {remaining} more" if entry["truncated"] else ""
-    if entry["type"] == "ordinal":
-        return f'- "{name}" (ordinal; ordered values: {values_joined}{trailing})'
-    return f'- "{name}" (categorical; values include: {values_joined}{trailing})'
-
-
 def render_synthesis_prompt(
     cluster_hierarchy: list[list[str]],
     object_description: str,
     corpus_description: str,
-    prior_facet_names: list[str],
-    erased_metadata_descriptions: list[dict] | None = None,
+    n_facets: int,
 ) -> str:
-    """Build the one-shot prompt that ``schema_llm`` sees when proposing a new facet.
+    """Build the one-shot prompt that ``schema_llm`` sees when proposing facets.
 
     ``cluster_hierarchy`` is Toponymy's ``topic_names_``: layers from finest
     (layer 0) to coarsest.
-
-    ``erased_metadata_descriptions`` is an optional list of dicts produced by
-    ``_describe_erased_metadata`` describing columns the caller passed to
-    ``fit(metadata=...)``. They appear alongside prior facets in a unified
-    "do not re-propose" block so the LLM is steered off axes that have already
-    been accounted for, whether by Typologist itself or by the user.
     """
     hierarchy_lines: list[str] = []
     for i, layer in enumerate(cluster_hierarchy):
@@ -86,27 +64,11 @@ def render_synthesis_prompt(
             hierarchy_lines.append(f"  - {name}")
     hierarchy_block = "\n".join(hierarchy_lines)
 
-    entries: list[dict] = []
-    for name in prior_facet_names:
-        entries.append({"kind": "prior_facet", "name": name})
-    for desc in erased_metadata_descriptions or []:
-        entries.append({"kind": "erased_metadata", **desc})
-
-    if entries:
-        bullets = "\n".join(_format_accounted_for_entry(e) for e in entries)
-        accounted_for_block = (
-            "\n\nThe following axes have already been accounted for in this "
-            "corpus and should NOT be re-proposed. Propose an axis that is "
-            "orthogonal to all of them:\n" + bullets
-        )
-    else:
-        accounted_for_block = ""
-
     return _SYNTHESIS_PROMPT.format(
         object_description=object_description,
         corpus_description=corpus_description,
         hierarchy_block=hierarchy_block,
-        accounted_for_block=accounted_for_block,
+        n_facets=n_facets,
     )
 
 

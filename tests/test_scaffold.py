@@ -30,7 +30,7 @@ def test_typologist_constructor_stores_kwargs():
     assert t.random_state is None
     assert t.noise_label == "Unlabelled"
     assert t.verbose is False
-    assert t.max_concurrency == 10
+    assert t.use_toponymy is True
 
 
 def test_typologist_requires_llm_kwargs():

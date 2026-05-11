@@ -1,7 +1,7 @@
 [project]
 name = "typologist"
-version = "0.0.1"
-description = "Induce a multi-facet categorical schema from a corpus of documents. Built on Toponymy, EVoC, and LEACE."
+version = "0.1.0"
+description = "Induce a multi-facet categorical schema from a corpus of documents. Built on Toponymy and EVoC."
 readme = "README.md"
 authors = [{name = "Steven Fazzio", email = "fazzios@gmail.com"}]
 license = "BSD-3-Clause"
@@ -25,7 +25,6 @@ keywords = [
     "text-analysis",
     "topic-modeling",
     "clustering",
-    "concept-erasure",
     "taxonomy",
     "schema-induction",
     "faceted-classification",
@@ -35,10 +34,9 @@ dependencies = [
     "pandas>=2.0",
     "toponymy>=0.5.0,<0.6.0",
     "evoc==0.1.3",
-    "concept-erasure",
+    "jinja2",
     "tokenizers",
     "transformers",
-    "torch",
 ]
 
 [project.optional-dependencies]
@@ -71,6 +69,11 @@ target-version = "py311"
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "N", "W", "UP"]
+
+[tool.ruff.lint.per-file-ignores]
+# Prompt templates contain long lines whose newlines are load-bearing for
+# the LLM (wrapping changes what the model sees).
+"src/typologist/_prompts.py" = ["E501"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
