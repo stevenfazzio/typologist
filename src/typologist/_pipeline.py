@@ -6,17 +6,11 @@ from typing import Any
 
 import numpy as np
 import pandas as pd
-import torch
-from concept_erasure import LeaceEraser
 from toponymy import Toponymy
 from toponymy.clustering import EVoCClusterer
 from tqdm.auto import tqdm
 
-from typologist._prompts import (
-    render_labeling_prompt,
-    render_labeling_template,
-    render_synthesis_prompt,
-)
+from typologist._prompts import render_labeling_prompt
 from typologist.llm import LLM, _wrap_for_toponymy
 
 
@@ -26,14 +20,11 @@ class _Inputs:
 
     documents: pd.Series
     embeddings: np.ndarray
-    metadata: pd.DataFrame | None
-    was_normalized: bool
 
 
 def _normalize_inputs(
     documents: list[str] | pd.Series,
     embeddings: np.ndarray,
-    metadata: pd.DataFrame | None,
 ) -> _Inputs:
     if isinstance(documents, pd.Series):
         docs_series = documents
@@ -62,109 +53,10 @@ def _normalize_inputs(
             f"embeddings has {embeddings.shape[0]} rows but documents has {n_docs} entries"
         )
 
-    if metadata is not None:
-        if not isinstance(metadata, pd.DataFrame):
-            raise TypeError(f"metadata must be a pandas DataFrame, got {type(metadata).__name__}")
-        if len(metadata) != n_docs:
-            raise ValueError(
-                f"metadata has {len(metadata)} rows but documents has {n_docs} entries"
-            )
-        if not metadata.index.equals(docs_series.index):
-            raise ValueError("metadata index must match the documents index")
-
     return _Inputs(
         documents=docs_series,
         embeddings=embeddings.copy(),
-        metadata=metadata,
-        was_normalized=_is_l2_normalized(embeddings),
     )
-
-
-def _is_l2_normalized(x: np.ndarray, atol: float = 1e-3) -> bool:
-    """Return True iff every row of x has unit L2 norm within `atol`."""
-    norms = np.linalg.norm(x, axis=1)
-    return bool(np.allclose(norms, 1.0, atol=atol))
-
-
-def _l2_normalize(x: np.ndarray) -> np.ndarray:
-    """Return a copy of x with each row rescaled to unit L2 norm (zero rows left as-is)."""
-    norms = np.linalg.norm(x, axis=1, keepdims=True)
-    norms = np.where(norms == 0.0, 1.0, norms)
-    return x / norms
-
-
-_MAX_VALUES_SHOWN_IN_PROMPT = 8
-
-
-def _describe_erased_metadata(metadata: pd.DataFrame) -> list[dict]:
-    """Describe each metadata column for the synthesis prompt.
-
-    Type inference:
-    - ``pd.CategoricalDtype(ordered=True)`` -> ordinal (use declared category order)
-    - numeric dtypes -> ordinal (sorted unique values have a natural order)
-    - everything else -> categorical
-
-    Returns one dict per column with the fields consumed by
-    ``_format_accounted_for_entry`` in ``_prompts.py``.
-    """
-    out: list[dict] = []
-    for col in metadata.columns:
-        series = metadata[col]
-        if isinstance(series.dtype, pd.CategoricalDtype) and series.dtype.ordered:
-            col_type = "ordinal"
-            unique_all = [v for v in series.cat.categories if pd.notna(v)]
-        elif pd.api.types.is_numeric_dtype(series):
-            col_type = "ordinal"
-            unique_all = sorted(series.dropna().unique().tolist())
-        else:
-            col_type = "categorical"
-            unique_all = list(pd.unique(series.dropna()))
-
-        total_unique = len(unique_all)
-        truncated = total_unique > _MAX_VALUES_SHOWN_IN_PROMPT
-        shown = unique_all[:_MAX_VALUES_SHOWN_IN_PROMPT]
-        out.append(
-            {
-                "name": str(col),
-                "type": col_type,
-                "values_shown": [str(v) for v in shown],
-                "truncated": truncated,
-                "total_unique": total_unique,
-            }
-        )
-    return out
-
-
-def _erase_metadata(
-    embeddings: np.ndarray,
-    metadata: pd.DataFrame,
-    was_normalized: bool,
-) -> np.ndarray:
-    """Erase all metadata columns from embeddings via LEACE.
-
-    Every column is treated as categorical and one-hot encoded before LEACE fit
-    (the LEACE-with-int-labels gotcha: integer class labels get treated as one
-    continuous axis otherwise). Bucket continuous metadata yourself before
-    passing it in.
-
-    LEACE removes the entire linear subspace that predicts the labels, not
-    just the centroid offset between value groups. Signals in the embedding
-    that are linearly correlated with the labels (even if they aren't what
-    the labels directly encode) also get removed. See ``docs/design.md``
-    (``embeddings_residualized_`` section) for the user-facing implication.
-    """
-    one_hot = pd.get_dummies(metadata.astype(str), dtype=float).to_numpy()
-
-    x = torch.from_numpy(embeddings.astype(np.float32))
-    z = torch.from_numpy(one_hot.astype(np.float32))
-
-    eraser = LeaceEraser.fit(x, z)
-    erased = eraser(x).numpy().astype(embeddings.dtype, copy=False)
-
-    if was_normalized:
-        erased = _l2_normalize(erased)
-
-    return erased
 
 
 @dataclass(frozen=True)
@@ -225,78 +117,6 @@ _FACET_RESPONSE_SCHEMA = {
 }
 
 
-def _synthesize_facet(
-    cluster_hierarchy: list[list[str]],
-    schema_llm: LLM,
-    labeling_llm: LLM,
-    object_description: str,
-    corpus_description: str,
-    prior_facet_names: list[str],
-    erased_metadata_descriptions: list[dict] | None = None,
-) -> tuple[dict, str]:
-    """Call ``schema_llm`` to propose a new facet from Toponymy cluster names.
-
-    Returns a (facet_dict, synthesis_prompt) tuple. The synthesis prompt is
-    returned so the caller can record it in ``facet_diagnostics_``. The
-    facet_dict is the entry that goes into ``schema_``; it records the
-    classification-step model as ``"{provider}:{model_name}"`` in
-    ``labeling_model`` (or ``None`` if ``labeling_llm`` is a callable).
-    """
-    prompt = render_synthesis_prompt(
-        cluster_hierarchy=cluster_hierarchy,
-        object_description=object_description,
-        corpus_description=corpus_description,
-        prior_facet_names=prior_facet_names,
-        erased_metadata_descriptions=erased_metadata_descriptions,
-    )
-
-    response = schema_llm.call_structured(prompt, _FACET_RESPONSE_SCHEMA)
-
-    for key in ("name", "kind", "values", "definition"):
-        if key not in response:
-            raise RuntimeError(f"schema_llm response missing required field '{key}': {response!r}")
-
-    name = response["name"]
-    if name in prior_facet_names:
-        raise RuntimeError(
-            f"schema_llm proposed facet name '{name}' which collides with an "
-            f"already-discovered facet. Prior facets: {prior_facet_names}"
-        )
-
-    values = list(response["values"])
-    if len(values) < 2:
-        raise RuntimeError(f"schema_llm proposed facet '{name}' with fewer than 2 values: {values}")
-    if len(set(values)) != len(values):
-        raise RuntimeError(f"schema_llm proposed duplicate values in facet '{name}': {values}")
-
-    # Always include "Other" as a catch-all. The synthesis prompt asks the LLM
-    # not to include one itself, but we dedup case-insensitively just in case.
-    if "other" not in {v.lower() for v in values}:
-        values.append("Other")
-
-    labeling_template = render_labeling_template(
-        facet_name=name,
-        facet_definition=response["definition"],
-        values=values,
-        object_description=object_description,
-    )
-
-    if labeling_llm.provider is not None and labeling_llm.model_name is not None:
-        labeling_model_id: str | None = f"{labeling_llm.provider}:{labeling_llm.model_name}"
-    else:
-        labeling_model_id = None
-
-    facet = {
-        "name": name,
-        "kind": response["kind"],
-        "values": values,
-        "definition": response["definition"],
-        "labeling_prompt_template": labeling_template,
-        "labeling_model": labeling_model_id,
-    }
-    return facet, prompt
-
-
 def _classify_docs(
     facet: dict,
     documents: pd.Series,
@@ -347,74 +167,3 @@ def _classify_docs(
         index=documents.index,
         name=facet["name"],
     )
-
-
-def _build_facet_diagnostics(
-    synthesis_prompt: str,
-    naming_result: _NamingResult,
-    labels: pd.Series,
-    embeddings_pre_erasure: np.ndarray,
-    values: list[str],
-    exemplars_k: int = 5,
-) -> dict:
-    """Assemble the per-facet diagnostics dict that lands in facet_diagnostics_.
-
-    Entropy is computed from the observed label distribution (in bits); uniform
-    is the max-entropy ceiling over the value vocabulary (``log2(n_values)``);
-    delta is ``observed - uniform`` (<=0). Exemplars per value are the
-    ``exemplars_k`` documents nearest to that value's centroid in
-    ``embeddings_pre_erasure``, identified by their index in the original
-    ``labels`` Series.
-    """
-    counts = labels.value_counts(normalize=True)
-    probs = counts.values
-    probs = probs[probs > 0.0]  # exclude zero-count Categorical members
-    if probs.size > 0:
-        observed = -float((probs * np.log2(probs)).sum())
-    else:
-        observed = 0.0
-    n_vals = len(values)
-    uniform = float(np.log2(n_vals)) if n_vals > 1 else 0.0
-
-    exemplars_per_value: dict[str, list] = {}
-    for value in values:
-        mask = (labels == value).to_numpy()
-        count = int(mask.sum())
-        if count == 0:
-            exemplars_per_value[value] = []
-            continue
-        value_positions = np.where(mask)[0]
-        value_embeddings = embeddings_pre_erasure[value_positions]
-        centroid = value_embeddings.mean(axis=0)
-        dists = np.linalg.norm(value_embeddings - centroid, axis=1)
-        k = min(exemplars_k, count)
-        top_within = np.argsort(dists)[:k]
-        top_positions = value_positions[top_within]
-        exemplars_per_value[value] = labels.index[top_positions].tolist()
-
-    return {
-        "synthesis_prompt": synthesis_prompt,
-        "cluster_count": naming_result.cluster_count,
-        "hierarchy_depth": naming_result.hierarchy_depth,
-        "entropy_bits": {
-            "observed": observed,
-            "uniform": uniform,
-            "delta": observed - uniform,
-        },
-        "exemplars_per_value": exemplars_per_value,
-    }
-
-
-def _residualize_facet(
-    embeddings: np.ndarray,
-    facet_labels: pd.Series,
-    was_normalized: bool,
-) -> np.ndarray:
-    """Erase a facet's per-doc labels from embeddings via LEACE.
-
-    Noise-labeled rows are treated as their own category for erasure purposes
-    (the one-hot vector has a column for ``noise_label``), so the LEACE
-    projection removes any variance aligned with "couldn't classify" as well.
-    """
-    metadata = pd.DataFrame({"facet": facet_labels.astype(str).to_numpy()})
-    return _erase_metadata(embeddings, metadata, was_normalized)

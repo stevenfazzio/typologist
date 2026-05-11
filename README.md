@@ -4,21 +4,21 @@ Induce a multi-facet categorical schema from a corpus of documents.
 
 ## Status
 
-**Alpha.** 0.0.1 is live on PyPI. The public API may change as we iterate. See [`docs/design.md`](docs/design.md) for the current contract.
+**Alpha.** 0.1.0 on PyPI. The public API may change as we iterate. See [`docs/design.md`](docs/design.md) for the current contract.
 
 ## What it does
 
-You give it documents and their embeddings. It gives you back a handful of *facets* (each a named categorical axis with a short list of values) and a per-document label on each facet. The output shape mirrors faceted classification, the library-science approach to multi-axis categorical description (Ranganathan's colon classification, 1933); Typologist is the automated form of that activity. Run it on a corpus of Amazon product reviews and you get three facets (`product_category`, `reviewer_sentiment`, and `review_focus_aspect`), each with a definition and 5-10 values, plus a DataFrame of per-document labels you can join straight back onto the original corpus. Worked example with real output below.
+You give it documents and their embeddings. It gives you back a handful of *facets* (each a named categorical axis with a short list of values), discovered from the corpus in one shot. The output shape mirrors faceted classification, the library-science approach to multi-axis categorical description (Ranganathan's colon classification, 1933); Typologist is the automated form of that activity. Run it on a corpus of Amazon product reviews and you get three facets (`product_category`, `reviewer_sentiment`, and `review_focus_aspect`), each with a definition and 5-10 values. Worked example with real output below.
 
-What makes Typologist's facets mutually orthogonal rather than redundant is concept erasure. After each facet is discovered, its per-document labels are erased from the embeddings via [LEACE](https://github.com/EleutherAI/concept-erasure), and the next facet is discovered against the residual. If you pass in known metadata (existing category tags, ratings, source) it's erased the same way up front, so discovery starts from embeddings orthogonal to what you already have.
+The pipeline is a single pass: cluster the embeddings with [Toponymy](https://github.com/TutteInstitute/toponymy) (which composes EVoC clustering + LLM cluster naming), then ask a schema-synthesis LLM to propose `n_facets` mutually orthogonal categorical axes from the resulting cluster hierarchy. Per-document labels are obtained separately, via `apply_schema(t.schema_, documents, llm=...)`, so discovery and labeling can be sequenced and budgeted independently.
 
 ## Schema induction vs. topic modeling
 
-Topic modeling is the per-facet primitive Typologist uses under the hood (specifically, [Toponymy](https://github.com/TutteInstitute/toponymy)), not the activity it performs. A topic model partitions a corpus into topics; schema induction synthesizes such a partition into a named facet and stacks multiple orthogonal facets in a single output. If you've used BERTopic or similar, here's what's new at the schema level:
+Topic modeling is the per-facet primitive Typologist uses under the hood (specifically Toponymy on top of [EVoC](https://github.com/TutteInstitute/evoc)), not the activity it performs. A topic model partitions a corpus into topics; schema induction synthesizes such a partition into a named facet and stacks multiple orthogonal facets in a single output. If you've used BERTopic or similar:
 
-- **Multiple orthogonal axes, not one partition.** A topic model gives you one bucket per document. Typologist gives you `n_facets` simultaneous values per document (sentiment AND focus-aspect AND product-category), each defined and labeled separately, so cross-cutting analysis is a one-line `groupby` rather than a second clustering pass.
+- **Multiple orthogonal axes, not one partition.** A topic model gives you one bucket per document. Typologist's `n_facets` axes are designed to be mutually orthogonal (a document's value on one facet shouldn't predict its value on another), so cross-cutting analysis is a one-line `groupby` rather than a second clustering pass.
 - **Concept-labeled values, not keyword bags.** Each facet's values are short phrases (`fit_and_sizing`, `value_for_money`) backed by an LLM-written labeling prompt that can be reapplied to new documents. There's no c-TF-IDF keyword list to interpret.
-- **Erasable priors.** If your corpus comes pre-tagged with structure you already know (product category, year, source), pass it as `metadata=` and Typologist will discover axes orthogonal to it, instead of rediscovering it as Facet 0.
+- **Discovery and labeling are separable steps.** `fit()` returns just the schema (cheap; one Toponymy run + one schema LLM call). `apply_schema()` does the per-document labeling on demand, so you can label the same corpus you discovered on, label a held-out sample, or label streaming new documents without re-running discovery.
 
 ## Install
 
@@ -41,14 +41,14 @@ You'll also want:
   ```
 
 > [!IMPORTANT]
-> Fitting Typologist makes paid LLM API calls. With the Anthropic Haiku/Opus mix shown below on Amazon-review-length documents, expect about $3 per 500-doc fit at `n_facets=3`. Cost scales with document length and `n_facets`, so very long documents can multiply this several times. See [Performance](#performance) for cost-management knobs and [Model choice](#model-choice) for ways to lower per-call cost.
+> Fitting Typologist makes paid LLM API calls. `fit()` is cheap (one Toponymy run + one schema LLM call) — typically well under a dollar for a 500-1000 doc corpus. `apply_schema()` is the cost-dominant step: one LLM call per (document, facet) pair, threadpooled. See [Performance](#performance) for the cost shape and knobs.
 
 ## Quick start
 
 ```python
 import numpy as np
 from sentence_transformers import SentenceTransformer
-from typologist import AnthropicLLM, Typologist
+from typologist import AnthropicLLM, Typologist, apply_schema
 
 documents = [...]              # list[str], one per document
 embeddings = np.array(...)     # shape (n_docs, d), float
@@ -60,9 +60,12 @@ t = Typologist(
     schema_llm=AnthropicLLM("claude-opus-4-7"),
     labeling_llm=AnthropicLLM("claude-haiku-4-5"),
 ).fit(documents, embeddings)
+
+# Per-document labels: separate step
+labels = apply_schema(t.schema_, documents, llm=AnthropicLLM("claude-haiku-4-5"))
 ```
 
-The three LLM kwargs are required and have no defaults. Swap any of them for `OpenAILLM("gpt-4.1-mini")`, a custom `LLM` subclass, or a plain `Callable[[str], str]` to use a different provider; the rest of the API stays the same.
+The three LLM kwargs are required and have no defaults. `labeling_llm` is provenance-only at fit time — it stamps each facet's `labeling_model` field with a `"provider:model"` string so `apply_schema()` callers know which model the schema was designed for; `fit()` itself never calls it. Swap any of the three for `OpenAILLM("gpt-4.1-mini")`, a custom `LLM` subclass, or a plain `Callable[[str], str]` to use a different provider; the rest of the API stays the same.
 
 Run on a corpus of Amazon product reviews ([`examples/amazon_reviews.py`](examples/amazon_reviews.py) is the runnable script), `t.schema_` looks like:
 
@@ -102,100 +105,45 @@ Facet 2: review_focus_aspect (categorical)
   - Other
 ```
 
-Each facet entry is a JSON-serializable dict (`name`, `kind`, `values`, `definition`, plus a stored `labeling_prompt_template` and `labeling_model` for reuse; see [Reusing a discovered schema](#reusing-a-discovered-schema)). Per-document labels live on `t.labels_df_` as a `(n_docs, n_facets)` DataFrame of pandas Categoricals, positionally aligned with the input documents and ready to join back onto the source corpus.
+Each facet entry is a JSON-serializable dict (`name`, `kind`, `values`, `definition`, plus a stored `labeling_prompt_template` and `labeling_model` for reuse; see [Applying a schema](#applying-a-schema)). The output of `apply_schema(t.schema_, documents, llm=...)` is a `(n_docs, n_facets)` DataFrame of pandas Categoricals, positionally aligned with the input documents and ready to join back onto the source corpus.
 
-Notice that Facet 0 above (`product_category`) rediscovers the curator-assigned product category that already came tagged onto these reviews. Concept erasure is what gets you past that.
+## Applying a schema
 
-## Discovery with metadata erasure
-
-Pass a `metadata` DataFrame to erase known axes before discovery starts, so the facets Typologist finds are orthogonal to what you already had. Same Amazon corpus as above:
-
-```python
-import pandas as pd
-from sentence_transformers import SentenceTransformer
-from typologist import AnthropicLLM, Typologist
-
-# df has columns "text" (review body) and curator-assigned "product_category"
-documents = df["text"]
-embeddings = ...               # shape (len(df), d)
-
-t = Typologist(
-    n_facets=3,
-    topic_embedder=SentenceTransformer("all-MiniLM-L6-v2"),
-    object_description="product reviews",
-    corpus_description="Amazon product reviews",
-    naming_llm=AnthropicLLM("claude-haiku-4-5"),
-    schema_llm=AnthropicLLM("claude-opus-4-7"),
-    labeling_llm=AnthropicLLM("claude-haiku-4-5"),
-    random_state=0,
-).fit(
-    documents,
-    embeddings,
-    metadata=df[["product_category"]],
-)
-
-df_labeled = df.join(t.labels_df_)   # join labels back onto the source corpus
-```
-
-With `product_category` erased up front, Facet 0 is no longer a rediscovery of it, and Facet 2 is an axis the vanilla pass never surfaced:
-
-```
-Facet 0: review_sentiment
-  highly_positive, mildly_positive, mixed, mildly_negative, highly_negative
-
-Facet 1: review_focus_aspect
-  fit_and_sizing, durability_and_build_quality, ease_of_use_and_setup,
-  value_for_money, aesthetics_and_design, comfort_and_feel,
-  performance_and_effectiveness, content_and_storytelling
-
-Facet 2: reviewer_purchase_motivation
-  gift_for_others, personal_use, replacement_or_upgrade,
-  professional_or_work_use, hobby_or_leisure, child_or_family_use,
-  travel_or_outdoor_use
-```
-
-[![Amazon reviews colored by reviewer_purchase_motivation, the facet Typologist surfaced only after erasing product_category](docs/images/amazon_reviews_erased_purchase_motivation.png)](https://stevenfazzio.github.io/typologist/amazon_reviews_erased_map.html)
-
-Click for the [interactive version](https://stevenfazzio.github.io/typologist/amazon_reviews_erased_map.html): hover for facet labels and review text, dropdown to switch point coloring between the three discovered facets.
-
-Per-facet diagnostics (cluster counts, label entropy, exemplar documents) live on `t.facet_diagnostics_`.
-
-### How much does erasure actually erase?
-
-Erasure is partial, not absolute. Both forms of erasure (pre-erasing `metadata=` columns up front, and the between-facet residualization that always happens after each discovered facet) use the same two mechanisms: LEACE removes the linearly-predictable structure from the embeddings (so Toponymy's clustering is less aligned with the erased axis), and the synthesis prompt tells the LLM "these axes are accounted for, find something else." Both help, but neither reaches the per-document labeling LLM, which reads the original text. So erasure is most effective on discrete, text-reflected concepts (product category, subject area) and least effective on broad semantic axes the LLM can find in the text regardless (sentiment correlated with a 1-5 rating). See [`docs/design.md`](docs/design.md#erasure-scope-and-limits) for the full two-lever model and measured reductions.
-
-## Reusing a discovered schema
-
-Every facet entry stores its own `labeling_prompt_template` and a `labeling_model` provenance string (e.g., `"anthropic:claude-haiku-4-5"`), so you can apply a schema to new documents without re-running discovery. `apply_schema` is provider-neutral, so you pass the LLM you want to label with:
+Every facet entry stores its own `labeling_prompt_template` and a `labeling_model` provenance string (e.g., `"anthropic:claude-haiku-4-5"`), so you can apply the same schema to new documents without re-running discovery. `apply_schema` is provider-neutral, so you pass the LLM you want to label with:
 
 ```python
 from typologist import AnthropicLLM, apply_schema
 
-new_labels = apply_schema(
+labels = apply_schema(
     schema=t.schema_,
-    documents=new_docs,
+    documents=documents,
     llm=AnthropicLLM("claude-haiku-4-5"),
 )
+# labels is a (n_docs, n_facets) DataFrame of pandas Categoricals
+df_labeled = df.join(labels.set_axis(df.index))
 ```
+
+The same call shape works for held-out documents, streaming new documents, or any other corpus the schema makes sense for.
 
 See [`docs/design.md`](docs/design.md) for the full schema entry shape and `apply_schema` contract.
 
 ## Performance
 
-Per-document labeling runs through a threadpool (`max_concurrency=10` by default). On 1000 docs with `n_facets=3` you should see roughly 6-8 minutes end to end. Toponymy's cluster naming and the schema-synthesis LLM calls are still serial; full async is a 0.2 item.
+`fit()` is cheap: one Toponymy run (which makes a handful of LLM cluster-naming calls) plus one schema-synthesis call. On a typical 500-1000 doc corpus with `n_facets=3`, expect a few minutes and well under a dollar in API spend.
 
-Cost on the Anthropic Haiku/Opus mix used in the example above (Haiku for naming and per-doc labeling, Opus for the small number of schema-synthesis calls) runs about $3 per 500-doc fit at `n_facets=3`, dominated by per-document labeling. Local embedding (the MiniLM path above) is free; remote embedding APIs (Cohere, OpenAI) are usually a small additional fraction. Other providers and tiers will differ; pick the model trade-off that fits your budget.
+`apply_schema()` is the cost-dominant step: it makes one LLM call per `(document, facet)` pair, dispatched through a threadpool (`max_concurrency=10` by default). On 1000 docs with `n_facets=3` that's 3000 LLM calls, typically a few minutes wall time. Cost on the Anthropic Haiku path runs roughly $0.50-2 per 1000 docs at `n_facets=3`, depending on document length. Per-document length is the dominant cost variable; pre-summarizing long documents is the most effective cost-management knob if your inputs are long.
 
-Cost scales roughly with `corpus_size × document_length × n_facets`, so the $3 figure assumes Amazon-review-length documents and balloons with longer ones. Three levers for managing it: sample to a representative subset (smaller corpus), pre-summarize long documents before passing them in (shorter inputs), or lower `n_facets`. Per-doc labeling is the dominant cost line, which is why all three help.
+Three other levers for managing cost on large corpora: sample to a representative subset before fitting (smaller corpus for discovery), apply the schema only to the subset you care about labels for (you don't have to label everything you fit on), or lower `n_facets`.
 
 ## Model choice
 
-**LLMs.** Typologist is provider-neutral. Pick whichever you have keys for. `AnthropicLLM` and `OpenAILLM` ship in the package; subclass `LLM` (or pass a `Callable[[str], str]`) for anything else. Within whichever provider you pick, the three roles trade off differently:
+**LLMs.** Typologist is provider-neutral. Pick whichever you have keys for. `AnthropicLLM` and `OpenAILLM` ship in the package; subclass `LLM` (or pass a `Callable[[str], str]`) for anything else. The three roles trade off differently:
 
-- `schema_llm` runs only `n_facets` times and is the quality-dominant step. Use the strongest model you'll pay for here.
-- `naming_llm` and `labeling_llm` are called orders of magnitude more often and benefit less from a more capable model. If you're cost-cutting, downgrade these first; a Haiku/Opus split (or `gpt-4.1-mini` / `gpt-4.1`) is a reasonable default shape.
+- `schema_llm` runs only once per `fit()` and is the quality-dominant step. Use the strongest model you'll pay for here.
+- `naming_llm` (used by Toponymy for cluster naming) is called a handful of times per fit. Mid-tier is fine.
+- `labeling_llm` is called by `apply_schema()` once per (document, facet) — orders of magnitude more often than the other two. If you're cost-cutting, downgrade this first; Haiku-class models are typically the right trade-off.
 
-**Embeddings.** The input embeddings (your `(n_docs, d)` array) and the `topic_embedder` Toponymy uses for keyphrases and exemplar selection are separate slots and don't have to come from the same model. In practice a local sentence-transformers `topic_embedder` seems to work fine even when input embeddings come from a stronger remote model (Cohere, OpenAI), so you can put your embedding budget on the input embeddings without losing quality on the cluster-naming side.
+**Embeddings.** The input embeddings (your `(n_docs, d)` array) and the `topic_embedder` Toponymy uses for keyphrases and exemplar selection are separate slots and don't have to come from the same model. In practice a local sentence-transformers `topic_embedder` works fine even when input embeddings come from a stronger remote model (Cohere, OpenAI), so you can put your embedding budget on the input embeddings without losing quality on the cluster-naming side.
 
 ## Related
 
@@ -203,9 +151,8 @@ Typologist is an independent project with no affiliation to the authors of the l
 
 - [Toponymy](https://github.com/TutteInstitute/toponymy): cluster naming and hierarchy
 - [EVoC](https://github.com/TutteInstitute/evoc): hierarchical clustering
-- [concept-erasure](https://github.com/EleutherAI/concept-erasure): LEACE implementation
 
-[DataMapPlot](https://github.com/TutteInstitute/datamapplot) pairs naturally with the stack: Toponymy supplies hierarchical region labels for `label_layers=`, and Typologist supplies per-document facet labels for `colormaps=`.
+[DataMapPlot](https://github.com/TutteInstitute/datamapplot) pairs naturally with the stack: Toponymy supplies hierarchical region labels for `label_layers=`, and `apply_schema()` supplies per-document facet labels for `colormaps=`.
 
 ## Questions and bug reports
 

@@ -4,6 +4,7 @@ import json
 
 import numpy as np
 import pandas as pd
+import pytest
 
 from typologist import Typologist, apply_schema
 
@@ -43,29 +44,20 @@ def _install_toponymy_mocks(monkeypatch):
     monkeypatch.setattr(_pipeline, "EVoCClusterer", _FakeEVoCClusterer)
 
 
-def _make_schema_llm(facet_dicts: list[dict]):
-    """Returns JSON-formatted canned facets, one per call."""
-    queue = list(facet_dicts)
+def _make_schema_llm(facets: list[dict]):
+    """Return a callable that emits a one-shot multi-facet JSON response.
+
+    The new fit() does a single call to schema_llm.call_structured, expecting
+    a response of the form ``{"facets": [...]}`` with n_facets entries.
+    """
 
     def call(prompt: str, **kwargs) -> str:
-        return json.dumps(queue.pop(0))
+        return json.dumps({"facets": facets})
 
     return call
 
 
-def _make_labeling_llm(doc_to_value: dict[str, str], default: str = "none-of-the-above"):
-    """Returns the canned value for whichever document appears in the prompt."""
-
-    def call(prompt: str, **kwargs) -> str:
-        for doc, value in doc_to_value.items():
-            if doc in prompt:
-                return value
-        return default
-
-    return call
-
-
-def test_fit_populates_all_fitted_attributes(monkeypatch):
+def test_fit_populates_schema_and_diagnostics(monkeypatch):
     _install_toponymy_mocks(monkeypatch)
 
     t = Typologist(
@@ -88,7 +80,7 @@ def test_fit_populates_all_fitted_attributes(monkeypatch):
                 },
             ]
         ),
-        labeling_llm=_make_labeling_llm({"doc_1": "a", "doc_2": "b", "doc_3": "a"}, default="x"),
+        labeling_llm=lambda p: "ignored",  # provenance only; fit never calls it
     )
 
     docs = ["doc_1", "doc_2", "doc_3"]
@@ -98,37 +90,18 @@ def test_fit_populates_all_fitted_attributes(monkeypatch):
     assert len(t.schema_) == 2
     assert [f["name"] for f in t.schema_] == ["facet_one", "facet_two"]
     assert t.schema_[0]["values"] == ["a", "b", "Other"]
+    assert t.schema_[1]["values"] == ["x", "y", "Other"]
     assert "{document}" in t.schema_[0]["labeling_prompt_template"]
 
-    assert t.labels_df_.shape == (3, 2)
-    assert list(t.labels_df_.columns) == ["facet_one", "facet_two"]
+    # New diagnostics shape: a single dict for the whole run, not per-facet
+    assert isinstance(t.diagnostics_, dict)
+    assert "synthesis_prompt" in t.diagnostics_
+    assert "cluster_count" in t.diagnostics_
+    assert "hierarchy_depth" in t.diagnostics_
 
-    assert t.embeddings_residualized_.shape == emb.shape
-
-    assert len(t.facet_diagnostics_) == 2
-    assert "synthesis_prompt" in t.facet_diagnostics_[0]
-    assert "entropy_bits" in t.facet_diagnostics_[0]
-    assert "exemplars_per_value" in t.facet_diagnostics_[0]
-
-
-def test_fit_preserves_series_index_onto_labels_df(monkeypatch):
-    _install_toponymy_mocks(monkeypatch)
-
-    t = Typologist(
-        n_facets=1,
-        topic_embedder=_FakeTopicEmbedder(),
-        naming_llm=lambda p: "x",
-        schema_llm=_make_schema_llm(
-            [{"name": "f", "kind": "categorical", "values": ["a", "b"], "definition": "d"}]
-        ),
-        labeling_llm=lambda p: "a",
-    )
-
-    docs = pd.Series(["d1", "d2", "d3"], index=[100, 200, 300])
-    emb = np.zeros((3, 4), dtype=np.float32)
-    t.fit(docs, emb)
-
-    assert list(t.labels_df_.index) == [100, 200, 300]
+    # No more labels_df_ or embeddings_residualized_ attributes on the fitted object
+    assert not hasattr(t, "labels_df_")
+    assert not hasattr(t, "embeddings_residualized_")
 
 
 def test_fit_records_callable_labeling_model_as_none(monkeypatch):
@@ -141,13 +114,13 @@ def test_fit_records_callable_labeling_model_as_none(monkeypatch):
         schema_llm=_make_schema_llm(
             [{"name": "f", "kind": "categorical", "values": ["a", "b"], "definition": "d"}]
         ),
-        labeling_llm=lambda p: "a",  # callable => model unknown
+        labeling_llm=lambda p: "ignored",
     )
     t.fit(["d1", "d2"], np.zeros((2, 4), dtype=np.float32))
     assert t.schema_[0]["labeling_model"] is None
 
 
-def test_fit_with_metadata_runs_pre_erasure(monkeypatch):
+def test_fit_appends_other_when_absent(monkeypatch):
     _install_toponymy_mocks(monkeypatch)
 
     t = Typologist(
@@ -155,32 +128,124 @@ def test_fit_with_metadata_runs_pre_erasure(monkeypatch):
         topic_embedder=_FakeTopicEmbedder(),
         naming_llm=lambda p: "x",
         schema_llm=_make_schema_llm(
-            [{"name": "f", "kind": "categorical", "values": ["a", "b"], "definition": "d"}]
+            [{"name": "f", "kind": "categorical", "values": ["a", "b", "c"], "definition": "d"}]
         ),
-        labeling_llm=lambda p: "a",
+        labeling_llm=lambda p: "ignored",
     )
+    t.fit(["d1", "d2"], np.zeros((2, 4), dtype=np.float32))
+    assert t.schema_[0]["values"] == ["a", "b", "c", "Other"]
 
-    rng = np.random.default_rng(0)
-    n = 20
-    docs = [f"doc_{i}" for i in range(n)]
-    emb = rng.standard_normal((n, 8)).astype(np.float32)
-    meta = pd.DataFrame({"source": ["s1"] * 10 + ["s2"] * 10})
 
-    t.fit(docs, emb, metadata=meta)
-    # working embeddings were through LEACE; shape preserved
-    assert t.embeddings_residualized_.shape == (n, 8)
+def test_fit_dedupes_other_case_insensitively(monkeypatch):
+    _install_toponymy_mocks(monkeypatch)
+
+    t = Typologist(
+        n_facets=1,
+        topic_embedder=_FakeTopicEmbedder(),
+        naming_llm=lambda p: "x",
+        schema_llm=_make_schema_llm(
+            [{"name": "f", "kind": "categorical", "values": ["a", "b", "other"], "definition": "d"}]
+        ),
+        labeling_llm=lambda p: "ignored",
+    )
+    t.fit(["d1", "d2"], np.zeros((2, 4), dtype=np.float32))
+    # LLM lowercased "other" already present; the duplicate "Other" should not be appended
+    assert t.schema_[0]["values"] == ["a", "b", "other"]
+
+
+def test_fit_rejects_facet_name_collision(monkeypatch):
+    _install_toponymy_mocks(monkeypatch)
+
+    t = Typologist(
+        n_facets=2,
+        topic_embedder=_FakeTopicEmbedder(),
+        naming_llm=lambda p: "x",
+        schema_llm=_make_schema_llm(
+            [
+                {"name": "f", "kind": "categorical", "values": ["a", "b"], "definition": "d"},
+                {"name": "f", "kind": "categorical", "values": ["x", "y"], "definition": "d"},
+            ]
+        ),
+        labeling_llm=lambda p: "ignored",
+    )
+    with pytest.raises(RuntimeError, match="duplicate facet name"):
+        t.fit(["d1", "d2"], np.zeros((2, 4), dtype=np.float32))
+
+
+def test_fit_rejects_duplicate_values(monkeypatch):
+    _install_toponymy_mocks(monkeypatch)
+
+    t = Typologist(
+        n_facets=1,
+        topic_embedder=_FakeTopicEmbedder(),
+        naming_llm=lambda p: "x",
+        schema_llm=_make_schema_llm(
+            [{"name": "f", "kind": "categorical", "values": ["a", "a"], "definition": "d"}]
+        ),
+        labeling_llm=lambda p: "ignored",
+    )
+    with pytest.raises(RuntimeError, match="duplicate values"):
+        t.fit(["d1", "d2"], np.zeros((2, 4), dtype=np.float32))
+
+
+def test_fit_rejects_too_few_values(monkeypatch):
+    _install_toponymy_mocks(monkeypatch)
+
+    t = Typologist(
+        n_facets=1,
+        topic_embedder=_FakeTopicEmbedder(),
+        naming_llm=lambda p: "x",
+        schema_llm=_make_schema_llm(
+            [{"name": "f", "kind": "categorical", "values": ["only_one"], "definition": "d"}]
+        ),
+        labeling_llm=lambda p: "ignored",
+    )
+    with pytest.raises(RuntimeError, match="fewer than 2 values"):
+        t.fit(["d1", "d2"], np.zeros((2, 4), dtype=np.float32))
+
+
+def test_fit_rejects_missing_required_field(monkeypatch):
+    _install_toponymy_mocks(monkeypatch)
+
+    # missing "values" and "definition"
+    t = Typologist(
+        n_facets=1,
+        topic_embedder=_FakeTopicEmbedder(),
+        naming_llm=lambda p: "x",
+        schema_llm=_make_schema_llm([{"name": "f", "kind": "categorical"}]),
+        labeling_llm=lambda p: "ignored",
+    )
+    with pytest.raises(RuntimeError, match="missing required field"):
+        t.fit(["d1", "d2"], np.zeros((2, 4), dtype=np.float32))
+
+
+def test_fit_rejects_wrong_facet_count(monkeypatch):
+    _install_toponymy_mocks(monkeypatch)
+
+    # Asks for 3 but the schema_llm only returns 2
+    t = Typologist(
+        n_facets=3,
+        topic_embedder=_FakeTopicEmbedder(),
+        naming_llm=lambda p: "x",
+        schema_llm=_make_schema_llm(
+            [
+                {"name": "a", "kind": "categorical", "values": ["x", "y"], "definition": "d"},
+                {"name": "b", "kind": "categorical", "values": ["x", "y"], "definition": "d"},
+            ]
+        ),
+        labeling_llm=lambda p: "ignored",
+    )
+    with pytest.raises(RuntimeError, match="expected 3"):
+        t.fit(["d1", "d2"], np.zeros((2, 4), dtype=np.float32))
 
 
 def test_fit_with_use_toponymy_false_routes_through_homemade(monkeypatch):
-    """When use_toponymy=False, Toponymy should not be touched and EVoC should drive naming."""
+    """When use_toponymy=False, Toponymy must not be touched; EVoC drives naming."""
     from typologist import _homemade, _pipeline
-
-    sentinel_topo_called = False
 
     class _ExplodeIfCalled:
         def __init__(self, **kwargs):
-            nonlocal sentinel_topo_called
-            sentinel_topo_called = True
+            pass
 
         def fit(self, *args, **kwargs):
             raise AssertionError("Toponymy should not be invoked when use_toponymy=False")
@@ -205,15 +270,17 @@ def test_fit_with_use_toponymy_false_routes_through_homemade(monkeypatch):
         schema_llm=_make_schema_llm(
             [{"name": "f", "kind": "categorical", "values": ["a", "b"], "definition": "d"}]
         ),
-        labeling_llm=lambda p: "a",
+        labeling_llm=lambda p: "ignored",
         use_toponymy=False,
     )
 
     t.fit(["d1", "d2", "d3", "d4"], np.eye(4, 8, dtype=np.float32))
 
-    assert sentinel_topo_called is False
-    assert t.facet_diagnostics_[0]["hierarchy_depth"] == 1
-    assert t.facet_diagnostics_[0]["cluster_count"] == 2
+    assert t.diagnostics_["hierarchy_depth"] == 1
+    assert t.diagnostics_["cluster_count"] == 2
+
+
+# --- apply_schema ---
 
 
 def test_apply_schema_applies_stored_template():
@@ -253,8 +320,6 @@ def test_apply_schema_accepts_single_facet_dict():
 
 
 def test_apply_schema_requires_llm_even_when_labeling_model_set():
-    import pytest
-
     schema = [
         {
             "name": "f",
@@ -270,8 +335,6 @@ def test_apply_schema_requires_llm_even_when_labeling_model_set():
 
 
 def test_apply_schema_requires_llm_when_labeling_model_is_none():
-    import pytest
-
     schema = [
         {
             "name": "f",

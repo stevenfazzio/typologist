@@ -10,7 +10,7 @@ def test_synthesis_prompt_includes_descriptions():
         cluster_hierarchy=[["topic_a", "topic_b"]],
         object_description="scientific paper",
         corpus_description="machine-learning arxiv papers",
-        prior_facet_names=[],
+        n_facets=3,
     )
     assert "scientific paper" in out
     assert "machine-learning arxiv papers" in out
@@ -21,7 +21,7 @@ def test_synthesis_prompt_renders_hierarchy_layers():
         cluster_hierarchy=[["fine_a", "fine_b"], ["coarse_a"]],
         object_description="document",
         corpus_description="corpus",
-        prior_facet_names=[],
+        n_facets=2,
     )
     assert "Layer 0:" in out
     assert "Layer 1:" in out
@@ -30,109 +30,16 @@ def test_synthesis_prompt_renders_hierarchy_layers():
     assert "coarse_a" in out
 
 
-def test_synthesis_prompt_omits_accounted_for_block_when_empty():
+def test_synthesis_prompt_asks_for_exact_facet_count():
     out = render_synthesis_prompt(
         cluster_hierarchy=[["t"]],
         object_description="doc",
         corpus_description="corpus",
-        prior_facet_names=[],
+        n_facets=4,
     )
-    assert "already been accounted for" not in out
-
-
-def test_synthesis_prompt_includes_prior_facet_names():
-    out = render_synthesis_prompt(
-        cluster_hierarchy=[["t"]],
-        object_description="doc",
-        corpus_description="corpus",
-        prior_facet_names=["contribution_type", "data_modality"],
-    )
-    assert "already been accounted for" in out
-    assert "contribution_type" in out
-    assert "data_modality" in out
-
-
-def test_synthesis_prompt_describes_erased_categorical_metadata():
-    out = render_synthesis_prompt(
-        cluster_hierarchy=[["t"]],
-        object_description="doc",
-        corpus_description="corpus",
-        prior_facet_names=[],
-        erased_metadata_descriptions=[
-            {
-                "name": "product_category",
-                "type": "categorical",
-                "values_shown": ["Books", "Electronics", "All_Beauty"],
-                "truncated": False,
-                "total_unique": 3,
-            }
-        ],
-    )
-    assert "already been accounted for" in out
-    assert "product_category" in out
-    assert "categorical" in out
-    assert "Books, Electronics, All_Beauty" in out
-
-
-def test_synthesis_prompt_describes_erased_ordinal_metadata():
-    out = render_synthesis_prompt(
-        cluster_hierarchy=[["t"]],
-        object_description="doc",
-        corpus_description="corpus",
-        prior_facet_names=[],
-        erased_metadata_descriptions=[
-            {
-                "name": "rating",
-                "type": "ordinal",
-                "values_shown": ["1.0", "2.0", "3.0", "4.0", "5.0"],
-                "truncated": False,
-                "total_unique": 5,
-            }
-        ],
-    )
-    assert '"rating"' in out
-    assert "ordinal" in out
-    assert "ordered values: 1.0, 2.0, 3.0, 4.0, 5.0" in out
-
-
-def test_synthesis_prompt_shows_truncation_tail_for_high_cardinality_metadata():
-    out = render_synthesis_prompt(
-        cluster_hierarchy=[["t"]],
-        object_description="doc",
-        corpus_description="corpus",
-        prior_facet_names=[],
-        erased_metadata_descriptions=[
-            {
-                "name": "country",
-                "type": "categorical",
-                "values_shown": ["AR", "AT", "AU", "BE", "BR", "CA", "CH", "CN"],
-                "truncated": True,
-                "total_unique": 200,
-            }
-        ],
-    )
-    assert "... and 192 more" in out
-
-
-def test_synthesis_prompt_combines_prior_facets_and_erased_metadata():
-    out = render_synthesis_prompt(
-        cluster_hierarchy=[["t"]],
-        object_description="doc",
-        corpus_description="corpus",
-        prior_facet_names=["tone"],
-        erased_metadata_descriptions=[
-            {
-                "name": "product_category",
-                "type": "categorical",
-                "values_shown": ["Books"],
-                "truncated": False,
-                "total_unique": 1,
-            }
-        ],
-    )
-    assert "already been accounted for" in out
-    assert "tone" in out
-    assert "product_category" in out
+    # n_facets must show up where the prompt instructs the LLM to return that many
+    assert "Identify 4 mutually orthogonal" in out
+    assert "Return exactly 4 facets" in out
 
 
 def test_synthesis_prompt_instructs_llm_not_to_include_other():
@@ -140,23 +47,11 @@ def test_synthesis_prompt_instructs_llm_not_to_include_other():
         cluster_hierarchy=[["t"]],
         object_description="doc",
         corpus_description="corpus",
-        prior_facet_names=[],
+        n_facets=3,
     )
     # "Other" is appended programmatically after synthesis; the LLM should not
     # add its own catch-all value.
     assert 'Do not include "Other"' in out
-
-
-def test_synthesis_prompt_warns_against_broad_umbrella_values():
-    out = render_synthesis_prompt(
-        cluster_hierarchy=[["t"]],
-        object_description="paper",
-        corpus_description="corpus",
-        prior_facet_names=[],
-    )
-    # predecessor smoke test showed "novel_method_or_architecture" absorbed
-    # the majority of docs; the prompt should explicitly counter that pattern.
-    assert "Novel method" in out
 
 
 def test_labeling_template_bakes_descriptions():

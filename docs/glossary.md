@@ -2,7 +2,7 @@
 
 This document locks the project's terminology. It governs code identifiers, variable names, docstrings, prompt text, and user-facing prose. CLAUDE.md imports this file via `@docs/glossary.md`, so the canonical terms below are always in context when Claude is assisting on this repository.
 
-The core shape: a *corpus* of *documents* (plus their *embeddings*, and optionally *metadata* to erase) goes in; a *schema* comes out. A schema is a list of *facets*. Each facet has *values*. Each document gets a *label* on each facet (the value it was assigned).
+The core shape: a *corpus* of *documents* (plus their *embeddings*) goes in to `Typologist.fit()`; a *schema* comes out. A schema is a list of *facets*. Each facet has *values*. Separately, `apply_schema(schema, documents, llm=...)` returns per-document *labels* on each facet (the value each doc was assigned).
 
 ## Canonical terms
 
@@ -11,7 +11,6 @@ The core shape: a *corpus* of *documents* (plus their *embeddings*, and optional
 - **corpus**: the full collection of input documents.
 - **document**: one input string. Prefer "document" over "doc" or "item" in public API and docs; "doc" is acceptable in internal variable names for brevity.
 - **embedding**: a vector representation of a document. Always positionally row-aligned with the documents; never index-joined.
-- **metadata**: a DataFrame of user-supplied columns to concept-erase before discovery. Passing this is the sole signal of intent to erase.
 
 ### Output side
 
@@ -19,8 +18,8 @@ The core shape: a *corpus* of *documents* (plus their *embeddings*, and optional
 - **facet**: one categorical axis in the schema. Has a name, a kind, a vocabulary of values, and a definition. A discovered facet is one entry of `schema_`.
 - **kind**: the shape of a facet. In 0.1, always `categorical`; `ordinal` is planned for 0.2+.
 - **value**: one element of a facet's vocabulary, for example `highly_positive`. Distinct from a label: a value is a vocabulary entry, a label is a specific document's assignment.
-- **label**: the value a document has been assigned on a specific facet. `labels_df_.iloc[i, j]` is document `i`'s label on facet `j`.
-- **noise label**: the sentinel string (default `"Unlabelled"`) written into `labels_df_` when a document couldn't be classified. British spelling matches Toponymy and DataMapPlot.
+- **label**: the value a document has been assigned on a specific facet. Returned by `apply_schema()` as a DataFrame whose `iloc[i, j]` is document `i`'s label on facet `j`.
+- **noise label**: the sentinel string (default `"Unlabelled"`) written by `apply_schema` when a document couldn't be classified. British spelling matches Toponymy and DataMapPlot.
 
 ## Avoid, and what to use instead
 
@@ -38,5 +37,5 @@ Implication for future prompt edits: keep prompt text in discovery language; tra
 
 ## Collisions we live with
 
-- **DataMapPlot `label_layers`.** DataMapPlot's `*label_layers` parameter means text that renders over regions of the 2D map. It is not the same thing as our `labels_df_`. Our labels feed DataMapPlot's `colormaps=` parameter (per-point categorical coloring), not `label_layers`. When writing example or integration code near DataMapPlot, qualify ("Typologist labels", "region labels") if surrounding context doesn't make the meaning unambiguous.
-- **`pd.Categorical`.** The pandas dtype used for `labels_df_` columns. Unrelated to our `categorical` facet kind. Say `pd.Categorical` or "Categorical dtype" when referring to the pandas concept; reserve bare "categorical" for the facet kind.
+- **DataMapPlot `label_layers`.** DataMapPlot's `*label_layers` parameter means text that renders over regions of the 2D map. It is not the same thing as our labels DataFrame. Our `apply_schema` output feeds DataMapPlot's `colormaps=` parameter (per-point categorical coloring), not `label_layers`. When writing example or integration code near DataMapPlot, qualify ("Typologist labels", "region labels") if surrounding context doesn't make the meaning unambiguous.
+- **`pd.Categorical`.** The pandas dtype used for columns of the DataFrame returned by `apply_schema`. Unrelated to our `categorical` facet kind. Say `pd.Categorical` or "Categorical dtype" when referring to the pandas concept; reserve bare "categorical" for the facet kind.
